@@ -45,6 +45,20 @@ booklet = _load("deepest_booklet")
 
 DATA = ROOT / "docs" / "DEEPEST.json"
 
+
+def have_chessboard() -> bool:
+    """Whether TeX Live can find chessboard.sty, on a machine with no TeX Live.
+
+    This runs at import time, in a skipif. A CI runner has no TeX at all, so
+    `kpsewhich` is not merely going to answer "no" -- it does not exist, and
+    invoking it raises FileNotFoundError out of collection, taking down every
+    test in this file rather than skipping the one that needs LaTeX.
+    """
+    if shutil.which("kpsewhich") is None:
+        return False
+    return subprocess.run(["kpsewhich", "chessboard.sty"],
+                          capture_output=True).returncode == 0
+
 # The position from the Popeye manual's diagram, used as the format reference:
 # black king g8, white king c7, black knight c6, white pawn b3.
 SAMPLE_FEN = "6k1/2K5/2n5/8/8/1P6/8/8 b - - 0 1"
@@ -311,11 +325,17 @@ def test_checked_in_booklet_is_not_stale(tex):
     assert (ROOT / "docs" / "DEEPEST.tex").read_text() == tex
 
 
+def test_chessboard_probe_survives_a_machine_with_no_tex(monkeypatch):
+    # The probe decides a skipif, so it runs during collection. If it raises
+    # on a runner with no TeX installed, the whole module fails to collect and
+    # every test here is lost -- which is exactly what CI did.
+    monkeypatch.setattr(shutil, "which", lambda _: None)
+    assert have_chessboard() is False
+
+
 @pytest.mark.skipif(shutil.which("pdflatex") is None, reason="no pdflatex")
-@pytest.mark.skipif(
-    subprocess.run(["kpsewhich", "chessboard.sty"], capture_output=True).returncode != 0,
-    reason="chessboard.sty not installed (TeX Live: texlive-games)",
-)
+@pytest.mark.skipif(not have_chessboard(),
+                    reason="chessboard.sty not installed (TeX Live: texlive-games)")
 def test_booklet_compiles(tmp_path, tex):
     src = tmp_path / "DEEPEST.tex"
     src.write_text(tex)
