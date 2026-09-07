@@ -1745,7 +1745,7 @@ $ curl -s http://127.0.0.1:8642/v1/stats
   is the ten materials with the longest mate, ties broken by name.
 - `no_helpmate` lists every material that has no helpmate at all — sorted by
   name, not counted into any of the histograms above. On the reference
-  corpus this is 67 of 295 tables.
+  corpus this is 67 of 300 tables.
 - `generators` tallies each sidecar's `generator_version`, so the spread of
   builds that produced the corpus is visible at a glance.
 

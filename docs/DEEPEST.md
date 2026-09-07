@@ -7,10 +7,10 @@ dual and the composition is unsound, so `count = 1` is what makes a position
 worth anything as a problem.
 
 **The deepest problem in a material class is almost never the longest one.**
-Across all 228 classes here, the deepest *unique* position is shallower
-than the class maximum **every single time** — 228/228, mean gap
+Across all 233 classes here, the deepest *unique* position is shallower
+than the class maximum **every single time** — 233/233, mean gap
 4.4 plies, worst case 20. The reason is visible
-in the data: in 219 of 228 classes every position at maximum depth has a
+in the data: in 224 of 233 classes every position at maximum depth has a
 **saturated** solution count (255 or more). The longest helpmates have hundreds
 of ways to reach mate, which is exactly what disqualifies them as compositions.
 
@@ -18,7 +18,7 @@ The extreme case is **KRBvkp**: it runs to h#16,
 but its deepest sound problem is h#6 — 20 plies shallower.
 
 These positions are also rare. 21 classes contain **exactly one** unique
-position at their deepest sound depth; 115
+position at their deepest sound depth; 117
 contain ten or fewer.
 
 Black moves first and cooperates. `h#n` means mate after n moves by each side;
@@ -48,8 +48,10 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KBvkqp](#kbvkqp) | 5 | **h#12** | h#17 | −10 | 3 |
 | [KBvkbp](#kbvkbp) | 5 | **h#11.5** | h#16 | −9 | 8 |
 | [KBPvkp](#kbpvkp) | 5 | **h#10.5** | h#16 | −11 | 1 |
+| [KBvkqnn](#kbvkqnn) | 6 | **h#10** | h#13 | −6 | 5 |
 | [KPvkpp](#kpvkpp) | 5 | **h#10** | h#15.5 | −11 | 2 |
 | [KBvknp](#kbvknp) | 5 | **h#9.5** | h#15.5 | −12 | 2 |
+| [KBvkqbn](#kbvkqbn) | 6 | **h#9.5** | h#12.5 | −6 | 90 |
 | [KBvkqn](#kbvkqn) | 5 | **h#9.5** | h#13 | −7 | 46 |
 | [KBvkqrn](#kbvkqrn) | 6 | **h#9.5** | h#12.5 | −6 | 394 |
 | [KBvkrn](#kbvkrn) | 5 | **h#9.5** | h#12.5 | −6 | 24 |
@@ -66,6 +68,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KNPvkp](#knpvkp) | 5 | **h#9** | h#14 | −10 | 9 |
 | [KPvknp](#kpvknp) | 5 | **h#9** | h#14.5 | −11 | 4 |
 | [KBBvknn](#kbbvknn) | 6 | **h#8.5** | h#13 | −9 | 17 |
+| [KBvkqbb](#kbvkqbb) | 6 | **h#8.5** | h#10.5 | −4 | 25 |
 | [KBvkrbb](#kbvkrbb) | 6 | **h#8.5** | h#9.5 | −2 | 2 |
 | [KNvkbb](#knvkbb) | 5 | **h#8.5** | h#10.5 | −4 | 69 |
 | [KNvkbp](#knvkbp) | 5 | **h#8.5** | h#10.5 | −4 | 12 |
@@ -101,6 +104,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRBvkn](#krbvkn) | 5 | **h#8** | h#12 | −8 | 4 |
 | [KRNvkn](#krnvkn) | 5 | **h#8** | h#10 | −4 | 2 |
 | [KBNvkq](#kbnvkq) | 5 | **h#7.5** | h#8.5 | −2 | 1 |
+| [KBvkqqb](#kbvkqqb) | 6 | **h#7.5** | h#8.5 | −2 | 8 |
 | [KBvkqrb](#kbvkqrb) | 6 | **h#7.5** | h#8.5 | −2 | 2 |
 | [KNPvkb](#knpvkb) | 5 | **h#7.5** | h#11 | −7 | 4 |
 | [KNPvkn](#knpvkn) | 5 | **h#7.5** | h#9 | −3 | 2 |
@@ -177,6 +181,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KNNvk](#knnvk) | 4 | **h#6.5** | h#8 | −3 | 9 |
 | [KNNvkb](#knnvkb) | 5 | **h#6.5** | h#10 | −7 | 21 |
 | [KNNvkn](#knnvkn) | 5 | **h#6.5** | h#7.5 | −2 | 2 |
+| [KNNvknn](#knnvknn) | 6 | **h#6.5** | h#8 | −3 | 31 |
 | [KPPvkr](#kppvkr) | 5 | **h#6.5** | h#8.5 | −4 | 784 |
 | [KPvk](#kpvk) | 3 | **h#6.5** | h#8.5 | −4 | 13 |
 | [KRBvkq](#krbvkq) | 5 | **h#6.5** | h#7.5 | −2 | 3 |
@@ -8113,6 +8118,146 @@ Solution: `1...Bg3 2.Ne3 Bb8 3.Ng4 Kc2 4.Nc7 Kd3 5.Kg3 Be5+ 6.Kh4 Ke4 7.Ne6 Kf5 
 
 [Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=n7/8/5B2/8/7B/7k/2n5/1K6&moves=8.5)
 
+## KBvkqbb
+
+**h#8.5**, unique solution. The class runs to h#10.5 — every position at that depth is saturated (255+ solutions), so the deepest *sound* problem is 4 plies shallower.
+
+25 positions in this class have a unique solution at h#8.5, out of 7,751,073,792 indexed positions.
+
+```
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -B   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .  -B   3
+|                                   |
+2   .   .   .   .   .   .   .  -K   2
+|                                   |
+1   K  -Q   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#8.5                         2 + 4
+```
+
+`5b2/8/8/8/7B/7b/7k/Kq6 w - - 0 1`
+
+Solution: `1...Kxb1 2.Bf5+ Kb2 3.Kh3 Kc3 4.Kg4 Kd4 5.Kh5 Ke5 6.Kh6 Kf6 7.Kh7 Kf7 8.Kh8 Kxf8 9.Bh7 Bf6#`
+
+[Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=5b2/8/8/8/7B/7b/7k/Kq6&moves=8.5)
+
+## KBvkqbn
+
+**h#9.5**, unique solution. The class runs to h#12.5 — every position at that depth is saturated (255+ solutions), so the deepest *sound* problem is 6 plies shallower.
+
+90 positions in this class have a unique solution at h#9.5, out of 7,751,073,792 indexed positions.
+
+```
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4  -Q   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .  -K   B   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#9.5                         2 + 4
+```
+
+`8/8/1n6/3b4/q7/8/8/K1kB4 w - - 0 1`
+
+Solution: `1...Bxa4 2.Kd2 Bb5 3.Kc3 Ba6 4.Kb4 Kb2 5.Ka5 Kc3 6.Nc8 Kd4 7.Kb6 Kxd5 8.Ka7 Kc6 9.Ka8 Kc7 10.Na7 Bb7#`
+
+[Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=8/8/1n6/3b4/q7/8/8/K1kB4&moves=9.5)
+
+## KBvkqnn
+
+**h#10**, unique solution. The class runs to h#13 — every position at that depth is saturated (255+ solutions), so the deepest *sound* problem is 6 plies shallower.
+
+5 positions in this class have a unique solution at h#10, out of 7,751,073,792 indexed positions.
+
+```
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -S   .   .   .   .   .   8
+|                                   |
+7   .  -S   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -Q   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   B   2
+|                                   |
+1   .   K   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#10                          2 + 4
+```
+
+`2n5/1n6/2q5/8/8/8/7B/1K5k b - - 0 1`
+
+Solution: `1.Kg2 Be5 2.Kf3 Bc3 3.Ke4 Kc2 4.Kd5 Kd3 5.Kd6 Kd4 6.Kc7 Ke5 7.Qa4 Ke6 8.Qa8 Ba5+ 9.Kb8 Kd7 10.Na7 Bc7#`
+
+[Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=2n5/1n6/2q5/8/8/8/7B/1K5k&moves=10)
+
+## KBvkqqb
+
+**h#7.5**, unique solution. The class runs to h#8.5 — every position at that depth is saturated (255+ solutions), so the deepest *sound* problem is 2 plies shallower.
+
+8 positions in this class have a unique solution at h#7.5, out of 7,751,073,792 indexed positions.
+
+```
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -B   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .  -Q   .   .   .  -Q   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#7.5                         2 + 4
+```
+
+`7b/8/8/4k3/8/8/B1q3q1/1K6 w - - 0 1`
+
+Solution: `1...Ka1 2.Kd4 Bd5 3.Kc3 Bxg2 4.Qc1+ Ka2 5.Kd2 Kb3 6.Bc3 Kc4 7.Kd1 Kd3 8.Be1 Bf3#`
+
+[Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=7b/8/8/4k3/8/8/B1q3q1/1K6&moves=7.5)
+
 ## KBvkqrb
 
 **h#7.5**, unique solution. The class runs to h#8.5, so the deepest *sound* problem is 2 plies shallower.
@@ -8217,6 +8362,41 @@ Solution: `1...Kxa2 2.Kd2 Be4 3.Kc3 Bxb7 4.Kb4 Ba6 5.Ka5 Kb3 6.Nc8 Kc4 7.Kb6 Kd5
 Solution: `1...Kxd1 2.Kb2 Be4 3.Kc3 Bxa8 4.Kd3 Kc1 5.Ke2 Kc2 6.Kf1 Kd3 7.Kg1 Ke4 8.Kh1 Kf3 9.Bg1 Kg3#`
 
 [Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=b7/8/8/8/8/8/2B2b2/k1Kr4&moves=8.5)
+
+## KNNvknn
+
+**h#6.5**, unique solution. The class runs to h#8 — every position at that depth is saturated (255+ solutions), so the deepest *sound* problem is 3 plies shallower.
+
+31 positions in this class have a unique solution at h#6.5, out of 7,751,073,792 indexed positions.
+
+```
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -S   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   S   K  -S   S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#6.5                         3 + 3
+```
+
+`7k/8/8/8/8/2n5/8/NKnN4 w - - 0 1`
+
+Solution: `1...Kb2 2.Kg7 Ka3 3.Kf6 Kb4 4.Ke5 Kc5 5.Nb3+ Kc6 6.Kd4 Nc2+ 7.Kc4 Nb2#`
+
+[Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=7k/8/8/8/8/2n5/8/NKnN4&moves=6.5)
 
 ## KNvknnn
 
