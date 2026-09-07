@@ -247,3 +247,6 @@ rollout.md
 *.aux
 *.log
 *.out
+
+# Working notes on outreach, deliberately not published
+docs/COMMUNICATION.md

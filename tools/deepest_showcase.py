@@ -21,9 +21,13 @@ import argparse, json, subprocess, sys
 from pathlib import Path
 
 def run(binary: str, args: list[str], tables: str, retries: int = 3) -> str:
-    # Retried because the compressed read path throws an intermittent
-    # "zstd decompress failed: Restored data doesn't match checksum" on large
-    # tables -- roughly one run in ten, single-threaded, tracked separately.
+    # Retried because on 2026-08-21 the compressed read path threw an
+    # intermittent "zstd decompress failed: Restored data doesn't match
+    # checksum" on large tables, roughly one run in ten, single-threaded. On
+    # 2026-09-07 it did not reproduce in ~550 runs, every block of the corpus
+    # decoded cleanly (tools/verify_corpus.py), and the reader had not changed
+    # in between -- so the retry stays as a guard, and a recurrence is a
+    # reason to run verify_corpus.py on the table, not to suspect this script.
     for attempt in range(retries):
         p = subprocess.run([binary, *args, "--tables", tables],
                            capture_output=True, text=True)

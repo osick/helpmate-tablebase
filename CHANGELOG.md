@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
+## [Unreleased]
+
+### Added
+- **`tools/verify_corpus.py`** — decodes every zstd block of every
+  block-compressed table in a directory (or one table) and reports any frame
+  that fails its content checksum, decodes to a length the block index does
+  not promise, or is cut short. Read-only, pure Python, parallel over tables.
+  Written to run down the intermittent "Restored data doesn't match checksum"
+  that `tools/deepest_showcase.py` retried around since 2026-08-21: on
+  2026-09-07 the error did not reproduce in ~550 CLI runs, all 8,099,259
+  blocks of the 233-table corpus decoded cleanly, and the reader code had not
+  changed between the two dates. A checksum failure that comes and goes on
+  identical bytes is not something the reader produces on its own, so the
+  tool is the first thing to run if it is ever seen again — a table that fails
+  it is corrupt on disk, one that passes and still fails in `helpmate` points
+  at the machine. Tested in `tests/repo/test_verify_corpus.py` against a
+  synthetic table with a flipped byte, a lying index and a truncated file.
+
+### Fixed
+- The repository is `osick/helpmate-tablebase`; the one remaining reference
+  to the old `8pieces-helpmate` name in a living document (ADR 0001) is gone.
+
 ## [0.16.0] - 2026-08-20
 
 ### Added

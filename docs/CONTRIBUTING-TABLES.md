@@ -127,6 +127,11 @@ not proven.** The checks that run today are these, in ascending cost.
   computed for that material — the same identity check the generator applies
   to sub-tables before trusting them for a prune decision. A truncated or
   mislabelled file cannot survive this.
+- **Block integrity.** `python3 tools/verify_corpus.py <TABLE>` decodes every
+  zstd block of a compressed table and checks each frame's content checksum
+  and length against the block index. It proves the bytes are sound, nothing
+  more, and it is cheap: a 4 GB six-piece table takes under a minute. Run it
+  on your own table before opening the pull request.
 - **Statistical.** The `stats.json` sidecar is compared against the bytes it
   claims to describe: cell counts, the dtm histogram, `max_dtm`. A table
   generated from a different material, or at a different symmetry, does not
