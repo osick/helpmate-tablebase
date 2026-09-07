@@ -25,7 +25,7 @@ Relevant facts:
 
 ## Decision
 
-**One repository** (this one, osick/8pieces-helpmate) holds all artefacts,
+**One repository** (this one, osick/helpmate-tablebase) holds all artefacts,
 separated by path:
 
 ```
