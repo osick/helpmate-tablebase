@@ -146,6 +146,7 @@ the full list with the exact definition each detector uses.
 | [CONTRIBUTING-TABLES.md](docs/CONTRIBUTING-TABLES.md) | **contribute CPU time and tables** |
 | [CONTRIBUTING.md](docs/CONTRIBUTING.md) | contribute code — CI checks and PR requirements |
 | [INTERNALS.md](docs/INTERNALS.md) | indexing, generation, storage format, verification, limits |
+| [COOPERATIVE-TABLEBASE.md](docs/COOPERATIVE-TABLEBASE.md) | the short technical account for people who know Syzygy: why a cooperative game changes the algorithm, and what the data says |
 | [THEME-CATALOG.md](docs/THEME-CATALOG.md) | every theme detector and its definition |
 | [ROADMAP.md](docs/ROADMAP.md) | where this is going |
 
