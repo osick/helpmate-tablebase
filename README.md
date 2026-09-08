@@ -80,6 +80,8 @@ Generation is a one-off cost. Every query afterwards is a table lookup.
 dataset. The deepest mate in the corpus is h#17.
 
 [**The deepest sound problem in every material class →**](docs/DEEPEST.md)
+
+**Or on a board:** [osick.github.io/helpmate-tablebase](https://osick.github.io/helpmate-tablebase/) — the deepest sound problems played through, 930 unique-solution puzzles to solve, and the corpus table by table. Static, no server, built from the same data.
 One position per material, with a diagram and its solution — and a link that
 opens each one in the [Helpmate Analyzer](https://helpman.komtera.lt/) with the
 stipulation already set. The same data is typeset as a print booklet:
@@ -146,6 +148,7 @@ the full list with the exact definition each detector uses.
 | [CONTRIBUTING-TABLES.md](docs/CONTRIBUTING-TABLES.md) | **contribute CPU time and tables** |
 | [CONTRIBUTING.md](docs/CONTRIBUTING.md) | contribute code — CI checks and PR requirements |
 | [INTERNALS.md](docs/INTERNALS.md) | indexing, generation, storage format, verification, limits |
+| [the showcase site](https://osick.github.io/helpmate-tablebase/) | deepest sound problems on a board, puzzles to solve, the corpus table by table (source in `site/`) |
 | [COOPERATIVE-TABLEBASE.md](docs/COOPERATIVE-TABLEBASE.md) | the short technical account for people who know Syzygy: why a cooperative game changes the algorithm, and what the data says |
 | [THEME-CATALOG.md](docs/THEME-CATALOG.md) | every theme detector and its definition |
 | [ROADMAP.md](docs/ROADMAP.md) | where this is going |
