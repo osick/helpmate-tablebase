@@ -9,6 +9,20 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Added
+- **A static showcase site**, `site/`, published to GitHub Pages at
+  https://osick.github.io/helpmate-tablebase/ by `.github/workflows/pages.yml`.
+  Four screens: the front page with the corpus numbers and the deepest sound
+  six-piece problem playing on a board; the 233 deepest sound problems from
+  `docs/DEEPEST.json`, filterable by piece count, each stepped through on the
+  board; the dashboard's 930 unique-solution puzzles in the dashboard's solve
+  mode (drag out the whole line, both colours, graded against the one
+  solution); and the corpus table by table. No server, no build tools, no
+  chess logic in the browser: `tools/build_site_data.py` expands every
+  solution ply by ply (SAN, UCI, FEN after) with python-chess once, and the
+  JSON under `site/data/` is committed. The board is the dashboard's vendored
+  cm-chessboard, copied in by `make site`; `make test-site` runs the site's
+  `node --test` suite and syntax-checks every module, and the Pages workflow
+  gates on it. Tested end to end with Playwright before the first deploy.
 - **`tools/verify_corpus.py`** — decodes every zstd block of every
   block-compressed table in a directory (or one table) and reports any frame
   that fails its content checksum, decodes to a length the block index does

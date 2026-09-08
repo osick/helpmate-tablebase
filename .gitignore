@@ -182,8 +182,8 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
+# (mkdocs would put its output at /site; this project has no mkdocs, and
+# site/ is the static showcase, tracked -- only its copied-in vendor dir is not)
 
 # mypy
 .mypy_cache/
@@ -250,3 +250,6 @@ rollout.md
 
 # Working notes on outreach, deliberately not published
 docs/COMMUNICATION.md
+
+# static showcase: the board component is copied in by `make site`
+site/vendor/

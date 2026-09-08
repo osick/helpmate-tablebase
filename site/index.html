@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helpmate tablebases</title>
+<meta name="description" content="Every helpmate up to five pieces, solved, with the number of solutions. The deepest sound problem in every material class, 930 unique-solution puzzles, and the corpus behind them.">
+<link rel="stylesheet" href="vendor/cm-chessboard/assets/chessboard.css">
+<link rel="stylesheet" href="vendor/cm-chessboard/assets/extensions/promotion-dialog/promotion-dialog.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <a href="#/" class="title">Helpmate tablebases</a>
+    <span class="tagline">Every solution to every position, precomputed.</span>
+  </div>
+  <nav aria-label="Screens">
+    <a href="#/" data-screen="front">About</a>
+    <a href="#/deepest" data-screen="deepest">Deepest</a>
+    <a href="#/puzzles" data-screen="puzzles">Puzzles</a>
+    <a href="#/materials" data-screen="materials">Materials</a>
+  </nav>
+</header>
+
+<main>
+  <section id="screen-front" hidden>
+    <div class="two-col">
+      <div class="prose">
+        <h1>A tablebase for a cooperative game</h1>
+        <p>A <strong>helpmate</strong> is a chess problem in which Black moves first and
+        both sides cooperate to checkmate Black as quickly as possible. <code>h#3</code>
+        means mate after three moves by each side. A helpmate is only a sound problem
+        when it has <em>exactly one</em> solution; a second one is a dual.</p>
+        <p>Because both sides want the same thing, the value of a position is a plain
+        shortest path, and a whole material class can be solved at once. For every
+        legal position in a class these tables store the <strong>distance to mate</strong>
+        and the <strong>number of distinct optimal solutions</strong>. The second number is
+        the one that tells a composer whether a position is a problem.</p>
+        <dl class="numbers" id="corpus-numbers"></dl>
+        <p>What is here: the <a href="#/deepest">deepest sound problem in every material
+        class</a>, <a href="#/puzzles">930 puzzles with a unique solution</a> you can solve
+        on the board, and <a href="#/materials">the corpus, table by table</a>.</p>
+        <p class="links">
+          <a href="https://github.com/osick/helpmate-tablebase">Code</a> ·
+          <a href="https://huggingface.co/datasets/osick/helpmate-tables">Tables</a> ·
+          <a href="https://github.com/osick/helpmate-tablebase/blob/main/docs/COOPERATIVE-TABLEBASE.md">How it works</a> ·
+          <a href="https://github.com/osick/helpmate-tablebase/blob/main/docs/CONTRIBUTING-TABLES.md">Compute a table</a>
+        </p>
+      </div>
+      <div class="board-col">
+        <div class="board" id="front-board"></div>
+        <div class="readout" id="front-readout"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-deepest" hidden>
+    <div class="two-col">
+      <div class="list-col">
+        <h1>The deepest sound problem in every material class</h1>
+        <p class="lede">One position per class: the longest helpmate that still has a
+        single solution. It is never the class's longest helpmate — those always have
+        hundreds of solutions.</p>
+        <div class="controls">
+          <label>Pieces
+            <select id="deepest-pieces">
+              <option value="all">all</option>
+              <option value="3">3</option><option value="4">4</option>
+              <option value="5">5</option><option value="6">6</option>
+            </select>
+          </label>
+          <span class="count" id="deepest-count"></span>
+        </div>
+        <table class="data" id="deepest-table">
+          <thead><tr><th>class</th><th>men</th><th>sound</th><th>longest</th><th>positions at depth</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="board-col sticky">
+        <div class="board" id="deepest-board"></div>
+        <div class="readout" id="deepest-readout"></div>
+        <div class="stepper">
+          <button id="deepest-first" title="start">⏮</button>
+          <button id="deepest-prev" title="back">◀</button>
+          <button id="deepest-next" title="forward">▶</button>
+          <button id="deepest-last" title="end">⏭</button>
+        </div>
+        <p class="line mono" id="deepest-line"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-puzzles" hidden>
+    <div class="two-col">
+      <div class="board-col">
+        <div class="board" id="puzzle-board"></div>
+        <div class="readout" id="puzzle-readout"></div>
+        <div class="stepper">
+          <button id="puzzle-reveal">Show solution</button>
+          <button id="puzzle-next">Next puzzle</button>
+        </div>
+        <p class="line mono" id="puzzle-line"></p>
+      </div>
+      <div class="prose">
+        <h1>Puzzles</h1>
+        <p class="lede">Every puzzle has exactly one solution. Play the whole line, both
+        colours: drag Black's move, then White's reply, until mate. A wrong move snaps
+        back.</p>
+        <div class="controls">
+          <label>Length
+            <select id="puzzle-length"><option value="all">any</option></select>
+          </label>
+          <label>Pieces
+            <select id="puzzle-pieces">
+              <option value="all">any</option>
+              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+            </select>
+          </label>
+          <span class="count" id="puzzle-count"></span>
+        </div>
+        <p id="puzzle-status" class="status" aria-live="polite"></p>
+        <p class="hint">Session: ten puzzles, easiest to hardest, drawn from the ones that
+        match the filters. Solved so far: <span id="puzzle-score">0</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-materials" hidden>
+    <h1>The corpus, table by table</h1>
+    <p class="lede" id="materials-lede"></p>
+    <div class="controls">
+      <label>Pieces
+        <select id="materials-pieces">
+          <option value="all">all</option>
+          <option value="2">2</option><option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option>
+        </select>
+      </label>
+      <span class="count" id="materials-count"></span>
+    </div>
+    <table class="data sortable" id="materials-table">
+      <thead><tr>
+        <th data-key="material">class</th><th data-key="pieces">men</th>
+        <th data-key="max_dtm">longest mate</th><th data-key="solvable">positions with a helpmate</th>
+        <th data-key="unique">with a unique one</th><th data-key="size_bytes">table</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <span>MIT. Tables on <a href="https://huggingface.co/datasets/osick/helpmate-tables">Hugging Face</a>,
+  code on <a href="https://github.com/osick/helpmate-tablebase">GitHub</a>.</span>
+  <span id="build-note"></span>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
