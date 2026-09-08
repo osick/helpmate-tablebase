@@ -253,3 +253,8 @@ docs/COMMUNICATION.md
 
 # static showcase: the board component is copied in by `make site`
 site/vendor/
+
+# The showcase keeps its ES modules under site/js/lib; the Python build-artifact
+# rule above (lib/) would hide them, and did once -- the first Pages deploy failed
+# on a missing module.
+!site/js/lib/
