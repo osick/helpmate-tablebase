@@ -59,7 +59,8 @@ TEST_CASE("identities follow a unit through moves and name its origin", "[themes
     CHECK(ids[0].captured_origin == -1);
 }
 
-TEST_CASE("identities report the captured unit's origin, including through a recapture", "[themes][identity]") {
+TEST_CASE("identities report the captured unit's origin, including through a recapture",
+          "[themes][identity]") {
     // Black pawn d6-d5, Rd1xd5, Rd8xd5: the white rook that started on d1 dies
     // on d5, captured by the rook that started on d8.
     auto s =

@@ -99,9 +99,12 @@ bool has_klasinc(const Solution& s);
 
 // The solution's promotions as a canonical multiset string: one letter per
 // promotion, either colour, sorted in the fixed order q, r, b, n -- "qrr" for
-// one queen and two rooks. Empty when nothing promotes. This is the value
-// `promotions:<types>` matches against and the value `probe` prints.
+// one queen and two rooks. Empty when nothing promotes. `promotions:<types>`
+// concatenates these over the whole solution set (set_themes.cpp).
 std::string promotion_multiset(const Solution& s);
+
+// Sorts a string of promotion letters into the canonical q, r, b, n order.
+std::string canon_sort_promotions(std::string letters);
 
 // The canonical form of a user-typed promotion multiset: letters q r b n in
 // any order and case, one to eight of them, re-sorted to q, r, b, n. nullopt

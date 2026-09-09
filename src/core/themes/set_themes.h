@@ -27,10 +27,12 @@ bool has_zilahi(const ThemeInput& in);
 // question is `promotions:<types>`, a different theme.
 bool has_allumwandlung(const ThemeInput& in);
 
-// The `promotions:<types>` parametric theme: `promotions_eval` answers
-// whether ANY solution's promotion multiset equals the canonical value;
-// `promotions_values` lists the distinct multisets the solutions show, in
-// first-seen order, for `probe`.
+// The `promotions:<types>` parametric theme, over the promotions of ALL
+// solutions taken together with multiplicity: `promotions_eval` answers
+// whether that combined multiset CONTAINS the canonical value (q and r in
+// one solution plus r in another satisfies qrr, and so does q, r, r, n);
+// `promotions_values` returns the combined multiset itself, one value, for
+// `probe`, or nothing when no solution promotes.
 bool promotions_eval(const ThemeInput& in, std::string_view canon_value);
 std::vector<std::string> promotions_values(const ThemeInput& in);
 

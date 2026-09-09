@@ -41,7 +41,7 @@ Twenty-one of the glossary's names. Five more shipped detectors -- `pure`, `unde
 | Closed walk | A | implemented |
 | En passant | A | implemented; the format supports ep exactly |
 | Excelsior | A | implemented |
-| Allumwandlung | B | implemented as `allumwandlung`: set coverage across the solutions, either colour; the exact-multiset question is the parametric `promotions:<types>` |
+| Allumwandlung | B | implemented as `allumwandlung`: all four types across the solutions, either colour -- the same question as the parametric `promotions:qrbn` |
 | Ideal mate | A | implemented |
 | Klasinc theme | D→A | implemented as `klasinc`; the catalogue tiered it D for "line geometry", but the definition used (a unit vacates a square, a line piece passes over it, the unit returns) is decidable from ply from/to squares alone |
 | Kniest theme | A | implemented |

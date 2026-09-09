@@ -126,15 +126,18 @@ const std::vector<ThemeDef>& theme_registry() {
         {"allumwandlung", &has_allumwandlung,
          "Allumwandlung (AUW): across the position's optimal solutions, pawns "
          "promote to all four types -- queen, rook, bishop and knight -- either "
-         "colour, in any number of solutions. Set coverage: for an exact multiset "
-         "in one solution use promotions:<types>.",
+         "colour, in any number of solutions. The same question as "
+         "promotions:qrbn.",
          Needs::Solutions},
         {"promotions", nullptr,
-         "Promotions: one optimal solution's promotions are exactly these types "
-         "with multiplicity, either colour -- promotions:qrr is one queen and two "
-         "rooks, promotions:n a single knight underpromotion. Letters q r b n in "
-         "any order; matching is by multiset, not sequence. probe prints one "
-         "promotions:<types> entry per distinct multiset the solutions show.",
+         "Promotions: taking the promotions of all optimal solutions together, "
+         "at least these types occur, with multiplicity, either colour -- "
+         "promotions:qrr needs one queen and two rooks among them (q and r in one "
+         "solution and r in another, or all three in one), and further "
+         "promotions may occur. Letters q r b n in any order; a multiset, not a "
+         "sequence. probe prints the position's full combined multiset as one "
+         "promotions:<types> entry. On a saturated position only the first 100 "
+         "solutions are counted.",
          Needs::Solutions, &kPromotionsParam},
     };
     return kRegistry;

@@ -623,9 +623,9 @@ only when every optimal solution qualifies, `zilahi` and `allumwandlung`
 compare solutions with each other — see
 [Match semantics](#match-semantics-any-within-a-theme-and-across-themes)
 below. One entry, `promotions:<types>`, is **parametric**: it is asked with a
-value, `--theme promotions:qrr`, and `probe` prints one `promotions:<value>`
-per distinct answer — see [Parametric themes](#parametric-themes-a-name-with-a-value)
-below.
+value, `--theme promotions:qrr`, and `probe` prints the position's combined
+promotion multiset as one `promotions:<value>` — see
+[Parametric themes](#parametric-themes-a-name-with-a-value) below.
 
 Real output, `./build/helpmate themes` on this checkout:
 
@@ -755,18 +755,22 @@ allumwandlung
     needs: solutions
     Allumwandlung (AUW): across the position's optimal solutions, pawns
     promote to all four types -- queen, rook, bishop and knight -- either
-    colour, in any number of solutions. Set coverage: for an exact multiset
-    in one solution use promotions:<types>.
+    colour, in any number of solutions. The same question as
+    promotions:qrbn.
 promotions:<types>
     needs: solutions
-    Promotions: one optimal solution's promotions are exactly these types
-    with multiplicity, either colour -- promotions:qrr is one queen and two
-    rooks, promotions:n a single knight underpromotion. Letters q r b n in
-    any order; matching is by multiset, not sequence. probe prints one
-    promotions:<types> entry per distinct multiset the solutions show.
-    parameter types (e.g. promotions:qrr): one letter per promotion, q r b n
-    in any order and case, up to eight; matched as a multiset, so qrr is one
-    queen and two rooks and rq is the same as qr
+    Promotions: taking the promotions of all optimal solutions together, at
+    least these types occur, with multiplicity, either colour --
+    promotions:qrr needs one queen and two rooks among them (q and r in one
+    solution and r in another, or all three in one), and further promotions
+    may occur. Letters q r b n in any order; a multiset, not a sequence.
+    probe prints the position's full combined multiset as one
+    promotions:<types> entry. On a saturated position only the first 100
+    solutions are counted.
+    parameter types (e.g. promotions:qrr): one letter per promotion
+    required, q r b n in any order and case, up to eight; a multiset, so qrr
+    asks for one queen and two rooks among the promotions of all solutions
+    together and rq is the same as qr; further promotions may occur
 ```
 
 ### `needs`: what a theme actually reads
@@ -975,23 +979,25 @@ is why `any` semantics matter here.
 ```
 $ helpmate probe "8/P7/8/8/8/1k6/8/1K6 b - - 0 1" --themes --tables ~/tb
 dtm=4 (h#2) count=2
-themes: pure model ideal mirror promotion underpromotion single-piece single-piece:black nocapture nocheck promotions:r promotions:q
+themes: pure model ideal mirror promotion underpromotion single-piece single-piece:black nocapture nocheck promotions:qr
 $ helpmate line "8/P7/8/8/8/1k6/8/1K6 b - - 0 1" --tables ~/tb
 Ka3 Kc2 Ka2 a8=R#
 
-$ helpmate mine KPvk --dtm 4 --theme promotions:r --max 3 --tables ~/tb
+$ helpmate mine KPvk --dtm 4 --theme promotions:qr --max 3 --tables ~/tb
 8/P7/8/8/8/1k6/8/1K6 b - - 0 1
 8/P7/8/8/k7/8/8/1K6 b - - 0 1
 8/P7/8/8/1k6/8/8/1K6 b - - 0 1
 ```
 
-Two solutions, one promoting to a rook and one to a queen, so `probe`
-prints both values; `mine --theme promotions:r` and `--theme promotions:q`
-each accept the position. Measured at `KPvk --dtm 4`: 1194 positions, of
-which 1176 show `promotions:q`, 867 `promotions:r`, and 849 both; none
-shows `promotions:n` or `promotions:b`, and `allumwandlung` cannot occur in
-`KPvk` at all — a lone knight or bishop never mates a bare king, so no
-optimal line ever underpromotes to either.
+Two solutions, one promoting to a rook and one to a queen, so the
+position's combined multiset is `qr`, which `probe` prints once; `--theme
+promotions:q`, `promotions:r` and `promotions:qr` all accept it, `promotions:qq`
+does not. Measured at `KPvk --dtm 4`: 1194 positions, of which 1176 show at
+least one queen promotion, 867 at least one rook promotion, 849 both, 540
+two queen promotions across their solutions and 261 two rook promotions;
+none shows `promotions:n` or `promotions:b`, and `allumwandlung` cannot
+occur in `KPvk` at all — a lone knight or bishop never mates a bare king,
+so no optimal line ever underpromotes to either.
 
 **`zilahi` has no real example in this pass.** It needs two white units
 that can each mate and each be captured, which is a five-piece class
@@ -1057,12 +1063,16 @@ definition says so.
 ### Parametric themes: a name with a value
 
 `promotions:<types>` is the first theme that is a *family* of questions
-rather than one: `--theme promotions:qrr` asks for a solution whose
-promotions are exactly one queen and two rooks, `--theme promotions:n` for a
-lone knight underpromotion. The value is a multiset — `rq` and `qr` are the
-same question, `qrr` and `qr` are not — and the server canonicalises it
-(lower-case, sorted q r b n), which is also how `probe` prints it. The rules
-that make this safe, on every surface:
+rather than one. It reads the promotions of **all** optimal solutions taken
+together, with multiplicity, and asks whether **at least** the given ones
+occur: `--theme promotions:qrr` needs one queen and two rooks among them —
+q and r in one solution and r in another, or all three in one line — and a
+position whose solutions also promote to a knight still matches. `--theme
+promotions:n` asks for a knight underpromotion anywhere in the set. The
+value is a multiset — `rq` and `qr` are the same question, `qrr` asks for
+more than `qr` — and the server canonicalises it (lower-case, sorted
+q r b n), which is also how `probe` prints the position's own combined
+multiset. The rules that make this safe, on every surface:
 
 - The bare name is an error that shows the form: `theme "promotions" needs a
   value, e.g. promotions:qrr`.
@@ -1072,14 +1082,15 @@ that make this safe, on every surface:
   the `--end`/`--ends` lesson applied before it could recur.
 - Colour variants are unaffected: `excelsior:white` is still one full name.
 
-`probe --themes` reports the family as values, one entry per distinct
-multiset among the solutions (`promotions:r promotions:q` on a position
-whose two solutions promote differently), and nothing when nothing
-promotes. `GET /v1/themes` marks the entry with a `parameter` object
+`probe --themes` reports the family as one value, the combined multiset of
+every solution (`promotions:qr` on a position whose two solutions promote
+to a rook and to a queen), and nothing when nothing promotes; every
+sub-multiset of that value is a `--theme` that accepts the position.
+`GET /v1/themes` marks the entry with a `parameter` object
 (`{"name": "types", "doc": ..., "example": "qrr"}`; `null` on every boolean
 theme), which is how the dashboard knows to draw a text box rather than a
-checkbox for it. `allumwandlung` stays a separate boolean: it is set
-coverage across solutions, not an exact multiset in one.
+checkbox for it. `allumwandlung` stays as a named boolean for the classic
+task; it is the same question as `promotions:qrbn`.
 
 ### The three CLI surfaces
 

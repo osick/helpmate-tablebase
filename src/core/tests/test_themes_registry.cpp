@@ -157,20 +157,27 @@ TEST_CASE("any_of finds a theme shown by only ONE of several solutions", "[theme
 namespace {
 int sq_of(const char* n) { return (n[1] - '1') * 8 + (n[0] - 'a'); }
 
-Solution play_regs(const std::string& fen, const std::vector<std::pair<const char*, const char*>>& moves) {
+struct RegMove {
+    const char* from;
+    const char* to;
+    std::optional<PieceType> promo{};
+};
+
+Solution play_regs(const std::string& fen, const std::vector<RegMove>& moves) {
     auto b = Board::from_fen(fen);
     REQUIRE(b);
     Solution s{*b, {}};
     Board cur = *b;
-    for (const auto& [from, to] : moves) {
+    for (const auto& [from, to, promo] : moves) {
         const Move* found = nullptr;
         auto legal = cur.legal_moves();
         for (const auto& m : legal)
-            if ((int)m.from == sq_of(from) && (int)m.to == sq_of(to) && !m.promotion()) found = &m;
+            if ((int)m.from == sq_of(from) && (int)m.to == sq_of(to) && m.promotion() == promo) found = &m;
         REQUIRE(found != nullptr);
         Ply p;
         p.from = found->from;
         p.to = found->to;
+        p.promotion = found->promotion();
         p.is_ep = found->is_ep();
         for (const auto& pp : cur.pieces()) {
             if ((int)pp.square == (int)found->from) p.piece = pp.piece;
@@ -297,8 +304,10 @@ TEST_CASE("resolve_theme: exact names, parametric values, and every failure mode
     REQUIRE(err.find("unknown theme \"nosuch\"") != std::string::npos);
 }
 
-TEST_CASE("detect prints one promotions:<value> per distinct multiset the solutions show",
-          "[themes][registry]") {
+TEST_CASE(
+    "detect prints the combined promotion multiset of all solutions, and promotions:<types> "
+    "matches any sub-multiset of it",
+    "[themes][registry]") {
     auto b = Board::from_fen("k7/6P1/8/8/8/8/8/K7 w - - 0 1");
     REQUIRE(b);
     auto promote = [&](PieceType t) {
@@ -319,23 +328,42 @@ TEST_CASE("detect prints one promotions:<value> per distinct multiset the soluti
         s.plies.push_back(p);
         return s;
     };
+    // Four solutions: queen, knight, queen, and one that does not promote.
+    // Taken together that is q, q, n -- ONE value, printed once.
     std::vector<Solution> sols{promote(PieceType::Queen), promote(PieceType::Knight),
                                promote(PieceType::Queen), Solution{*b, {}}};
     ThemeInput in{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, sols};
     auto names = detect(in);
-    REQUIRE(shows(names, "promotions:q"));
-    REQUIRE(shows(names, "promotions:n"));
-    REQUIRE_FALSE(shows(names, "promotions:r"));
+    REQUIRE(shows(names, "promotions:qqn"));
+    REQUIRE_FALSE(shows(names, "promotions:q"));  // per-solution values are not printed
+    REQUIRE_FALSE(shows(names, "promotions:n"));
     REQUIRE_FALSE(shows(names, "promotions"));  // never printed bare
     REQUIRE_FALSE(shows(names, "allumwandlung"));
 
-    // The parametric eval agrees with what detect printed.
-    auto q = resolve_theme("promotions:q");
-    REQUIRE(q);
-    REQUIRE(q->eval(in));
-    auto r = resolve_theme("promotions:r");
-    REQUIRE(r);
-    REQUIRE_FALSE(r->eval(in));
+    // "At least these": every sub-multiset matches, anything asking for more
+    // of a letter than the set has does not.
+    auto ok = [&](const char* name) {
+        auto t = resolve_theme(name);
+        REQUIRE(t);
+        return t->eval(in);
+    };
+    REQUIRE(ok("promotions:q"));
+    REQUIRE(ok("promotions:qq"));
+    REQUIRE(ok("promotions:n"));
+    REQUIRE(ok("promotions:qn"));
+    REQUIRE(ok("promotions:nqq"));  // typed order is irrelevant
+    REQUIRE(ok("promotions:qqn"));
+    REQUIRE_FALSE(ok("promotions:r"));
+    REQUIRE_FALSE(ok("promotions:qqq"));  // three queens asked, two present
+    REQUIRE_FALSE(ok("promotions:nn"));
+
+    // A set in which nothing promotes prints no promotions entry and matches
+    // no pattern at all. (Other names may still appear: a ply-less solution's
+    // final board is the diagram, on which e.g. `mirror` reads true.)
+    std::vector<Solution> none{Solution{*b, {}}, Solution{*b, {}}};
+    ThemeInput none_in{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, none};
+    for (const auto& n : detect(none_in)) REQUIRE(n.rfind("promotions:", 0) != 0);
+    REQUIRE_FALSE(resolve_theme("promotions:q")->eval(none_in));
 
     // Four lines, one per type: allumwandlung by coverage.
     std::vector<Solution> four{promote(PieceType::Queen), promote(PieceType::Rook),
@@ -380,4 +408,36 @@ TEST_CASE("zilahi: the unit that mates in one solution is captured in the other,
     std::vector<Solution> one{a};
     ThemeInput one_in{a.start, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, one};
     REQUIRE_FALSE(shows(detect(one_in), "zilahi"));
+}
+
+TEST_CASE("promotions:qrr -- q and r in one solution, nothing in a second, r in a third",
+          "[themes][registry]") {
+    // The owner's worked example. White pawns a7 and g7 against a bare king
+    // on h1, white Kc3 (nowhere near the promotion squares): line A promotes
+    // both pawns (queen, then rook), line B is a quiet king shuffle, line C
+    // promotes one pawn to a rook.
+    const std::string fen = "8/P5P1/8/8/8/2K5/8/7k w - - 0 1";
+    Solution a =
+        play_regs(fen, {{"a7", "a8", PieceType::Queen}, {"h1", "h2"}, {"g7", "g8", PieceType::Rook}});
+    Solution b = play_regs(fen, {{"c3", "d3"}, {"h1", "h2"}});
+    Solution c = play_regs(fen, {{"g7", "g8", PieceType::Rook}, {"h1", "h2"}});
+    std::vector<Solution> sols{a, b, c};
+    ThemeInput in{a.start, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, sols};
+    auto names = detect(in);
+    REQUIRE(shows(names, "promotions:qrr"));
+    // exactly one promotions:* entry
+    REQUIRE(std::count_if(names.begin(), names.end(),
+                          [](const std::string& n) { return n.rfind("promotions:", 0) == 0; }) == 1);
+    auto ok = [&](const char* name) {
+        auto t = resolve_theme(name);
+        REQUIRE(t);
+        return t->eval(in);
+    };
+    REQUIRE(ok("promotions:qrr"));
+    REQUIRE(ok("promotions:qr"));
+    REQUIRE(ok("promotions:rr"));
+    REQUIRE(ok("promotions:r"));
+    REQUIRE_FALSE(ok("promotions:qrrr"));
+    REQUIRE_FALSE(ok("promotions:qq"));
+    REQUIRE_FALSE(ok("promotions:b"));
 }

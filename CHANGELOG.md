@@ -19,10 +19,12 @@ bumps may change behavior).
   identified by diagram square via the new `themes/identity.h` helper);
   `allumwandlung` (the four promotion types occur across the solution set,
   the coverage reading the 2026-08-08 design fixed); and
-  `promotions:<types>`, asked with a value — `--theme promotions:qrr` is one
-  optimal solution promoting to exactly one queen and two rooks, a multiset
-  the server canonicalises. `probe --themes` prints one `promotions:<value>`
-  per distinct multiset the solutions show. The parametric mechanism is one
+  `promotions:<types>`, asked with a value — `--theme promotions:qrr` needs
+  at least one queen and two rook promotions among the promotions of all
+  optimal solutions taken together (q and r in one solution and r in
+  another, or all three in one), further promotions allowed; a multiset the
+  server canonicalises. `probe --themes` prints the position's combined
+  multiset as one `promotions:<value>`. The parametric mechanism is one
   registry descriptor (`ThemeParam`) plus `resolve_theme`, which every
   surface now uses: the CLI (`helpmate themes` prints a `parameter` line;
   `--theme promotions` alone, `promotions:qx`, and the singular typo
@@ -32,8 +34,8 @@ bumps may change behavior).
   `/v1/mine` (400 `invalid_theme` with the resolver's message), and the
   dashboard (a text box under the theme picker, sent as
   `theme=promotions:<value>`; the Themes screen shows the parameter).
-  `zilahi` and `allumwandlung` are set-comparing detectors and refuse a set
-  of one; `umnov-mate` and the promotion multiset need the dtm-0 guard.
+  `zilahi` refuses a set of one; `allumwandlung` is the same question as
+  `promotions:qrbn`; `umnov-mate` needs the dtm-0 guard.
 - **Two set-wide themes, `nocapture` and `nocheck`; registry 22 → 24
   entries.** `nocapture` — no unit is captured in any optimal solution (en
   passant included); `nocheck` — no move gives check in any optimal solution

@@ -311,18 +311,19 @@ char promo_letter(PieceType t) {
             return '?';
     }
 }
-std::string sort_promos(std::string letters) {
+}  // namespace
+
+std::string canon_sort_promotions(std::string letters) {
     std::sort(letters.begin(), letters.end(),
               [](char x, char y) { return kPromoOrder.find(x) < kPromoOrder.find(y); });
     return letters;
 }
-}  // namespace
 
 std::string promotion_multiset(const Solution& s) {
     std::string out;
     for (const auto& p : s.plies)
         if (p.promotion) out.push_back(promo_letter(*p.promotion));
-    return sort_promos(std::move(out));
+    return canon_sort_promotions(std::move(out));
 }
 
 std::optional<std::string> canon_promotions(std::string_view raw) {
@@ -333,7 +334,7 @@ std::optional<std::string> canon_promotions(std::string_view raw) {
         if (kPromoOrder.find(l) == std::string_view::npos) return std::nullopt;
         letters.push_back(l);
     }
-    return sort_promos(std::move(letters));
+    return canon_sort_promotions(std::move(letters));
 }
 
 }  // namespace hm::themes

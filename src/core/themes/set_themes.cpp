@@ -9,8 +9,8 @@ namespace hm::themes {
 
 namespace {
 struct MateAndCaptures {
-    int mate = -1;                     // diagram square of the mating mover
-    std::vector<int> captured_white;   // diagram squares of white units captured
+    int mate = -1;                    // diagram square of the mating mover
+    std::vector<int> captured_white;  // diagram squares of white units captured
 };
 
 MateAndCaptures mate_and_captures(const Solution& s) {
@@ -71,26 +71,42 @@ bool has_allumwandlung(const ThemeInput& in) {
     return q && r && b && n;
 }
 
+namespace {
+// The promotions of every solution taken together, canonically sorted: the
+// position's one promotion multiset. Empty when nothing promotes anywhere.
+std::string combined_promotions(const ThemeInput& in) {
+    std::string all;
+    for (const auto& s : in.solutions) all += promotion_multiset(s);
+    return canon_sort_promotions(std::move(all));
+}
+}  // namespace
+
 bool promotions_eval(const ThemeInput& in, std::string_view canon_value) {
-    for (const auto& s : in.solutions)
-        if (promotion_multiset(s) == canon_value) return true;
-    return false;
+    // Sub-multiset: every letter of the pattern must occur at least as often
+    // in the combined multiset. More promotions than asked for are fine --
+    // promotions:qrr on a position whose solutions promote q, r, r and n
+    // is a match; promotions:qrrr on it is not.
+    const std::string have = combined_promotions(in);
+    if (have.empty()) return false;
+    for (char c : "qrbn") {
+        if (!c) break;
+        const auto want = std::count(canon_value.begin(), canon_value.end(), c);
+        if (want > std::count(have.begin(), have.end(), c)) return false;
+    }
+    return true;
 }
 
 std::vector<std::string> promotions_values(const ThemeInput& in) {
-    std::vector<std::string> out;
-    for (const auto& s : in.solutions) {
-        std::string m = promotion_multiset(s);
-        if (m.empty()) continue;
-        if (std::find(out.begin(), out.end(), m) == out.end()) out.push_back(std::move(m));
-    }
-    return out;
+    std::string all = combined_promotions(in);
+    if (all.empty()) return {};
+    return {std::move(all)};
 }
 
 const ThemeParam kPromotionsParam{
     "types",
-    "one letter per promotion, q r b n in any order and case, up to eight; matched as a "
-    "multiset, so qrr is one queen and two rooks and rq is the same as qr",
+    "one letter per promotion required, q r b n in any order and case, up to eight; a "
+    "multiset, so qrr asks for one queen and two rooks among the promotions of all "
+    "solutions together and rq is the same as qr; further promotions may occur",
     "qrr",
     &canon_promotions,
     &promotions_eval,
