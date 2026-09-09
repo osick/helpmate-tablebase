@@ -9,6 +9,31 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Added
+- **Six new themes and the first parametric theme; registry 24 → 30
+  entries.** `umnov` (a unit moves onto the square the opponent's previous
+  move vacated) and `umnov-mate` (the mating move does it); `klasinc` (a unit
+  leaves a square, a line piece of either colour passes over it, the unit
+  returns — the catalogue had tiered Klasinc D as "line geometry", but with
+  this definition it is ply geometry alone); `zilahi` (two solutions in
+  which two white units swap the mating and the captured role, units
+  identified by diagram square via the new `themes/identity.h` helper);
+  `allumwandlung` (the four promotion types occur across the solution set,
+  the coverage reading the 2026-08-08 design fixed); and
+  `promotions:<types>`, asked with a value — `--theme promotions:qrr` is one
+  optimal solution promoting to exactly one queen and two rooks, a multiset
+  the server canonicalises. `probe --themes` prints one `promotions:<value>`
+  per distinct multiset the solutions show. The parametric mechanism is one
+  registry descriptor (`ThemeParam`) plus `resolve_theme`, which every
+  surface now uses: the CLI (`helpmate themes` prints a `parameter` line;
+  `--theme promotions` alone, `promotions:qx`, and the singular typo
+  `promotion:qrr` are all errors naming the fix, the last never falling
+  through to the boolean `promotion`), the Python binding (`themes()`
+  entries carry `parameter`, new `check_theme(name)`), `/v1/themes` and
+  `/v1/mine` (400 `invalid_theme` with the resolver's message), and the
+  dashboard (a text box under the theme picker, sent as
+  `theme=promotions:<value>`; the Themes screen shows the parameter).
+  `zilahi` and `allumwandlung` are set-comparing detectors and refuse a set
+  of one; `umnov-mate` and the promotion multiset need the dtm-0 guard.
 - **Two set-wide themes, `nocapture` and `nocheck`; registry 22 → 24
   entries.** `nocapture` — no unit is captured in any optimal solution (en
   passant included); `nocheck` — no move gives check in any optimal solution

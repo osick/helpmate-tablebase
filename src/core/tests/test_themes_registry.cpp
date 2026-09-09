@@ -13,14 +13,22 @@ static Solution at(const std::string& fen) {
     return Solution{*b, {}};
 }
 
-TEST_CASE("the registry holds all twenty-four entries", "[themes][registry]") {
-    REQUIRE(theme_registry().size() == 24);
+TEST_CASE("the registry holds all thirty entries", "[themes][registry]") {
+    REQUIRE(theme_registry().size() == 30);
 }
 
-TEST_CASE("every entry has a name, a detector and a doc", "[themes][registry]") {
+TEST_CASE("every entry has a name, a detector or a parameter, and a doc", "[themes][registry]") {
     for (const auto& t : theme_registry()) {
         REQUIRE_FALSE(t.name.empty());
-        REQUIRE(t.fn != nullptr);
+        // Exactly one of the two: a boolean detector, or a parametric family.
+        REQUIRE((t.fn != nullptr) != (t.param != nullptr));
+        if (t.param) {
+            REQUIRE(t.param->canon != nullptr);
+            REQUIRE(t.param->eval != nullptr);
+            REQUIRE(t.param->values != nullptr);
+            REQUIRE_FALSE(t.param->doc.empty());
+            REQUIRE(t.param->canon(t.param->example).has_value());  // the example is valid
+        }
         REQUIRE_FALSE(t.doc.empty());
     }
 }
@@ -53,7 +61,13 @@ TEST_CASE("every documented theme is findable by name", "[themes][registry]") {
                           "schnoebelen",
                           "pendulum",
                           "nocapture",
-                          "nocheck"})
+                          "nocheck",
+                          "umnov",
+                          "umnov-mate",
+                          "klasinc",
+                          "zilahi",
+                          "allumwandlung",
+                          "promotions"})
         REQUIRE(find_theme(n) != nullptr);
 }
 
@@ -239,4 +253,131 @@ TEST_CASE("the set-wide themes are not shown by an empty solution set", "[themes
     auto names = detect(in);
     REQUIRE_FALSE(shows(names, "nocapture"));
     REQUIRE_FALSE(shows(names, "nocheck"));
+}
+
+TEST_CASE("display_name marks a parametric theme", "[themes][registry]") {
+    REQUIRE(display_name(*find_theme("promotions")) == "promotions:<types>");
+    REQUIRE(display_name(*find_theme("pure")) == "pure");
+    REQUIRE(display_name(*find_theme("excelsior:white")) == "excelsior:white");
+}
+
+TEST_CASE("resolve_theme: exact names, parametric values, and every failure mode", "[themes][registry]") {
+    std::string err;
+    auto pure = resolve_theme("pure", &err);
+    REQUIRE(pure);
+    REQUIRE(pure->def->name == "pure");
+    REQUIRE(pure->name() == "pure");
+
+    // A colour variant is a full registry name, never `excelsior` with a value.
+    auto ew = resolve_theme("excelsior:white", &err);
+    REQUIRE(ew);
+    REQUIRE(ew->def->name == "excelsior:white");
+    REQUIRE(ew->value.empty());
+
+    auto qrr = resolve_theme("promotions:RRQ", &err);
+    REQUIRE(qrr);
+    REQUIRE(qrr->def->name == "promotions");
+    REQUIRE(qrr->value == "qrr");  // canonicalised
+    REQUIRE(qrr->name() == "promotions:qrr");
+
+    REQUIRE_FALSE(resolve_theme("promotions", &err));  // needs a value
+    REQUIRE(err.find("needs a value") != std::string::npos);
+    REQUIRE(err.find("promotions:qrr") != std::string::npos);
+
+    REQUIRE_FALSE(resolve_theme("promotions:qx", &err));
+    REQUIRE(err.find("does not accept") != std::string::npos);
+
+    // The singular typo must not fall through to the boolean `promotion`.
+    REQUIRE_FALSE(resolve_theme("promotion:qrr", &err));
+    REQUIRE(err.find("promotions:qrr") != std::string::npos);
+
+    REQUIRE_FALSE(resolve_theme("pure:yes", &err));  // a boolean takes no value
+    REQUIRE(err.find("unknown theme") != std::string::npos);
+    REQUIRE_FALSE(resolve_theme("nosuch", &err));
+    REQUIRE(err.find("unknown theme \"nosuch\"") != std::string::npos);
+}
+
+TEST_CASE("detect prints one promotions:<value> per distinct multiset the solutions show",
+          "[themes][registry]") {
+    auto b = Board::from_fen("k7/6P1/8/8/8/8/8/K7 w - - 0 1");
+    REQUIRE(b);
+    auto promote = [&](PieceType t) {
+        const Move* found = nullptr;
+        auto legal = b->legal_moves();
+        for (const auto& m : legal)
+            if (m.promotion() == t) found = &m;
+        REQUIRE(found != nullptr);
+        Solution s{*b, {}};
+        Ply p;
+        p.piece = {Color::White, PieceType::Pawn};
+        p.from = found->from;
+        p.to = found->to;
+        p.promotion = t;
+        Board after = *b;
+        after.make(*found);
+        p.after = after;
+        s.plies.push_back(p);
+        return s;
+    };
+    std::vector<Solution> sols{promote(PieceType::Queen), promote(PieceType::Knight),
+                               promote(PieceType::Queen), Solution{*b, {}}};
+    ThemeInput in{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, sols};
+    auto names = detect(in);
+    REQUIRE(shows(names, "promotions:q"));
+    REQUIRE(shows(names, "promotions:n"));
+    REQUIRE_FALSE(shows(names, "promotions:r"));
+    REQUIRE_FALSE(shows(names, "promotions"));  // never printed bare
+    REQUIRE_FALSE(shows(names, "allumwandlung"));
+
+    // The parametric eval agrees with what detect printed.
+    auto q = resolve_theme("promotions:q");
+    REQUIRE(q);
+    REQUIRE(q->eval(in));
+    auto r = resolve_theme("promotions:r");
+    REQUIRE(r);
+    REQUIRE_FALSE(r->eval(in));
+
+    // Four lines, one per type: allumwandlung by coverage.
+    std::vector<Solution> four{promote(PieceType::Queen), promote(PieceType::Rook),
+                               promote(PieceType::Bishop), promote(PieceType::Knight)};
+    ThemeInput four_in{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, four};
+    REQUIRE(shows(detect(four_in), "allumwandlung"));
+    std::vector<Solution> three{promote(PieceType::Queen), promote(PieceType::Rook),
+                                promote(PieceType::Bishop)};
+    ThemeInput three_in{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, three};
+    REQUIRE_FALSE(shows(detect(three_in), "allumwandlung"));
+}
+
+TEST_CASE("zilahi: the unit that mates in one solution is captured in the other, and vice versa",
+          "[themes][registry]") {
+    // White Rc1 + Bf4 + Kh2; black Kh8 + Rb1. Line A: the rook is captured and
+    // the bishop makes the last move. Line B: the bishop is captured and the
+    // rook makes the last move. Neither line need be a real mate for the
+    // detector, which reads the last ply's mover. (Kh2, not h1: after Rxc1
+    // the black rook would check a king on h1 along the first rank.)
+    const std::string fen = "7k/8/8/8/5B2/8/7K/1rR5 b - - 0 1";
+    Solution a = play_regs(fen, {{"b1", "c1"}, {"f4", "e5"}});
+    Solution b = play_regs(fen, {{"b1", "b4"}, {"h2", "g1"}, {"b4", "f4"}, {"c1", "c8"}});
+    REQUIRE(a.plies[0].captured == PieceType::Rook);
+    REQUIRE(b.plies[2].captured == PieceType::Bishop);
+    std::vector<Solution> both{a, b};
+    ThemeInput in{a.start, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, both};
+    REQUIRE(shows(detect(in), "zilahi"));
+
+    // Same bishop moves last in both lines: nothing is exchanged.
+    Solution b_bishop = play_regs(fen, {{"b1", "b4"}, {"h2", "g1"}, {"b4", "c4"}, {"f4", "e5"}});
+    std::vector<Solution> same{a, b_bishop};
+    ThemeInput same_in{a.start, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, same};
+    REQUIRE_FALSE(shows(detect(same_in), "zilahi"));
+
+    // The bishop is captured, but the last mover is the king, not the rook.
+    Solution b_king = play_regs(fen, {{"b1", "b4"}, {"h2", "g1"}, {"b4", "f4"}, {"g1", "h1"}});
+    std::vector<Solution> king{a, b_king};
+    ThemeInput king_in{a.start, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, king};
+    REQUIRE_FALSE(shows(detect(king_in), "zilahi"));
+
+    // One solution alone can never be a Zilahi.
+    std::vector<Solution> one{a};
+    ThemeInput one_in{a.start, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, one};
+    REQUIRE_FALSE(shows(detect(one_in), "zilahi"));
 }

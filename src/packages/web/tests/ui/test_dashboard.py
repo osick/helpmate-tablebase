@@ -418,6 +418,9 @@ def test_theme_picker_marks_themes_that_answer_on_saturated_positions(page, serv
     import urllib.request
     with urllib.request.urlopen(f"{server_mining}/v1/themes") as r:
         registry = json.load(r)["themes"]
+    # A parametric theme (promotions:<types>) is a text box under the picker,
+    # not an option in it, so it is not in the option map at all.
+    registry = [t for t in registry if not t.get("parameter")]
     non_solutions = {t["name"] for t in registry if t["needs"] != "solutions"}
     assert non_solutions, "fixture build must register at least one non-Solutions theme"
 
@@ -427,11 +430,15 @@ def test_theme_picker_marks_themes_that_answer_on_saturated_positions(page, serv
         "#mine-themes option",
         "els => els.map(e => ({value: e.value, title: e.title}))")
     by_value = {o["value"]: o["title"] for o in options}
+    # The marker is the exact phrase themeOptionTitle appends, not the bare
+    # word: a definition may itself mention saturated positions (zilahi's
+    # truncation caveat does) without being marked.
+    marker = "also answers on positions with saturated solution counts"
     for name in non_solutions:
-        assert "saturated" in by_value[name].lower()
+        assert marker in by_value[name]
     solutions_names = {t["name"] for t in registry if t["needs"] == "solutions"}
     for name in solutions_names:
-        assert "saturated" not in by_value[name].lower()
+        assert marker not in by_value[name]
 
 
 def test_selecting_two_themes_sends_both_not_just_the_last(page, server_mining):
@@ -449,6 +456,27 @@ def test_selecting_two_themes_sends_both_not_just_the_last(page, server_mining):
         page.click("#mine-form button[type=submit]")
     qs = parse_qs(urlparse(req_info.value.url).query)
     assert qs.get("theme") == ["model", "mirror"]
+
+
+def test_parametric_theme_input_sends_base_colon_value(page, server_mining):
+    # promotions:<types> is not an option in the picker -- an option cannot
+    # carry a value -- but its own text box under it. Typing a value must
+    # reach the server as theme=promotions:<value>, alongside any picked
+    # booleans, and an empty box must send nothing for it.
+    page.goto(f"{server_mining}/#panel=mine")
+    page.wait_for_selector("#mine-themes option")
+    page.wait_for_selector("#mine-theme-params input[name=theme-param-promotions]")
+    assert page.eval_on_selector_all("#mine-themes option", "els => els.map(e => e.value)").count(
+        "promotions:<types>") == 0
+    page.fill("#mine-form input[name=material]", "KQvk")
+    page.fill("#mine-form input[name=dtm]", "2")
+    page.select_option("#mine-themes", ["mirror"])
+    page.fill("#mine-theme-params input[name=theme-param-promotions]", "qrr")
+    with page.expect_request(lambda r: "/v1/mine" in r.url) as req_info:
+        page.click("#mine-form button[type=submit]")
+    qs = parse_qs(urlparse(req_info.value.url).query)
+    assert qs.get("theme") == ["mirror", "promotions:qrr"]
+    assert "theme-param-promotions" not in qs
 
 
 def test_explorer_shows_detected_themes(page, server):

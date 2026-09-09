@@ -14,26 +14,26 @@ of what a detector would need.
 
 | Group | What it needs | Themes |
 |---|---|---|
-| **DONE** | Already shipped | 16 |
+| **DONE** | Already shipped | 21 |
 | **A1** | Diagram only | 5 |
 | **A2** | Mating position only | 4 |
 | **A3** | The other side-to-move plane (set play) | 2 |
-| **A4** | Within one solution | 38 |
+| **A4** | Within one solution | 36 |
 | **A5** | Within one solution | 9 |
 | **A6** | Set operations the catalogue tiered as A | 2 |
 | **A7** | Not a theme | 1 |
-| **B1** | Across the solution set | 59 |
+| **B1** | Across the solution set | 58 |
 | **B2** | Set play compared against the solution | 3 |
 | **C1** | Extra probing | 20 |
 | **E1** | Twinning | 4 |
-| **D1** | Motif engine | 96 |
+| **D1** | Motif engine | 95 |
 | **X1** | Out of scope | 25 |
 | **ALIAS** | Aliases | 11 |
 | | **Total** | **295** |
 
-## DONE -- Already shipped  (16)
+## DONE -- Already shipped  (21)
 
-Sixteen of the glossary's names. Four more shipped detectors -- `pure`, `underpromotion`, `nocapture` and `nocheck` -- are **not** glossary entries, so they do not appear anywhere in this document; that is 20 detectors, 24 registry entries counting the colour variants.
+Twenty-one of the glossary's names. Five more shipped detectors -- `pure`, `underpromotion`, `nocapture`, `nocheck` and the parametric `promotions:<types>` -- are **not** glossary entries, so they do not appear anywhere in this document; that is 26 detectors, 30 registry entries counting the colour variants.
 
 | Theme | Tier | Note |
 |---|---|---|
@@ -41,7 +41,9 @@ Sixteen of the glossary's names. Four more shipped detectors -- `pure`, `underpr
 | Closed walk | A | implemented |
 | En passant | A | implemented; the format supports ep exactly |
 | Excelsior | A | implemented |
+| Allumwandlung | B | implemented as `allumwandlung`: set coverage across the solutions, either colour; the exact-multiset question is the parametric `promotions:<types>` |
 | Ideal mate | A | implemented |
+| Klasinc theme | D→A | implemented as `klasinc`; the catalogue tiered it D for "line geometry", but the definition used (a unit vacates a square, a line piece passes over it, the unit returns) is decidable from ply from/to squares alone |
 | Kniest theme | A | implemented |
 | Mirror mate | A | implemented |
 | Model mate | A | implemented |
@@ -52,7 +54,10 @@ Sixteen of the glossary's names. Four more shipped detectors -- `pure`, `underpr
 | Self-block | A | implemented |
 | Set play | A | implemented; needs: plane (answers on saturated positions without enumerating solutions) |
 | Switchback | A | implemented |
+| Umnov mate | A | implemented as `umnov-mate` |
+| Umnov move | A | implemented as `umnov` |
 | Zajic theme | A | implemented |
+| Zilahi | B | implemented as `zilahi`, the two-solution form; units identified by diagram square, the mover of the mating ply is the mating unit; cyclic and double Zilahi remain in B1 |
 
 ## A1 -- Diagram only -- no solutions needed  (5)
 
@@ -86,7 +91,7 @@ One O(1) table lookup. Cheap here precisely because both side-to-move planes are
 | Apparent mate | A | the other plane of the diagram mates in one |
 | Short set play | A | the other plane, at a shorter distance |
 
-## A4 -- Within one solution -- plies, captures, promotions  (38)
+## A4 -- Within one solution -- plies, captures, promotions  (36)
 
 Exactly the pattern of the eight ply-detectors already shipped. No new machinery of any kind.
 
@@ -125,8 +130,6 @@ Exactly the pattern of the eight ply-detectors already shipped. No new machinery
 | Slow Excelsior | A | excelsior that opens with a single step |
 | Square-clearance by capture | A | capture, vacate, enemy unit follows onto the square |
 | Super Durbar | A | both sides move only their kings |
-| Umnov mate | A | mate on the square a black unit just left |
-| Umnov move | A | any arrival on a just-vacated square |
 | Unblocking sacrifice | A | capture, vacate, enemy unit captures on the square |
 | White Kniest theme | A | capture on the square the white king later occupies |
 | White Zajic theme | A | from/to and captures beside the white king |
@@ -164,14 +167,13 @@ Kept so the arithmetic reconciles.
 |---|---|---|
 | Helpmate | A | the stipulation itself, not a theme |
 
-## B1 -- Across the solution set -- the tier-B unlock  (59)
+## B1 -- Across the solution set -- the tier-B unlock  (58)
 
 **All of these come from one change**: a detector signature over `std::vector<Solution>` instead of a single `Solution`. `solutions()` already returns the set. For a helpmate a "phase" is one optimal solution, which is what puts this whole tier within reach.
 
 | Theme | Tier | Note |
 |---|---|---|
 | Albino | B | union of one white pawn's four home-square moves across phases |
-| Allumwandlung | B | all four promotion types across the solution set | Y |
 | Anti-Albino | B | union of a white pawn's moves arriving on its fourth rank |
 | Anti-Loshinsky theme | B | collinearity plus from/to arithmetic across phases |
 | Anti-magnet | B | same, with the distance growing phase by phase |
@@ -228,7 +230,6 @@ Kept so the arithmetic reconciles.
 | String theme | B | move lengths growing along one line across phases |
 | White constant | B | white's move sequence held constant across phases |
 | Zalokotsky theme | B | three squares revisited in reverse order in another phase |
-| Zilahi | B | captured in one phase, mating in the other |
 
 ## B2 -- Set play compared against the solution  (3)
 
@@ -278,7 +279,7 @@ Needs a modified diagram -- often a table already generated, but it needs its ow
 | Striptease theme | E | successive twins made by removal |
 | Zagoruiko theme | E | three twins with changed mates; the solution-group variant is B |
 
-## D1 -- Motif engine -- blocked  (96)
+## D1 -- Motif engine -- blocked  (95)
 
 Needs line-piece geometry the project has no notion of: pins, half-pins, interference, batteries, critical squares, clearance, doubling, unpinning. One piece of machinery rather than 96 separate problems, but a large one, and none of it exists.
 
@@ -329,7 +330,6 @@ Needs line-piece geometry the project has no notion of: pins, half-pins, interfe
 | HOTF | D | needs motifs grouped into themes before pairs can be compared |
 | Indian | D | critical square and temporary shut-off |
 | Island theme | D | a square's guard lines closed from both ends |
-| Klasinc theme | D | vacation of a passage square, then return to it |
 | Kluver 10 theme | D | ambush and gate-opening |
 | Kubbel-Grimshaw | D | mutual interference |
 | Leibovici interference | D | Pelle move plus interference |

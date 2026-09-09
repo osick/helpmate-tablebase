@@ -98,6 +98,7 @@ void usage() {
                  "                 shows theme NAME (nocapture and nocheck: where EVERY\n"
                  "                 optimal solution does). Repeatable; every named theme must\n"
                  "                 be present, though not necessarily in the same solution.\n"
+                 "                 A parametric theme takes a value: --theme promotions:qrr\n"
                  "                 `helpmate themes` lists the names and their definitions.\n"
                  "  --themes       probe: also print the themes the position's solutions show\n"
                  "  --dry-run      compact: report what would be rewritten, write nothing\n"
@@ -540,9 +541,10 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
         }
     }
     for (const auto& n : theme_names) {
-        if (themes::find_theme(n)) continue;
-        std::cerr << "error: unknown theme \"" << n << "\"\nvalid themes:";
-        for (const auto& t : themes::theme_registry()) std::cerr << " " << t.name;
+        std::string err;
+        if (themes::resolve_theme(n, &err)) continue;
+        std::cerr << "error: " << err << "\nvalid themes:";
+        for (const auto& t : themes::theme_registry()) std::cerr << " " << themes::display_name(t);
         std::cerr << "\nrun: helpmate themes    (for what each one means)\n";
         return 3;
     }
@@ -827,23 +829,31 @@ int cmd_compact(const std::vector<std::string>& args, bool compress, bool dry, u
 // helpmate themes -- print the detector registry. The vocabulary has to be
 // discoverable without the docs, and each entry carries its own definition so
 // a disagreement about what a theme means is visible right here.
+// Wrap `text` at ~72 columns under a 4-space indent.
+void print_wrapped(const std::string& text) {
+    size_t pos = 0;
+    while (pos < text.size()) {
+        size_t take = std::min<size_t>(72, text.size() - pos);
+        if (pos + take < text.size()) {
+            size_t sp = text.rfind(' ', pos + take);
+            if (sp != std::string::npos && sp > pos) take = sp - pos;
+        }
+        std::cout << "    " << text.substr(pos, take) << "\n";
+        pos += take;
+        while (pos < text.size() && text[pos] == ' ') ++pos;
+    }
+}
+
 int cmd_themes() {
     for (const auto& t : themes::theme_registry()) {
-        std::cout << t.name << "\n";
+        std::cout << themes::display_name(t) << "\n";
         std::cout << "    needs: " << themes::needs_name(t.needs) << "\n";
-        // Wrap the doc at ~72 columns under a 4-space indent.
-        std::string doc(t.doc);
-        size_t pos = 0;
-        while (pos < doc.size()) {
-            size_t take = std::min<size_t>(72, doc.size() - pos);
-            if (pos + take < doc.size()) {
-                size_t sp = doc.rfind(' ', pos + take);
-                if (sp != std::string::npos && sp > pos) take = sp - pos;
-            }
-            std::cout << "    " << doc.substr(pos, take) << "\n";
-            pos += take;
-            while (pos < doc.size() && doc[pos] == ' ') ++pos;
-        }
+        print_wrapped(std::string(t.doc));
+        // A parametric theme says what goes after the colon, right here, so
+        // `--theme promotions:qrr` is discoverable without the docs.
+        if (t.param)
+            print_wrapped("parameter " + std::string(t.param->name) + " (e.g. " + std::string(t.name) + ":" +
+                          std::string(t.param->example) + "): " + std::string(t.param->doc));
     }
     return 0;
 }

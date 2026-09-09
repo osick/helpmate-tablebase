@@ -537,7 +537,9 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
   one optimal solution shows theme NAME; every named theme must be shown
   (by some solution, not necessarily the same one). The two set-wide themes,
   `nocapture` and `nocheck`, are the exception: they hold only when **every**
-  optimal solution qualifies. See [Themes](#themes)
+  optimal solution qualifies; `zilahi` and `allumwandlung` compare solutions
+  with each other. A parametric theme takes its value after a colon:
+  `--theme promotions:qrr`. See [Themes](#themes)
   below for the full semantics, the theme list, and the performance caveat —
   theme filters force solution enumeration and cost noticeably more than a
   plain `--dtm`/`--count`/`--starts`/`--ends` scan;
@@ -610,15 +612,19 @@ comparable with established practice. `helpmate themes` always prints the
 authoritative, in-build list below — read that if this table and the binary
 you're running ever disagree.
 
-Twenty-four registry entries cover twenty themes. Four themes exist in
+Thirty registry entries cover twenty-six themes. Four themes exist in
 both a broad and a colour-specific form (`excelsior`/`excelsior:white`/
 `excelsior:black`, `single-piece`/`single-piece:white`/`single-piece:black`)
 because a detector only ever answers yes/no — it cannot itself report *which*
 side showed the theme, so the colour-specific name is a separate registry
-entry rather than an extra output field. Two entries, `nocapture` and
-`nocheck`, are *set-wide*: they describe the whole solution set rather than
-one line in it, and so match only when every optimal solution qualifies —
-see [Match semantics](#match-semantics-any-within-a-theme-and-across-themes)
+entry rather than an extra output field. Four entries describe the whole
+solution set rather than one line in it: `nocapture` and `nocheck` match
+only when every optimal solution qualifies, `zilahi` and `allumwandlung`
+compare solutions with each other — see
+[Match semantics](#match-semantics-any-within-a-theme-and-across-themes)
+below. One entry, `promotions:<types>`, is **parametric**: it is asked with a
+value, `--theme promotions:qrr`, and `probe` prints one `promotions:<value>`
+per distinct answer — see [Parametric themes](#parametric-themes-a-name-with-a-value)
 below.
 
 Real output, `./build/helpmate themes` on this checkout:
@@ -724,6 +730,43 @@ nocheck
     move of each solution, the mate itself. Holds only when EVERY solution
     is check-free before its final move, unlike the themes above, which
     match when any one solution shows them.
+umnov
+    needs: solutions
+    Umnov: a unit moves onto the square the opponent's immediately preceding
+    move vacated.
+umnov-mate
+    needs: solutions
+    Umnov mate: the mating move lands on the square Black's last move
+    vacated.
+klasinc
+    needs: solutions
+    Klasinc: a unit leaves square a, a line piece (queen, rook or bishop,
+    either colour) later moves along a line that passes over a, and after
+    that the first unit returns to a.
+zilahi
+    needs: solutions
+    Zilahi: two solutions and two white units X and Y such that X gives mate
+    in one solution and is captured in the other, while Y gives mate in the
+    second and is captured in the first. Units are identified by their
+    diagram square; a promoted pawn keeps its identity; in a battery mate
+    the unit that moved is the mating unit. On a saturated position only the
+    first 100 solutions are compared.
+allumwandlung
+    needs: solutions
+    Allumwandlung (AUW): across the position's optimal solutions, pawns
+    promote to all four types -- queen, rook, bishop and knight -- either
+    colour, in any number of solutions. Set coverage: for an exact multiset
+    in one solution use promotions:<types>.
+promotions:<types>
+    needs: solutions
+    Promotions: one optimal solution's promotions are exactly these types
+    with multiplicity, either colour -- promotions:qrr is one queen and two
+    rooks, promotions:n a single knight underpromotion. Letters q r b n in
+    any order; matching is by multiset, not sequence. probe prints one
+    promotions:<types> entry per distinct multiset the solutions show.
+    parameter types (e.g. promotions:qrr): one letter per promotion, q r b n
+    in any order and case, up to eight; matched as a multiset, so qrr is one
+    queen and two rooks and rq is the same as qr
 ```
 
 ### `needs`: what a theme actually reads
@@ -899,6 +942,64 @@ and the mate is the capture `Qxb3#`. For the first position, nine solutions
 all had to be capture-free and check-free; for a set-wide theme one
 exception anywhere in the set would have removed the name.
 
+### `umnov`, `klasinc`, `promotions:<types>`: real examples
+
+Against the same freshly generated `KQvkr` table, plus a `KPvk` one for the
+promotion family:
+
+```
+$ helpmate probe "8/8/8/8/8/8/4r3/K1k2Q2 b - - 0 1" --themes --tables ~/tb
+dtm=4 (h#2) count=9
+themes: self-block single-piece single-piece:white single-piece:black nocapture nocheck umnov
+$ helpmate line "8/8/8/8/8/8/4r3/K1k2Q2 b - - 0 1" --tables ~/tb
+Re1 Qe2 Rd1 Qb2#
+```
+
+`umnov`: the black rook leaves e2 and the white queen lands on it at once.
+Not `umnov-mate` — the mate lands on b2, which nobody has just left. At
+`KQvkr --dtm 4` no enumerable position shows `umnov-mate` at all; at h#2
+Black's last move is a king move next to the mating square, not onto it.
+
+```
+$ helpmate probe "8/8/8/8/8/8/Q2r4/1K1k4 b - - 0 1" --themes --tables ~/tb
+dtm=4 (h#2) count=67
+themes: set-play switchback self-block single-piece single-piece:white single-piece:black nocapture klasinc
+```
+
+`klasinc`, from one of the 67 solutions (`helpmate.Tablebase.lines`):
+`Rd3 Qf2 Rd2 Qf1#` — the rook clears d2, the queen runs a2–f2 *over* d2,
+the rook returns to d2 (a switchback, hence that theme too), and the queen
+mates. The printed `line` picks another solution, `Ke1 Qc4 Kd1 Qf1#`, which
+is why `any` semantics matter here.
+
+```
+$ helpmate probe "8/P7/8/8/8/1k6/8/1K6 b - - 0 1" --themes --tables ~/tb
+dtm=4 (h#2) count=2
+themes: pure model ideal mirror promotion underpromotion single-piece single-piece:black nocapture nocheck promotions:r promotions:q
+$ helpmate line "8/P7/8/8/8/1k6/8/1K6 b - - 0 1" --tables ~/tb
+Ka3 Kc2 Ka2 a8=R#
+
+$ helpmate mine KPvk --dtm 4 --theme promotions:r --max 3 --tables ~/tb
+8/P7/8/8/8/1k6/8/1K6 b - - 0 1
+8/P7/8/8/k7/8/8/1K6 b - - 0 1
+8/P7/8/8/1k6/8/8/1K6 b - - 0 1
+```
+
+Two solutions, one promoting to a rook and one to a queen, so `probe`
+prints both values; `mine --theme promotions:r` and `--theme promotions:q`
+each accept the position. Measured at `KPvk --dtm 4`: 1194 positions, of
+which 1176 show `promotions:q`, 867 `promotions:r`, and 849 both; none
+shows `promotions:n` or `promotions:b`, and `allumwandlung` cannot occur in
+`KPvk` at all — a lone knight or bishop never mates a bare king, so no
+optimal line ever underpromotes to either.
+
+**`zilahi` has no real example in this pass.** It needs two white units
+that can each mate and each be captured, which is a five-piece class
+(`KRBvkn` or similar); no such table was to hand. The detector is verified
+on hand-played fixtures only (two lines from one diagram in which a rook
+and a bishop swap the mating and the captured role), and the first table
+that offers a genuine pair should be run before the theme is trusted.
+
 **`kniest`, `zajic` and `schnoebelen` have no verified real example in this
 pass.** All three need `solutions`, which forces full enumeration; several
 materials likely to contain them were tried (`KRvkq`, `KRvkr`, `KRvkb`,
@@ -942,6 +1043,44 @@ detect from the first 100 solutions only, and the usual truncation note
 applies — for these two themes it means "every one of the 100 examined",
 not "every solution".
 
+**Two themes compare solutions with each other: `zilahi` and
+`allumwandlung`.** Neither is a property of one line. `zilahi` needs two
+solutions in which the two white units swap roles (the one that mates here
+is captured there, and vice versa); `allumwandlung` needs the four promotion
+types to occur somewhere across the set, in any number of solutions and of
+either colour. A position with a single solution can be neither. Both are
+this project's reason for having exhaustive solution data: a single-problem
+analyser has to find every solution before it can ask either question. The
+same first-100 truncation applies on saturated positions, and `zilahi`'s
+definition says so.
+
+### Parametric themes: a name with a value
+
+`promotions:<types>` is the first theme that is a *family* of questions
+rather than one: `--theme promotions:qrr` asks for a solution whose
+promotions are exactly one queen and two rooks, `--theme promotions:n` for a
+lone knight underpromotion. The value is a multiset — `rq` and `qr` are the
+same question, `qrr` and `qr` are not — and the server canonicalises it
+(lower-case, sorted q r b n), which is also how `probe` prints it. The rules
+that make this safe, on every surface:
+
+- The bare name is an error that shows the form: `theme "promotions" needs a
+  value, e.g. promotions:qrr`.
+- A value the theme does not accept is an error naming the letters allowed.
+- The singular typo `promotion:qrr` is an error suggesting `promotions:qrr`,
+  never a silent match on the boolean `promotion` with the value discarded —
+  the `--end`/`--ends` lesson applied before it could recur.
+- Colour variants are unaffected: `excelsior:white` is still one full name.
+
+`probe --themes` reports the family as values, one entry per distinct
+multiset among the solutions (`promotions:r promotions:q` on a position
+whose two solutions promote differently), and nothing when nothing
+promotes. `GET /v1/themes` marks the entry with a `parameter` object
+(`{"name": "types", "doc": ..., "example": "qrr"}`; `null` on every boolean
+theme), which is how the dashboard knows to draw a text box rather than a
+checkbox for it. `allumwandlung` stays a separate boolean: it is set
+coverage across solutions, not an exact multiset in one.
+
 ### The three CLI surfaces
 
 ```
@@ -971,8 +1110,11 @@ discoverable without the docs, and never drifts from the binary.
   registry started carrying it.
 
 - `GET /v1/mine` gains a repeatable `theme=` query parameter (same `any`
-  within a theme, `AND` across themes semantics as the CLI). An unknown name
-  is a `400 invalid_theme` listing every valid name, never silently ignored:
+  within a theme, `AND` across themes semantics as the CLI; a parametric
+  theme is passed as `theme=promotions:qrr`). An unknown name, a bare
+  parametric name or a rejected value is a `400 invalid_theme` whose message
+  names the problem and whose hint lists every valid name, never silently
+  ignored:
 
   ```
   $ curl -sG http://127.0.0.1:8642/v1/mine --data-urlencode "material=KQvk" \
@@ -1078,7 +1220,7 @@ table cannot answer a walk of the *original* (unflipped) FEN. Flipping the
 position ourselves and detecting on *that* is not a fix: every detector is
 hard-coded to the black king, so the four colour-labelled themes
 (`single-piece:white`/`:black`, `excelsior:white`/`:black`) would come out
-swapped — a wrong answer dressed as a right one. The other twenty registry
+swapped — a wrong answer dressed as a right one. The other twenty-six registry
 entries, including `pure`/`model`/`ideal`/`mirror` and the two v0.9 line
 themes that reference the mated king (`kniest`, `zajic`), are in fact
 flip-invariant (they read from the black king's field the same way
@@ -1090,7 +1232,10 @@ references a specific colour at all — it reads the plane generically by
 each unit's own colour — so it carries no asymmetry to begin with;
 `phoenix`, `schnoebelen` and `pendulum` are likewise colour-generic in
 their source, as are `nocapture` and `nocheck`, which read only the
-`captured` and `is_check` flags of each ply. The CLI prints a note and exits 0; the API returns `"themes":
+`captured` and `is_check` flags of each ply, and `umnov`, `umnov-mate`,
+`klasinc`, `allumwandlung` and `promotions:<types>`, which read squares,
+types and promotion flags only. `zilahi` names White as the side whose
+units swap roles, which is the helpmate convention and colour-specific. The CLI prints a note and exits 0; the API returns `"themes":
 null` with a `themes_note` field explaining why, distinct from `[]` (no
 themes found).
 
@@ -1346,8 +1491,10 @@ Reference:
   what these mean). `themes`: a list of theme names, every one of which must
   be shown by at least one optimal solution (not necessarily the same one —
   see "Match semantics" under [Themes](#themes) above; `nocapture` and
-  `nocheck` instead require every optimal solution to qualify); an unknown
-  name raises `ValueError`.
+  `nocheck` instead require every optimal solution to qualify; a parametric
+  theme is written `"promotions:qrr"`); an unknown name, a bare parametric
+  name or a rejected value raises `ValueError` with the same message
+  `helpmate.check_theme(name)` returns (`None` when the name is acceptable).
 - `tb.mine_with_stats(material, dtm, count=-1, max=100, starts=-1, ends=-1,
   themes=[])` — like `tb.mine`, but returns `(fens, skipped_saturated)`: the
   FEN list plus how many matched-so-far positions were skipped because their
@@ -1779,8 +1926,9 @@ failing the listing (or `/v1/stats`, which walks the same catalog).
 
 ### `GET /v1/themes`
 
-The theme registry — name, definition, and `needs` for every one of the
-twenty-four entries in [Themes](#themes) above — served straight from the
+The theme registry — name, definition, `needs` and `parameter` (`null`, or
+`{name, doc, example}` for `promotions:<types>`) for every one of the thirty
+entries in [Themes](#themes) above — served straight from the
 C++ build so the dashboard's theme picker never hard-codes a list that can
 drift from the binary it's talking to:
 

@@ -157,3 +157,33 @@ def test_cli_and_api_agree_on_themes_above_100(kqvk_dir, client):
 
     assert "closed-walk" in cli_themes
     assert cli_themes == api_themes
+
+
+def test_themes_endpoint_reports_parameter_for_parametric_themes(client):
+    body = client.get("/v1/themes").json()
+    by_name = {t["name"]: t for t in body["themes"]}
+    assert "promotions:<types>" in by_name          # the display name carries the placeholder
+    prm = by_name["promotions:<types>"]["parameter"]
+    assert prm["name"] == "types" and prm["example"] == "qrr" and prm["doc"]
+    assert by_name["model"]["parameter"] is None    # every boolean theme says so explicitly
+    assert all("parameter" in t for t in body["themes"])
+
+
+def test_mine_accepts_a_parametric_theme_value(client_mining):
+    # KQvk has no pawn, so nothing matches -- but the name resolves and the
+    # scan runs, which is what a 200 with an empty list proves.
+    r = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 2, "max": 5,
+                                              "theme": ["promotions:q"]})
+    assert r.status_code == 200, r.json()
+    assert r.json()["fens"] == []
+
+
+def test_parametric_theme_errors_are_400_naming_the_problem(client_mining):
+    for name, needle in (("promotions:qx", "does not accept"),
+                         ("promotions", "needs a value"),
+                         ("promotion:q", "promotions:q")):   # the singular typo never silently matches
+        r = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 2, "theme": [name]})
+        assert r.status_code == 400, name
+        err = r.json()["error"]
+        assert err["code"] == "invalid_theme"
+        assert needle in err["message"], (name, err["message"])

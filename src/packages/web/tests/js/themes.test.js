@@ -5,6 +5,9 @@ import {
   themeSummary,
   answersOnSaturated,
   themeOptionTitle,
+  isParametric,
+  parametricBase,
+  themeQueryNames,
 } from "../../helpmate_web/static/js/lib/themes.js";
 
 test("selectedThemes reads the chosen options off a multi-select", () => {
@@ -42,4 +45,26 @@ test("themeOptionTitle appends the saturation note only for non-solutions themes
   const t = themeOptionTitle({ doc: "reads only the starting position.", needs: "position" });
   assert.equal(t, "reads only the starting position. (also answers on positions with "
                    + "saturated solution counts)");
+});
+
+// Parametric themes: driven by the server's `parameter` field, never by name.
+test("isParametric reads the parameter field, not the name", () => {
+  assert.equal(isParametric({ name: "promotions:<types>", parameter: { name: "types" } }), true);
+  assert.equal(isParametric({ name: "excelsior:white", parameter: null }), false);
+  assert.equal(isParametric({ name: "pure" }), false);
+  assert.equal(isParametric(null), false);
+});
+
+test("parametricBase strips the <placeholder> from a display name", () => {
+  assert.equal(parametricBase({ name: "promotions:<types>" }), "promotions");
+  assert.equal(parametricBase({ name: "pure" }), "pure");
+});
+
+test("themeQueryNames appends base:value for filled parametric inputs only", () => {
+  assert.deepEqual(themeQueryNames(["model", "mirror"], { promotions: " qrr " }),
+                   ["model", "mirror", "promotions:qrr"]);
+  assert.deepEqual(themeQueryNames(["model"], { promotions: "" }), ["model"]);
+  assert.deepEqual(themeQueryNames([], { promotions: "n" }), ["promotions:n"]);
+  assert.deepEqual(themeQueryNames([], {}), []);
+  assert.deepEqual(themeQueryNames(undefined, undefined), []);
 });
