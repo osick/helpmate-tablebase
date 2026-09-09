@@ -350,8 +350,9 @@ void Tablebase::mine(const Material& m, const MineFilter& f,
             if (want_plane) other = ValuePair{other_buf[c - chunk_base], 0};
             themes::ThemeInput in{b, v, other, sols};
             bool all_present = true;
-            for (auto d : dets) {  // AND across themes; `any` within one is now
-                if (!d(in)) {      // inside d itself (any_of<>)
+            for (auto d : dets) {  // AND across themes; `any` (or `every`, for
+                if (!d(in)) {      // nocapture/nocheck) within one is inside d
+                                   // itself: any_of<> / all_of<>
                     all_present = false;
                     break;
                 }

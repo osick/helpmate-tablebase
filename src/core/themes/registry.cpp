@@ -85,6 +85,22 @@ const std::vector<ThemeDef>& theme_registry() {
          "Pendulum: a unit oscillates between exactly two squares, returning at "
          "least twice.",
          Needs::Solutions},
+        // The two entries below use all_of<>, not any_of<>: they hold only
+        // when EVERY optimal solution qualifies. A negative theme ("no
+        // capture") with `any` semantics would match a position as soon as
+        // one of its solutions happened to be quiet, which is not what a
+        // composer means by a capture-free problem.
+        {"nocapture", &all_of<&is_capture_free>,
+         "No capture: no unit is captured in any optimal solution (en passant "
+         "included). Holds only when EVERY solution is capture-free, unlike the "
+         "themes above, which match when any one solution shows them.",
+         Needs::Solutions},
+        {"nocheck", &all_of<&is_check_free>,
+         "No check: no move gives check in any optimal solution except the last "
+         "move of each solution, the mate itself. Holds only when EVERY solution "
+         "is check-free before its final move, unlike the themes above, which "
+         "match when any one solution shows them.",
+         Needs::Solutions},
     };
     return kRegistry;
 }

@@ -33,7 +33,7 @@ of what a detector would need.
 
 ## DONE -- Already shipped  (16)
 
-Sixteen of the glossary's names. Two more shipped detectors -- `pure` and `underpromotion` -- are **not** glossary entries, so they do not appear anywhere in this document; that is 18 detectors, 22 registry entries counting the colour variants.
+Sixteen of the glossary's names. Four more shipped detectors -- `pure`, `underpromotion`, `nocapture` and `nocheck` -- are **not** glossary entries, so they do not appear anywhere in this document; that is 20 detectors, 24 registry entries counting the colour variants.
 
 | Theme | Tier | Note |
 |---|---|---|

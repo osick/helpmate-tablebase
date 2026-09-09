@@ -52,12 +52,27 @@ struct ThemeDef {
 };
 
 // Adapts a per-solution detector to the registry signature, supplying the
-// `any` the query surface uses. This is the ONLY place `any` is expressed.
+// `any` the query surface uses for a positive theme ("some solution shows a
+// switchback"). This is the ONLY place `any` is expressed.
 template <bool (*F)(const Solution&)>
 bool any_of(const ThemeInput& in) {
     for (const auto& s : in.solutions)
         if (F(s)) return true;
     return false;
+}
+
+// The `every` counterpart, for a theme that is a property of the whole
+// solution set: "no solution captures" is false as soon as ONE solution
+// does, so `any` would be the wrong adapter for it. An EMPTY set shows
+// nothing -- a position whose solutions could not be enumerated must not
+// vacuously match `nocapture`, the same way it does not match anything
+// else. This is the ONLY place `every` is expressed.
+template <bool (*F)(const Solution&)>
+bool all_of(const ThemeInput& in) {
+    if (in.solutions.empty()) return false;
+    for (const auto& s : in.solutions)
+        if (!F(s)) return false;
+    return true;
 }
 
 // Every detector this build knows, in display order. CLI, API and dashboard

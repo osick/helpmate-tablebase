@@ -13,8 +13,8 @@ import { whenPanelShown } from "./panels.js";
 // Fixed groups, each introduced by a sentence before its members. Read off
 // every theme's own `doc` string in the live registry (src/core/themes/
 // registry.cpp) rather than assumed from memory -- the first version of
-// this table named 11 of the build's 22 registered motifs and left the
-// other 11 to fall into "other" wholesale. All 22 group cleanly into the
+// this table named 11 of the build's then 22 registered motifs and left the
+// other 11 to fall into "other" wholesale. All 24 group cleanly into the
 // five below; nothing should land in "other" on a build that still matches
 // this registry.
 //
@@ -52,8 +52,10 @@ const GROUPS = [
   {
     title: "The structure of the solution",
     intro: "What shape the position or its solution set has, independent "
-         + "of the mate picture or the moves that reach it.",
-    members: ["set-play", "single-piece"],
+         + "of the mate picture or the moves that reach it. nocapture and "
+         + "nocheck are set-wide: they hold only when EVERY solution "
+         + "qualifies, where the other motifs need just one.",
+    members: ["set-play", "single-piece", "nocapture", "nocheck"],
   },
 ];
 

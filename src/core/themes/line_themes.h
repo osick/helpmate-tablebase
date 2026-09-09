@@ -68,4 +68,17 @@ bool has_schnoebelen(const Solution& s);
 // are reported.
 bool has_pendulum(const Solution& s);
 
+// No ply captures anything (en-passant captures included). A solution with
+// no plies at all -- the queried position was already mate -- shows neither
+// of these two, like every other line theme; see the registry entries for
+// how they combine across a position's solution SET (every solution, not
+// any).
+bool is_capture_free(const Solution& s);
+
+// No ply before the last one gives check. The final ply is exempt: in a
+// helpmate it is the mating move, which is always a check, so a rule that
+// counted it would never match. Whether the final ply actually checks is not
+// examined at all -- the theme is about the play BEFORE the mate.
+bool is_check_free(const Solution& s);
+
 }  // namespace hm::themes

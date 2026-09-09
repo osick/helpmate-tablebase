@@ -387,7 +387,7 @@ transparently flips colors and annotates the output
 ```
 $ helpmate probe "8/7k/5K2/8/8/8/8/6Q1 b - - 0 1" --tables tt --themes
 dtm=2 (h#1) count=4
-themes: pure model ideal mirror single-piece single-piece:white single-piece:black
+themes: set-play pure model ideal mirror single-piece single-piece:white single-piece:black nocapture nocheck
 ```
 
   A position with no themes prints `themes: (none)`. A color-flipped probe
@@ -535,7 +535,9 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
   deliver mate, ignoring how each one got there;
 - `--theme NAME` (optional, repeatable): additionally require that at least
   one optimal solution shows theme NAME; every named theme must be shown
-  (by some solution, not necessarily the same one). See [Themes](#themes)
+  (by some solution, not necessarily the same one). The two set-wide themes,
+  `nocapture` and `nocheck`, are the exception: they hold only when **every**
+  optimal solution qualifies. See [Themes](#themes)
   below for the full semantics, the theme list, and the performance caveat —
   theme filters force solution enumeration and cost noticeably more than a
   plain `--dtm`/`--count`/`--starts`/`--ends` scan;
@@ -608,12 +610,16 @@ comparable with established practice. `helpmate themes` always prints the
 authoritative, in-build list below — read that if this table and the binary
 you're running ever disagree.
 
-Twenty-two registry entries cover eighteen themes. Four themes exist in
+Twenty-four registry entries cover twenty themes. Four themes exist in
 both a broad and a colour-specific form (`excelsior`/`excelsior:white`/
 `excelsior:black`, `single-piece`/`single-piece:white`/`single-piece:black`)
 because a detector only ever answers yes/no — it cannot itself report *which*
 side showed the theme, so the colour-specific name is a separate registry
-entry rather than an extra output field.
+entry rather than an extra output field. Two entries, `nocapture` and
+`nocheck`, are *set-wide*: they describe the whole solution set rather than
+one line in it, and so match only when every optimal solution qualifies —
+see [Match semantics](#match-semantics-any-within-a-theme-and-across-themes)
+below.
 
 Real output, `./build/helpmate themes` on this checkout:
 
@@ -707,6 +713,17 @@ pendulum
     needs: solutions
     Pendulum: a unit oscillates between exactly two squares, returning at
     least twice.
+nocapture
+    needs: solutions
+    No capture: no unit is captured in any optimal solution (en passant
+    included). Holds only when EVERY solution is capture-free, unlike the
+    themes above, which match when any one solution shows them.
+nocheck
+    needs: solutions
+    No check: no move gives check in any optimal solution except the last
+    move of each solution, the mate itself. Holds only when EVERY solution
+    is check-free before its final move, unlike the themes above, which
+    match when any one solution shows them.
 ```
 
 ### `needs`: what a theme actually reads
@@ -721,7 +738,8 @@ order of what a query has to do to answer it:
 | `solutions` | The full set of optimal solutions, which must be enumerated. | This is the pre-v0.9 behaviour: enumeration is forced, and a saturated position can never be answered because its exact solution set is unknowable. |
 
 Currently `set-play` is the only `plane` theme; every other theme needs
-`solutions`. No theme in the registry currently needs only `position`: the
+`solutions` — including `nocapture` and `nocheck`, which must see the whole
+solution set to say that *every* line qualifies. No theme in the registry currently needs only `position`: the
 one candidate, `homebase`, was added and then removed during this same
 release, because it is not invariant under the tablebase index's symmetry
 group (see the CHANGELOG's "Fixed (branch review)" entry for the full
@@ -774,7 +792,7 @@ Both directions, worked:
 ```
 $ helpmate probe "8/8/8/8/8/8/8/k1KQ4 b - - 0 1" --themes --tables ~/tb
 dtm=2 (h#1) count=1
-themes: set-play pure model ideal mirror single-piece single-piece:white single-piece:black
+themes: set-play pure model ideal mirror single-piece single-piece:white single-piece:black nocapture nocheck
 $ helpmate probe "8/8/8/8/8/8/8/k1KQ4 w - - 0 1" --tables ~/tb
 dtm=1 (h#0.5) count=1
 ```
@@ -813,16 +831,73 @@ note: skipped 4 position(s) whose solution count is saturated (255+): their solu
 $ helpmate probe "k7/7n/1K6/8/8/8/1p6/7R w - - 0 1" --themes --tables ~/tb
 dtm=3 (h#1.5) count=27
 themes: set-play pure model mirror promotion underpromotion single-piece single-piece:white single-piece:black phoenix
+```
 
+(That KRvknp output was captured before `nocapture` and `nocheck` existed
+and has not been re-run — the table was not to hand. `nocapture` cannot
+appear on it, because `phoenix` requires a capture; whether `nocheck` does
+is not known.)
+
+```
 $ helpmate probe "4k3/8/8/8/8/8/8/3QK3 b - - 0 1" --themes --tables ~/tb
 dtm=8 (h#4) count=78
-themes: pure model ideal mirror single-piece single-piece:black
+themes: pure model ideal mirror single-piece single-piece:black nocapture
 ```
 
 (This last position is itself a small illustration of the v0.9.1 fix above:
 its sibling is at dtm=9 — D + 1, not D − 1 — so as of v0.9.1 `set-play` no
 longer appears in its theme list, where it incorrectly did under v0.9.0's
 "solvable, full stop" definition.)
+
+### `nocapture` and `nocheck`: real examples
+
+Both are `every`-solution themes (see [Match
+semantics](#match-semantics-any-within-a-theme-and-across-themes) below), and
+that shows in the numbers. Measured against freshly generated `KQvk` and
+`KQvkr` tables:
+
+| Query | Matches | of which enumerable | `nocapture` | `nocheck` | both |
+|---|---|---|---|---|---|
+| `KQvk --dtm 8` | 9197 | 3924 (5273 saturated, skipped) | 3924 | 819 | 819 |
+| `KQvkr --dtm 4` | 357,472 | 346,094 (11,378 saturated, skipped) | 267,132 | 178,467 | — |
+
+In `KQvk` every enumerable position is `nocapture`, and necessarily so: Black
+has nothing but a king, and a king that takes the queen has ended the mate,
+so no optimal line can capture. That makes `KQvk` useless as a test of the
+theme and `KQvkr` the honest one — a black rook is exactly the unit an
+optimal line may sacrifice. `nocheck` is the rarer property in both classes:
+at `KQvk --dtm 8` fewer than a quarter of the enumerable positions get to the
+mate without an intermediate check.
+
+Three `KQvkr` h#2 positions, one per case:
+
+```
+$ helpmate probe "8/8/8/8/8/8/8/K1kr1Q2 b - - 0 1" --themes --tables ~/tb
+dtm=4 (h#2) count=9
+themes: set-play switchback self-block single-piece single-piece:white single-piece:black nocapture nocheck
+$ helpmate line "8/8/8/8/8/8/8/K1kr1Q2 b - - 0 1" --tables ~/tb
+Re1 Qe2 Rd1 Qb2#
+...
+
+$ helpmate probe "8/8/8/8/8/8/2r5/KQk5 b - - 0 1" --themes --tables ~/tb
+dtm=4 (h#2) count=1
+themes: switchback single-piece single-piece:white single-piece:black nocapture
+$ helpmate line "8/8/8/8/8/8/2r5/KQk5 b - - 0 1" --tables ~/tb
+Kd2 Qb4+ Kc1 Qe1#
+
+$ helpmate probe "8/8/8/8/8/k3Q3/3r4/1K6 b - - 0 1" --themes --tables ~/tb
+dtm=4 (h#2) count=1
+themes: single-piece single-piece:black nocheck
+$ helpmate line "8/8/8/8/8/k3Q3/3r4/1K6 b - - 0 1" --tables ~/tb
+Rd3 Kc2 Rb3 Qxb3#
+```
+
+The first shows both: all nine solutions are quiet until the mate. The
+second is `nocapture` but not `nocheck` — its one solution passes through
+`Qb4+`. The third is `nocheck` but not `nocapture` — the rook is sacrificed
+and the mate is the capture `Qxb3#`. For the first position, nine solutions
+all had to be capture-free and check-free; for a set-wide theme one
+exception anywhere in the set would have removed the name.
 
 **`kniest`, `zajic` and `schnoebelen` have no verified real example in this
 pass.** All three need `solutions`, which forces full enumeration; several
@@ -849,6 +924,23 @@ position with two solutions, one a model mate and the other showing
 self-block, matches `--theme model --theme self-block` even though no single
 solution shows both. A same-solution ("this one line shows both") variant is
 not offered in v0.8.
+
+**Two themes are `every`, not `any`: `nocapture` and `nocheck`.** They are
+properties of the whole solution set — "no unit is captured in any solution",
+"no move gives check in any solution except the mating move" — so a position
+matches only when **every** optimal solution qualifies, and one capturing (or
+checking) line is enough to break it. `any` would make a negative theme
+nearly meaningless: a position with ten solutions, nine of them capturing,
+would count as capture-free because the tenth happened to be quiet. An empty
+solution set shows neither (nothing is vacuously capture-free), and a
+position that is already mate (dtm 0, no moves at all) shows neither either,
+in line with every other line theme. The `AND`-across-themes rule is
+unchanged: `--theme nocapture --theme model` needs every solution to be
+capture-free *and* at least one to end in a model mate. On a saturated
+position (255+ solutions) `probe --themes` and `/v1/probe?themes=true`
+detect from the first 100 solutions only, and the usual truncation note
+applies — for these two themes it means "every one of the 100 examined",
+not "every solution".
 
 ### The three CLI surfaces
 
@@ -901,7 +993,7 @@ discoverable without the docs, and never drifts from the binary.
   $ curl -sG http://127.0.0.1:8642/v1/probe --data-urlencode "fen=8/7k/5K2/8/8/8/8/6Q1 b - - 0 1" \
       --data-urlencode "themes=true"
   {"dtm":2,"count":4,"flipped":false,"notation":"h#1",
-   "themes":["pure","model","ideal","mirror","single-piece","single-piece:white","single-piece:black"]}
+   "themes":["set-play","pure","model","ideal","mirror","single-piece","single-piece:white","single-piece:black","nocapture","nocheck"]}
   ```
 
   For a color-flipped probe, `themes` is `null` (not an empty array — that
@@ -919,7 +1011,7 @@ discoverable without the docs, and never drifts from the binary.
   ```
   $ curl -sG http://127.0.0.1:8642/v1/probe --data-urlencode "fen=8/8/8/8/8/8/8/K1k2Q2 b - - 0 1" \
       --data-urlencode "themes=true"
-  {"dtm":8,"count":255,"flipped":false,"notation":"h#4","themes":["pure","model","ideal","mirror","switchback","closed-walk","single-piece","single-piece:black"],"themes_note":"this position's solution count is saturated (255+); themes were detected from the first 100 solutions only, and the list may differ between mirror-image representatives of the same position."}
+  {"dtm":8,"count":255,"flipped":false,"notation":"h#4","themes":["pure","model","ideal","mirror","switchback","closed-walk","single-piece","single-piece:black","nocapture"],"themes_note":"this position's solution count is saturated (255+); themes were detected from the first 100 solutions only, and the list may differ between mirror-image representatives of the same position."}
   ```
 
   The Python binding makes the same disclosure with a `RuntimeWarning`
@@ -986,7 +1078,7 @@ table cannot answer a walk of the *original* (unflipped) FEN. Flipping the
 position ourselves and detecting on *that* is not a fix: every detector is
 hard-coded to the black king, so the four colour-labelled themes
 (`single-piece:white`/`:black`, `excelsior:white`/`:black`) would come out
-swapped — a wrong answer dressed as a right one. The other eighteen registry
+swapped — a wrong answer dressed as a right one. The other twenty registry
 entries, including `pure`/`model`/`ideal`/`mirror` and the two v0.9 line
 themes that reference the mated king (`kniest`, `zajic`), are in fact
 flip-invariant (they read from the black king's field the same way
@@ -997,7 +1089,8 @@ is withheld rather than risk the four that aren't. `set-play` never
 references a specific colour at all — it reads the plane generically by
 each unit's own colour — so it carries no asymmetry to begin with;
 `phoenix`, `schnoebelen` and `pendulum` are likewise colour-generic in
-their source. The CLI prints a note and exits 0; the API returns `"themes":
+their source, as are `nocapture` and `nocheck`, which read only the
+`captured` and `is_check` flags of each ply. The CLI prints a note and exits 0; the API returns `"themes":
 null` with a `themes_note` field explaining why, distinct from `[]` (no
 themes found).
 
@@ -1252,8 +1345,9 @@ Reference:
   see the CLI [`mine`](#mine--scan-for-composition-candidates) section for
   what these mean). `themes`: a list of theme names, every one of which must
   be shown by at least one optimal solution (not necessarily the same one —
-  see "Match semantics" under [Themes](#themes) above); an unknown name
-  raises `ValueError`.
+  see "Match semantics" under [Themes](#themes) above; `nocapture` and
+  `nocheck` instead require every optimal solution to qualify); an unknown
+  name raises `ValueError`.
 - `tb.mine_with_stats(material, dtm, count=-1, max=100, starts=-1, ends=-1,
   themes=[])` — like `tb.mine`, but returns `(fens, skipped_saturated)`: the
   FEN list plus how many matched-so-far positions were skipped because their
@@ -1686,7 +1780,7 @@ failing the listing (or `/v1/stats`, which walks the same catalog).
 ### `GET /v1/themes`
 
 The theme registry — name, definition, and `needs` for every one of the
-twenty-two entries in [Themes](#themes) above — served straight from the
+twenty-four entries in [Themes](#themes) above — served straight from the
 C++ build so the dashboard's theme picker never hard-codes a list that can
 drift from the binary it's talking to:
 

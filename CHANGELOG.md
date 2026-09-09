@@ -9,6 +9,24 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Added
+- **Two set-wide themes, `nocapture` and `nocheck`; registry 22 → 24
+  entries.** `nocapture` — no unit is captured in any optimal solution (en
+  passant included); `nocheck` — no move gives check in any optimal solution
+  except the last move of each solution, the mate itself. Both need
+  `solutions`. Unlike every other solution theme, which matches when *any*
+  one solution shows it, these two hold only when **every** optimal solution
+  qualifies: one capturing (or checking) line is enough to break them. That
+  is a new adapter in the registry, `all_of<>`, next to the existing
+  `any_of<>`; the AND-across-themes rule and the three surfaces are
+  unchanged, and `helpmate themes`, `GET /v1/themes`, `helpmate.themes()`
+  and the dashboard's Themes screen all pick the two up from the registry
+  (the Themes screen lists them under "The structure of the solution"). An
+  empty solution set shows neither, so a position whose solutions could not
+  be enumerated never reads as capture-free by vacuity; on a saturated
+  position the existing first-100-solutions truncation note applies to
+  them too. `mine --theme`, the `--theme` help text, `docs/USAGE.md`'s
+  match-semantics section and the Python API docs say which themes are
+  `every` and which are `any`.
 - **A static showcase site**, `site/`, published to GitHub Pages at
   https://osick.github.io/helpmate-tablebase/ by `.github/workflows/pages.yml`.
   Four screens: the front page with the corpus numbers and the deepest sound

@@ -458,15 +458,18 @@ def test_explorer_shows_detected_themes(page, server):
     text = page.inner_text("#position-themes")
     # Measured against a freshly generated KQvk table (GET
     # /v1/probe?themes=true, re-checked 2026-08-09 after the round-2 themes
-    # landed): {"themes": ["set-play", "pure", "model", "ideal", "mirror",
-    # "single-piece", "single-piece:white", "single-piece:black"]}. set-play
-    # (Needs::Plane, sorts first in registry order) legitimately fires here:
-    # the same position with the other side to move is solvable. Assert the
-    # actual rendered content, not just that something is there -- a smoke
-    # check here would pass with the themes_note/themeSummary priority
-    # reversed, or with an entirely wrong theme list.
+    # landed, and again when nocapture/nocheck were added): {"themes":
+    # ["set-play", "pure", "model", "ideal", "mirror", "single-piece",
+    # "single-piece:white", "single-piece:black", "nocapture", "nocheck"]}.
+    # set-play (Needs::Plane, sorts first in registry order) legitimately
+    # fires here: the same position with the other side to move is solvable.
+    # nocapture/nocheck fire because the one solution, 1...Kh8 2.Qg7#, takes
+    # nothing and checks only with the mate. Assert the actual rendered
+    # content, not just that something is there -- a smoke check here would
+    # pass with the themes_note/themeSummary priority reversed, or with an
+    # entirely wrong theme list.
     assert text == ("set-play · pure · model · ideal · mirror · single-piece · "
-                     "single-piece:white · single-piece:black")
+                     "single-piece:white · single-piece:black · nocapture · nocheck")
 
 
 def test_explorer_shows_the_flip_note_not_no_themes_detected(page, server):

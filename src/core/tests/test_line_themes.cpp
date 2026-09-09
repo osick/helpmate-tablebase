@@ -863,4 +863,65 @@ TEST_CASE("an empty solution shows no line theme", "[themes][line]") {
     REQUIRE_FALSE(is_single_piece(s));  // no side moved at all
     REQUIRE_FALSE(has_schnoebelen(s));  // no plies at all, so certainly no promotion on one
     REQUIRE_FALSE(has_pendulum(s));     // no plies at all, so certainly no unit trajectory
+    REQUIRE_FALSE(is_capture_free(s));  // nothing was played, so nothing is shown
+    REQUIRE_FALSE(is_check_free(s));    // same: a vacuous "no check" is not a theme
+}
+
+TEST_CASE("nocapture: a solution in which nothing is taken", "[themes][line]") {
+    // The golden KQvk h#1: 1...Kh8 2.Qg7#. Quiet throughout.
+    auto s = play("8/7k/5K2/8/8/8/8/6Q1 b - - 0 1", {{"h7", "h8", {}}, {"g1", "g7", {}}});
+    REQUIRE(s.plies.back().after.state() == PosState::Checkmate);
+    REQUIRE(is_capture_free(s));
+}
+
+TEST_CASE("nocapture: any capture anywhere in the line breaks it", "[themes][line]") {
+    // Rd1xd5 in the middle of the line, then a recapture.
+    auto s =
+        play("3r3k/8/3p4/8/8/8/8/K2R4 b - - 0 1", {{"d6", "d5", {}}, {"d1", "d5", {}}, {"d8", "d5", {}}});
+    REQUIRE(s.plies[1].captured == PieceType::Pawn);
+    REQUIRE_FALSE(is_capture_free(s));
+    // A capture on the LAST ply counts too: the mating move is not exempt for
+    // nocapture, only for nocheck.
+    auto last = play("3r3k/8/3p4/8/8/8/8/K2R4 b - - 0 1", {{"d6", "d5", {}}, {"d1", "d5", {}}});
+    REQUIRE(last.plies.back().captured == PieceType::Pawn);
+    REQUIRE_FALSE(is_capture_free(last));
+}
+
+TEST_CASE("nocapture: an en-passant capture is a capture", "[themes][line]") {
+    // Same fixture as the en-passant theme: black g7-g5, white f5xg6 ep.
+    auto s = play("k7/6p1/8/5P2/8/8/8/K7 b - - 0 1", {{"g7", "g5", {}}, {"f5", "g6", {}}});
+    REQUIRE(s.plies.back().is_ep);
+    REQUIRE_FALSE(is_capture_free(s));
+}
+
+TEST_CASE("nocheck: only the final move may give check", "[themes][line]") {
+    // 1...Kh8 2.Qg7#: the mate is a check, and nothing before it is.
+    auto s = play("8/7k/5K2/8/8/8/8/6Q1 b - - 0 1", {{"h7", "h8", {}}, {"g1", "g7", {}}});
+    REQUIRE(s.plies.back().is_check);
+    REQUIRE_FALSE(s.plies.front().is_check);
+    REQUIRE(is_check_free(s));
+}
+
+TEST_CASE("nocheck: a check before the last move breaks it", "[themes][line]") {
+    // Black Ka8, white Ke2 + Qh1: 1.Qa1+ is a check on the very first ply.
+    auto s = play("k7/8/8/8/8/8/4K3/7Q w - - 0 1", {{"h1", "a1", {}}, {"a8", "b8", {}}, {"a1", "b1", {}}});
+    REQUIRE(s.plies[0].is_check);
+    REQUIRE_FALSE(is_check_free(s));
+    // The same shape with the check moved to the end: a quiet start, then
+    // the check as the LAST ply, is allowed. (Qh3, not Qh2: Qh2 would guard
+    // b8 and make Kb8 illegal.)
+    auto tail = play("k7/8/8/8/8/8/4K3/7Q w - - 0 1", {{"h1", "h3", {}}, {"a8", "b8", {}}, {"h3", "b3", {}}});
+    REQUIRE(tail.plies.back().is_check);
+    REQUIRE_FALSE(tail.plies[0].is_check);
+    REQUIRE_FALSE(tail.plies[1].is_check);
+    REQUIRE(is_check_free(tail));
+}
+
+TEST_CASE("nocheck: a black check before the mate breaks it too", "[themes][line]") {
+    // Black Ra8 + Kh8, white Kb1 + Qg2: 1...Ra1+ is a black check on the
+    // first ply, answered by 2.Kxa1.
+    auto s = play("r6k/8/8/8/8/8/6Q1/1K6 b - - 0 1", {{"a8", "a1", {}}, {"b1", "a1", {}}});
+    REQUIRE(s.plies[0].is_check);
+    REQUIRE(s.plies[0].piece.color == Color::Black);
+    REQUIRE_FALSE(is_check_free(s));
 }

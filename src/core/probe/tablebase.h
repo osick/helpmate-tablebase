@@ -39,7 +39,10 @@ struct MineFilter {
     int ends   = -1;   // optional, exact: distinct final (mating) moves
     // Theme names, validated against themes::theme_registry(). A position
     // matches when EVERY listed theme is shown by AT LEAST ONE of its optimal
-    // solutions -- `any` within a theme, AND across themes. An unregistered
+    // solutions -- `any` within a theme, AND across themes. The two set-wide
+    // themes (nocapture, nocheck) are the exception: each holds only when
+    // EVERY solution qualifies, which the registry expresses through
+    // all_of<> rather than any_of<>, so this loop need not know. An unregistered
     // name throws std::invalid_argument rather than being silently dropped.
     std::vector<std::string> themes;
 };

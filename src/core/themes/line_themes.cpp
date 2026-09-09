@@ -218,4 +218,20 @@ bool has_pendulum(const Solution& s) {
     return false;
 }
 
+bool is_capture_free(const Solution& s) {
+    if (s.plies.empty()) return false;  // nothing was played, so nothing is shown
+    for (const auto& p : s.plies)
+        if (p.captured) return false;  // `captured` is set for en-passant too
+    return true;
+}
+
+bool is_check_free(const Solution& s) {
+    if (s.plies.empty()) return false;  // nothing was played, so nothing is shown
+    // `is_check` on ply i means the side to move AFTER ply i is in check --
+    // i.e. ply i gave check. The last ply is the mate and is skipped.
+    for (size_t i = 0; i + 1 < s.plies.size(); ++i)
+        if (s.plies[i].is_check) return false;
+    return true;
+}
+
 }  // namespace hm::themes
