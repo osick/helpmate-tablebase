@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
-## [Unreleased]
+## [0.17.0] - 2026-09-09
 
 ### Added
 - **Six new themes and the first parametric theme; registry 24 → 30
