@@ -6,9 +6,54 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
-## [Unreleased]
+## [0.17.0] - 2026-09-09
 
 ### Added
+- **Six new themes and the first parametric theme; registry 24 → 30
+  entries.** `umnov` (a unit moves onto the square the opponent's previous
+  move vacated) and `umnov-mate` (the mating move does it); `klasinc` (a unit
+  leaves a square, a line piece of either colour passes over it, the unit
+  returns — the catalogue had tiered Klasinc D as "line geometry", but with
+  this definition it is ply geometry alone); `zilahi` (two solutions in
+  which two white units swap the mating and the captured role, units
+  identified by diagram square via the new `themes/identity.h` helper);
+  `allumwandlung` (the four promotion types occur across the solution set,
+  the coverage reading the 2026-08-08 design fixed); and
+  `promotions:<types>`, asked with a value — `--theme promotions:qrr` needs
+  at least one queen and two rook promotions among the promotions of all
+  optimal solutions taken together (q and r in one solution and r in
+  another, or all three in one), further promotions allowed; a multiset the
+  server canonicalises. `probe --themes` prints the position's combined
+  multiset as one `promotions:<value>`. The parametric mechanism is one
+  registry descriptor (`ThemeParam`) plus `resolve_theme`, which every
+  surface now uses: the CLI (`helpmate themes` prints a `parameter` line;
+  `--theme promotions` alone, `promotions:qx`, and the singular typo
+  `promotion:qrr` are all errors naming the fix, the last never falling
+  through to the boolean `promotion`), the Python binding (`themes()`
+  entries carry `parameter`, new `check_theme(name)`), `/v1/themes` and
+  `/v1/mine` (400 `invalid_theme` with the resolver's message), and the
+  dashboard (a text box under the theme picker, sent as
+  `theme=promotions:<value>`; the Themes screen shows the parameter).
+  `zilahi` refuses a set of one; `allumwandlung` is the same question as
+  `promotions:qrbn`; `umnov-mate` needs the dtm-0 guard.
+- **Two set-wide themes, `nocapture` and `nocheck`; registry 22 → 24
+  entries.** `nocapture` — no unit is captured in any optimal solution (en
+  passant included); `nocheck` — no move gives check in any optimal solution
+  except the last move of each solution, the mate itself. Both need
+  `solutions`. Unlike every other solution theme, which matches when *any*
+  one solution shows it, these two hold only when **every** optimal solution
+  qualifies: one capturing (or checking) line is enough to break them. That
+  is a new adapter in the registry, `all_of<>`, next to the existing
+  `any_of<>`; the AND-across-themes rule and the three surfaces are
+  unchanged, and `helpmate themes`, `GET /v1/themes`, `helpmate.themes()`
+  and the dashboard's Themes screen all pick the two up from the registry
+  (the Themes screen lists them under "The structure of the solution"). An
+  empty solution set shows neither, so a position whose solutions could not
+  be enumerated never reads as capture-free by vacuity; on a saturated
+  position the existing first-100-solutions truncation note applies to
+  them too. `mine --theme`, the `--theme` help text, `docs/USAGE.md`'s
+  match-semantics section and the Python API docs say which themes are
+  `every` and which are `any`.
 - **A static showcase site**, `site/`, published to GitHub Pages at
   https://osick.github.io/helpmate-tablebase/ by `.github/workflows/pages.yml`.
   Four screens: the front page with the corpus numbers and the deepest sound

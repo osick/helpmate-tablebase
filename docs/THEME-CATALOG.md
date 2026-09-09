@@ -60,10 +60,10 @@ target and marked "alias of X" in the note.
 
 | Tier | Themes | Share |
 |---|---|---|
-| A — computable now | 78 | 26% |
+| A — computable now | 79 | 27% |
 | B — cross-solution | 64 | 22% |
 | C — extra probing | 21 | 7% |
-| D — motif engine | 103 | 35% |
+| D — motif engine | 102 | 35% |
 | E — twinning | 4 | 1% |
 | X — out of scope | 25 | 8% |
 | **Total** | **295** | |
@@ -86,7 +86,7 @@ paraphrase of the definition — follow the glossary link above for that.
 | Abdurahmanovic 4 theme | X | tourney-specified compound pattern |
 | Active sacrifice | A | a unit moves to a square where a later ply captures it |
 | Albino | B | union of one white pawn's four home-square moves across phases |
-| Allumwandlung | B | all four promotion types across the solution set |
+| Allumwandlung | B | implemented, as set coverage across the solutions |
 | Amazon theme | A | every white ply moved by the queen |
 | Ambush | D | needs the battery / line-opening notion |
 | Analogy | D | compares arrival and departure motifs between phases |
@@ -235,7 +235,7 @@ paraphrase of the definition — follow the glossary link above for that.
 | JT Navon 90 theme | X | tourney-specified pattern |
 | JT Onkoud 50 theme | X | tourney-specified pattern |
 | Kindergarten problem | A | material of the diagram |
-| Klasinc theme | D | vacation of a passage square, then return to it |
+| Klasinc theme | A | implemented; retiered from D: a unit vacates a square, a line piece passes over it, the unit returns -- ply from/to geometry, no line notion needed |
 | Kluver 10 theme | D | ambush and gate-opening |
 | Kniest 1 theme | B | promoting colour in the set-play plane against the solution |
 | Kniest theme | A | capture on the square where the king is later mated |
@@ -351,8 +351,8 @@ paraphrase of the definition — follow the glossary link above for that.
 | Tempo play | C | alias of tempo move and tempo manoeuvre |
 | Transferred pin | D | pin lines |
 | Turton doubling | D | doubling |
-| Umnov mate | A | mate on the square a black unit just left |
-| Umnov move | A | any arrival on a just-vacated square |
+| Umnov mate | A | implemented |
+| Umnov move | A | implemented |
 | Unblocking sacrifice | A | capture, vacate, enemy unit captures on the square |
 | Uncastling | X | castling |
 | Unpin | D | pins |
@@ -374,7 +374,7 @@ paraphrase of the definition — follow the glossary link above for that.
 | Zalokotsky theme | B | three squares revisited in reverse order in another phase |
 | Zepler doubling | D | doubling |
 | Zigzag | A | trajectory shape |
-| Zilahi | B | captured in one phase, mating in the other |
+| Zilahi | B | implemented, two-solution form |
 
 Row count: **295**, one per glossary entry.
 

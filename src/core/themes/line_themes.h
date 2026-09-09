@@ -68,4 +68,47 @@ bool has_schnoebelen(const Solution& s);
 // are reported.
 bool has_pendulum(const Solution& s);
 
+// No ply captures anything (en-passant captures included). A solution with
+// no plies at all -- the queried position was already mate -- shows neither
+// of these two, like every other line theme; see the registry entries for
+// how they combine across a position's solution SET (every solution, not
+// any).
+bool is_capture_free(const Solution& s);
+
+// No ply before the last one gives check. The final ply is exempt: in a
+// helpmate it is the mating move, which is always a check, so a rule that
+// counted it would never match. Whether the final ply actually checks is not
+// examined at all -- the theme is about the play BEFORE the mate.
+bool is_check_free(const Solution& s);
+
+// Umnov: a ply lands on the square the immediately preceding ply -- always
+// the opponent's, plies alternate -- vacated (plies[i].to == plies[i-1].from).
+bool has_umnov(const Solution& s);
+
+// Umnov mate: the mating move lands on the square Black's last move vacated.
+// The last-ply case of has_umnov, kept as its own theme the way switchback
+// and pendulum are.
+bool has_umnov_mate(const Solution& s);
+
+// Klasinc: a unit A leaves square a; later a line piece (queen, rook or
+// bishop, either colour; a promoted queen counts, since a ply carries the
+// mover's type as it stands) moves along a rank, file or diagonal that passes strictly over a;
+// after that A returns to a. "Passes over" excludes a move that ends ON a,
+// and A's return must be the next time A stands on a after leaving it.
+bool has_klasinc(const Solution& s);
+
+// The solution's promotions as a canonical multiset string: one letter per
+// promotion, either colour, sorted in the fixed order q, r, b, n -- "qrr" for
+// one queen and two rooks. Empty when nothing promotes. `promotions:<types>`
+// concatenates these over the whole solution set (set_themes.cpp).
+std::string promotion_multiset(const Solution& s);
+
+// Sorts a string of promotion letters into the canonical q, r, b, n order.
+std::string canon_sort_promotions(std::string letters);
+
+// The canonical form of a user-typed promotion multiset: letters q r b n in
+// any order and case, one to eight of them, re-sorted to q, r, b, n. nullopt
+// for anything else (an empty string, a stray letter, too many letters).
+std::optional<std::string> canon_promotions(std::string_view raw);
+
 }  // namespace hm::themes

@@ -82,7 +82,7 @@ def test_theme_registry_exposes_needs():
     # Task 10: `needs` is how a caller tells which themes answer without
     # enumerating solutions -- and so still answer on positions whose stored
     # solution count saturates (capped at 255). set-play is the one
-    # non-Solutions theme among the 22 in this build.
+    # non-Solutions theme among the 30 in this build.
     entries = helpmate.themes()
     assert all("needs" in e for e in entries)
     by_name = {e["name"]: e for e in entries}
@@ -131,3 +131,26 @@ def test_probe_themes_and_mine_theme_filter(tables):
     assert len(wide) == 580 and len(narrow) == 477
     assert set(narrow) <= set(wide)
     assert len(narrow) < len(wide)
+
+
+def test_theme_registry_marks_parametric_themes():
+    by_name = {e["name"]: e for e in helpmate.themes()}
+    assert by_name["promotions:<types>"]["parameter"]["example"] == "qrr"
+    assert by_name["model"]["parameter"] is None
+
+
+def test_check_theme_resolves_names_and_values():
+    assert helpmate.check_theme("model") is None
+    assert helpmate.check_theme("excelsior:white") is None
+    assert helpmate.check_theme("promotions:RQ") is None      # canonicalised server-side
+    assert "needs a value" in helpmate.check_theme("promotions")
+    assert "does not accept" in helpmate.check_theme("promotions:qx")
+    assert "promotions:q" in helpmate.check_theme("promotion:q")
+    assert "unknown theme" in helpmate.check_theme("nosuch")
+
+
+def test_mine_rejects_a_bad_parametric_value(tables):
+    tb = helpmate.Tablebase(tables)
+    assert tb.mine("KQvk", 2, themes=["promotions:q"], max=3) == []   # no pawn: no match, no error
+    with pytest.raises(ValueError, match="does not accept"):
+        tb.mine("KQvk", 2, themes=["promotions:qx"])

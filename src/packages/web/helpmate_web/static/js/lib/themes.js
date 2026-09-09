@@ -30,3 +30,30 @@ export function themeOptionTitle(theme) {
     ? `${doc} (also answers on positions with saturated solution counts)`
     : doc;
 }
+
+// A parametric theme (e.g. promotions:<types>) is queried as `base:value`;
+// the server marks it with a non-null `parameter` field and a display name
+// ending in `:<...>`. Driven by the field, never by the name.
+export function isParametric(theme) {
+  return !!theme && theme.parameter !== null && theme.parameter !== undefined;
+}
+
+// The base of a parametric display name: "promotions:<types>" -> "promotions".
+export function parametricBase(theme) {
+  const name = (theme && theme.name) || "";
+  const i = name.indexOf(":");
+  return i === -1 ? name : name.slice(0, i);
+}
+
+// The `theme` query list a search sends: every picked boolean name, plus
+// `base:value` for each parametric theme whose input is non-empty. Whitespace
+// is trimmed; the server canonicalises the value (order, case) and rejects a
+// bad one with a 400 the screen shows verbatim.
+export function themeQueryNames(selected, paramValues) {
+  const out = Array.from(selected || []);
+  for (const [base, raw] of Object.entries(paramValues || {})) {
+    const v = String(raw || "").trim();
+    if (v) out.push(`${base}:${v}`);
+  }
+  return out;
+}

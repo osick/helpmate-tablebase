@@ -1,7 +1,9 @@
 import { api, ApiError, DOWNLOAD_RETRY_CAP, DOWNLOAD_RETRY_MS } from "./api.js";
 import { encodeState } from "./lib/state.js";
 import { toFenList, toCsv } from "./lib/export.js";
-import { selectedThemes, answersOnSaturated, themeOptionTitle } from "./lib/themes.js";
+import {
+  selectedThemes, answersOnSaturated, themeOptionTitle, isParametric, parametricBase, themeQueryNames,
+} from "./lib/themes.js";
 
 let rows = [];
 
@@ -134,8 +136,28 @@ export function initMine(health) {
   // build. A failure here leaves an empty picker and no theme filtering --
   // the rest of the search screen must keep working.
   const themeSel = document.getElementById("mine-themes");
+  // Parametric themes (promotions:<types>) are not options in the picker --
+  // an option cannot carry a value -- but one text input each, under it.
+  // The map of base name -> input is what the submit handler reads.
+  const paramBox = document.getElementById("mine-theme-params");
+  const paramInputs = {};
   api.themes().then(({ body }) => {
     for (const t of body.themes) {
+      if (isParametric(t)) {
+        const base = parametricBase(t);
+        const label = document.createElement("label");
+        label.className = "theme-param";
+        label.append(`${base}:`);
+        const input = document.createElement("input");
+        input.name = `theme-param-${base}`;
+        input.placeholder = `e.g. ${t.parameter.example}`;
+        input.title = `${t.doc} ${t.parameter.name}: ${t.parameter.doc}`;
+        input.autocomplete = "off";
+        label.appendChild(input);
+        paramBox.appendChild(label);
+        paramInputs[base] = input;
+        continue;
+      }
       const o = document.createElement("option");
       o.value = t.name;
       o.textContent = t.name;
@@ -182,7 +204,13 @@ export function initMine(health) {
     // press should not silently do the same thing.
     if (inFlight) return;
     const q = Object.fromEntries(new FormData(form).entries());
-    q.theme = selectedThemes(themeSel);      // fromEntries would keep only one
+    // fromEntries would keep only one of a repeated field, and the parametric
+    // inputs are not `theme` fields at all; drop their own entries and build
+    // the list explicitly.
+    for (const base of Object.keys(paramInputs)) delete q[`theme-param-${base}`];
+    const paramValues = {};
+    for (const [base, input] of Object.entries(paramInputs)) paramValues[base] = input.value;
+    q.theme = themeQueryNames(selectedThemes(themeSel), paramValues);
     results.textContent = ""; rows = [];
     const bad = validate(q);
     if (bad) { status.textContent = bad; return; }

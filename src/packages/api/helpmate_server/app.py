@@ -440,11 +440,15 @@ def create_app(chain: ChainSource, mine_cap: int = 1000,
                     f"{name}={val} cannot exceed count={count}",
                     hint="a position with N solutions has at most N distinct "
                          "starting or mating moves"))
-        known = {t["name"] for t in helpmate.themes()}
         for name in theme:
-            if name not in known:
+            # The core resolves names, including a parametric theme's
+            # `name:value` form, so the API never keeps its own copy of the
+            # grammar: the message names what is wrong (unknown, a value the
+            # theme rejects, a bare parametric name, the singular typo).
+            problem = helpmate.check_theme(name)
+            if problem is not None:
                 return JSONResponse(status_code=400, content=error_json(
-                    "invalid_theme", f"unknown theme: {name}",
+                    "invalid_theme", problem,
                     hint="valid themes: " + ", ".join(t["name"] for t in helpmate.themes())))
         starts = -1 if starts is None else starts
         ends = -1 if ends is None else ends

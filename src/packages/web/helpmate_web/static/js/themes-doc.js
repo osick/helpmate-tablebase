@@ -13,8 +13,8 @@ import { whenPanelShown } from "./panels.js";
 // Fixed groups, each introduced by a sentence before its members. Read off
 // every theme's own `doc` string in the live registry (src/core/themes/
 // registry.cpp) rather than assumed from memory -- the first version of
-// this table named 11 of the build's 22 registered motifs and left the
-// other 11 to fall into "other" wholesale. All 22 group cleanly into the
+// this table named 11 of the build's then 22 registered motifs and left the
+// other 11 to fall into "other" wholesale. All 30 group cleanly into the
 // five below; nothing should land in "other" on a build that still matches
 // this registry.
 //
@@ -35,25 +35,28 @@ const GROUPS = [
     title: "How a unit travels",
     intro: "What path an individual piece traces through the solution, "
          + "not just where it starts and ends.",
-    members: ["switchback", "closed-walk", "pendulum", "excelsior"],
+    members: ["switchback", "closed-walk", "pendulum", "excelsior", "umnov", "klasinc"],
   },
   {
     title: "Pawns and promotion",
     intro: "What a pawn does on its way to becoming something else, and "
          + "what becomes of whatever it captures or replaces along the way.",
-    members: ["promotion", "underpromotion", "phoenix", "schnoebelen", "en-passant"],
+    members: ["promotion", "underpromotion", "promotions:<types>", "allumwandlung", "phoenix",
+              "schnoebelen", "en-passant"],
   },
   {
     title: "Where the mate happens",
     intro: "What happened earlier at the exact square the king is finally "
          + "mated on.",
-    members: ["kniest", "zajic"],
+    members: ["kniest", "zajic", "umnov-mate"],
   },
   {
     title: "The structure of the solution",
     intro: "What shape the position or its solution set has, independent "
-         + "of the mate picture or the moves that reach it.",
-    members: ["set-play", "single-piece"],
+         + "of the mate picture or the moves that reach it. nocapture and "
+         + "nocheck are set-wide: they hold only when EVERY solution "
+         + "qualifies, where the other motifs need just one.",
+    members: ["set-play", "single-piece", "nocapture", "nocheck", "zilahi"],
   },
 ];
 
@@ -92,6 +95,12 @@ function renderEntry(theme, variants) {
   const expl = needsExplanation(theme.needs);
   entry.appendChild(el("p", "theme-needs",
     expl ? `needs: ${theme.needs} — ${expl}` : `needs: ${theme.needs}`));
+  // A parametric motif says what goes after the colon, e.g. promotions:qrr.
+  if (theme.parameter) {
+    const base = theme.name.slice(0, theme.name.indexOf(":"));
+    entry.appendChild(el("p", "theme-param",
+      `parameter ${theme.parameter.name} (e.g. ${base}:${theme.parameter.example}): ${theme.parameter.doc}`));
+  }
   if (variants && variants.length) {
     const box = el("div", "theme-variants");
     for (const v of variants) box.appendChild(renderEntry(v));

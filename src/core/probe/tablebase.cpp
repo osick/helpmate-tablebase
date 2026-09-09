@@ -249,13 +249,14 @@ void Tablebase::mine(const Material& m, const MineFilter& f,
 
     // Resolve theme names ONCE, before the scan: a typo must be an error that
     // names the valid options, not millions of positions filtered by nothing.
-    std::vector<themes::Detector> dets;
+    std::vector<themes::ResolvedTheme> dets;
     themes::Needs need = themes::Needs::Position;
     for (const auto& n : f.themes) {
-        const auto* d = themes::find_theme(n);
-        if (!d) throw std::invalid_argument("unknown theme: \"" + n + "\"");
-        dets.push_back(d->fn);
-        need = std::max(need, d->needs);
+        std::string err;
+        auto r = themes::resolve_theme(n, &err);
+        if (!r) throw std::invalid_argument(err);
+        need = std::max(need, r->def->needs);
+        dets.push_back(std::move(*r));
     }
 
     const bool want_shape = f.starts >= 0 || f.ends >= 0;
@@ -350,8 +351,9 @@ void Tablebase::mine(const Material& m, const MineFilter& f,
             if (want_plane) other = ValuePair{other_buf[c - chunk_base], 0};
             themes::ThemeInput in{b, v, other, sols};
             bool all_present = true;
-            for (auto d : dets) {  // AND across themes; `any` within one is now
-                if (!d(in)) {      // inside d itself (any_of<>)
+            for (const auto& d : dets) {  // AND across themes; `any` (or `every`, for
+                if (!d.eval(in)) {        // nocapture/nocheck) within one is inside d
+                                          // itself: any_of<> / all_of<>
                     all_present = false;
                     break;
                 }

@@ -863,4 +863,162 @@ TEST_CASE("an empty solution shows no line theme", "[themes][line]") {
     REQUIRE_FALSE(is_single_piece(s));  // no side moved at all
     REQUIRE_FALSE(has_schnoebelen(s));  // no plies at all, so certainly no promotion on one
     REQUIRE_FALSE(has_pendulum(s));     // no plies at all, so certainly no unit trajectory
+    REQUIRE_FALSE(is_capture_free(s));  // nothing was played, so nothing is shown
+    REQUIRE_FALSE(is_check_free(s));    // same: a vacuous "no check" is not a theme
+    REQUIRE_FALSE(has_umnov(s));
+    REQUIRE_FALSE(has_umnov_mate(s));
+    REQUIRE_FALSE(has_klasinc(s));
+    REQUIRE(promotion_multiset(s).empty());
+}
+
+TEST_CASE("umnov: a unit moves onto the square the opponent just vacated", "[themes][line]") {
+    // Black Kh8 steps to g8; the white rook on a7 then lands on h8? No -- the
+    // rook lands on the vacated h8 only via the h-file. Use Rh1: 1...Kg8 2.Rh8+.
+    auto s = play("7k/8/8/8/8/8/8/K6R b - - 0 1", {{"h8", "g8", {}}, {"h1", "h8", {}}});
+    REQUIRE(s.plies[1].to == s.plies[0].from);
+    REQUIRE(has_umnov(s));
+    REQUIRE(has_umnov_mate(s));  // the last ply did it, so the mate variant fires too
+}
+
+TEST_CASE("umnov: arriving on a square vacated two plies earlier is not umnov", "[themes][line]") {
+    // 1...Kg8 2.Rh2 Kf8 3.Rh1 Kg8 4.Rh8+: the rook arrives on h8, which Black
+    // vacated SIX plies earlier; the immediately preceding ply, Kf8-g8,
+    // vacated f8. No ply lands where the previous ply started, so not umnov.
+    auto s = play("7k/8/8/8/8/8/8/K6R b - - 0 1", {{"h8", "g8", {}},
+                                                   {"h1", "h2", {}},
+                                                   {"g8", "f8", {}},
+                                                   {"h2", "h1", {}},
+                                                   {"f8", "g8", {}},
+                                                   {"h1", "h8", {}}});
+    REQUIRE_FALSE(has_umnov(s));
+    REQUIRE_FALSE(has_umnov_mate(s));
+}
+
+TEST_CASE("umnov-mate needs the LAST ply to land on the square Black just left", "[themes][line]") {
+    // 1...Kg8 2.Rh8+ Kf7: the umnov arrival is followed by another ply, so the
+    // line shows umnov but not umnov-mate.
+    auto s = play("7k/8/8/8/8/8/8/K6R b - - 0 1", {{"h8", "g8", {}}, {"h1", "h8", {}}, {"g8", "f7", {}}});
+    REQUIRE(has_umnov(s));
+    REQUIRE_FALSE(has_umnov_mate(s));
+}
+
+TEST_CASE("klasinc: a unit clears a square, a line piece passes over it, the unit returns",
+          "[themes][line]") {
+    // Black knight d4 leaves d4 (Nd4-b5), white rook d1 passes OVER d4 to d7
+    // (Rd1-d7), the knight returns to d4 (Nb5-d4). Kings a8/h1 keep it legal.
+    auto s = play("k7/8/8/8/3n4/8/8/3R3K b - - 0 1", {{"d4", "b5", {}}, {"d1", "d7", {}}, {"b5", "d4", {}}});
+    REQUIRE(has_klasinc(s));
+}
+
+TEST_CASE("klasinc: a line move that ENDS on the vacated square does not pass over it", "[themes][line]") {
+    auto s = play("k7/8/8/8/3n4/8/8/3R3K b - - 0 1", {{"d4", "b5", {}}, {"d1", "d4", {}}, {"b5", "a7", {}}});
+    REQUIRE_FALSE(has_klasinc(s));
+}
+
+TEST_CASE("klasinc: the line piece must pass AFTER the clearance and BEFORE the return", "[themes][line]") {
+    // Rook passes over d4? It cannot while the knight stands there. So: knight
+    // leaves, knight returns, THEN the rook passes -- too late.
+    auto s = play("k7/8/8/8/3n4/8/8/3R3K b - - 0 1", {{"d4", "b5", {}},
+                                                      {"h1", "g1", {}},
+                                                      {"b5", "d4", {}},
+                                                      {"g1", "h1", {}},
+                                                      {"d4", "b5", {}},
+                                                      {"d1", "d7", {}}});
+    // the second clearance opens a new window in which the rook DOES pass, but
+    // the knight never returns afterwards
+    REQUIRE_FALSE(has_klasinc(s));
+    // and a knight's leap over d4 is not a line move
+    auto leap =
+        play("k7/8/8/8/3n4/8/8/3R2NK b - - 0 1", {{"d4", "b5", {}}, {"g1", "e2", {}}, {"b5", "d4", {}}});
+    REQUIRE_FALSE(has_klasinc(leap));
+}
+
+TEST_CASE("klasinc: a promoted queen is a line piece", "[themes][line]") {
+    // Black rook e5 clears e5 (Re5-a5); white pawn e7 promotes to a queen on
+    // e8 with check along the rank (a pawn move, not a line move); Black
+    // steps out of it; the queen then runs e8-e1, passing over e5; the rook
+    // returns to e5. A promoted unit's later plies carry its promoted type
+    // (collect_solutions reads the mover off the board), which is what the
+    // detector relies on; asserted here so that assumption cannot rot.
+    auto s = play("k7/4P3/8/4r3/8/8/8/7K b - - 0 1", {{"e5", "a5", {}},
+                                                      {"e7", "e8", PieceType::Queen},
+                                                      {"a8", "b7", {}},
+                                                      {"e8", "e1", {}},
+                                                      {"a5", "e5", {}}});
+    REQUIRE(s.plies[1].piece.type == PieceType::Pawn);   // the promoting ply is a pawn move
+    REQUIRE(s.plies[3].piece.type == PieceType::Queen);  // its later move is a queen move
+    REQUIRE(has_klasinc(s));
+}
+
+TEST_CASE("promotion multiset is order-independent and counts multiplicity", "[themes][line]") {
+    auto queen = play("k7/6P1/8/8/8/8/8/K7 w - - 0 1", {{"g7", "g8", PieceType::Queen}});
+    REQUIRE(promotion_multiset(queen) == "q");
+    auto knight = play("k7/6P1/8/8/8/8/8/K7 w - - 0 1", {{"g7", "g8", PieceType::Knight}});
+    REQUIRE(promotion_multiset(knight) == "n");
+    REQUIRE(canon_promotions("rq") == "qr");
+    REQUIRE(canon_promotions("QRR") == "qrr");
+    REQUIRE(canon_promotions("nbrq") == "qrbn");
+    REQUIRE_FALSE(canon_promotions("").has_value());
+    REQUIRE_FALSE(canon_promotions("qk").has_value());
+    REQUIRE_FALSE(canon_promotions("qqqqqqqqq").has_value());    // nine letters
+    REQUIRE(canon_promotions("qrr") != canon_promotions("qr"));  // multiplicity counts
+}
+
+TEST_CASE("nocapture: a solution in which nothing is taken", "[themes][line]") {
+    // The golden KQvk h#1: 1...Kh8 2.Qg7#. Quiet throughout.
+    auto s = play("8/7k/5K2/8/8/8/8/6Q1 b - - 0 1", {{"h7", "h8", {}}, {"g1", "g7", {}}});
+    REQUIRE(s.plies.back().after.state() == PosState::Checkmate);
+    REQUIRE(is_capture_free(s));
+}
+
+TEST_CASE("nocapture: any capture anywhere in the line breaks it", "[themes][line]") {
+    // Rd1xd5 in the middle of the line, then a recapture.
+    auto s =
+        play("3r3k/8/3p4/8/8/8/8/K2R4 b - - 0 1", {{"d6", "d5", {}}, {"d1", "d5", {}}, {"d8", "d5", {}}});
+    REQUIRE(s.plies[1].captured == PieceType::Pawn);
+    REQUIRE_FALSE(is_capture_free(s));
+    // A capture on the LAST ply counts too: the mating move is not exempt for
+    // nocapture, only for nocheck.
+    auto last = play("3r3k/8/3p4/8/8/8/8/K2R4 b - - 0 1", {{"d6", "d5", {}}, {"d1", "d5", {}}});
+    REQUIRE(last.plies.back().captured == PieceType::Pawn);
+    REQUIRE_FALSE(is_capture_free(last));
+}
+
+TEST_CASE("nocapture: an en-passant capture is a capture", "[themes][line]") {
+    // Same fixture as the en-passant theme: black g7-g5, white f5xg6 ep.
+    auto s = play("k7/6p1/8/5P2/8/8/8/K7 b - - 0 1", {{"g7", "g5", {}}, {"f5", "g6", {}}});
+    REQUIRE(s.plies.back().is_ep);
+    REQUIRE_FALSE(is_capture_free(s));
+}
+
+TEST_CASE("nocheck: only the final move may give check", "[themes][line]") {
+    // 1...Kh8 2.Qg7#: the mate is a check, and nothing before it is.
+    auto s = play("8/7k/5K2/8/8/8/8/6Q1 b - - 0 1", {{"h7", "h8", {}}, {"g1", "g7", {}}});
+    REQUIRE(s.plies.back().is_check);
+    REQUIRE_FALSE(s.plies.front().is_check);
+    REQUIRE(is_check_free(s));
+}
+
+TEST_CASE("nocheck: a check before the last move breaks it", "[themes][line]") {
+    // Black Ka8, white Ke2 + Qh1: 1.Qa1+ is a check on the very first ply.
+    auto s = play("k7/8/8/8/8/8/4K3/7Q w - - 0 1", {{"h1", "a1", {}}, {"a8", "b8", {}}, {"a1", "b1", {}}});
+    REQUIRE(s.plies[0].is_check);
+    REQUIRE_FALSE(is_check_free(s));
+    // The same shape with the check moved to the end: a quiet start, then
+    // the check as the LAST ply, is allowed. (Qh3, not Qh2: Qh2 would guard
+    // b8 and make Kb8 illegal.)
+    auto tail = play("k7/8/8/8/8/8/4K3/7Q w - - 0 1", {{"h1", "h3", {}}, {"a8", "b8", {}}, {"h3", "b3", {}}});
+    REQUIRE(tail.plies.back().is_check);
+    REQUIRE_FALSE(tail.plies[0].is_check);
+    REQUIRE_FALSE(tail.plies[1].is_check);
+    REQUIRE(is_check_free(tail));
+}
+
+TEST_CASE("nocheck: a black check before the mate breaks it too", "[themes][line]") {
+    // Black Ra8 + Kh8, white Kb1 + Qg2: 1...Ra1+ is a black check on the
+    // first ply, answered by 2.Kxa1.
+    auto s = play("r6k/8/8/8/8/8/6Q1/1K6 b - - 0 1", {{"a8", "a1", {}}, {"b1", "a1", {}}});
+    REQUIRE(s.plies[0].is_check);
+    REQUIRE(s.plies[0].piece.color == Color::Black);
+    REQUIRE_FALSE(is_check_free(s));
 }

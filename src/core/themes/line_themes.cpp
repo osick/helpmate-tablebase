@@ -1,5 +1,7 @@
 #include "themes/line_themes.h"
 
+#include <algorithm>
+#include <cstdlib>
 #include <set>
 
 #include "themes/attack.h"
@@ -216,6 +218,123 @@ bool has_pendulum(const Solution& s) {
         if (distinct.size() == 2) return true;
     }
     return false;
+}
+
+bool is_capture_free(const Solution& s) {
+    if (s.plies.empty()) return false;  // nothing was played, so nothing is shown
+    for (const auto& p : s.plies)
+        if (p.captured) return false;  // `captured` is set for en-passant too
+    return true;
+}
+
+bool is_check_free(const Solution& s) {
+    if (s.plies.empty()) return false;  // nothing was played, so nothing is shown
+    // `is_check` on ply i means the side to move AFTER ply i is in check --
+    // i.e. ply i gave check. The last ply is the mate and is skipped.
+    for (size_t i = 0; i + 1 < s.plies.size(); ++i)
+        if (s.plies[i].is_check) return false;
+    return true;
+}
+
+bool has_umnov(const Solution& s) {
+    for (size_t i = 1; i < s.plies.size(); ++i)
+        if (s.plies[i].to == s.plies[i - 1].from) return true;
+    return false;
+}
+
+bool has_umnov_mate(const Solution& s) {
+    const size_t n = s.plies.size();
+    return n >= 2 && s.plies[n - 1].to == s.plies[n - 2].from;
+}
+
+namespace {
+
+// Does a straight move from `from` to `to` pass strictly over `sq`? True only
+// for a rank, file or diagonal move whose interior contains sq; a move that
+// ENDS on sq, or a knight's leap, never "passes over" anything.
+bool passes_over(int from, int to, int sq) {
+    const int df = sq_file(to) - sq_file(from), dr = sq_rank(to) - sq_rank(from);
+    if (df == 0 && dr == 0) return false;
+    if (df != 0 && dr != 0 && std::abs(df) != std::abs(dr)) return false;  // not a line
+    const int sf = (df > 0) - (df < 0), sr = (dr > 0) - (dr < 0);
+    int f = sq_file(from) + sf, r = sq_rank(from) + sr;
+    while (f != sq_file(to) || r != sq_rank(to)) {
+        if (r * 8 + f == sq) return true;
+        f += sf;
+        r += sr;
+    }
+    return false;
+}
+
+}  // namespace
+
+bool has_klasinc(const Solution& s) {
+    for (const auto& t : trajectories(s)) {
+        // squares[k] is where the unit stood before ply plies[k]; it leaves
+        // squares[k] by that ply and next stands on squares[k2] == squares[k]
+        // after ply plies[k2 - 1] -- the return. Anything strictly between the
+        // two plies is the window a line piece may pass through.
+        for (size_t k = 0; k < t.plies.size(); ++k) {
+            const int a = t.squares[k];
+            const int leave = t.plies[k];
+            for (size_t k2 = k + 1; k2 < t.squares.size(); ++k2) {
+                if (t.squares[k2] != a) continue;
+                const int back = t.plies[k2 - 1];
+                for (int j = leave + 1; j < back; ++j) {
+                    // A promoted unit's later plies already carry its promoted
+                    // type: collect_solutions reads the mover off the board.
+                    const PieceType ty = s.plies[j].piece.type;
+                    if (ty != PieceType::Queen && ty != PieceType::Rook && ty != PieceType::Bishop) continue;
+                    if (passes_over(s.plies[j].from, s.plies[j].to, a)) return true;
+                }
+                break;  // the FIRST return closes this window; later returns open their own
+            }
+        }
+    }
+    return false;
+}
+
+namespace {
+// The fixed display order of the promotion letters, and the map back.
+constexpr std::string_view kPromoOrder = "qrbn";
+char promo_letter(PieceType t) {
+    switch (t) {
+        case PieceType::Queen:
+            return 'q';
+        case PieceType::Rook:
+            return 'r';
+        case PieceType::Bishop:
+            return 'b';
+        case PieceType::Knight:
+            return 'n';
+        default:
+            return '?';
+    }
+}
+}  // namespace
+
+std::string canon_sort_promotions(std::string letters) {
+    std::sort(letters.begin(), letters.end(),
+              [](char x, char y) { return kPromoOrder.find(x) < kPromoOrder.find(y); });
+    return letters;
+}
+
+std::string promotion_multiset(const Solution& s) {
+    std::string out;
+    for (const auto& p : s.plies)
+        if (p.promotion) out.push_back(promo_letter(*p.promotion));
+    return canon_sort_promotions(std::move(out));
+}
+
+std::optional<std::string> canon_promotions(std::string_view raw) {
+    if (raw.empty() || raw.size() > 8) return std::nullopt;
+    std::string letters;
+    for (char c : raw) {
+        const char l = (char)std::tolower((unsigned char)c);
+        if (kPromoOrder.find(l) == std::string_view::npos) return std::nullopt;
+        letters.push_back(l);
+    }
+    return canon_sort_promotions(std::move(letters));
 }
 
 }  // namespace hm::themes

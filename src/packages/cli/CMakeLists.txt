@@ -69,6 +69,37 @@ add_test(NAME cli_mine_theme_unknown COMMAND ${CMAKE_COMMAND}
          -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
 set_tests_properties(cli_mine_theme_unknown PROPERTIES DEPENDS cli_gen)
 
+# Parametric themes: `promotions:q` is a valid name (KQvk has no pawn, so the
+# scan simply finds nothing and exits 0); a bad value and the bare name must
+# fail naming the fix; the singular typo `promotion:q` must NOT fall through
+# to the boolean `promotion` with its value silently discarded.
+add_test(NAME cli_mine_theme_param COMMAND helpmate mine KQvk --dtm 2 --theme promotions:q --max 3 --tables ${CLI_TT})
+set_tests_properties(cli_mine_theme_param PROPERTIES DEPENDS cli_gen)
+add_test(NAME cli_mine_theme_param_bad_value COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         "-DARGS=mine KQvk --dtm 2 --theme promotions:qx --tables ${CLI_TT}"
+         -DEXPECTED_RC=3
+         "-DPATTERN1=does not accept the value \"qx\""
+         "-DPATTERN2=valid themes"
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
+set_tests_properties(cli_mine_theme_param_bad_value PROPERTIES DEPENDS cli_gen)
+add_test(NAME cli_mine_theme_param_missing COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         "-DARGS=mine KQvk --dtm 2 --theme promotions --tables ${CLI_TT}"
+         -DEXPECTED_RC=3
+         "-DPATTERN1=needs a value"
+         "-DPATTERN2=promotions:qrr"
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
+set_tests_properties(cli_mine_theme_param_missing PROPERTIES DEPENDS cli_gen)
+add_test(NAME cli_mine_theme_param_singular_typo COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         "-DARGS=mine KQvk --dtm 2 --theme promotion:q --tables ${CLI_TT}"
+         -DEXPECTED_RC=3
+         "-DPATTERN1=did you mean promotions:q"
+         "-DPATTERN2=valid themes"
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
+set_tests_properties(cli_mine_theme_param_singular_typo PROPERTIES DEPENDS cli_gen)
+
 # Critical-2 regression: `mine --themes` (plural, probe's flag) used to fall
 # through to positionals and get silently discarded -- `mine KQvk --dtm 2
 # --themes mirror --max 100000` ran to completion returning the FULL

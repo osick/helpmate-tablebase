@@ -178,14 +178,38 @@ PYBIND11_MODULE(_helpmate, mod) {
             py::list out;
             for (const auto& t : themes::theme_registry()) {
                 py::dict d;
-                d["name"] = std::string(t.name);
+                // The DISPLAY name: "promotions:<types>" for a parametric
+                // theme, so every listing surface shows that a value goes
+                // after the colon. `parameter` says what the value is.
+                d["name"] = themes::display_name(t);
                 d["doc"] = std::string(t.doc);
                 d["needs"] = std::string(themes::needs_name(t.needs));
+                if (t.param) {
+                    py::dict prm;
+                    prm["name"] = std::string(t.param->name);
+                    prm["doc"] = std::string(t.param->doc);
+                    prm["example"] = std::string(t.param->example);
+                    d["parameter"] = std::move(prm);
+                } else {
+                    d["parameter"] = py::none();
+                }
                 out.append(std::move(d));
             }
             return out;
         },
-        "Every theme detector this build knows: [{name, doc, needs}, ...], in display order.");
+        "Every theme detector this build knows: [{name, doc, needs, parameter}, ...], in display "
+        "order. `parameter` is None for a boolean theme, or {name, doc, example} for a parametric "
+        "one whose query form is name:value (promotions:qrr).");
+    mod.def(
+        "check_theme",
+        [](const std::string& name) -> py::object {
+            std::string err;
+            if (themes::resolve_theme(name, &err)) return py::none();
+            return py::str(err);
+        },
+        py::arg("name"),
+        "None when `name` is a theme mine() accepts (a registry name, or name:value for a "
+        "parametric theme), else the error message naming what is wrong.");
     mod.def("_perft", [](const std::string& fen, int depth) {
         auto b = Board::from_fen(fen);
         if (!b) throw std::invalid_argument("bad fen");

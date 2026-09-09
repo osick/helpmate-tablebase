@@ -1,6 +1,6 @@
 import json as _json
 from ._helpmate import (
-    Tablebase as _Tablebase, generate, themes, MissingTableError, __version__,
+    Tablebase as _Tablebase, generate, themes, check_theme, MissingTableError, __version__,
 )
 
 class Tablebase(_Tablebase):
@@ -15,4 +15,4 @@ class Tablebase(_Tablebase):
         return self._mine_with_stats(material, dtm, count, max, starts, ends,
                                      themes or [])
 
-__all__ = ["Tablebase", "generate", "themes", "MissingTableError", "__version__"]
+__all__ = ["Tablebase", "generate", "themes", "check_theme", "MissingTableError", "__version__"]
