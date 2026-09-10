@@ -134,3 +134,59 @@ TEST_CASE("a hit whose enrichment needs a missing table is marked, not dropped",
     s.ensure_themes_all();
     REQUIRE(s.unavailable_count() == 1);
 }
+
+TEST_CASE("with_theme narrows, negates, and leaves the source intact", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb);
+    auto mirror = s.with_theme("mirror", false);
+    auto rest = s.with_theme("mirror", true);
+    REQUIRE(s.size() == 580);
+    REQUIRE(mirror.size() == 477);
+    REQUIRE(rest.size() == 103);
+    REQUIRE(mirror.hits()[0].fen == kFirst);
+    REQUIRE(rest.hits()[0].fen == kSecond);
+    REQUIRE(mirror.material().name() == "KQvk");
+    REQUIRE(mirror.max() == INT_MAX);
+    // the source was enriched as a side effect, so a second narrowing is free
+    REQUIRE(s.all_have_themes());
+    REQUIRE_THROWS_AS(s.with_theme("nosuch", false), std::invalid_argument);
+}
+
+TEST_CASE("with_theme accepts a parametric name", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb, 2, 20);
+    auto promo = s.with_theme("promotions:q", false);  // no pawn in KQvk
+    REQUIRE(promo.size() == 0);
+    auto nopromo = s.with_theme("promotions:q", true);
+    REQUIRE(nopromo.size() == 20);
+}
+
+TEST_CASE("count/starts/ends narrowing", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb);
+    REQUIRE(s.with_count(1).size() == 356);
+    REQUIRE(s.with_theme("mirror", false).with_count(1).size() == 257);
+    MineSet g(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 10);
+    g.add(kGolden);
+    g.add(kFirst);
+    REQUIRE(g.with_starts(2).size() == 1);
+    REQUIRE(g.with_ends(4).size() == 1);
+    REQUIRE(g.with_ends(1).hits()[0].fen == kFirst);
+    REQUIRE(g.with_starts(3).size() == 0);
+}
+
+TEST_CASE("theme_histogram lists every non-parametric theme in registry order", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb, 2, 50);
+    auto h = s.theme_histogram();
+    std::vector<std::string> expect;
+    for (const auto& t : themes::theme_registry())
+        if (!t.param) expect.push_back(std::string(t.name));
+    REQUIRE(h.size() == expect.size());
+    for (size_t i = 0; i < h.size(); ++i) REQUIRE(h[i].first == expect[i]);
+    size_t mirror = 0;
+    for (const auto& [n, c] : h)
+        if (n == "mirror") mirror = c;
+    REQUIRE(mirror == s.with_theme("mirror", false).size());
+    REQUIRE(mirror > 0);
+}

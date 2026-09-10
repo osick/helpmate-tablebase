@@ -66,10 +66,27 @@ public:
     bool all_have_themes() const;
     size_t unavailable_count() const;
 
+    // Narrowing. Each returns a NEW set (same tb/material/filter/max/skipped)
+    // holding the hits that match; `this` keeps its hits, now enriched, so
+    // the shell's `back` costs nothing. A hit marked unavailable never
+    // matches, with or without `negate`. Unknown theme: std::invalid_argument
+    // carrying resolve_theme's message.
+    MineSet with_theme(const std::string& name, bool negate, const Progress& progress = nullptr);
+    MineSet with_count(int n);
+    MineSet with_starts(int n);
+    MineSet with_ends(int n);
+
+    // (name, hits showing it) for every non-parametric registry theme, in
+    // registry order, zeros included. Forces ensure_themes_all.
+    std::vector<std::pair<std::string, size_t>> theme_histogram(const Progress& progress = nullptr);
+
 private:
     int enum_cap(const Hit& h) const;  // COUNT_SAT -> 100, else the hit's own count
     template <class F>
     void guarded(Hit& h, F&& f) const;  // runs f, marks unavailable on MissingTableError
+    MineSet empty_like() const;         // same tb/material/filter/max/skipped, no hits
+    template <class Pred>
+    MineSet filtered(Pred&& keep) const;
 
     const Tablebase* tb_;
     Material m_;

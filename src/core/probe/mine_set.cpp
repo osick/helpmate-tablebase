@@ -1,5 +1,8 @@
 #include "probe/mine_set.h"
 
+#include <algorithm>
+#include <stdexcept>
+
 #include "chess/types.h"
 #include "themes/registry.h"
 
@@ -85,6 +88,74 @@ size_t MineSet::unavailable_count() const {
     size_t n = 0;
     for (const auto& h : hits_) n += !h.unavailable.empty();
     return n;
+}
+
+MineSet MineSet::empty_like() const {
+    MineSet s(*tb_, m_, f_, max_);
+    s.skipped_ = skipped_;
+    return s;
+}
+
+template <class Pred>
+MineSet MineSet::filtered(Pred&& keep) const {
+    MineSet out = empty_like();
+    for (const auto& h : hits_)
+        if (h.unavailable.empty() && keep(h)) out.hits_.push_back(h);
+    return out;
+}
+
+MineSet MineSet::with_theme(const std::string& name, bool negate, const Progress& progress) {
+    std::string err;
+    auto r = themes::resolve_theme(name, &err);
+    if (!r) throw std::invalid_argument(err);
+    if (r->def->param == nullptr) {
+        ensure_themes_all(progress);
+        const std::string canon = r->name();
+        return filtered([&](const Hit& h) {
+            bool shows = std::find(h.themes->begin(), h.themes->end(), canon) != h.themes->end();
+            return shows != negate;
+        });
+    }
+    // Parametric: the registry's own eval per hit; no cache, the value differs per query.
+    MineSet out = empty_like();
+    size_t done = 0;
+    for (auto& h : hits_) {
+        ++done;
+        if (!h.unavailable.empty()) continue;
+        bool shows = false;
+        guarded(h, [&] { shows = tb_->shows_theme(h.fen, *r, enum_cap(h)); });
+        if (h.unavailable.empty() && shows != negate) out.hits_.push_back(h);
+        if (progress) progress(done, hits_.size());
+    }
+    return out;
+}
+
+MineSet MineSet::with_count(int n) {
+    return filtered([&](const Hit& h) { return h.count == n; });
+}
+
+MineSet MineSet::with_starts(int n) {
+    for (auto& h : hits_) ensure_shape(h);
+    return filtered([&](const Hit& h) { return h.shape->exhaustive && h.shape->starts == n; });
+}
+
+MineSet MineSet::with_ends(int n) {
+    for (auto& h : hits_) ensure_shape(h);
+    return filtered([&](const Hit& h) { return h.shape->exhaustive && h.shape->ends == n; });
+}
+
+std::vector<std::pair<std::string, size_t>> MineSet::theme_histogram(const Progress& progress) {
+    ensure_themes_all(progress);
+    std::vector<std::pair<std::string, size_t>> out;
+    for (const auto& t : themes::theme_registry()) {
+        if (t.param) continue;
+        std::string name(t.name);
+        size_t n = 0;
+        for (const auto& h : hits_)
+            if (h.themes && std::find(h.themes->begin(), h.themes->end(), name) != h.themes->end()) ++n;
+        out.emplace_back(std::move(name), n);
+    }
+    return out;
 }
 
 }  // namespace hm
