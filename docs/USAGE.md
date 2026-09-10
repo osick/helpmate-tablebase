@@ -522,7 +522,7 @@ enumerate the actual positions at any (dtm, count).
 ## `mine` — scan for composition candidates
 
 ```
-helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NAME]... [--max N] [--tables DIR]
+helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NAME]... [--max N|infinity] [--themes] [--solutions] [--json] [--interactive] [--tables DIR]
 ```
 
 - `--dtm D` (**required**): exact distance-to-mate, in plies, to match;
@@ -543,7 +543,14 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
   below for the full semantics, the theme list, and the performance caveat —
   theme filters force solution enumeration and cost noticeably more than a
   plain `--dtm`/`--count`/`--starts`/`--ends` scan;
-- `--max N`: cap on FENs printed (default 10).
+- `--max N`: cap on positions (default 10); `--max infinity` (or `inf`) lifts
+  the cap;
+- `--themes`: annotate every hit with all the themes it shows (every
+  non-parametric theme; `promotions:<types>` is asked for with `--theme`);
+- `--solutions`: print every optimal solution of each hit as SAN;
+- `--json`: emit one JSON document instead of text (below);
+- `--interactive` (alias `--tui`): after the scan, open a shell over the
+  result (below).
 
 `--starts`/`--ends` are exact-match filters, evaluated (cheaply) only for
 positions that already matched `--dtm`/`--count` — a position that matches
@@ -600,6 +607,96 @@ solutions cannot be enumerated exhaustively
 (`KQvk` has no saturated-count positions, so this note never fires for the
 examples above; it applies to richer material classes where hundreds of
 optimal replies can tie.)
+
+### Annotated text output
+
+With `--themes` and/or `--solutions` each hit becomes a block: the FEN, an
+indented `themes:` line, one indented line per solution, then a blank line.
+The bare FEN list is `grep -v '^ ' | grep .` away.
+
+```
+$ helpmate mine KQvk --dtm 2 --max 2 --themes --solutions --tables tt
+8/8/8/8/8/8/8/k1KQ4 b - - 0 1
+  themes: set-play pure model ideal mirror single-piece single-piece:white single-piece:black nocapture nocheck
+  Ka2 Qa4#
+
+8/8/8/8/8/2Q5/8/k1K5 b - - 0 1
+  themes: single-piece single-piece:white single-piece:black nocapture nocheck
+  Ka2 Qb2#
+
+```
+
+A hit whose solutions reach a material this `--tables` directory lacks
+prints `  unavailable: <reason>` instead, and `mine` prints one note with the
+`gen` command that fixes it.
+
+### JSON output
+
+`--json` prints one object. `fen`, `dtm`, `count` are always present per
+position; `themes` needs `--themes`; `starts`, `ends`, `solutions` need
+`--solutions`. `max` is the integer given or `"infinity"`. The filter block
+repeats what was asked, `-1` meaning "not filtered".
+
+```
+$ helpmate mine KQvk --dtm 2 --max 1 --json --themes --solutions --tables tt
+{
+  "material": "KQvk",
+  "filter": {"dtm": 2, "count": -1, "starts": -1, "ends": -1, "themes": []},
+  "max": 1,
+  "skipped_saturated": 0,
+  "positions": [
+    {
+      "fen": "8/8/8/8/8/8/8/k1KQ4 b - - 0 1",
+      "dtm": 2,
+      "count": 1,
+      "themes": ["set-play", "pure", "model", "ideal", "mirror", "single-piece", "single-piece:white", "single-piece:black", "nocapture", "nocheck"],
+      "starts": 1,
+      "ends": 1,
+      "solutions": [["Ka2", "Qa4#"]]
+    }
+  ]
+}
+```
+
+### Interactive mining
+
+`--interactive` runs the scan once, keeps the hits in memory, and opens a
+prompt. Nothing rescans the table: narrowing, tallies and `show` work on the
+held set, computing each position's themes and solutions the first time they
+are needed and caching them. The prompt (on stderr) shows the current size.
+
+| Command | Effect |
+|---|---|
+| `theme NAME` | keep positions showing NAME (`promotions:qrr` works too) |
+| `not theme NAME` | drop positions showing NAME |
+| `count N`, `starts N`, `ends N` | keep positions with exactly that value |
+| `back` | undo the last narrowing; `reset` returns to the loaded set |
+| `list [FROM [N]]` | print FENs FROM..FROM+N-1 with their index (default 1, 20) |
+| `show I` | FEN, themes and every solution of hit I |
+| `themes` | how many positions in the current set show each theme |
+| `save FILE` | `.json`: the JSON above (themes if known for the whole set or `--themes` given, solutions if `--solutions` given); anything else: bare FENs |
+| `help`, `quit` | (EOF quits too) |
+
+```
+$ helpmate mine KQvk --dtm 2 --max infinity --interactive --tables tt
+loaded 580 positions (KQvk dtm=2)
+[580] mine> theme mirror
+477 positions
+[477] mine> count 1
+257 positions
+[257] mine> show 1
+8/8/8/8/8/8/8/k1KQ4 b - - 0 1
+  themes: set-play pure model ideal mirror single-piece single-piece:white single-piece:black nocapture nocheck
+  Ka2 Qa4#
+[257] mine> save mirror-unique.json
+saved 257 positions to mirror-unique.json (json, themes)
+[257] mine> quit
+```
+
+Stdout carries only results, so `helpmate mine ... --interactive < script > out`
+gives a clean file. There is no line editing; use `rlwrap helpmate ...` for
+history. `back` keeps whole copies of each previous set, which for a
+100k-position root and a deep stack is tens of MB.
 
 ## Themes
 

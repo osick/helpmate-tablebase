@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
+## [0.18.0] - 2026-09-10
+
+### Added
+- **`mine` holds its result: `--json`, `--themes`, `--solutions`, `--max
+  infinity`, and an `--interactive` shell.** `--max infinity` (or `inf`)
+  lifts the cap. `--themes` annotates every hit with all non-parametric
+  themes it shows, `--solutions` with every optimal solution; in text mode
+  these print as indented lines under the FEN, and `--json` emits one
+  document (`material`, `filter`, `max`, `skipped_saturated`,
+  `positions[]`). `--interactive` (alias `--tui`) opens a prompt over the
+  held set: `theme`/`not theme`/`count`/`starts`/`ends` narrow it without
+  rescanning, `back`/`reset` undo, `list`/`show` inspect, `themes` tallies
+  every theme over the current set, `save FILE` writes JSON or FENs. Backed
+  by a new core unit, `MineSet` (`probe/mine_set.h`), plus a stream-driven
+  `run_mine_shell`, both unit-tested with Catch2; `Tablebase` gained
+  `shows_theme` so a parametric theme can be checked on one position. The
+  Python bindings and the HTTP API are unchanged.
+
+### Changed
+- `mine --themes` is now a real flag (it used to be rejected as a typo for
+  `--theme`). `probe --theme` is still rejected.
+
 ## [0.17.0] - 2026-09-09
 
 ### Added
