@@ -33,7 +33,7 @@ void usage() {
                  "  helpmate line <FEN> [--tables DIR] [--all] [--max N]\n"
                  "  helpmate stats [MATERIAL] [--tables DIR]\n"
                  "  helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N]\n"
-                 "                           [--theme NAME]... [--themes] [--solutions] [--json]\n"
+                 "                           [--theme NAME]... [--themes] [--solutions] [--json|--jsonl]\n"
                  "                           [--interactive] [--max N|infinity] [--tables DIR]\n"
                  "  helpmate themes\n"
                  "  helpmate compact <DIR> [--dry-run] [--compress] [--block-size N]\n"
@@ -62,7 +62,7 @@ void usage() {
                  "  mine   Print positions in MATERIAL matching --dtm exactly (and, if given,\n"
                  "         --count/--starts/--ends/--theme), up to --max, one FEN per line.\n"
                  "         --themes adds every theme each position shows, --solutions every\n"
-                 "         optimal solution, --json emits one JSON document instead of text,\n"
+                 "         optimal solution, --json (--jsonl) emits JSON (JSON Lines) instead of text,\n"
                  "         --interactive opens a shell over the result (see docs/USAGE.md).\n"
                  "  themes List every theme detector this build knows, each with the\n"
                  "         definition it uses. These names are what --theme accepts.\n"
@@ -110,6 +110,8 @@ void usage() {
                  "                 mine: annotate every hit with all (non-parametric) themes\n"
                  "  --solutions    mine: print every optimal solution of each hit (SAN)\n"
                  "  --json         mine: one JSON document (material, filter, positions[])\n"
+                 "  --jsonl        mine: JSON Lines -- a header line, one object per position\n"
+                 "                 streamed as found, a footer line with the counts\n"
                  "  --interactive  mine: after the scan, a shell to narrow/inspect/save the\n"
                  "                 result without rescanning (--tui is an alias)\n"
                  "  --dry-run      compact: report what would be rewritten, write nothing\n"
@@ -516,8 +518,8 @@ int cmd_stats(const std::vector<std::string>& pos, const std::string& tables) {
 // What `mine` should print, beyond the bare FEN list: mutually-compatible
 // output-mode flags parsed by main() and passed straight through.
 struct MineOutput {
-    bool json = false, themes = false, solutions = false, interactive = false;
-    bool wants_set() const { return json || themes || solutions || interactive; }
+    bool json = false, jsonl = false, themes = false, solutions = false, interactive = false;
+    bool wants_set() const { return json || jsonl || themes || solutions || interactive; }
 };
 
 void note_skipped(uint64_t skipped) {
@@ -598,6 +600,36 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
         return 0;
     }
     MineSet set(tb, *m, filter, maxn);
+    MineSet::Facets facets{out.themes, out.solutions};
+    if (out.jsonl && !out.interactive) {
+        // JSON Lines streams: header, then each hit the moment the scan finds
+        // it (probed and enriched, never stored), then the footer with the
+        // counts only the end of the scan knows. Memory stays O(1) in hits,
+        // which is the whole point of the format on a --max infinity scan.
+        std::cout << set.jsonl_header();
+        size_t n = 0, unavailable = 0;
+        if (maxn > 0)
+            tb.mine(
+                *m, filter,
+                [&](const std::string& fen) {
+                    Hit h = set.make_hit(fen);
+                    set.enrich(h, facets);
+                    if (!h.unavailable.empty()) ++unavailable;
+                    std::cout << set.jsonl_record(h, facets);
+                    ++n;
+                    return (int)n < maxn;
+                },
+                &skipped);
+        set.set_skipped_saturated(skipped);
+        std::cout << set.jsonl_footer(n);
+        if (skipped) note_skipped(skipped);
+        if (unavailable)
+            std::cerr << "note: " << unavailable
+                      << " position(s) could not be annotated: a table their solutions reach is missing from "
+                      << tables << " (each says which); run: helpmate gen " << pos[0] << " --tables "
+                      << tables << "\n";
+        return 0;
+    }
     if (maxn > 0)
         tb.mine(
             *m, filter,
@@ -608,7 +640,6 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
             &skipped);
     set.set_skipped_saturated(skipped);
     if (skipped) note_skipped(skipped);
-    MineSet::Facets facets{out.themes, out.solutions};
     // Every 100 hits OR every second, per the spec, and worded exactly as the
     // shell words it: 100 alone goes quiet for minutes on slow enrichment.
     auto last_tick = std::chrono::steady_clock::now();
@@ -623,6 +654,7 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
         return run_mine_shell(std::move(set), std::cin, std::cout, std::cerr, facets, tables);
     }
     if (out.json) std::cout << set.to_json(facets, progress);
+    else if (out.jsonl) set.to_jsonl(std::cout, facets, progress);  // unreachable: streamed above
     else set.to_text(std::cout, facets, progress);
     if (set.unavailable_count())
         std::cerr << "note: " << set.unavailable_count()
@@ -1044,13 +1076,15 @@ int main(int argc, char** argv) {
                 return 3;
             }
             show_themes = true;
-        } else if (a == "--json" || a == "--solutions" || a == "--interactive" || a == "--tui") {
+        } else if (a == "--json" || a == "--jsonl" || a == "--solutions" || a == "--interactive" ||
+                   a == "--tui") {
             if (cmd != "mine") {
                 std::cerr << "error: " << cmd << " has no \"" << a << "\" flag; only \"mine\" has it\n\n";
                 usage();
                 return 3;
             }
             if (a == "--json") mine_out.json = true;
+            else if (a == "--jsonl") mine_out.jsonl = true;
             else if (a == "--solutions") mine_out.solutions = true;
             else mine_out.interactive = true;
         }
@@ -1066,6 +1100,12 @@ int main(int argc, char** argv) {
         } else pos.push_back(a);
     }
     if (bad_int) return 3;
+    if (mine_out.json && mine_out.jsonl) {
+        std::cerr
+            << "error: --json and --jsonl are mutually exclusive (one document, or one object per line)\n\n";
+        usage();
+        return 3;
+    }
 
     // --block-size is given in KiB (documented in --help): "64" means 64
     // KiB == 65536 bytes, matching how the size/miss-cost trade-off is

@@ -48,7 +48,8 @@ void help(std::ostream& out) {
            "  list [FROM [N]]  print FENs FROM..FROM+N-1 (default 1, 20)\n"
            "  show I           print hit I with its themes and every solution\n"
            "  themes           how many positions show each theme\n"
-           "  save FILE        write the set: FILE.json as JSON, otherwise bare FENs\n"
+           "  save FILE        write the set: FILE.json as JSON, FILE.jsonl as JSON Lines,\n"
+           "                   otherwise bare FENs\n"
            "  help             this list\n"
            "  quit             leave (exit and EOF do too)\n";
 }
@@ -195,20 +196,25 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
             // used to write a file called "my" and report success.
             std::string path = w[1];
             for (size_t k = 2; k < w.size(); ++k) path += " " + w[k];
-            const bool json = path.size() >= 5 && path.compare(path.size() - 5, 5, ".json") == 0;
+            auto ends_with = [&](const char* suf) {
+                std::string sf(suf);
+                return path.size() >= sf.size() && path.compare(path.size() - sf.size(), sf.size(), sf) == 0;
+            };
+            const bool json = ends_with(".json"), jsonl = ends_with(".jsonl");
             std::ofstream f(path);
             if (!f) {
                 err << "cannot write " << path << ": " << std::strerror(errno) << "\n";
                 continue;
             }
             std::string wrote;
-            if (json) {
+            if (json || jsonl) {
                 // An empty set trivially "has all themes"; claiming (json,
                 // themes) for a file with no positions in it is a lie.
                 MineSet::Facets fac{cli_facets.themes || (cur.size() > 0 && cur.all_have_themes()),
                                     cli_facets.solutions};
-                f << cur.to_json(fac, progress);
-                wrote = std::string("json") + (fac.themes ? ", themes" : "") +
+                if (jsonl) cur.to_jsonl(f, fac, progress);
+                else f << cur.to_json(fac, progress);
+                wrote = std::string(jsonl ? "jsonl" : "json") + (fac.themes ? ", themes" : "") +
                         (fac.solutions ? ", solutions" : "");
             } else {
                 for (const auto& h : cur.hits()) f << h.fen << "\n";

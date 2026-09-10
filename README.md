@@ -150,10 +150,14 @@ $ helpmate mine KRvkb --dtm 6 --max 1 --themes --solutions --tables ~/tb
 **Take everything.** `--max infinity` (or `inf`) lifts the cap, and `--json`
 turns the result into one document with the material, the filter that was
 asked, and a `positions` array carrying `fen`, `dtm`, `count` and, with the
-flags above, `themes`, `starts`, `ends` and `solutions`:
+flags above, `themes`, `starts`, `ends` and `solutions`. For a result too
+big to parse in one piece, `--jsonl` writes the same records one per line,
+streamed as the scan finds them, between a header line and a footer line
+with the counts:
 
 ```console
 $ helpmate mine KRvkb --dtm 6 --max infinity --json --themes --solutions --tables ~/tb > krvkb-h3.json
+$ helpmate mine KRvkb --dtm 6 --max infinity --jsonl --themes --tables ~/tb | jq -c 'select(.fen and (.themes|index("ideal")))'
 ```
 
 **Refine instead of rescanning.** `--interactive` runs the scan once, keeps
@@ -171,7 +175,7 @@ a second filter on the same set costs nothing.
 | `back`, `reset` | undo the last narrowing, or return to the loaded set |
 | `list [FROM [N]]`, `show I` | page through the FENs; print one hit with its themes and every solution |
 | `themes` | how many positions in the current set show each theme, the map for what to narrow on next |
-| `save FILE` | `.json` writes the document above; anything else writes bare FENs |
+| `save FILE` | `.json` writes the document above, `.jsonl` the JSON Lines form; anything else writes bare FENs |
 | `help`, `quit` | |
 
 Results go to stdout and the prompt, progress and notes to stderr, so a

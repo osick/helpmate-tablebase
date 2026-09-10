@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <functional>
+#include <nlohmann/json.hpp>
 #include <optional>
 #include <ostream>
 #include <string>
@@ -48,6 +49,13 @@ public:
 
     void add(const std::string& fen);  // one probe: dtm, count
     void add(Hit h);
+    // The probe `add(fen)` does, without storing the hit: the streaming
+    // path's building block (`--jsonl` writes a hit as the scan finds it and
+    // never holds the set). `enrich` fills what `f` asks for, via the
+    // ensure_* below, so a streamed record carries the same fields as a held
+    // one.
+    Hit make_hit(const std::string& fen) const;
+    void enrich(Hit& h, Facets f) const;
     const std::vector<Hit>& hits() const { return hits_; }
     // Mutable access to one hit, so a caller can enrich it IN the set (the
     // cache) instead of enriching a copy. Throws std::out_of_range.
@@ -89,6 +97,19 @@ public:
     // Output. Both force whatever enrichment the facets need, hence non-const.
     std::string to_json(Facets f, const Progress& progress = nullptr);
     void to_text(std::ostream& os, Facets f, const Progress& progress = nullptr);
+    // JSON Lines: the --json document as one line per object, so a file can
+    // be streamed, split, grepped and read back a line at a time. Line 1 is
+    // the header (material, filter, max -- the top-level keys minus the
+    // array), then one record per hit exactly as --json's positions[] element
+    // (a reader tells them apart by the `fen` key), then the footer with the
+    // counts ({"positions": N, "skipped_saturated": M}), which a streaming
+    // writer only knows at the end -- and whose absence marks a truncated
+    // file. to_jsonl writes all three for the held set (forcing enrichment);
+    // the three builders let the CLI stream the same bytes without a set.
+    std::string jsonl_header() const;
+    std::string jsonl_record(const Hit& h, Facets f) const;  // writes what h holds; never enriches
+    std::string jsonl_footer(size_t positions) const;
+    void to_jsonl(std::ostream& os, Facets f, const Progress& progress = nullptr);
     // One hit's text block exactly as to_text renders it, minus the trailing
     // blank line: FEN, then `  unavailable:` or the requested facets. Writes
     // only what `h` already holds -- it never enriches, so the caller decides
@@ -103,6 +124,8 @@ private:
     template <class Pred>
     MineSet filtered(Pred&& keep) const;
     void enrich_for(Facets f, const Progress& progress);
+    nlohmann::ordered_json header_json() const;                          // material, filter, max
+    nlohmann::ordered_json position_json(const Hit& h, Facets f) const;  // THE one --json/--jsonl record
 
     const Tablebase* tb_;
     Material m_;

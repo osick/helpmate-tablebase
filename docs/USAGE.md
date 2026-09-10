@@ -523,7 +523,7 @@ enumerate the actual positions at any (dtm, count).
 ## `mine` — scan for composition candidates
 
 ```
-helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NAME]... [--max N|infinity] [--themes] [--solutions] [--json] [--interactive] [--tables DIR]
+helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NAME]... [--max N|infinity] [--themes] [--solutions] [--json|--jsonl] [--interactive] [--tables DIR]
 ```
 
 - `--dtm D` (**required**): exact distance-to-mate, in plies, to match;
@@ -550,6 +550,8 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
   non-parametric theme; `promotions:<types>` is asked for with `--theme`);
 - `--solutions`: print every optimal solution of each hit as SAN;
 - `--json`: emit one JSON document instead of text (below);
+- `--jsonl`: emit JSON Lines instead: a header line, one object per position
+  streamed as the scan finds it, a footer line with the counts (below);
 - `--interactive` (alias `--tui`): after the scan, open a shell over the
   result (below).
 
@@ -661,6 +663,31 @@ $ helpmate mine KQvk --dtm 2 --max 1 --json --themes --solutions --tables tt
 }
 ```
 
+### JSON Lines output
+
+`--jsonl` is the same data as `--json`, one object per line, for results too
+large to parse as a single document. Line 1 is the header: the top-level keys
+of `--json` minus the array (`material`, `filter`, `max`). Then one line per
+position, byte-for-byte the record `--json` puts in `positions[]`, with the
+same optional fields under the same flags. The last line is the footer,
+`{"positions": N, "skipped_saturated": M}`. A reader tells the three apart by
+their keys: a position has `fen`, the header has `material`, the footer has
+`positions`. `jq -c 'select(.fen)'` yields the positions alone.
+
+```
+$ helpmate mine KQvk --dtm 2 --max 1 --jsonl --themes --solutions --tables tt
+{"material":"KQvk","filter":{"dtm":2,"count":-1,"starts":-1,"ends":-1,"themes":[]},"max":1}
+{"fen":"8/8/8/8/8/8/8/k1KQ4 b - - 0 1","dtm":2,"count":1,"themes":["set-play","pure","model","ideal","mirror","single-piece","single-piece:white","single-piece:black","nocapture","nocheck"],"starts":1,"ends":1,"solutions":[["Ka2","Qa4#"]]}
+{"positions":1,"skipped_saturated":0}
+```
+
+Unlike `--json`, `--jsonl` streams: each position is probed, annotated and
+written the moment the scan finds it, and nothing is held in memory, so a
+`--max infinity` scan of a large class costs a constant amount of RAM
+however many hits it has. That is also why the counts are in the footer
+rather than the header: a writer only knows them at the end. A file without
+a footer was cut short. `--json` and `--jsonl` are mutually exclusive.
+
 ### Interactive mining
 
 `--interactive` runs the scan once, keeps the hits in memory, and opens a
@@ -677,7 +704,7 @@ are needed and caching them. The prompt (on stderr) shows the current size.
 | `list [FROM [N]]` | print FENs FROM..FROM+N-1 with their index (default 1, 20) |
 | `show I` | FEN, themes and every solution of hit I |
 | `themes` | how many positions in the current set show each theme |
-| `save FILE` | `.json`: the JSON above (themes if known for the whole set or `--themes` given, solutions if `--solutions` given); anything else: bare FENs |
+| `save FILE` | `.json`: the JSON document above; `.jsonl`: the JSON Lines form (header, records, footer); both with themes if known for the whole set or `--themes` given, solutions if `--solutions` given; anything else: bare FENs |
 | `help`, `quit`, `exit` | (EOF quits too) |
 
 Only a lowercase `.json` suffix selects JSON output for `save`; `FILE.JSON`

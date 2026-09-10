@@ -213,3 +213,24 @@ TEST_CASE("shell: help lists every command", "[mine_shell]") {
                           "themes", "save", "help", "quit"})
         REQUIRE(has(r.out, c));
 }
+
+TEST_CASE("shell: save jsonl writes header, records and footer", "[mine_shell]") {
+    Tablebase tb(gen_kqvk());
+    auto dir = std::filesystem::temp_directory_path() / "hm_mine_shell_save";
+    std::filesystem::create_directories(dir);
+    auto lpath = (dir / "out.jsonl").string();
+    auto r = run(tb, "theme mirror\nsave " + lpath + "\n", {.solutions = true}, 10);
+    REQUIRE(has(r.out, "to " + lpath + " (jsonl, themes, solutions)"));
+    std::ifstream lf(lpath);
+    std::vector<std::string> lines;
+    for (std::string l; std::getline(lf, l);) lines.push_back(l);
+    REQUIRE(lines.size() >= 3);
+    auto header = nlohmann::json::parse(lines.front());
+    REQUIRE(header["material"] == "KQvk");
+    auto footer = nlohmann::json::parse(lines.back());
+    REQUIRE(footer["positions"] == (int)lines.size() - 2);
+    auto rec = nlohmann::json::parse(lines[1]);
+    REQUIRE(rec["fen"] == kFirst);
+    REQUIRE(rec.contains("themes"));
+    REQUIRE(rec.contains("solutions"));
+}

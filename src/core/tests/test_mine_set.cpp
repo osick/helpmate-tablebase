@@ -298,3 +298,62 @@ TEST_CASE("to_text: bare FENs by default, indented facets otherwise", "[mine_set
     REQUIRE(text.find(" mirror") != std::string::npos);
     REQUIRE(text.find("\n  Ka2 Qa4#\n\n") != std::string::npos);
 }
+
+TEST_CASE("to_jsonl: header, one record per hit, footer; records equal to_json's", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2, .themes = {"mirror"}}, INT_MAX);
+    s.add(kGolden);
+    s.add(kFirst);
+    s.set_skipped_saturated(3);
+    MineSet::Facets both{.themes = true, .solutions = true};
+    std::ostringstream os;
+    s.to_jsonl(os, both);
+    std::vector<std::string> lines;
+    {
+        std::istringstream in(os.str());
+        for (std::string l; std::getline(in, l);) lines.push_back(l);
+    }
+    REQUIRE(lines.size() == 4);  // header + 2 records + footer
+    REQUIRE(os.str().back() == '\n');
+    auto header = nlohmann::json::parse(lines[0]);
+    REQUIRE(header["material"] == "KQvk");
+    REQUIRE(header["filter"]["themes"] == nlohmann::json::array({"mirror"}));
+    REQUIRE(header["max"] == "infinity");
+    REQUIRE_FALSE(header.contains("positions"));
+    REQUIRE_FALSE(header.contains("skipped_saturated"));
+    // Records are byte-for-byte the --json positions[] elements, compacted.
+    auto doc = nlohmann::json::parse(s.to_json(both));
+    for (size_t i = 0; i < 2; ++i) {
+        auto rec = nlohmann::json::parse(lines[i + 1]);
+        REQUIRE(rec == doc["positions"][i]);
+        REQUIRE(rec.contains("fen"));
+    }
+    auto footer = nlohmann::json::parse(lines[3]);
+    REQUIRE(footer["positions"] == 2);
+    REQUIRE(footer["skipped_saturated"] == 3);
+    REQUIRE_FALSE(footer.contains("fen"));
+    // The streaming building blocks agree with the held-set writer.
+    REQUIRE(lines[0] + "\n" == s.jsonl_header());
+    REQUIRE(lines[3] + "\n" == s.jsonl_footer(2));
+    Hit h = s.make_hit(kGolden);
+    REQUIRE(h.count == 4);
+    REQUIRE_FALSE(h.themes);
+    s.enrich(h, both);
+    REQUIRE(h.themes);
+    REQUIRE(h.solutions);
+    REQUIRE(lines[1] + "\n" == s.jsonl_record(h, both));
+    REQUIRE(s.size() == 2);  // make_hit stored nothing
+}
+
+TEST_CASE("to_jsonl without facets is minimal and the footer follows an empty set", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 7);
+    std::ostringstream os;
+    s.to_jsonl(os, {});
+    std::vector<std::string> lines;
+    std::istringstream in(os.str());
+    for (std::string l; std::getline(in, l);) lines.push_back(l);
+    REQUIRE(lines.size() == 2);
+    REQUIRE(nlohmann::json::parse(lines[0])["max"] == 7);
+    REQUIRE(nlohmann::json::parse(lines[1]) == nlohmann::json({{"positions", 0}, {"skipped_saturated", 0}}));
+}
