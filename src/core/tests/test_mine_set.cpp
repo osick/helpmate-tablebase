@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <catch2/catch_test_macros.hpp>
 #include <climits>
 #include <filesystem>
@@ -27,8 +28,13 @@ const char* kSecond = "8/8/8/8/8/2Q5/8/k1K5 b - - 0 1";
 MineSet kqvk_set(const Tablebase& tb, int dtm = 2, int cap = INT_MAX) {
     MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = dtm}, cap);
     uint64_t skipped = 0;
-    tb.mine(*Material::parse("KQvk"), MineFilter{.dtm = dtm},
-            [&](const std::string& f) { s.add(f); return (int)s.size() < cap; }, &skipped);
+    tb.mine(
+        *Material::parse("KQvk"), MineFilter{.dtm = dtm},
+        [&](const std::string& f) {
+            s.add(f);
+            return (int)s.size() < cap;
+        },
+        &skipped);
     s.set_skipped_saturated(skipped);
     return s;
 }
@@ -69,4 +75,62 @@ TEST_CASE("non_parametric drops parametric entries only", "[mine_set]") {
     int parametric = 0;
     for (const auto& t : themes::theme_registry()) parametric += t.param != nullptr;
     REQUIRE(parametric == 1);
+}
+
+TEST_CASE("enrichment fills shape, themes and solutions once", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 10);
+    s.add(kGolden);
+    Hit h = s.hits()[0];
+    s.ensure_shape(h);
+    REQUIRE(h.shape);
+    REQUIRE(h.shape->starts == 2);
+    REQUIRE(h.shape->ends == 4);
+    s.ensure_solutions(h);
+    REQUIRE(h.solutions);
+    REQUIRE(h.solutions->size() == 4);
+    REQUIRE((*h.solutions)[3] == std::vector<std::string>{"Kh8", "Qg7#"});
+    s.ensure_themes(h);
+    REQUIRE(h.themes);
+    auto& t = *h.themes;
+    REQUIRE(std::find(t.begin(), t.end(), "mirror") != t.end());
+    for (const auto& n : t) REQUIRE(themes::resolve_theme(n)->def->param == nullptr);
+    REQUIRE(h.unavailable.empty());
+}
+
+TEST_CASE("ensure_themes_all reports progress and is idempotent", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb, 2, 250);
+    REQUIRE(s.size() == 250);
+    REQUIRE_FALSE(s.all_have_themes());
+    std::vector<std::pair<size_t, size_t>> ticks;
+    s.ensure_themes_all([&](size_t d, size_t t) { ticks.emplace_back(d, t); });
+    REQUIRE(s.all_have_themes());
+    REQUIRE_FALSE(ticks.empty());
+    REQUIRE(ticks.back() == std::pair<size_t, size_t>{250, 250});
+    ticks.clear();
+    s.ensure_themes_all([&](size_t d, size_t t) { ticks.emplace_back(d, t); });
+    REQUIRE(ticks.empty());  // nothing left to do: no callback at all
+    REQUIRE(s.unavailable_count() == 0);
+}
+
+TEST_CASE("a hit whose enrichment needs a missing table is marked, not dropped", "[mine_set]") {
+    // A Tablebase over an EMPTY directory: probe/solutions throw MissingTableError.
+    auto empty = (std::filesystem::temp_directory_path() / "hm_mine_set_empty").string();
+    std::filesystem::create_directories(empty);
+    Tablebase tb(empty);
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 10);
+    Hit h;
+    h.fen = kGolden;
+    h.dtm = 2;
+    h.count = 4;
+    s.add(h);
+    Hit copy = s.hits()[0];
+    s.ensure_themes(copy);
+    REQUIRE_FALSE(copy.themes);
+    REQUIRE_FALSE(copy.unavailable.empty());
+    s.ensure_solutions(copy);  // skipped: already unavailable, must not throw
+    REQUIRE_FALSE(copy.solutions);
+    s.ensure_themes_all();
+    REQUIRE(s.unavailable_count() == 1);
 }

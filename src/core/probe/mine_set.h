@@ -20,7 +20,7 @@ struct Hit {
     std::string fen;
     int dtm = -1, count = -1;
     std::optional<SolutionShape> shape;
-    std::optional<std::vector<std::string>> themes;               // non-parametric names only
+    std::optional<std::vector<std::string>> themes;                  // non-parametric names only
     std::optional<std::vector<std::vector<std::string>>> solutions;  // SAN, one vector per solution
     std::string unavailable;
 };
@@ -35,7 +35,10 @@ std::vector<std::string> non_parametric(const std::vector<std::string>& names);
 // so the shell can keep the old one for `back`.
 class MineSet {
 public:
-    struct Facets { bool themes = false; bool solutions = false; };
+    struct Facets {
+        bool themes = false;
+        bool solutions = false;
+    };
     using Progress = std::function<void(size_t done, size_t total)>;
 
     MineSet(const Tablebase& tb, Material m, MineFilter f, int max);
@@ -50,7 +53,24 @@ public:
     uint64_t skipped_saturated() const { return skipped_; }
     void set_skipped_saturated(uint64_t n) { skipped_ = n; }
 
+    // Enrichment: idempotent, cached in the hit. A MissingTableError marks
+    // the hit unavailable (its text) instead of propagating; a hit already
+    // marked is skipped. Progress, when given, is called after every hit
+    // that actually needed work, with (done, total) over the whole set, and
+    // never when there was nothing to do.
+    void ensure_shape(Hit& h) const;
+    void ensure_themes(Hit& h) const;
+    void ensure_solutions(Hit& h) const;
+    void ensure_themes_all(const Progress& progress = nullptr);
+    void ensure_solutions_all(const Progress& progress = nullptr);
+    bool all_have_themes() const;
+    size_t unavailable_count() const;
+
 private:
+    int enum_cap(const Hit& h) const;  // COUNT_SAT -> 100, else the hit's own count
+    template <class F>
+    void guarded(Hit& h, F&& f) const;  // runs f, marks unavailable on MissingTableError
+
     const Tablebase* tb_;
     Material m_;
     MineFilter f_;
