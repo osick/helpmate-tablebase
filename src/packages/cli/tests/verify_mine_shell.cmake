@@ -42,7 +42,15 @@ if(NOT EXISTS "${out_json}")
   message(FATAL_ERROR "save did not write ${out_json}")
 endif()
 file(READ "${out_json}" saved)
-if(NOT "${saved}" MATCHES "\"positions\"" OR NOT "${saved}" MATCHES "\"themes\"")
+# "themes" is checked restricted to the part of the JSON from the first
+# "positions" occurrence onward: the top-level "filter" block always
+# carries its own "themes" key (the --theme name list) regardless of
+# whether save actually attached per-position theme data, so matching the
+# whole document would be vacuous. Same technique as
+# verify_mine_outputs.cmake's check 3a.
+string(FIND "${saved}" "\"positions\"" pos_saved_positions)
+string(SUBSTRING "${saved}" ${pos_saved_positions} -1 saved_after_positions)
+if(NOT "${saved}" MATCHES "\"positions\"" OR NOT "${saved_after_positions}" MATCHES "\"themes\"")
   message(FATAL_ERROR "saved JSON lacks positions/themes:\n${saved}")
 endif()
 

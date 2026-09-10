@@ -47,7 +47,7 @@ foreach(key "\"material\": \"KQvk\"" "\"filter\"" "\"max\": 2" "\"skipped_satura
     message(FATAL_ERROR "--json output lacks ${key}:\n${out}")
   endif()
 endforeach()
-# "themes" is checked separately, restricted to the part of the output from
+# 3a. "themes" is checked separately, restricted to the part of the output from
 # the first "positions" occurrence onward: the top-level "filter" block
 # always carries its own "themes" key (the --theme name list, independent
 # of the --themes facet), so matching it against the whole output would be
