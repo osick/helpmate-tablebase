@@ -22,14 +22,24 @@ std::vector<std::string> non_parametric(const std::vector<std::string>& names) {
 MineSet::MineSet(const Tablebase& tb, Material m, MineFilter f, int max)
     : tb_(&tb), m_(std::move(m)), f_(std::move(f)), max_(max) {}
 
-void MineSet::add(const std::string& fen) {
+Hit MineSet::make_hit(const std::string& fen) const {
     Hit h;
     h.fen = fen;
     if (auto p = tb_->probe(fen)) {
         h.dtm = p->dtm;
         h.count = p->count;
     }
-    hits_.push_back(std::move(h));
+    return h;
+}
+
+void MineSet::add(const std::string& fen) { hits_.push_back(make_hit(fen)); }
+
+void MineSet::enrich(Hit& h, Facets f) const {
+    if (f.themes) ensure_themes(h);
+    if (f.solutions) {
+        ensure_solutions(h);
+        ensure_shape(h);
+    }
 }
 
 void MineSet::add(Hit h) { hits_.push_back(std::move(h)); }
@@ -179,8 +189,7 @@ void MineSet::enrich_for(Facets f, const Progress& progress) {
     if (f.solutions) ensure_solutions_all(progress);
 }
 
-std::string MineSet::to_json(Facets f, const Progress& progress) {
-    enrich_for(f, progress);
+nlohmann::ordered_json MineSet::header_json() const {
     nlohmann::ordered_json j;
     j["material"] = m_.name();
     j["filter"] = {{"dtm", f_.dtm},
@@ -190,35 +199,61 @@ std::string MineSet::to_json(Facets f, const Progress& progress) {
                    {"themes", f_.themes}};
     if (max_ == INT_MAX) j["max"] = "infinity";
     else j["max"] = max_;
+    return j;
+}
+
+nlohmann::ordered_json MineSet::position_json(const Hit& h, Facets f) const {
+    nlohmann::ordered_json p;
+    p["fen"] = h.fen;
+    p["dtm"] = h.dtm;
+    p["count"] = h.count;
+    if (!h.unavailable.empty()) {
+        p["unavailable"] = h.unavailable;
+    } else {
+        if (f.themes && h.themes) p["themes"] = *h.themes;
+        if (f.solutions && h.shape && h.solutions) {
+            // A saturated position has no countable solution set, so
+            // `starts`/`ends` would be a guess presented as a fact: say
+            // so with one explicit key instead, and keep `solutions`,
+            // which is honestly the first 100 (enum_cap).
+            if (h.shape->exhaustive) {
+                p["starts"] = h.shape->starts;
+                p["ends"] = h.shape->ends;
+            } else {
+                p["exhaustive"] = false;
+            }
+            p["solutions"] = *h.solutions;
+        }
+    }
+    return p;
+}
+
+std::string MineSet::to_json(Facets f, const Progress& progress) {
+    enrich_for(f, progress);
+    nlohmann::ordered_json j = header_json();
     j["skipped_saturated"] = skipped_;
     auto positions = nlohmann::ordered_json::array();
-    for (const auto& h : hits_) {
-        nlohmann::ordered_json p;
-        p["fen"] = h.fen;
-        p["dtm"] = h.dtm;
-        p["count"] = h.count;
-        if (!h.unavailable.empty()) {
-            p["unavailable"] = h.unavailable;
-        } else {
-            if (f.themes && h.themes) p["themes"] = *h.themes;
-            if (f.solutions && h.shape && h.solutions) {
-                // A saturated position has no countable solution set, so
-                // `starts`/`ends` would be a guess presented as a fact: say
-                // so with one explicit key instead, and keep `solutions`,
-                // which is honestly the first 100 (enum_cap).
-                if (h.shape->exhaustive) {
-                    p["starts"] = h.shape->starts;
-                    p["ends"] = h.shape->ends;
-                } else {
-                    p["exhaustive"] = false;
-                }
-                p["solutions"] = *h.solutions;
-            }
-        }
-        positions.push_back(std::move(p));
-    }
+    for (const auto& h : hits_) positions.push_back(position_json(h, f));
     j["positions"] = std::move(positions);
     return j.dump(2) + "\n";
+}
+
+std::string MineSet::jsonl_header() const { return header_json().dump() + "\n"; }
+
+std::string MineSet::jsonl_record(const Hit& h, Facets f) const { return position_json(h, f).dump() + "\n"; }
+
+std::string MineSet::jsonl_footer(size_t positions) const {
+    nlohmann::ordered_json j;
+    j["positions"] = positions;
+    j["skipped_saturated"] = skipped_;
+    return j.dump() + "\n";
+}
+
+void MineSet::to_jsonl(std::ostream& os, Facets f, const Progress& progress) {
+    enrich_for(f, progress);
+    os << jsonl_header();
+    for (const auto& h : hits_) os << jsonl_record(h, f);
+    os << jsonl_footer(hits_.size());
 }
 
 void MineSet::write_hit(std::ostream& os, const Hit& h, Facets f) const {

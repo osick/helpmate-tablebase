@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
+## [0.18.1] - 2026-09-10
+
+### Added
+- **`mine --jsonl`, and `save FILE.jsonl` in the shell: JSON Lines for
+  results too large to parse as one document.** A header line (material,
+  filter, max), then one object per position, byte-for-byte the record
+  `--json` puts in `positions[]`, then a footer line with `positions` and
+  `skipped_saturated`. On the command line it streams: each hit is probed,
+  annotated and written as the scan finds it and nothing is held, so a
+  `--max infinity` scan runs in constant memory; the counts sit in the footer
+  because that is when a streaming writer knows them, and a missing footer
+  marks a truncated file. `--json` and `--jsonl` are mutually exclusive.
+  `MineSet` gained `make_hit`/`enrich` (the streaming building blocks) and
+  `jsonl_header`/`jsonl_record`/`jsonl_footer`/`to_jsonl`; the `--json`
+  record is now built in one place shared by both formats.
+
 ## [0.18.0] - 2026-09-10
 
 ### Added
