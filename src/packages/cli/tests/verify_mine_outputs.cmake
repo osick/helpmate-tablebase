@@ -26,10 +26,13 @@ foreach(word infinity inf)
   endif()
 endforeach()
 
-# 2. A bad --max word is rejected, naming the accepted words.
+# 2. A bad --max word is rejected, naming the accepted words. (Matching bare
+# "infinity" would also pass against the usage text alone, which prints
+# "--max N|infinity" regardless of this error path, so pin the actual error
+# message and the quoted "inf" alternative instead.)
 run_helpmate(out rc mine KQvk --dtm 2 --max all --tables "${TABLES}")
-if(NOT rc EQUAL 3 OR NOT "${last_err}" MATCHES "infinity")
-  message(FATAL_ERROR "--max all: expected exit 3 naming infinity, got ${rc}: ${last_err}")
+if(NOT rc EQUAL 3 OR NOT "${last_err}" MATCHES "--max expects an integer" OR NOT "${last_err}" MATCHES "\"inf\"")
+  message(FATAL_ERROR "--max all: expected exit 3 naming the accepted words, got ${rc}: ${last_err}")
 endif()
 
 # 3. --json with both facets: the documented keys, in order.
@@ -39,11 +42,21 @@ if(NOT rc EQUAL 0)
 endif()
 foreach(key "\"material\": \"KQvk\"" "\"filter\"" "\"max\": 2" "\"skipped_saturated\": 0" "\"positions\""
             "\"fen\": \"8/8/8/8/8/8/8/k1KQ4 b - - 0 1\"" "\"count\": 1" "\"starts\": 1" "\"ends\": 1"
-            "\"themes\"" "\"solutions\"" "\"Qa4#\"")
+            "\"solutions\"" "\"Qa4#\"")
   if(NOT "${out}" MATCHES "${key}")
     message(FATAL_ERROR "--json output lacks ${key}:\n${out}")
   endif()
 endforeach()
+# "themes" is checked separately, restricted to the part of the output from
+# the first "positions" occurrence onward: the top-level "filter" block
+# always carries its own "themes" key (the --theme name list, independent
+# of the --themes facet), so matching it against the whole output would be
+# vacuous. Same technique as check 4 below.
+string(FIND "${out}" "\"positions\"" pos_positions_3)
+string(SUBSTRING "${out}" ${pos_positions_3} -1 after_positions_3)
+if(NOT "${after_positions_3}" MATCHES "\"themes\"")
+  message(FATAL_ERROR "--json output lacks the themes facet in positions:\n${out}")
+endif()
 string(FIND "${out}" "\"material\"" pos_m)
 string(FIND "${out}" "\"positions\"" pos_p)
 if(NOT pos_m LESS pos_p)
@@ -69,6 +82,24 @@ string(FIND "${out}" "\"positions\"" pos_positions)
 string(SUBSTRING "${out}" ${pos_positions} -1 after_positions)
 if(NOT rc EQUAL 0 OR "${after_positions}" MATCHES "\"themes\"" OR "${after_positions}" MATCHES "\"solutions\"")
   message(FATAL_ERROR "--json alone must not carry facets:\n${out}")
+endif()
+
+# 4a. --max 0 with --json: an empty match, not an error.
+run_helpmate(out rc mine KQvk --dtm 2 --max 0 --json --tables "${TABLES}")
+if(NOT rc EQUAL 0 OR NOT "${out}" MATCHES "\"positions\": \\[\\]")
+  message(FATAL_ERROR "--max 0 --json: expected exit 0 with an empty positions array, got ${rc}:\n${out}")
+endif()
+
+# 4b. --max infinity with --json: max recorded as "infinity" and every one
+# of the 580 dtm=2 positions present.
+run_helpmate(out rc mine KQvk --dtm 2 --max infinity --json --tables "${TABLES}")
+if(NOT rc EQUAL 0 OR NOT "${out}" MATCHES "\"max\": \"infinity\"")
+  message(FATAL_ERROR "--max infinity --json: expected exit 0 with max recorded as infinity, got ${rc}:\n${out}")
+endif()
+string(REGEX MATCHALL "\"fen\":" fens "${out}")
+list(LENGTH fens n_fens)
+if(NOT n_fens EQUAL 580)
+  message(FATAL_ERROR "--max infinity --json: expected 580 \"fen\": occurrences, got ${n_fens}")
 endif()
 
 # 5. Text --solutions: FEN, indented line, blank line. And --themes is accepted by mine now.

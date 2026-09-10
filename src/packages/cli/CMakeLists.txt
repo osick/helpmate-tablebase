@@ -63,6 +63,17 @@ add_test(NAME cli_mine_outputs COMMAND ${CMAKE_COMMAND}
          -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/verify_mine_outputs.cmake)
 set_tests_properties(cli_mine_outputs PROPERTIES DEPENDS cli_gen)
 
+# v0.18.0: `--interactive` end-to-end. Drives the shell through a piped
+# stdin session and pins what a user sees (prompt, narrowing tallies,
+# histogram, list/show/save) plus a second session proving errors don't
+# end the loop.
+add_test(NAME cli_mine_shell COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         -DTABLES=${CLI_TT}
+         -DSESSION=${CMAKE_CURRENT_SOURCE_DIR}/tests/mine_shell_session.txt
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/verify_mine_shell.cmake)
+set_tests_properties(cli_mine_shell PROPERTIES DEPENDS cli_gen)
+
 # An unknown theme must fail loudly and name the alternatives -- the --end/--ends
 # lesson: a silently discarded filter returns positions that do not match what
 # was asked for, with nothing to indicate it. WILL_FAIL alone only pins
