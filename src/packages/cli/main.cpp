@@ -13,6 +13,8 @@
 #include "format/table_file.h"
 #include "generator/generator.h"
 #include "indexing/material.h"
+#include "probe/mine_set.h"
+#include "probe/mine_shell.h"
 #include "probe/tablebase.h"
 #include "themes/registry.h"
 #include "version.h"
@@ -31,8 +33,8 @@ void usage() {
                  "  helpmate line <FEN> [--tables DIR] [--all] [--max N]\n"
                  "  helpmate stats [MATERIAL] [--tables DIR]\n"
                  "  helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N]\n"
-                 "                           [--theme NAME]...\n"
-                 "               [--max N] [--tables DIR]\n"
+                 "                           [--theme NAME]... [--themes] [--solutions] [--json]\n"
+                 "                           [--interactive] [--max N|infinity] [--tables DIR]\n"
                  "  helpmate themes\n"
                  "  helpmate compact <DIR> [--dry-run] [--compress] [--block-size N]\n"
                  "  helpmate --version\n"
@@ -57,8 +59,11 @@ void usage() {
                  "         MATERIAL, print a summary of every table in --tables DIR:\n"
                  "         formats and sizes, cell breakdown, deepest mate, largest\n"
                  "         tables.\n"
-                 "  mine   Print FENs of positions in MATERIAL matching --dtm exactly (and,\n"
-                 "         if given, --count exactly), up to --max, one per line.\n"
+                 "  mine   Print positions in MATERIAL matching --dtm exactly (and, if given,\n"
+                 "         --count/--starts/--ends/--theme), up to --max, one FEN per line.\n"
+                 "         --themes adds every theme each position shows, --solutions every\n"
+                 "         optimal solution, --json emits one JSON document instead of text,\n"
+                 "         --interactive opens a shell over the result (see docs/USAGE.md).\n"
                  "  themes List every theme detector this build knows, each with the\n"
                  "         definition it uses. These names are what --theme accepts.\n"
                  "  compact Rewrite every .hm table in DIR whose cells are all\n"
@@ -88,7 +93,8 @@ void usage() {
                  "                 --compress can re-block an already-compressed table to a\n"
                  "                 new size in place, without regenerating it.\n"
                  "  --all          line: print every optimal line, not just one\n"
-                 "  --max N        cap on lines/FENs printed (default: 10)\n"
+                 "  --max N        cap on lines/FENs printed (default: 10); \"infinity\" or\n"
+                 "                 \"inf\" for no cap\n"
                  "  --dtm D        mine: required, exact distance-to-mate to match\n"
                  "  --count C      mine: optional, exact optimal-reply count to match\n"
                  "  --starts N     mine: optional, exact number of distinct first moves across\n"
@@ -101,6 +107,11 @@ void usage() {
                  "                 A parametric theme takes a value: --theme promotions:qrr\n"
                  "                 `helpmate themes` lists the names and their definitions.\n"
                  "  --themes       probe: also print the themes the position's solutions show\n"
+                 "                 mine: annotate every hit with all (non-parametric) themes\n"
+                 "  --solutions    mine: print every optimal solution of each hit (SAN)\n"
+                 "  --json         mine: one JSON document (material, filter, positions[])\n"
+                 "  --interactive  mine: after the scan, a shell to narrow/inspect/save the\n"
+                 "                 result without rescanning (--tui is an alias)\n"
                  "  --dry-run      compact: report what would be rewritten, write nothing\n"
                  "  --version      print version (\"helpmate "
               << HELPMATE_VERSION
@@ -116,6 +127,8 @@ void usage() {
                  "  helpmate mine KQvk --dtm 2 --count 4 --starts 2 --ends 4 --tables tt\n"
                  "  helpmate mine KQvk --dtm 2 --theme mirror --max 5 --tables tt\n"
                  "  helpmate probe \"8/7k/5K2/8/8/8/8/6Q1 b - - 0 1\" --themes --tables tt\n"
+                 "  helpmate mine KQvk --dtm 2 --max infinity --json --themes --tables tt\n"
+                 "  helpmate mine KQvk --dtm 4 --max 5000 --interactive --tables tt\n"
                  "\n"
                  "Exit codes: 0 success (an \"unsolvable\" answer is still success), 2 a\n"
                  "table needed to answer the query is missing (message says which one and\n"
@@ -500,9 +513,22 @@ int cmd_stats(const std::vector<std::string>& pos, const std::string& tables) {
     return 0;
 }
 
+// What `mine` should print, beyond the bare FEN list: mutually-compatible
+// output-mode flags parsed by main() and passed straight through.
+struct MineOutput {
+    bool json = false, themes = false, solutions = false, interactive = false;
+    bool wants_set() const { return json || themes || solutions || interactive; }
+};
+
+void note_skipped(uint64_t skipped) {
+    std::cerr << "note: skipped " << skipped
+              << " position(s) whose solution count is saturated (255+): their"
+                 " solutions cannot be enumerated exhaustively\n";
+}
+
 int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int dtm, int count, int maxn,
              int starts, int ends, bool starts_given, bool ends_given,
-             const std::vector<std::string>& theme_names) {
+             const std::vector<std::string>& theme_names, const MineOutput& out) {
     if (pos.empty()) {
         std::cerr << "error: mine needs a MATERIAL argument (e.g. KQvk)\n\n";
         usage();
@@ -554,22 +580,55 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
         return 3;
     }
     Tablebase tb(tables);
-    int printed = 0;
+    MineFilter filter{.dtm = dtm, .count = count, .starts = starts, .ends = ends, .themes = theme_names};
     uint64_t skipped = 0;
-    tb.mine(
-        *m, MineFilter{.dtm = dtm, .count = count, .starts = starts, .ends = ends, .themes = theme_names},
-        [&](const std::string& fen) {
-            if (printed >= maxn)
-                return false;  // handles --max 0 (print none), matches `line --all`'s pre-check
-            std::cout << fen << "\n";
-            ++printed;
-            return printed < maxn;
-        },
-        &skipped);
-    if (skipped)
-        std::cerr << "note: skipped " << skipped
-                  << " position(s) whose solution count is saturated (255+): their"
-                     " solutions cannot be enumerated exhaustively\n";
+    if (!out.wants_set()) {
+        // Streaming path, byte-identical to every release before 0.18.0.
+        int printed = 0;
+        tb.mine(
+            *m, filter,
+            [&](const std::string& fen) {
+                if (printed >= maxn) return false;  // handles --max 0
+                std::cout << fen << "\n";
+                ++printed;
+                return printed < maxn;
+            },
+            &skipped);
+        if (skipped) note_skipped(skipped);
+        return 0;
+    }
+    MineSet set(tb, *m, filter, maxn);
+    if (maxn > 0)
+        tb.mine(
+            *m, filter,
+            [&](const std::string& fen) {
+                set.add(fen);
+                return (int)set.size() < maxn;
+            },
+            &skipped);
+    set.set_skipped_saturated(skipped);
+    if (skipped) note_skipped(skipped);
+    MineSet::Facets facets{out.themes, out.solutions};
+    // Every 100 hits OR every second, per the spec, and worded exactly as the
+    // shell words it: 100 alone goes quiet for minutes on slow enrichment.
+    auto last_tick = std::chrono::steady_clock::now();
+    auto progress = [&last_tick](size_t done, size_t total) {
+        auto now = std::chrono::steady_clock::now();
+        if (done % 100 != 0 && now - last_tick < std::chrono::seconds(1)) return;
+        last_tick = now;
+        std::cerr << "evaluating: " << done << "/" << total << "\n";
+    };
+    if (out.interactive) {
+        std::cerr << "loaded " << set.size() << " positions (" << m->name() << " dtm=" << dtm << ")\n";
+        return run_mine_shell(std::move(set), std::cin, std::cout, std::cerr, facets, tables);
+    }
+    if (out.json) std::cout << set.to_json(facets, progress);
+    else set.to_text(std::cout, facets, progress);
+    if (set.unavailable_count())
+        std::cerr << "note: " << set.unavailable_count()
+                  << " position(s) could not be annotated: a table their solutions reach is missing from "
+                  << tables << " (each says which); run: helpmate gen " << pos[0] << " --tables " << tables
+                  << "\n";
     return 0;
 }
 
@@ -885,6 +944,7 @@ int main(int argc, char** argv) {
     std::vector<std::string> pos;  // positional args
     std::vector<std::string> theme_names;  // --theme, repeatable
     bool show_themes = false;              // probe --themes
+    MineOutput mine_out;                   // mine --json/--themes/--solutions/--interactive
     // Flags below all take a value; if one appears with nothing after it,
     // that's a usage error, not a stray positional argument (e.g. `probe FEN
     // --tables` with no directory should not silently treat "--tables" as
@@ -916,8 +976,23 @@ int main(int argc, char** argv) {
         else if (a == "--threads") set_int(a, i, threads);
         else if (a == "--dtm") set_int(a, i, dtm);
         else if (a == "--count") set_int(a, i, count);
-        else if (a == "--max") set_int(a, i, maxn);
-        else if (a == "--starts") {
+        else if (a == "--max") {
+            const std::string& v = args[++i];
+            if (v == "infinity" || v == "inf") maxn = INT_MAX;
+            else if (!parse_int(v, maxn)) {
+                std::cerr << "error: --max expects an integer, \"infinity\" or \"inf\", got \"" << v
+                          << "\"\n\n";
+                usage();
+                return 3;
+            } else if (maxn < 0) {
+                // A negative cap parses fine and then silently behaves as
+                // --max 0 (nothing printed), which reads as "no matches".
+                std::cerr << "error: --max must be 0 or more, \"infinity\" or \"inf\", got \"" << v
+                          << "\"\n\n";
+                usage();
+                return 3;
+            }
+        } else if (a == "--starts") {
             set_int(a, i, starts);
             starts_given = true;
         } else if (a == "--ends") {
@@ -958,10 +1033,8 @@ int main(int argc, char** argv) {
             theme_names.push_back(args[++i]);
         } else if (a == "--themes") {
             if (cmd == "mine") {
-                std::cerr << "error: mine has no \"--themes\" flag; did you mean \"--theme NAME\" "
-                             "(repeatable, filters by theme)?\n\n";
-                usage();
-                return 3;
+                mine_out.themes = true;
+                continue;
             }
             if (cmd != "probe") {
                 std::cerr << "error: " << cmd
@@ -971,6 +1044,15 @@ int main(int argc, char** argv) {
                 return 3;
             }
             show_themes = true;
+        } else if (a == "--json" || a == "--solutions" || a == "--interactive" || a == "--tui") {
+            if (cmd != "mine") {
+                std::cerr << "error: " << cmd << " has no \"" << a << "\" flag; only \"mine\" has it\n\n";
+                usage();
+                return 3;
+            }
+            if (a == "--json") mine_out.json = true;
+            else if (a == "--solutions") mine_out.solutions = true;
+            else mine_out.interactive = true;
         }
         // An unrecognised --flag is a usage error, never a positional argument.
         // Silently ignoring it is worse than useless here: `mine --end 2` (the
@@ -1017,7 +1099,7 @@ int main(int argc, char** argv) {
         if (cmd == "stats") return cmd_stats(pos, tables);
         if (cmd == "mine")
             return cmd_mine(pos, tables, dtm, count, maxn, starts, ends, starts_given, ends_given,
-                            theme_names);
+                            theme_names, mine_out);
         if (cmd == "themes") return cmd_themes();
         if (cmd == "compact") return cmd_compact(pos, compress, dry_run, block_size);
         std::cerr << "error: unknown command \"" << cmd << "\"\n\n";

@@ -120,7 +120,7 @@ are described in that guide.
 | `gen` | build every table a material class needs |
 | `probe` | look up one position |
 | `line` | print optimal solutions as SAN |
-| `mine` | scan a class for compositions by dtm, solution count, and theme |
+| `mine` | scan a class for compositions by dtm, solution count, shape and theme; annotate, export as JSON, or refine interactively |
 | `stats` | generation statistics and corpus summaries |
 | `themes` | list the pattern detectors `mine --theme` accepts |
 | `compact` | compress tables, or shrink provably-unsolvable ones to markers |
@@ -128,6 +128,57 @@ are described in that guide.
 `mine --theme` recognises named composition patterns — model mates, echoes,
 battery mates and more. The **[theme catalogue](docs/THEME-CATALOG.md)** has
 the full list with the exact definition each detector uses.
+
+## Mining, from a scan to a shortlist
+
+`mine` is where compositions come from, and since 0.18.0 a scan is something
+you can hold on to rather than a stream of FENs you have to probe one by one.
+
+**Annotate every hit.** `--themes` adds the themes each position shows,
+`--solutions` adds every optimal solution. Text stays greppable: the FEN is
+the only unindented line.
+
+```console
+$ helpmate mine KRvkb --dtm 6 --max 1 --themes --solutions --tables ~/tb
+8/8/8/8/8/8/8/K1k1bR2 b - - 0 1
+  themes: pure model ideal mirror switchback single-piece single-piece:black nocheck
+  Kd1 Ka2 Kc1 Kb3 Kb1 Rxe1#
+  Kc2 Ka2 Kc1 Kb3 Kb1 Rxe1#
+  Kd2 Ka2 Kc1 Kb3 Kb1 Rxe1#
+```
+
+**Take everything.** `--max infinity` (or `inf`) lifts the cap, and `--json`
+turns the result into one document with the material, the filter that was
+asked, and a `positions` array carrying `fen`, `dtm`, `count` and, with the
+flags above, `themes`, `starts`, `ends` and `solutions`:
+
+```console
+$ helpmate mine KRvkb --dtm 6 --max infinity --json --themes --solutions --tables ~/tb > krvkb-h3.json
+```
+
+**Refine instead of rescanning.** `--interactive` runs the scan once, keeps
+the hits in memory, and opens a prompt. Narrowing by theme, solution count
+or shape works on the held set; each position's themes and solutions are
+computed the first time they are needed and cached, so `back` is free and
+a second filter on the same set costs nothing.
+
+![A mine --interactive session: a theme histogram over 2000 KRvkb h#3 positions, narrowed to 53 unique model mates, one shown with its solution, the set saved as JSON](docs/images/mine-shell.png)
+
+| Command | Effect |
+| --- | --- |
+| `theme NAME`, `not theme NAME` | keep or drop positions showing NAME (`promotions:qrr` works too) |
+| `count N`, `starts N`, `ends N` | keep positions with exactly that value |
+| `back`, `reset` | undo the last narrowing, or return to the loaded set |
+| `list [FROM [N]]`, `show I` | page through the FENs; print one hit with its themes and every solution |
+| `themes` | how many positions in the current set show each theme, the map for what to narrow on next |
+| `save FILE` | `.json` writes the document above; anything else writes bare FENs |
+| `help`, `quit` | |
+
+Results go to stdout and the prompt, progress and notes to stderr, so a
+scripted session (`helpmate mine ... --interactive < script > out`) leaves a
+clean file. There is no line editing built in; `rlwrap helpmate ...` adds
+history. The whole thing is in [USAGE.md](docs/USAGE.md#mine--scan-for-composition-candidates),
+with the JSON keys and the exact text layout.
 
 ### Also available
 

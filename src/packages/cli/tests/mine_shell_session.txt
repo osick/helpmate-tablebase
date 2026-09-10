@@ -1,0 +1,9 @@
+theme mirror
+count 1
+themes
+back
+list 1 2
+show 1
+save @OUT@
+quit
+list

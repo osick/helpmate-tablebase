@@ -7,6 +7,11 @@ comes; this file records the agreed order, goals, dependencies, and open
 questions. v0.5.0 (released 2026-07-30) is the baseline: generator to 6
 pieces, probe library, CLI, Python bindings, CI, docs.
 
+## v0.18.0 — `mine` result sets: JSON, solutions, `--max infinity`, interactive shell
+
+- **Shipped.** Design: `docs/superpowers/specs/2026-09-10-mine-interactive-design.md`.
+- Follow-up: expose `MineSet` through the Python bindings and `/v1/mine`.
+
 ## v0.6 — Storage + read-only API
 
 **Goal:** tablebase files stored not only locally (Hugging Face dataset +

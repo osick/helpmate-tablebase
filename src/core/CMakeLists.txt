@@ -1,7 +1,7 @@
 # The helpmate core: board representation, symmetry-reduced indexing, the
 # table format, the generator and the probe library. Everything else in the
 # repo is a client of this.
-set(HELPMATE_SOURCES chess/board.cpp chess/san.cpp indexing/material.cpp indexing/kk.cpp indexing/slice_index.cpp format/table_file.cpp format/block_codec.cpp format/block_cache.cpp generator/oracle.cpp generator/generator.cpp probe/tablebase.cpp themes/attack.cpp themes/mate_themes.cpp themes/trajectory.cpp themes/line_themes.cpp themes/position_themes.cpp themes/identity.cpp themes/set_themes.cpp themes/registry.cpp)  # tasks append here
+set(HELPMATE_SOURCES chess/board.cpp chess/san.cpp indexing/material.cpp indexing/kk.cpp indexing/slice_index.cpp format/table_file.cpp format/block_codec.cpp format/block_cache.cpp generator/oracle.cpp generator/generator.cpp probe/tablebase.cpp themes/attack.cpp themes/mate_themes.cpp themes/trajectory.cpp themes/line_themes.cpp themes/position_themes.cpp themes/identity.cpp themes/set_themes.cpp themes/registry.cpp probe/mine_set.cpp probe/mine_shell.cpp)  # tasks append here
 add_library(helpmate_core STATIC ${HELPMATE_SOURCES})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in
@@ -29,7 +29,9 @@ add_executable(helpmate_tests
   tests/test_attack.cpp tests/test_mate_themes.cpp tests/test_line_themes.cpp
   tests/test_position_themes.cpp
   tests/test_identity.cpp
-  tests/test_themes_registry.cpp)
+  tests/test_themes_registry.cpp
+  tests/test_mine_set.cpp
+  tests/test_mine_shell.cpp)
 target_link_libraries(helpmate_tests PRIVATE helpmate_core Catch2::Catch2WithMain)
 target_compile_definitions(helpmate_tests PRIVATE
   HM_TEST_FIXTURES="${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures")

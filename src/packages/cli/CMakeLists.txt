@@ -55,6 +55,25 @@ add_test(NAME cli_mine_theme COMMAND ${CMAKE_COMMAND}
          -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/verify_mine_theme_filters.cmake)
 set_tests_properties(cli_mine_theme PROPERTIES DEPENDS cli_gen)
 
+# v0.18.0: output modes. One script pins them all against the same table so
+# the numbers (580 dtm=2 positions) are shared with verify_mine_theme_filters.
+add_test(NAME cli_mine_outputs COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         -DTABLES=${CLI_TT}
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/verify_mine_outputs.cmake)
+set_tests_properties(cli_mine_outputs PROPERTIES DEPENDS cli_gen)
+
+# v0.18.0: `--interactive` end-to-end. Drives the shell through a piped
+# stdin session and pins what a user sees (prompt, narrowing tallies,
+# histogram, list/show/save) plus a second session proving errors don't
+# end the loop.
+add_test(NAME cli_mine_shell COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         -DTABLES=${CLI_TT}
+         -DSESSION=${CMAKE_CURRENT_SOURCE_DIR}/tests/mine_shell_session.txt
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/verify_mine_shell.cmake)
+set_tests_properties(cli_mine_shell PROPERTIES DEPENDS cli_gen)
+
 # An unknown theme must fail loudly and name the alternatives -- the --end/--ends
 # lesson: a silently discarded filter returns positions that do not match what
 # was asked for, with nothing to indicate it. WILL_FAIL alone only pins
@@ -99,20 +118,6 @@ add_test(NAME cli_mine_theme_param_singular_typo COMMAND ${CMAKE_COMMAND}
          "-DPATTERN2=valid themes"
          -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
 set_tests_properties(cli_mine_theme_param_singular_typo PROPERTIES DEPENDS cli_gen)
-
-# Critical-2 regression: `mine --themes` (plural, probe's flag) used to fall
-# through to positionals and get silently discarded -- `mine KQvk --dtm 2
-# --themes mirror --max 100000` ran to completion returning the FULL
-# unfiltered pool (580 lines), exit 0, with nothing indicating "mirror" was
-# ever dropped. It must now be a loud, named error instead.
-add_test(NAME cli_mine_themes_rejected COMMAND ${CMAKE_COMMAND}
-         -DHELPMATE=$<TARGET_FILE:helpmate>
-         "-DARGS=mine KQvk --dtm 2 --themes mirror --max 100000 --tables ${CLI_TT}"
-         -DEXPECTED_RC=3
-         "-DPATTERN1=mine has no"
-         "-DPATTERN2=--theme NAME"
-         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
-set_tests_properties(cli_mine_themes_rejected PROPERTIES DEPENDS cli_gen)
 
 # The mirror-image mix-up: `probe --theme` (singular, mine's flag) must also
 # be rejected, naming the right flag (--themes). Rejection happens while
