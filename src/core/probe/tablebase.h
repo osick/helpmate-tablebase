@@ -15,6 +15,11 @@
 #include "indexing/slice_index.h"
 #include "probe/solution.h"
 
+namespace hm::themes {
+struct ResolvedTheme;
+struct ThemeInput;
+}  // namespace hm::themes
+
 namespace hm {
 
 struct MissingTableError : std::runtime_error { using std::runtime_error::runtime_error; };
@@ -115,6 +120,10 @@ public:
     // CLI, bindings and API all route here, so they cannot drift apart.
     // `max` caps enumeration; -1 means "this position's own solution count".
     std::vector<std::string> themes_of(const std::string& fen, int max) const;
+    // Does `fen` show the (possibly parametric) theme `t`? Same ThemeInput
+    // as themes_of, so a parametric value such as promotions:qrr is judged by
+    // the registry's own eval, never by string-matching themes_of's output.
+    bool shows_theme(const std::string& fen, const themes::ResolvedTheme& t, int max) const;
     // sidecar stats content for material `m`; throws MissingTableError if absent.
     std::string stats_json(const Material& m) const;
     // "h#2", "h#1.5", "h#0" style helpmate notation for a dtm/side-to-move pair.
@@ -128,6 +137,10 @@ private:
                         std::vector<std::vector<std::string>>& out, int max) const;
     void collect_solutions(Board& b, std::vector<Ply>& path, std::vector<Solution>& out, const Board& start,
                            int max) const;
+    // THE one place a ThemeInput is built (themes_of and shows_theme both
+    // route here). `use` runs while the input's referents are alive.
+    void with_theme_input(const std::string& fen, int max,
+                          const std::function<void(const themes::ThemeInput&)>& use) const;
 
     std::string dir_;
     mutable std::mutex mu_;

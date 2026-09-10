@@ -365,7 +365,8 @@ void Tablebase::mine(const Material& m, const MineFilter& f,
     }
 }
 
-std::vector<std::string> Tablebase::themes_of(const std::string& fen, int max) const {
+void Tablebase::with_theme_input(const std::string& fen, int max,
+                                 const std::function<void(const themes::ThemeInput&)>& use) const {
     auto b = Board::from_fen(fen);
     if (!b) throw std::invalid_argument("bad FEN (or castling rights): " + fen);
     std::vector<Solution> sols = solutions(fen, max);
@@ -385,7 +386,19 @@ std::vector<std::string> Tablebase::themes_of(const std::string& fen, int max) c
         other = std::nullopt;  // no table for the sibling plane: answer "no"
     }
     themes::ThemeInput in{*b, value, other, sols};
-    return themes::detect(in);
+    use(in);
+}
+
+std::vector<std::string> Tablebase::themes_of(const std::string& fen, int max) const {
+    std::vector<std::string> out;
+    with_theme_input(fen, max, [&](const themes::ThemeInput& in) { out = themes::detect(in); });
+    return out;
+}
+
+bool Tablebase::shows_theme(const std::string& fen, const themes::ResolvedTheme& t, int max) const {
+    bool r = false;
+    with_theme_input(fen, max, [&](const themes::ThemeInput& in) { r = t.eval(in); });
+    return r;
 }
 
 std::string Tablebase::stats_json(const Material& m) const {

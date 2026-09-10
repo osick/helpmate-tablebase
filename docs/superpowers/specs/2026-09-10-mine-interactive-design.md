@@ -33,10 +33,12 @@ Three units, each with one job:
 | Unit | Lives in | Does |
 |---|---|---|
 | `MineSet` | `src/core/probe/mine_set.{h,cpp}` | Holds hits; enriches them lazily; narrows; tallies; serialises to JSON and text |
-| `mine_shell` | `src/packages/cli/mine_shell.{h,cpp}` | Reads commands from a stream, applies them to a `MineSet`, prints replies |
+| `mine_shell` | `src/core/probe/mine_shell.{h,cpp}` | Reads commands from a stream, applies them to a `MineSet`, prints replies |
 | `cmd_mine` | `src/packages/cli/main.cpp` (existing) | Parses flags, runs the scan into a `MineSet`, then either prints it or hands it to the shell |
 
-`Tablebase` is not changed. It is a read cache and stays one; the result set
+The shell lives in the core library, not the CLI package, so Catch2 can drive it through string streams; the CLI only wires `std::cin`/`std::cout`/`std::cerr` to it.
+
+`Tablebase` gains one method, `shows_theme(fen, ResolvedTheme, max)`, so the shell can evaluate a parametric theme such as `promotions:qrr` on one hit; it shares the `ThemeInput` construction with `themes_of`. Nothing else in `Tablebase` changes. It is a read cache and stays one; the result set
 is a query artifact and lives beside it. `MineSet` depends on `Tablebase`
 only through its existing public methods (`probe`, `lines`,
 `solution_shape`, `themes_of`) and on `themes::theme_registry()` for the
@@ -97,9 +99,9 @@ text. `MineSet` counts these; callers print one note, not one per hit.
 
 ### JSON shape
 
-One object, streamed to stdout, no external library (the repo writes its
-stats JSON by hand already; a small escaper in `mine_set.cpp` does the
-same). Keys are stable and documented in USAGE.md.
+One object, streamed to stdout, built with `nlohmann::ordered_json`, which
+`helpmate_core` already links, so key order is stable and escaping is the
+library's. Keys are stable and documented in USAGE.md.
 
 ```json
 {

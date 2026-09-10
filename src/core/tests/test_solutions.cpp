@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <catch2/catch_test_macros.hpp>
 #include <filesystem>
 #include <set>
@@ -518,4 +519,19 @@ TEST_CASE("mine's set-play scan reads the sibling plane at the correct cell", "[
         // merely at any distance -- that is the whole point of the fix.
         REQUIRE(p->dtm == 1);
     }
+}
+
+TEST_CASE("shows_theme evaluates one resolved theme on a FEN", "[themes][solutions]") {
+    Tablebase tb(gen_kqvk());
+    std::string err;
+    auto mirror = themes::resolve_theme("mirror", &err);
+    REQUIRE(mirror);
+    auto promo = themes::resolve_theme("promotions:q", &err);
+    REQUIRE(promo);
+    // golden: dtm 2 count 4; every mate is a mirror mate, and KQvk has no pawn.
+    REQUIRE(tb.shows_theme(kGolden, *mirror, 4));
+    REQUIRE_FALSE(tb.shows_theme(kGolden, *promo, 4));
+    // Same answer as themes_of, which is the reference implementation.
+    auto names = tb.themes_of(kGolden, 4);
+    REQUIRE(std::find(names.begin(), names.end(), "mirror") != names.end());
 }
