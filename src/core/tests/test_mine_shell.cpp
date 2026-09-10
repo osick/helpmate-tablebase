@@ -162,6 +162,28 @@ TEST_CASE("shell: show enriches in the set, so it is cached", "[mine_shell]") {
     REQUIRE(has(r.out, "to " + jpath + " (json, themes)"));
 }
 
+TEST_CASE("shell: show says so when the solution count is saturated", "[mine_shell]") {
+    // Every facet is pre-set, so `show` re-probes nothing: this pins the
+    // rendering alone, and that `show` agrees with to_text/to_json about a
+    // hit whose solutions cannot be counted.
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 1);
+    Hit h;
+    h.fen = kFirst;
+    h.dtm = 2;
+    h.count = (int)COUNT_SAT;
+    h.shape = SolutionShape{0, 0, false};
+    h.themes = std::vector<std::string>{"mirror"};
+    h.solutions = std::vector<std::vector<std::string>>{{"Ka2", "Qa4#"}};
+    s.add(h);
+    std::istringstream in("show 1\n");
+    std::ostringstream out, err;
+    REQUIRE(run_mine_shell(std::move(s), in, out, err, {}, "tt") == 0);
+    REQUIRE(out.str() == std::string(kFirst) +
+                             "\n  themes: mirror\n  Ka2 Qa4#"
+                             "\n  (solution count saturated: first 100 solutions only)\n");
+}
+
 TEST_CASE("shell: a narrowing that cannot annotate says so once, with the gen hint", "[mine_shell]") {
     // A Tablebase over an EMPTY directory: every enrichment throws
     // MissingTableError, so both hits end up marked unavailable.

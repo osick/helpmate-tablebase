@@ -172,6 +172,7 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
             Hit& h = cur.hit((size_t)i - 1);
             cur.ensure_themes(h);
             cur.ensure_solutions(h);
+            cur.ensure_shape(h);  // so a saturated hit says so here too, as in to_text/to_json
             cur.write_hit(out, h, {true, true});
         } else if (c == "themes") {
             const size_t before = cur.unavailable_count();

@@ -207,9 +207,9 @@ bulk enumeration on its own; the shell says which facets it wrote.
 Rules:
 
 - Every narrowing that needs themes calls `ensure_themes_all` with a
-  progress callback; the shell prints `evaluating themes: 400/1234` on stderr
-  every 100 hits (or 1 s), so a long pass is visibly alive. Sets already
-  enriched pay nothing.
+  progress callback; the shell prints `evaluating: 400/1234` on stderr every
+  100 hits or every second, whichever comes first, so a long pass is visibly
+  alive. Sets already enriched pay nothing.
 - Errors never leave the shell. Unknown theme: the CLI's exact message plus
   the valid-name list. Unknown command or bad argument: one line naming the
   problem and `type help`. Index out of range: `no hit 999 (set has 42)`.
