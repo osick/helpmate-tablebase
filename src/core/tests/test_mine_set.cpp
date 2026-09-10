@@ -2,6 +2,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <climits>
 #include <filesystem>
+#include <nlohmann/json.hpp>
+#include <sstream>
 
 #include "generator/generator.h"
 #include "probe/mine_set.h"
@@ -189,4 +191,83 @@ TEST_CASE("theme_histogram lists every non-parametric theme in registry order", 
         if (n == "mirror") mirror = c;
     REQUIRE(mirror == s.with_theme("mirror", false).size());
     REQUIRE(mirror > 0);
+}
+
+TEST_CASE("to_json has the documented shape", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2, .themes = {"mirror"}}, INT_MAX);
+    s.add(kGolden);
+    s.add(kFirst);
+    auto j = nlohmann::json::parse(s.to_json({.themes = true, .solutions = true}));
+    REQUIRE(j["material"] == "KQvk");
+    REQUIRE(j["filter"]["dtm"] == 2);
+    REQUIRE(j["filter"]["count"] == -1);
+    REQUIRE(j["filter"]["themes"] == nlohmann::json::array({"mirror"}));
+    REQUIRE(j["max"] == "infinity");
+    REQUIRE(j["skipped_saturated"] == 0);
+    REQUIRE(j["positions"].size() == 2);
+    auto& p = j["positions"][0];
+    REQUIRE(p["fen"] == kGolden);
+    REQUIRE(p["dtm"] == 2);
+    REQUIRE(p["count"] == 4);
+    REQUIRE(p["starts"] == 2);
+    REQUIRE(p["ends"] == 4);
+    REQUIRE(p["solutions"].size() == 4);
+    REQUIRE(p["solutions"][3] == nlohmann::json::array({"Kh8", "Qg7#"}));
+    REQUIRE(p["themes"].is_array());
+    REQUIRE_FALSE(p.contains("unavailable"));
+    // Key order is stable: material first, positions last.
+    auto text = s.to_json({});
+    REQUIRE(text.find("\"material\"") < text.find("\"positions\""));
+    REQUIRE(text.back() == '\n');
+}
+
+TEST_CASE("to_json without facets is minimal; max as integer", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 7);
+    s.add(kFirst);
+    auto j = nlohmann::json::parse(s.to_json({}));
+    REQUIRE(j["max"] == 7);
+    auto& p = j["positions"][0];
+    REQUIRE(p.size() == 3);  // fen, dtm, count
+    REQUIRE_FALSE(p.contains("themes"));
+    REQUIRE_FALSE(p.contains("solutions"));
+}
+
+TEST_CASE("unavailable hits serialise with the message and nothing else", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 7);
+    Hit h;
+    h.fen = kFirst;
+    h.dtm = 2;
+    h.count = 1;
+    h.unavailable = "no table for \"Kvk\"";  // a quote, to prove escaping
+    s.add(h);
+    auto j = nlohmann::json::parse(s.to_json({.themes = true, .solutions = true}));
+    auto& p = j["positions"][0];
+    REQUIRE(p["unavailable"] == "no table for \"Kvk\"");
+    REQUIRE_FALSE(p.contains("themes"));
+    REQUIRE_FALSE(p.contains("solutions"));
+    std::ostringstream out;
+    s.to_text(out, {.themes = true, .solutions = true});
+    REQUIRE(out.str() == std::string(kFirst) + "\n  unavailable: no table for \"Kvk\"\n\n");
+}
+
+TEST_CASE("to_text: bare FENs by default, indented facets otherwise", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 7);
+    s.add(kFirst);
+    s.add(kSecond);
+    std::ostringstream bare;
+    s.to_text(bare, {});
+    REQUIRE(bare.str() == std::string(kFirst) + "\n" + kSecond + "\n");
+    std::ostringstream sol;
+    s.to_text(sol, {.solutions = true});
+    REQUIRE(sol.str() == std::string(kFirst) + "\n  Ka2 Qa4#\n\n" + kSecond + "\n  Ka2 Qb2#\n\n");
+    std::ostringstream both;
+    s.to_text(both, {.themes = true, .solutions = true});
+    std::string text = both.str();
+    REQUIRE(text.rfind(std::string(kFirst) + "\n  themes:", 0) == 0);
+    REQUIRE(text.find(" mirror") != std::string::npos);
+    REQUIRE(text.find("\n  Ka2 Qa4#\n\n") != std::string::npos);
 }

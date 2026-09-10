@@ -1,6 +1,8 @@
 #include "probe/mine_set.h"
 
 #include <algorithm>
+#include <climits>
+#include <nlohmann/json.hpp>
 #include <stdexcept>
 
 #include "chess/types.h"
@@ -156,6 +158,73 @@ std::vector<std::pair<std::string, size_t>> MineSet::theme_histogram(const Progr
         out.emplace_back(std::move(name), n);
     }
     return out;
+}
+
+void MineSet::enrich_for(Facets f, const Progress& progress) {
+    if (f.themes) ensure_themes_all(progress);
+    if (f.solutions) ensure_solutions_all(progress);
+}
+
+std::string MineSet::to_json(Facets f, const Progress& progress) {
+    enrich_for(f, progress);
+    nlohmann::ordered_json j;
+    j["material"] = m_.name();
+    j["filter"] = {{"dtm", f_.dtm},
+                   {"count", f_.count},
+                   {"starts", f_.starts},
+                   {"ends", f_.ends},
+                   {"themes", f_.themes}};
+    if (max_ == INT_MAX) j["max"] = "infinity";
+    else j["max"] = max_;
+    j["skipped_saturated"] = skipped_;
+    auto positions = nlohmann::ordered_json::array();
+    for (const auto& h : hits_) {
+        nlohmann::ordered_json p;
+        p["fen"] = h.fen;
+        p["dtm"] = h.dtm;
+        p["count"] = h.count;
+        if (!h.unavailable.empty()) {
+            p["unavailable"] = h.unavailable;
+        } else {
+            if (f.themes && h.themes) p["themes"] = *h.themes;
+            if (f.solutions && h.shape && h.solutions) {
+                p["starts"] = h.shape->starts;
+                p["ends"] = h.shape->ends;
+                p["solutions"] = *h.solutions;
+            }
+        }
+        positions.push_back(std::move(p));
+    }
+    j["positions"] = std::move(positions);
+    return j.dump(2) + "\n";
+}
+
+void MineSet::to_text(std::ostream& os, Facets f, const Progress& progress) {
+    enrich_for(f, progress);
+    const bool facets = f.themes || f.solutions;
+    for (const auto& h : hits_) {
+        os << h.fen << "\n";
+        if (!facets) continue;
+        if (!h.unavailable.empty()) {
+            os << "  unavailable: " << h.unavailable << "\n\n";
+            continue;
+        }
+        if (f.themes && h.themes) {
+            os << "  themes:";
+            if (h.themes->empty()) os << " (none)";
+            for (const auto& n : *h.themes) os << " " << n;
+            os << "\n";
+        }
+        if (f.solutions && h.solutions) {
+            for (const auto& line : *h.solutions) {
+                if (line.empty()) continue;  // dtm 0: already mate, nothing to print
+                os << " ";
+                for (const auto& mv : line) os << " " << mv;
+                os << "\n";
+            }
+        }
+        os << "\n";
+    }
 }
 
 }  // namespace hm

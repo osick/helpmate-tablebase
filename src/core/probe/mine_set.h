@@ -80,6 +80,10 @@ public:
     // registry order, zeros included. Forces ensure_themes_all.
     std::vector<std::pair<std::string, size_t>> theme_histogram(const Progress& progress = nullptr);
 
+    // Output. Both force whatever enrichment the facets need, hence non-const.
+    std::string to_json(Facets f, const Progress& progress = nullptr);
+    void to_text(std::ostream& os, Facets f, const Progress& progress = nullptr);
+
 private:
     int enum_cap(const Hit& h) const;  // COUNT_SAT -> 100, else the hit's own count
     template <class F>
@@ -87,6 +91,7 @@ private:
     MineSet empty_like() const;         // same tb/material/filter/max/skipped, no hits
     template <class Pred>
     MineSet filtered(Pred&& keep) const;
+    void enrich_for(Facets f, const Progress& progress);
 
     const Tablebase* tb_;
     Material m_;
