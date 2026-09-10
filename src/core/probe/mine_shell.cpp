@@ -74,7 +74,7 @@ void print_hit(std::ostream& out, MineSet& set, Hit& h) {
 }  // namespace
 
 int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostream& err,
-                    MineSet::Facets cli_facets) {
+                   MineSet::Facets cli_facets) {
     std::vector<MineSet> stack;  // previous sets, most recent last
     MineSet cur = std::move(root);
     auto progress = [&](size_t done, size_t total) {
@@ -123,7 +123,9 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
         } else if (c == "count" || c == "starts" || c == "ends") {
             int n = 0;
             if (!need_int(w, n)) continue;
-            narrowed(c == "count" ? cur.with_count(n) : c == "starts" ? cur.with_starts(n) : cur.with_ends(n));
+            narrowed(c == "count"    ? cur.with_count(n)
+                     : c == "starts" ? cur.with_starts(n)
+                                     : cur.with_ends(n));
         } else if (c == "back") {
             if (stack.empty()) {
                 err << "already at the root set\n";
@@ -169,7 +171,9 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
                 (void)cnt;
                 width = std::max(width, name.size());
             }
-            for (const auto& [name, n] : hist) out << std::left << std::setw((int)width + 2) << name << n << "\n";
+            for (const auto& [name, n] : hist)
+                out << std::left << std::setw((int)width + 2) << name << n << "\n";
+            out << std::right;  // adjustfield is sticky; restore before `list` reuses `out`
         } else if (c == "save") {
             if (w.size() < 2) {
                 err << "save needs a FILE\n";
@@ -185,8 +189,8 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
             if (json) {
                 MineSet::Facets fac{cli_facets.themes || cur.all_have_themes(), cli_facets.solutions};
                 f << cur.to_json(fac, progress);
-                out << "saved " << cur.size() << " positions to " << path << " (json" << (fac.themes ? ", themes" : "")
-                    << (fac.solutions ? ", solutions" : "") << ")\n";
+                out << "saved " << cur.size() << " positions to " << path << " (json"
+                    << (fac.themes ? ", themes" : "") << (fac.solutions ? ", solutions" : "") << ")\n";
             } else {
                 for (const auto& h : cur.hits()) f << h.fen << "\n";
                 out << "saved " << cur.size() << " positions to " << path << " (fens)\n";

@@ -14,6 +14,6 @@ namespace hm {
 // `cli_facets`: which of --themes/--solutions were given on the command
 // line; they decide what `save FILE.json` includes.
 int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostream& err,
-                    MineSet::Facets cli_facets);
+                   MineSet::Facets cli_facets);
 
 }  // namespace hm

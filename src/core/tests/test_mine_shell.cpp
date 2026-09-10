@@ -8,6 +8,7 @@
 #include "generator/generator.h"
 #include "probe/mine_set.h"
 #include "probe/mine_shell.h"
+#include "themes/registry.h"
 
 using namespace hm;
 
@@ -28,11 +29,17 @@ const char* kFirst = "8/8/8/8/8/8/8/k1KQ4 b - - 0 1";
 MineSet root(const Tablebase& tb, int cap = INT_MAX) {
     auto m = *Material::parse("KQvk");
     MineSet s(tb, m, MineFilter{.dtm = 2}, cap);
-    tb.mine(m, MineFilter{.dtm = 2}, [&](const std::string& f) { s.add(f); return (int)s.size() < cap; });
+    tb.mine(m, MineFilter{.dtm = 2}, [&](const std::string& f) {
+        s.add(f);
+        return (int)s.size() < cap;
+    });
     return s;
 }
 
-struct Run { int rc; std::string out, err; };
+struct Run {
+    int rc;
+    std::string out, err;
+};
 Run run(const Tablebase& tb, const std::string& script, MineSet::Facets cli = {}, int cap = INT_MAX) {
     std::istringstream in(script);
     std::ostringstream out, err;
@@ -65,7 +72,8 @@ TEST_CASE("shell: narrowing, back and reset", "[mine_shell]") {
     // contract -- 103 is reachable only if `back` returned all the way to
     // root, which would contradict the "477 positions" pinned two tokens
     // earlier in this same expectation. See task-6-report.md for the proof.
-    REQUIRE(r.out == "477 positions\n257 positions\n477 positions\n0 positions\n580 positions\n580 positions\n");
+    REQUIRE(r.out ==
+            "477 positions\n257 positions\n477 positions\n0 positions\n580 positions\n580 positions\n");
     REQUIRE(has(r.err, "[477] mine> "));
     REQUIRE(has(r.err, "[257] mine> "));
     REQUIRE(has(r.err, "already at the root set"));
@@ -75,7 +83,8 @@ TEST_CASE("shell: narrowing, back and reset", "[mine_shell]") {
 TEST_CASE("shell: list and show", "[mine_shell]") {
     Tablebase tb(gen_kqvk());
     auto r = run(tb, "list 1 2\nshow 1\nshow 0\nlist 999\n", {}, 5);
-    std::string expect_list = "     1  8/8/8/8/8/8/8/k1KQ4 b - - 0 1\n     2  8/8/8/8/8/2Q5/8/k1K5 b - - 0 1\n";
+    std::string expect_list =
+        "     1  8/8/8/8/8/8/8/k1KQ4 b - - 0 1\n     2  8/8/8/8/8/2Q5/8/k1K5 b - - 0 1\n";
     REQUIRE(r.out.rfind(expect_list, 0) == 0);
     REQUIRE(has(r.out, std::string(kFirst) + "\n  themes:"));
     REQUIRE(has(r.out, " mirror"));
@@ -86,16 +95,21 @@ TEST_CASE("shell: list and show", "[mine_shell]") {
 
 TEST_CASE("shell: themes histogram", "[mine_shell]") {
     Tablebase tb(gen_kqvk());
-    auto r = run(tb, "themes\n", {}, 50);
+    auto r = run(tb, "themes\nlist 1 2\n", {}, 50);
     REQUIRE(has(r.out, "mirror"));
     // every non-parametric registry name appears, and 'promotions' (parametric) does not as a bare line
     REQUIRE_FALSE(has(r.out, "\npromotions  "));
     REQUIRE(has(r.out, "pure"));
+    int non_parametric = 0;
+    for (const auto& t : themes::theme_registry())
+        if (t.param == nullptr) ++non_parametric;
     std::istringstream lines(r.out);
     std::string l;
     int n = 0;
     while (std::getline(lines, l)) ++n;
-    REQUIRE(n == 29);
+    REQUIRE(n == non_parametric + 2);  // + the two `list 1 2` lines that follow
+    // `std::left` from the histogram must not leak into `list`'s right-aligned width-6 index.
+    REQUIRE(has(r.out, "     1  8/8/8/8/8/8/8/k1KQ4 b - - 0 1\n     2  8/8/8/8/8/2Q5/8/k1K5 b - - 0 1\n"));
 }
 
 TEST_CASE("shell: errors never end the loop", "[mine_shell]") {
