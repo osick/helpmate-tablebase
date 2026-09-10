@@ -116,8 +116,9 @@ public:
     void mine(const Material& m, const MineFilter& f,
               const std::function<bool(const std::string&)>& cb,
               uint64_t* skipped_saturated = nullptr) const;
-    // Theme names this position shows. THE one place a ThemeInput is built:
-    // CLI, bindings and API all route here, so they cannot drift apart.
+    // Theme names this position shows. CLI, bindings and API all route here,
+    // so they cannot drift apart; the ThemeInput itself is built in exactly
+    // one place, with_theme_input (private, below), shared with shows_theme.
     // `max` caps enumeration; -1 means "this position's own solution count".
     std::vector<std::string> themes_of(const std::string& fen, int max) const;
     // Does `fen` show the (possibly parametric) theme `t`? Same ThemeInput

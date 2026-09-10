@@ -27,6 +27,12 @@ bumps may change behavior).
 ### Changed
 - `mine --themes` is now a real flag (it used to be rejected as a typo for
   `--theme`). `probe --theme` is still rejected.
+- A position whose optimal-solution count is saturated (unenumerable) now
+  says so in `--json` as `"exhaustive": false`, with no `starts`/`ends`,
+  instead of reporting the shape of the first 100 solutions as if it were
+  the whole set; the text output notes it under the solutions.
+- `--max` now rejects a negative value (exit 3) instead of silently
+  behaving like `--max 0`, which read as "nothing matched".
 
 ## [0.17.0] - 2026-09-09
 

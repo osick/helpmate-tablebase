@@ -403,7 +403,8 @@ helpmate line <FEN> [--tables DIR] [--all] [--max N]
 ```
 
 - `--all`: print *every* optimal line, one per output line;
-- `--max N`: cap on lines printed with `--all` (default 10).
+- `--max N`: cap on lines printed with `--all` (default 10); `--max infinity`
+  (or `inf`) lifts it here too, since the flag is shared with `mine`.
 
 ```
 $ helpmate line "8/7k/5K2/8/8/8/8/6Q1 b - - 0 1" --tables tt
@@ -635,7 +636,9 @@ prints `  unavailable: <reason>` instead, and `mine` prints one note with the
 `--json` prints one object. `fen`, `dtm`, `count` are always present per
 position; `themes` needs `--themes`; `starts`, `ends`, `solutions` need
 `--solutions`. `max` is the integer given or `"infinity"`. The filter block
-repeats what was asked, `-1` meaning "not filtered".
+repeats what was asked, `-1` meaning "not filtered". A position whose
+solution count is saturated carries `"exhaustive": false` and no
+`starts`/`ends` (they are not countable) — its `solutions` are the first 100.
 
 ```
 $ helpmate mine KQvk --dtm 2 --max 1 --json --themes --solutions --tables tt
@@ -675,7 +678,11 @@ are needed and caching them. The prompt (on stderr) shows the current size.
 | `show I` | FEN, themes and every solution of hit I |
 | `themes` | how many positions in the current set show each theme |
 | `save FILE` | `.json`: the JSON above (themes if known for the whole set or `--themes` given, solutions if `--solutions` given); anything else: bare FENs |
-| `help`, `quit` | (EOF quits too) |
+| `help`, `quit`, `exit` | (EOF quits too) |
+
+Only a lowercase `.json` suffix selects JSON output for `save`; `FILE.JSON`
+or `FILE.json.gz` writes bare FENs. The rest of the line after `save` is the
+path, spaces and all, so `save my hits.json` writes `my hits.json`.
 
 ```
 $ helpmate mine KQvk --dtm 2 --max infinity --interactive --tables tt
