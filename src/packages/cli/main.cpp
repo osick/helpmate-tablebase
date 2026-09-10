@@ -609,12 +609,18 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
     set.set_skipped_saturated(skipped);
     if (skipped) note_skipped(skipped);
     MineSet::Facets facets{out.themes, out.solutions};
-    auto progress = [](size_t done, size_t total) {
-        if (done % 100 == 0) std::cerr << "evaluating: " << done << "/" << total << "\n";
+    // Every 100 hits OR every second, per the spec, and worded exactly as the
+    // shell words it: 100 alone goes quiet for minutes on slow enrichment.
+    auto last_tick = std::chrono::steady_clock::now();
+    auto progress = [&last_tick](size_t done, size_t total) {
+        auto now = std::chrono::steady_clock::now();
+        if (done % 100 != 0 && now - last_tick < std::chrono::seconds(1)) return;
+        last_tick = now;
+        std::cerr << "evaluating: " << done << "/" << total << "\n";
     };
     if (out.interactive) {
         std::cerr << "loaded " << set.size() << " positions (" << m->name() << " dtm=" << dtm << ")\n";
-        return run_mine_shell(std::move(set), std::cin, std::cout, std::cerr, facets);
+        return run_mine_shell(std::move(set), std::cin, std::cout, std::cerr, facets, tables);
     }
     if (out.json) std::cout << set.to_json(facets, progress);
     else set.to_text(std::cout, facets, progress);
@@ -975,6 +981,13 @@ int main(int argc, char** argv) {
             if (v == "infinity" || v == "inf") maxn = INT_MAX;
             else if (!parse_int(v, maxn)) {
                 std::cerr << "error: --max expects an integer, \"infinity\" or \"inf\", got \"" << v
+                          << "\"\n\n";
+                usage();
+                return 3;
+            } else if (maxn < 0) {
+                // A negative cap parses fine and then silently behaves as
+                // --max 0 (nothing printed), which reads as "no matches".
+                std::cerr << "error: --max must be 0 or more, \"infinity\" or \"inf\", got \"" << v
                           << "\"\n\n";
                 usage();
                 return 3;

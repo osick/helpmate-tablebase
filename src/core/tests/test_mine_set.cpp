@@ -135,6 +135,10 @@ TEST_CASE("a hit whose enrichment needs a missing table is marked, not dropped",
     REQUIRE_FALSE(copy.solutions);
     s.ensure_themes_all();
     REQUIRE(s.unavailable_count() == 1);
+    // An unavailable hit never matches a theme narrowing -- with OR without
+    // negate. "not mirror" must not quietly re-admit what "mirror" dropped.
+    REQUIRE(s.with_theme("mirror", false).size() == 0);
+    REQUIRE(s.with_theme("mirror", true).size() == 0);
 }
 
 TEST_CASE("with_theme narrows, negates, and leaves the source intact", "[mine_set]") {
@@ -251,6 +255,29 @@ TEST_CASE("unavailable hits serialise with the message and nothing else", "[mine
     std::ostringstream out;
     s.to_text(out, {.themes = true, .solutions = true});
     REQUIRE(out.str() == std::string(kFirst) + "\n  unavailable: no table for \"Kvk\"\n\n");
+}
+
+TEST_CASE("a saturated hit says so instead of faking starts/ends", "[mine_set]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 7);
+    Hit h;
+    h.fen = kFirst;
+    h.dtm = 2;
+    h.count = (int)COUNT_SAT;
+    h.shape = SolutionShape{0, 0, false};           // not exhaustive: nothing countable
+    h.themes = std::vector<std::string>{"mirror"};  // pre-set, so nothing is re-probed
+    h.solutions = std::vector<std::vector<std::string>>{{"Ka2", "Qa4#"}};  // the capped first 100
+    s.add(h);
+    auto j = nlohmann::json::parse(s.to_json({.themes = true, .solutions = true}));
+    auto& p = j["positions"][0];
+    REQUIRE(p["exhaustive"] == false);
+    REQUIRE_FALSE(p.contains("starts"));
+    REQUIRE_FALSE(p.contains("ends"));
+    REQUIRE(p["solutions"].size() == 1);
+    std::ostringstream out;
+    s.to_text(out, {.solutions = true});
+    REQUIRE(out.str() ==
+            std::string(kFirst) + "\n  Ka2 Qa4#\n  (solution count saturated: first 100 solutions only)\n\n");
 }
 
 TEST_CASE("to_text: bare FENs by default, indented facets otherwise", "[mine_set]") {

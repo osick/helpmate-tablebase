@@ -34,6 +34,13 @@ void MineSet::add(const std::string& fen) {
 
 void MineSet::add(Hit h) { hits_.push_back(std::move(h)); }
 
+Hit& MineSet::hit(size_t i) {
+    if (i >= hits_.size())
+        throw std::out_of_range("MineSet::hit: no hit " + std::to_string(i) + " (set has " +
+                                std::to_string(hits_.size()) + ")");
+    return hits_[i];
+}
+
 int MineSet::enum_cap(const Hit& h) const { return h.count >= (int)COUNT_SAT ? 100 : h.count; }
 
 template <class F>
@@ -41,7 +48,14 @@ void MineSet::guarded(Hit& h, F&& f) const {
     if (!h.unavailable.empty()) return;
     try {
         f();
-    } catch (const MissingTableError& e) { h.unavailable = e.what(); }
+    } catch (const MissingTableError& e) {
+        h.unavailable = e.what();
+    } catch (const UnsupportedTableVersionError& e) {
+        // Same contract as a missing table from the caller's point of view:
+        // this hit cannot be annotated, but it is still a hit. Letting this
+        // one escape would kill the shell mid-narrowing.
+        h.unavailable = e.what();
+    }
 }
 
 void MineSet::ensure_shape(Hit& h) const {
@@ -188,8 +202,16 @@ std::string MineSet::to_json(Facets f, const Progress& progress) {
         } else {
             if (f.themes && h.themes) p["themes"] = *h.themes;
             if (f.solutions && h.shape && h.solutions) {
-                p["starts"] = h.shape->starts;
-                p["ends"] = h.shape->ends;
+                // A saturated position has no countable solution set, so
+                // `starts`/`ends` would be a guess presented as a fact: say
+                // so with one explicit key instead, and keep `solutions`,
+                // which is honestly the first 100 (enum_cap).
+                if (h.shape->exhaustive) {
+                    p["starts"] = h.shape->starts;
+                    p["ends"] = h.shape->ends;
+                } else {
+                    p["exhaustive"] = false;
+                }
                 p["solutions"] = *h.solutions;
             }
         }
@@ -199,31 +221,38 @@ std::string MineSet::to_json(Facets f, const Progress& progress) {
     return j.dump(2) + "\n";
 }
 
+void MineSet::write_hit(std::ostream& os, const Hit& h, Facets f) const {
+    os << h.fen << "\n";
+    if (!f.themes && !f.solutions) return;
+    if (!h.unavailable.empty()) {
+        os << "  unavailable: " << h.unavailable << "\n";
+        return;
+    }
+    if (f.themes && h.themes) {
+        os << "  themes:";
+        if (h.themes->empty()) os << " (none)";
+        for (const auto& n : *h.themes) os << " " << n;
+        os << "\n";
+    }
+    if (f.solutions && h.solutions) {
+        for (const auto& line : *h.solutions) {
+            if (line.empty()) continue;  // dtm 0: already mate, nothing to print
+            os << " ";
+            for (const auto& mv : line) os << " " << mv;
+            os << "\n";
+        }
+        // Same honesty as to_json's `exhaustive`: these are the first 100 of
+        // an uncountable set, not the whole set.
+        if (h.shape && !h.shape->exhaustive) os << "  (solution count saturated: first 100 solutions only)\n";
+    }
+}
+
 void MineSet::to_text(std::ostream& os, Facets f, const Progress& progress) {
     enrich_for(f, progress);
     const bool facets = f.themes || f.solutions;
     for (const auto& h : hits_) {
-        os << h.fen << "\n";
-        if (!facets) continue;
-        if (!h.unavailable.empty()) {
-            os << "  unavailable: " << h.unavailable << "\n\n";
-            continue;
-        }
-        if (f.themes && h.themes) {
-            os << "  themes:";
-            if (h.themes->empty()) os << " (none)";
-            for (const auto& n : *h.themes) os << " " << n;
-            os << "\n";
-        }
-        if (f.solutions && h.solutions) {
-            for (const auto& line : *h.solutions) {
-                if (line.empty()) continue;  // dtm 0: already mate, nothing to print
-                os << " ";
-                for (const auto& mv : line) os << " " << mv;
-                os << "\n";
-            }
-        }
-        os << "\n";
+        write_hit(os, h, f);
+        if (facets) os << "\n";  // one blank line between annotated hits
     }
 }
 

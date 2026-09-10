@@ -35,6 +35,14 @@ if(NOT rc EQUAL 3 OR NOT "${last_err}" MATCHES "--max expects an integer" OR NOT
   message(FATAL_ERROR "--max all: expected exit 3 naming the accepted words, got ${rc}: ${last_err}")
 endif()
 
+# 2a. A negative --max is rejected too: it parses as an integer, so it used
+# to sail past the word check and then behave exactly like --max 0, which
+# reads as "no positions match" rather than "that is not a cap".
+run_helpmate(out rc mine KQvk --dtm 2 --max -1 --tables "${TABLES}")
+if(NOT rc EQUAL 3 OR NOT "${last_err}" MATCHES "--max must be 0 or more")
+  message(FATAL_ERROR "--max -1: expected exit 3 rejecting the negative cap, got ${rc}: ${last_err}")
+endif()
+
 # 3. --json with both facets: the documented keys, in order.
 run_helpmate(out rc mine KQvk --dtm 2 --max 2 --json --themes --solutions --tables "${TABLES}")
 if(NOT rc EQUAL 0)

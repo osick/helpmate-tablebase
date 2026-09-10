@@ -43,7 +43,7 @@ struct Run {
 Run run(const Tablebase& tb, const std::string& script, MineSet::Facets cli = {}, int cap = INT_MAX) {
     std::istringstream in(script);
     std::ostringstream out, err;
-    int rc = run_mine_shell(root(tb, cap), in, out, err, cli);
+    int rc = run_mine_shell(root(tb, cap), in, out, err, cli, "tt");
     return {rc, out.str(), err.str()};
 }
 bool has(const std::string& s, const std::string& needle) { return s.find(needle) != std::string::npos; }
@@ -63,21 +63,13 @@ TEST_CASE("shell: EOF and quit both end with 0; prompt shows the size on stderr"
 TEST_CASE("shell: narrowing, back and reset", "[mine_shell]") {
     Tablebase tb(gen_kqvk());
     auto r = run(tb, "theme mirror\ncount 1\nback\nnot theme mirror\nreset\nback\n");
-    // Brief's pinned value for the 4th line was "103 positions" (root's raw
-    // not-mirror count), but by this point `back` has (correctly, per the
-    // also-pinned "477 positions" on the same line and the "257 positions"
-    // for `count 1` before it) restored the theme-mirror-narrowed 477-hit
-    // set, which is 100% mirror-showing by construction. "not theme mirror"
-    // on a wholly-mirror set is 0 by with_theme's documented pure-filter
-    // contract -- 103 is reachable only if `back` returned all the way to
-    // root, which would contradict the "477 positions" pinned two tokens
-    // earlier in this same expectation. See task-6-report.md for the proof.
+    // back restores the all-mirror set, so "not theme mirror" on it is empty.
     REQUIRE(r.out ==
             "477 positions\n257 positions\n477 positions\n0 positions\n580 positions\n580 positions\n");
     REQUIRE(has(r.err, "[477] mine> "));
     REQUIRE(has(r.err, "[257] mine> "));
     REQUIRE(has(r.err, "already at the root set"));
-    REQUIRE(has(r.err, "evaluating themes: 100/580"));
+    REQUIRE(has(r.err, "evaluating: 100/580"));
 }
 
 TEST_CASE("shell: list and show", "[mine_shell]") {
@@ -143,6 +135,53 @@ TEST_CASE("shell: save json and fens", "[mine_shell]") {
     REQUIRE(first == kFirst);
     REQUIRE(has(r.out, "to " + tpath + " (fens)"));
     REQUIRE(has(r.err, "cannot write /nonexistent/dir/x.json"));
+
+    // A path with a space in it is one path, not a path plus junk: `save my
+    // file.json` used to write a file called "my" and report that name.
+    auto spath = (dir / "two words.json").string();
+    auto r2 = run(tb, "save " + spath + "\n", {}, 3);
+    REQUIRE(has(r2.out, "saved 3 positions to " + spath + " (json"));
+    REQUIRE(std::filesystem::exists(spath));
+    REQUIRE_FALSE(std::filesystem::exists(dir / "two"));
+}
+
+TEST_CASE("shell: show enriches in the set, so it is cached", "[mine_shell]") {
+    Tablebase tb(gen_kqvk());
+    auto twice = run(tb, "show 1\nshow 1\n", {}, 1);
+    auto nl = twice.out.find('\n', twice.out.find("Ka2 Qa4#"));
+    REQUIRE(nl != std::string::npos);
+    std::string first_block = twice.out.substr(0, nl + 1);
+    REQUIRE(twice.out == first_block + first_block);  // identical, second time from the cache
+
+    // `show` filled the only hit's themes, so the set now has themes for
+    // every hit and `save` says so without a bulk pass of its own.
+    auto dir = std::filesystem::temp_directory_path() / "hm_mine_shell_save";
+    std::filesystem::create_directories(dir);
+    auto jpath = (dir / "after_show.json").string();
+    auto r = run(tb, "show 1\nsave " + jpath + "\n", {}, 1);
+    REQUIRE(has(r.out, "to " + jpath + " (json, themes)"));
+}
+
+TEST_CASE("shell: a narrowing that cannot annotate says so once, with the gen hint", "[mine_shell]") {
+    // A Tablebase over an EMPTY directory: every enrichment throws
+    // MissingTableError, so both hits end up marked unavailable.
+    auto empty = (std::filesystem::temp_directory_path() / "hm_mine_shell_empty").string();
+    std::filesystem::create_directories(empty);
+    Tablebase tb(empty);
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 10);
+    for (const char* fen : {kFirst, "8/8/8/8/8/2Q5/8/k1K5 b - - 0 1"}) {
+        Hit h;
+        h.fen = fen;
+        h.dtm = 2;
+        h.count = 1;
+        s.add(h);
+    }
+    std::istringstream in("theme mirror\n");
+    std::ostringstream out, err;
+    REQUIRE(run_mine_shell(std::move(s), in, out, err, {}, "tt") == 0);
+    REQUIRE(out.str() == "0 positions\n");  // marked hits never match
+    REQUIRE(has(err.str(), "note: 2 position(s) could not be annotated"));
+    REQUIRE(has(err.str(), "helpmate gen KQvk --tables tt"));
 }
 
 TEST_CASE("shell: help lists every command", "[mine_shell]") {

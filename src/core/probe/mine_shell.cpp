@@ -2,12 +2,14 @@
 
 #include <algorithm>
 #include <cerrno>
+#include <chrono>
 #include <climits>
 #include <cstring>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "themes/registry.h"
@@ -51,37 +53,34 @@ void help(std::ostream& out) {
            "  quit             leave (exit and EOF do too)\n";
 }
 
-void print_hit(std::ostream& out, MineSet& set, Hit& h) {
-    set.ensure_themes(h);
-    set.ensure_solutions(h);
-    out << h.fen << "\n";
-    if (!h.unavailable.empty()) {
-        out << "  unavailable: " << h.unavailable << "\n";
-        return;
-    }
-    out << "  themes:";
-    if (h.themes->empty()) out << " (none)";
-    for (const auto& n : *h.themes) out << " " << n;
-    out << "\n";
-    for (const auto& line : *h.solutions) {
-        if (line.empty()) continue;
-        out << " ";
-        for (const auto& mv : line) out << " " << mv;
-        out << "\n";
-    }
-}
-
 }  // namespace
 
 int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostream& err,
-                   MineSet::Facets cli_facets) {
+                   MineSet::Facets cli_facets, const std::string& tables_dir) {
     std::vector<MineSet> stack;  // previous sets, most recent last
     MineSet cur = std::move(root);
+    // Every 100 hits OR every second, per the spec: 100 alone goes quiet for
+    // minutes on slow enrichment, a timer alone floods a fast one. The D==T
+    // tally line is redundant with the "N positions" stdout line unless it
+    // happens to fall on a tick, in which case it is just a normal tick.
+    auto last_tick = std::chrono::steady_clock::now();
     auto progress = [&](size_t done, size_t total) {
-        // Every 100 done; the D==T tally line is redundant with the "N
-        // positions" stdout line unless D%100==0 too, in which case it is
-        // just a normal 100-multiple print, not a special final one.
-        if (done % 100 == 0) err << "evaluating themes: " << done << "/" << total << "\n";
+        auto now = std::chrono::steady_clock::now();
+        if (done % 100 != 0 && now - last_tick < std::chrono::seconds(1)) return;
+        last_tick = now;
+        err << "evaluating: " << done << "/" << total << "\n";
+    };
+    // Enrichment inside a narrowing or a tally can find a table missing; the
+    // hit is kept and marked, and the user is told once, here, how to fix it.
+    // Must be read off `cur` BEFORE `narrowed` moves it away: it is the
+    // source set, not the result, whose hits get marked.
+    auto note_unavailable = [&](size_t before) {
+        const size_t now = cur.unavailable_count();
+        if (now <= before) return;
+        err << "note: " << (now - before)
+            << " position(s) could not be annotated: a table their solutions reach is missing"
+               " (each says which in show/save); run: helpmate gen "
+            << cur.material().name() << " --tables " << tables_dir << "\n";
     };
     auto narrowed = [&](MineSet next) {
         stack.push_back(std::move(cur));
@@ -113,8 +112,11 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
                 err << "theme needs a NAME\n";
                 continue;
             }
+            const size_t before = cur.unavailable_count();
             try {
-                narrowed(cur.with_theme(w[at], negate, progress));
+                MineSet next = cur.with_theme(w[at], negate, progress);
+                note_unavailable(before);
+                narrowed(std::move(next));
             } catch (const std::invalid_argument& e) {
                 err << "error: " << e.what() << "\nvalid themes:";
                 for (const auto& t : themes::theme_registry()) err << " " << themes::display_name(t);
@@ -123,9 +125,12 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
         } else if (c == "count" || c == "starts" || c == "ends") {
             int n = 0;
             if (!need_int(w, n)) continue;
-            narrowed(c == "count"    ? cur.with_count(n)
-                     : c == "starts" ? cur.with_starts(n)
-                                     : cur.with_ends(n));
+            const size_t before = cur.unavailable_count();
+            MineSet next = c == "count"    ? cur.with_count(n)
+                           : c == "starts" ? cur.with_starts(n)
+                                           : cur.with_ends(n);
+            note_unavailable(before);
+            narrowed(std::move(next));
         } else if (c == "back") {
             if (stack.empty()) {
                 err << "already at the root set\n";
@@ -162,10 +167,16 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
                 err << "no hit " << (w.size() >= 2 ? w[1] : "?") << " (set has " << cur.size() << ")\n";
                 continue;
             }
-            Hit h = cur.hits()[(size_t)i - 1];
-            print_hit(out, cur, h);
+            // Enrich IN the set, not on a copy: USAGE promises `show` caches,
+            // and a second `show` (or a later `save`) must not pay again.
+            Hit& h = cur.hit((size_t)i - 1);
+            cur.ensure_themes(h);
+            cur.ensure_solutions(h);
+            cur.write_hit(out, h, {true, true});
         } else if (c == "themes") {
+            const size_t before = cur.unavailable_count();
             auto hist = cur.theme_histogram(progress);
+            note_unavailable(before);
             size_t width = 0;
             for (const auto& [name, cnt] : hist) {
                 (void)cnt;
@@ -179,22 +190,37 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
                 err << "save needs a FILE\n";
                 continue;
             }
-            const std::string& path = w[1];
+            // The whole rest of the line is the path: `save my file.json`
+            // used to write a file called "my" and report success.
+            std::string path = w[1];
+            for (size_t k = 2; k < w.size(); ++k) path += " " + w[k];
             const bool json = path.size() >= 5 && path.compare(path.size() - 5, 5, ".json") == 0;
             std::ofstream f(path);
             if (!f) {
                 err << "cannot write " << path << ": " << std::strerror(errno) << "\n";
                 continue;
             }
+            std::string wrote;
             if (json) {
-                MineSet::Facets fac{cli_facets.themes || cur.all_have_themes(), cli_facets.solutions};
+                // An empty set trivially "has all themes"; claiming (json,
+                // themes) for a file with no positions in it is a lie.
+                MineSet::Facets fac{cli_facets.themes || (cur.size() > 0 && cur.all_have_themes()),
+                                    cli_facets.solutions};
                 f << cur.to_json(fac, progress);
-                out << "saved " << cur.size() << " positions to " << path << " (json"
-                    << (fac.themes ? ", themes" : "") << (fac.solutions ? ", solutions" : "") << ")\n";
+                wrote = std::string("json") + (fac.themes ? ", themes" : "") +
+                        (fac.solutions ? ", solutions" : "");
             } else {
                 for (const auto& h : cur.hits()) f << h.fen << "\n";
-                out << "saved " << cur.size() << " positions to " << path << " (fens)\n";
+                wrote = "fens";
             }
+            // A full disk or a quota only shows up at flush; without this the
+            // shell reports "saved" over a truncated or empty file.
+            f.flush();
+            if (!f) {
+                err << "cannot write " << path << ": " << std::strerror(errno) << "\n";
+                continue;
+            }
+            out << "saved " << cur.size() << " positions to " << path << " (" << wrote << ")\n";
         } else {
             err << "unknown command \"" << c << "\"; type help\n";
         }

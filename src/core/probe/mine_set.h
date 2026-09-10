@@ -32,7 +32,10 @@ std::vector<std::string> non_parametric(const std::vector<std::string>& names);
 
 // A mine result held in memory: the hits of one scan plus everything that
 // can be computed from them without rescanning. Narrowing returns a new set
-// so the shell can keep the old one for `back`.
+// so the shell can keep the old one for `back`. A MineSet holds a
+// NON-OWNING pointer to the Tablebase it was built from (enrichment probes
+// it on demand), which must therefore outlive the set and every set derived
+// from it by narrowing.
 class MineSet {
 public:
     struct Facets {
@@ -46,6 +49,9 @@ public:
     void add(const std::string& fen);  // one probe: dtm, count
     void add(Hit h);
     const std::vector<Hit>& hits() const { return hits_; }
+    // Mutable access to one hit, so a caller can enrich it IN the set (the
+    // cache) instead of enriching a copy. Throws std::out_of_range.
+    Hit& hit(size_t i);
     size_t size() const { return hits_.size(); }
     const Material& material() const { return m_; }
     const MineFilter& filter() const { return f_; }
@@ -83,6 +89,11 @@ public:
     // Output. Both force whatever enrichment the facets need, hence non-const.
     std::string to_json(Facets f, const Progress& progress = nullptr);
     void to_text(std::ostream& os, Facets f, const Progress& progress = nullptr);
+    // One hit's text block exactly as to_text renders it, minus the trailing
+    // blank line: FEN, then `  unavailable:` or the requested facets. Writes
+    // only what `h` already holds -- it never enriches, so the caller decides
+    // (and pays for) that. THE one place the per-hit layout is defined.
+    void write_hit(std::ostream& os, const Hit& h, Facets f) const;
 
 private:
     int enum_cap(const Hit& h) const;  // COUNT_SAT -> 100, else the hit's own count
