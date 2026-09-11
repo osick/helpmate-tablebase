@@ -98,6 +98,13 @@ def main() -> int:
             continue
         lines = [ln for ln in run(a.binary, ["line", fen, "--all", "--max", "2"],
                                   a.tables).splitlines() if ln.strip()]
+        # The themes the problem shows, straight from the registry: one line
+        # `themes: a b c` (or `(none)` / `(unavailable: ...)`, both -> []).
+        themes: list[str] = []
+        for ln in run(a.binary, ["probe", fen, "--themes"], a.tables).splitlines():
+            if ln.startswith("themes:"):
+                rest = ln[len("themes:"):].strip()
+                themes = [] if not rest or rest.startswith("(") else rest.split()
         results.append({
             "material": mat, "pieces": pieces, "fen": fen, "probe": probe,
             "dtm": depth, "max_dtm": s["max_dtm"], "unique_at_depth": howmany,
@@ -105,6 +112,7 @@ def main() -> int:
             "saturated_at_max": saturated_at_max(s),
             "solution": lines[0] if lines else "",
             "extra_lines": len(lines) - 1,
+            "themes": themes,
         })
         gap = s["max_dtm"] - depth
         print(f"  {mat}: unique depth {depth} (max {s['max_dtm']}, gap {gap}), "

@@ -219,9 +219,13 @@ def test_markdown_has_one_helpman_link_per_class(markdown, rows):
     assert markdown.count("https://helpman.komtera.lt/?fen=") == len(rows)
 
 
-def test_markdown_uses_the_ascii_diagram(markdown):
-    assert "+---a---b---c---d---e---f---g---h---+" in markdown
+def test_markdown_uses_svg_cards_not_ascii_diagrams(markdown, rows):
+    # One <img> of a per-class SVG per problem; no ASCII board, no glyph pieces.
+    assert "+---a---b---c---d---e---f---g---h---+" not in markdown
     assert "♔" not in markdown and "♚" not in markdown
+    for r in rows:
+        assert f'<img src="images/deepest/{r["material"]}.svg"' in markdown, r["material"]
+        assert (Path(__file__).resolve().parents[2] / "docs/images/deepest" / f"{r['material']}.svg").exists()
 
 
 def test_markdown_is_what_the_renderer_produces(tmp_path, markdown):
@@ -346,3 +350,59 @@ def test_booklet_compiles(tmp_path, tex):
         )
     assert p.returncode == 0, p.stdout[-3000:]
     assert (tmp_path / "DEEPEST.pdf").stat().st_size > 100_000
+
+
+# --------------------------------------------------------------------------
+# SVG diagrams, ordering and numbering (the card layout, 2026-09)
+
+
+def test_svg_diagram_places_one_use_per_man_and_no_text():
+    svg = lib.svg_diagram(SAMPLE_FEN)
+    w, b = lib.piece_counts(SAMPLE_FEN)
+    assert svg.count("<use ") == w + b
+    assert 'href="#wk"' in svg and 'href="#bk"' in svg
+    assert "<text" not in svg  # no fonts: renders the same everywhere
+    assert svg.startswith("<svg ") and svg.rstrip().endswith("</svg>")
+
+
+def test_svg_defs_carry_all_twelve_pieces():
+    defs = lib.piece_defs()
+    for pid in lib.PIECE_IDS:
+        assert f'id="{pid}"' in defs, pid
+
+
+def test_numbers_are_one_based_dense_and_follow_ordered(rows):
+    nums = lib.numbers(rows)
+    assert sorted(nums.values()) == list(range(1, len(rows) + 1))
+    seq = [nums[r["material"]] for r in lib.ordered(rows)]
+    assert seq == list(range(1, len(rows) + 1))
+    # men ascending, and within a group the deepest sound problem first
+    o = lib.ordered(rows)
+    assert [r["pieces"] for r in o] == sorted(r["pieces"] for r in o)
+    for a, b in zip(o, o[1:]):
+        if a["pieces"] == b["pieces"]:
+            assert a["dtm"] >= b["dtm"]
+
+
+def test_markdown_card_carries_number_link_solution_and_themes(rows):
+    render = _load("render_deepest")
+    r = dict(next(x for x in rows if x["material"] == "KQvk"))
+    r["themes"] = ["pure", "model"]
+    html = render.card(r, 7, "images/deepest/KQvk.svg")
+    assert '<img src="images/deepest/KQvk.svg"' in html
+    assert "<b>No. 7</b>" in html
+    assert lib.helpman_url(r["fen"], r["dtm"]) in html and "solve" in html
+    assert lib.numbered(r["solution"], r["dtm"]) in html
+    assert "<code>pure</code> <code>model</code>" in html
+    assert "Solve on the Helpmate Analyzer" not in html  # the dangling line is gone
+
+
+def test_booklet_entry_numbers_links_and_lists_themes(rows):
+    booklet = _load("deepest_booklet")
+    r = dict(next(x for x in rows if x["material"] == "KQvk"))
+    r["themes"] = ["pure", "model"]
+    tex = booklet.entry(r, 7)
+    assert tex.startswith("\\hmentry{No.~7\\quad KQvk}")
+    assert tex.count("}{") == 8  # nine arguments
+    assert "pure, model" in tex
+    assert lib.helpman_url(r["fen"], r["dtm"]) in tex

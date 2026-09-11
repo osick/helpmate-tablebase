@@ -9,6 +9,16 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Added
+- **DEEPEST as problem cards, with themes.** Every problem in DEEPEST.md is
+  now one card: a real diagram (a per-class SVG under `docs/images/deepest/`,
+  Cburnett's pieces from the vendored cm-chessboard sprite) on the left; on
+  the right its number, stipulation, a *solve* link into the Helpmate
+  Analyzer, the statistics, the solution, the themes it shows as tags, and
+  the FEN. The ASCII diagram and the dangling "Solve on the Helpmate
+  Analyzer" line are gone. The booklet carries the same numbers (shared
+  ordering in `deepest_lib.ordered`), the solve link in the title line, a
+  Themes line, and no FEN line. `deepest_showcase.py` records the themes in
+  DEEPEST.json (`probe --themes` per entry).
 - **Site: every puzzle carries the themes it shows, and a Theme filter.**
   `tools/build_site_data.py` asks `helpmate probe --themes` once per puzzle
   and writes a `themes` array into `site/data/puzzles.json`; the puzzle
