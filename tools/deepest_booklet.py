@@ -28,7 +28,7 @@ from statistics import mean, median
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from deepest_lib import (  # noqa: E402
-    helpman_url, hn, numbered, piece_counts, tex_escape,
+    helpman_url, hn, numbered, numbers, ordered, piece_counts, tex_escape,
 )
 
 CHAPTERS = {
@@ -180,7 +180,7 @@ PREAMBLE = r"""\documentclass[10pt,twoside,openany]{book}
 %   #5 facts      #6 solution  #7 analyser URL  #8 material count
 \newsavebox{\hmboard}
 \newlength{\hmfactswidth}
-\newcommand{\hmentry}[8]{%
+\newcommand{\hmentry}[9]{%
   \par\addvspace{1.2\baselineskip}%
   \phantomsection\label{hm:#2}%
   % Set the board first and measure it, so the stipulation and material count
@@ -191,7 +191,7 @@ PREAMBLE = r"""\documentclass[10pt,twoside,openany]{book}
   \addtolength{\hmfactswidth}{-\wd\hmboard}%
   \addtolength{\hmfactswidth}{-2em}%
   \noindent\begin{minipage}{\linewidth}%
-    {\large\bfseries #1}\par\addvspace{0.4\baselineskip}%
+    {\large\bfseries #1}\hfill{\small\href{#7}{solve\,$\nearrow$}}\par\addvspace{0.4\baselineskip}%
     % \vspace{0pt} makes [t] align on the minipage's top rather than on the
     % board's baseline, which chessboard puts under the bottom rank.
     \begin{minipage}[t]{\wd\hmboard}%
@@ -206,8 +206,8 @@ PREAMBLE = r"""\documentclass[10pt,twoside,openany]{book}
     \end{minipage}%
     \par\addvspace{0.5\baselineskip}%
     {\footnotesize\raggedright\textit{Solution:}\ #6\par}%
-    \addvspace{0.2\baselineskip}%
-    {\scriptsize\raggedright\ttfamily\href{#7}{#3}\par}%
+    \addvspace{0.15\baselineskip}%
+    {\footnotesize\raggedright\textit{Themes:}\ #9\par}%
   \end{minipage}%
   \par
 }
@@ -422,10 +422,11 @@ def facts(r: dict) -> str:
     )
 
 
-def entry(r: dict) -> str:
+def entry(r: dict, n: int) -> str:
     w, b = piece_counts(r["fen"])
-    return "\\hmentry{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}" % (
-        tex_escape(r["material"]),
+    themes = r.get("themes") or []
+    return "\\hmentry{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}" % (
+        rf"No.~{n}\quad {tex_escape(r['material'])}",
         r["material"],
         r["fen"],
         tex_escape(hn(r["dtm"])),
@@ -433,6 +434,7 @@ def entry(r: dict) -> str:
         tex_escape(numbered(r["solution"], r["dtm"])),
         helpman_url(r["fen"], r["dtm"]),
         f"{w} + {b}",
+        tex_escape(", ".join(themes)) if themes else r"\textit{none detected}",
     )
 
 
@@ -481,10 +483,10 @@ def build(rows: list[dict]) -> str:
     ]
     L += front_matter(s)
     L += stats_chapter(rows, s)
+    nums = numbers(rows)
 
     for n in sorted(CHAPTERS):
-        group = sorted((r for r in rows if r["pieces"] == n),
-                       key=lambda r: (-r["dtm"], r["material"]))
+        group = [r for r in ordered(rows) if r["pieces"] == n]
         if not group:
             continue
         L += [
@@ -495,7 +497,7 @@ def build(rows: list[dict]) -> str:
             rf"with {n} men that can hold a mate, deepest sound problem first.",
             "",
         ]
-        L += [entry(r) for r in group]
+        L += [entry(r, nums[r["material"]]) for r in group]
         L.append("")
 
     L += index_appendix(rows)
