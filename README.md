@@ -80,6 +80,7 @@ Generation is a one-off cost. Every query afterwards is a table lookup.
 dataset. The deepest mate in the corpus is h#17.
 
 [**The deepest sound problem in every material class →**](docs/DEEPEST.md)
+— also as a [printable A5 booklet (PDF)](docs/DEEPEST.pdf).
 
 **Or on a board:** [osick.github.io/helpmate-tablebase](https://osick.github.io/helpmate-tablebase/) — the deepest sound problems played through, 1071 unique-solution puzzles to solve (filter by theme; a solved puzzle shows the themes it exhibits), and the corpus table by table. Static, no server, built from the same data.
 One position per material, with a diagram and its solution — and a link that
@@ -198,7 +199,8 @@ with the JSON keys and the exact text layout.
 | --- | --- |
 | [USAGE.md](docs/USAGE.md) | the full guide — every command, every flag, every field |
 | [DEEPEST.md](docs/DEEPEST.md) | **the deepest sound problem in every material class**, with diagrams |
-| [DEEPEST.tex](docs/DEEPEST.tex) | the same showcase as an A5 booklet — `make booklet` |
+| [DEEPEST.pdf](docs/DEEPEST.pdf) | the same showcase as a printable A5 booklet, numbered problems with diagrams, solutions and themes |
+| [DEEPEST.tex](docs/DEEPEST.tex) | the booklet's LaTeX source — `make booklet` rebuilds the PDF |
 | [BUILD.md](docs/BUILD.md) | prerequisites, build targets, offline dependencies, troubleshooting |
 | [CONTRIBUTING-TABLES.md](docs/CONTRIBUTING-TABLES.md) | **contribute CPU time and tables** |
 | [CONTRIBUTING.md](docs/CONTRIBUTING.md) | contribute code — CI checks and PR requirements |

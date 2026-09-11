@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
-## [Unreleased]
+## [0.19.0] - 2026-09-11
 
 ### Added
+- **`docs/DEEPEST.pdf` is committed and attached to every release.** The
+  A5 booklet is the easy thing to hand around; `make booklet` rebuilds it
+  from DEEPEST.tex and copies it into `docs/`.
 - **DEEPEST as problem cards, with themes.** Every problem in DEEPEST.md is
   now one card: a real diagram (a per-class SVG under `docs/images/deepest/`,
   Cburnett's pieces from the vendored cm-chessboard sprite) on the left; on

@@ -236,7 +236,8 @@ booklet: docs-deepest
 	  -output-directory=$(BOOKLET) docs/DEEPEST.tex >/dev/null
 	pdflatex -interaction=nonstopmode -halt-on-error \
 	  -output-directory=$(BOOKLET) docs/DEEPEST.tex >/dev/null
-	@echo "wrote $(BOOKLET)/DEEPEST.pdf"
+	cp $(BOOKLET)/DEEPEST.pdf docs/DEEPEST.pdf
+	@echo "wrote docs/DEEPEST.pdf (build dir: $(BOOKLET))"
 
 clean:
 	rm -rf $(BUILD) $(COVBUILD) $(BOOKLET)
