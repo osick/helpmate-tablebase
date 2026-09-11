@@ -167,10 +167,11 @@ def numbers(rows: list[dict]) -> dict[str, int]:
 # SVG diagrams, for DEEPEST.md (GitHub renders an <img> of an .svg file)
 
 # The piece drawings are Cburnett's Wikimedia pieces (CC BY-SA 3.0), taken
-# from the cm-chessboard sprite the dashboard already vendors, so the site,
-# the dashboard and the markdown all draw the same men.
+# from the cm-chessboard sprite the dashboard vendors, so the site, the
+# dashboard and the markdown all draw the same men. The tracked copy is the
+# dashboard's; site/vendor/ is a git-ignored copy that `make site` creates.
 PIECE_SPRITE = Path(__file__).resolve().parent.parent / (
-    "site/vendor/cm-chessboard/assets/pieces/standard.svg")
+    "src/packages/web/helpmate_web/static/vendor/cm-chessboard/assets/pieces/standard.svg")
 PIECE_IDS = ("wk", "wq", "wr", "wb", "wn", "wp", "bk", "bq", "br", "bb", "bn", "bp")
 SPRITE_CELL = 40  # the sprite draws each man in a 40x40 box
 _piece_defs: dict[str, str] | None = None
