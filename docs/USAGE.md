@@ -1938,7 +1938,7 @@ add), and a line starting with `#` is a comment. A line with no positive
 each time, since it's cheap and storing it would risk drifting from the FEN
 it describes.
 
-The committed 930-position file was mined from a real corpus with
+The committed 1071-position file was mined from a real corpus with
 [`tools/mine_puzzles.py`](../tools/mine_puzzles.py): a ladder of ten
 `(piece count, mate length)` rungs, each queried against helpmate's mining
 API for positions with a unique solution (`count=1`), ranked by how many

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Helpmate tablebases</title>
-<meta name="description" content="Every helpmate up to five pieces, solved, with the number of solutions. The deepest sound problem in every material class, 930 unique-solution puzzles, and the corpus behind them.">
+<meta name="description" content="Every helpmate up to five pieces, solved, with the number of solutions. The deepest sound problem in every material class, 1071 unique-solution puzzles with their themes, and the corpus behind them.">
 <link rel="stylesheet" href="vendor/cm-chessboard/assets/chessboard.css">
 <link rel="stylesheet" href="vendor/cm-chessboard/assets/extensions/promotion-dialog/promotion-dialog.css">
 <link rel="stylesheet" href="css/site.css">
@@ -39,7 +39,7 @@
         the one that tells a composer whether a position is a problem.</p>
         <dl class="numbers" id="corpus-numbers"></dl>
         <p>What is here: the <a href="#/deepest">deepest sound problem in every material
-        class</a>, <a href="#/puzzles">930 puzzles with a unique solution</a> you can solve
+        class</a>, <a href="#/puzzles">1071 puzzles with a unique solution</a> you can solve
         on the board, and <a href="#/materials">the corpus, table by table</a>.</p>
         <p class="links">
           <a href="https://github.com/osick/helpmate-tablebase">Code</a> ·
@@ -101,6 +101,7 @@
           <button id="puzzle-next">Next puzzle</button>
         </div>
         <p class="line mono" id="puzzle-line"></p>
+        <p class="tags" id="puzzle-themes" hidden></p>
       </div>
       <div class="prose">
         <h1>Puzzles</h1>
@@ -117,11 +118,16 @@
               <option value="4">4</option><option value="5">5</option><option value="6">6</option>
             </select>
           </label>
+          <label>Theme
+            <select id="puzzle-theme"><option value="all">any</option></select>
+          </label>
           <span class="count" id="puzzle-count"></span>
         </div>
         <p id="puzzle-status" class="status" aria-live="polite"></p>
         <p class="hint">Session: ten puzzles, easiest to hardest, drawn from the ones that
-        match the filters. Solved so far: <span id="puzzle-score">0</span>.</p>
+        match the filters. Solved so far: <span id="puzzle-score">0</span>. The themes a
+        puzzle shows (model mate, switchback, ...) appear once it is solved or revealed;
+        the Theme filter picks puzzles by them. <a href="https://github.com/osick/helpmate-tablebase/blob/main/docs/THEME-CATALOG.md">What each theme means.</a></p>
       </div>
     </div>
   </section>

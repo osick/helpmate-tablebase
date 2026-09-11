@@ -7,10 +7,10 @@ dual and the composition is unsound, so `count = 1` is what makes a position
 worth anything as a problem.
 
 **The deepest problem in a material class is almost never the longest one.**
-Across all 233 classes here, the deepest *unique* position is shallower
-than the class maximum **every single time** — 233/233, mean gap
+Across all 234 classes here, the deepest *unique* position is shallower
+than the class maximum **every single time** — 234/234, mean gap
 4.4 plies, worst case 20. The reason is visible
-in the data: in 224 of 233 classes every position at maximum depth has a
+in the data: in 225 of 234 classes every position at maximum depth has a
 **saturated** solution count (255 or more). The longest helpmates have hundreds
 of ways to reach mate, which is exactly what disqualifies them as compositions.
 
@@ -53,6 +53,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KBvknp](#kbvknp) | 5 | **h#9.5** | h#15.5 | −12 | 2 |
 | [KBvkqbn](#kbvkqbn) | 6 | **h#9.5** | h#12.5 | −6 | 90 |
 | [KBvkqn](#kbvkqn) | 5 | **h#9.5** | h#13 | −7 | 46 |
+| [KBvkqqn](#kbvkqqn) | 6 | **h#9.5** | h#12.5 | −6 | 341 |
 | [KBvkqrn](#kbvkqrn) | 6 | **h#9.5** | h#12.5 | −6 | 394 |
 | [KBvkrn](#kbvkrn) | 5 | **h#9.5** | h#12.5 | −6 | 24 |
 | [KNvkpp](#knvkpp) | 5 | **h#9.5** | h#11.5 | −4 | 2 |
@@ -8257,6 +8258,41 @@ Solution: `1.Kg2 Be5 2.Kf3 Bc3 3.Ke4 Kc2 4.Kd5 Kd3 5.Kd6 Kd4 6.Kc7 Ke5 7.Qa4 Ke6
 Solution: `1...Ka1 2.Kd4 Bd5 3.Kc3 Bxg2 4.Qc1+ Ka2 5.Kd2 Kb3 6.Bc3 Kc4 7.Kd1 Kd3 8.Be1 Bf3#`
 
 [Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=7b/8/8/4k3/8/8/B1q3q1/1K6&moves=7.5)
+
+## KBvkqqn
+
+**h#9.5**, unique solution. The class runs to h#12.5 — every position at that depth is saturated (255+ solutions), so the deepest *sound* problem is 6 plies shallower.
+
+341 positions in this class have a unique solution at h#9.5, out of 7,751,073,792 indexed positions.
+
+```
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -Q   .   .   .   .   .   .   7
+|                                   |
+6   .  -S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -Q   .   .   .   .   .   .   .   2
+|                                   |
+1   K   B  -K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#9.5                         2 + 4
+```
+
+`8/1q6/1n6/8/8/8/q7/KBk5 w - - 0 1`
+
+Solution: `1...Kxa2 2.Kd2 Be4 3.Kc3 Bxb7 4.Kb4 Ba6 5.Ka5 Kb3 6.Nc8 Kc4 7.Kb6 Kd5 8.Ka7 Kc6 9.Ka8 Kc7 10.Na7 Bb7#`
+
+[Solve on the Helpmate Analyzer](https://helpman.komtera.lt/?fen=8/1q6/1n6/8/8/8/q7/KBk5&moves=9.5)
 
 ## KBvkqrb
 

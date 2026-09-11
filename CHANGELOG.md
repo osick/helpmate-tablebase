@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
+## [Unreleased]
+
+### Added
+- **Site: every puzzle carries the themes it shows, and a Theme filter.**
+  `tools/build_site_data.py` asks `helpmate probe --themes` once per puzzle
+  and writes a `themes` array into `site/data/puzzles.json`; the puzzle
+  screen gains a Theme dropdown (each theme with its puzzle count) and shows
+  a solved or revealed puzzle's themes as tags -- not before, since a mate
+  picture's name is a spoiler. The set grew from 930 to 1071 puzzles
+  (`mine_puzzles.py --per-bucket 22`, same ladder, same seed).
+
+### Changed
+- **Corpus: 302 tables.** `KBvkqqn` (six-piece, 29 GB raw, 2.0 GB compressed,
+  deepest unique h#9.5 with 341 such positions) and the all-unsolvable marker
+  `KBvkqqq` joined the compressed corpus and the Hugging Face dataset;
+  DEEPEST.json/.md/.tex regenerated (234 entries), README, the dataset card
+  and CONTRIBUTING-TABLES updated (16 of 645 six-piece classes done, 629
+  outstanding, 279 in the 32 GiB tier).
+
 ## [0.18.1] - 2026-09-10
 
 ### Added

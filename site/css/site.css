@@ -74,3 +74,8 @@ table.data tbody tr.marker td { color: var(--ink-faint); }
 
 /* cm-chessboard: keep the inline coordinates and the promotion dialog readable */
 .cm-chessboard .coordinates { font-family: var(--mono); }
+
+/* Theme tags under a solved or revealed puzzle. */
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; margin: .5rem 0; font-size: var(--f1); }
+.tags-label { color: var(--ink-soft); margin-right: .25rem; }
+.tag { font-family: var(--mono); padding: .05rem .45rem; border: 1px solid var(--rule, #ccc); border-radius: .4rem; color: var(--ink); }
