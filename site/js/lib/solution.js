@@ -74,6 +74,18 @@ export function byPieces(items, pieces) {
   return pieces === "all" ? items : items.filter((x) => String(x.pieces) === String(pieces));
 }
 
+// Items whose `themes` list contains `theme`; "all" keeps everything.
+export function byTheme(items, theme) {
+  return theme === "all" ? items : items.filter((x) => (x.themes || []).includes(theme));
+}
+
+// Distinct theme names across `items`, most frequent first, ties alphabetical.
+export function themeCounts(items) {
+  const n = new Map();
+  for (const it of items) for (const t of it.themes || []) n.set(t, (n.get(t) || 0) + 1);
+  return [...n.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+}
+
 export function sortRows(rows, key, dir) {
   const s = dir === "desc" ? -1 : 1;
   return [...rows].sort((a, b) => {

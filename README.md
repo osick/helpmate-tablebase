@@ -6,7 +6,7 @@ point at one position — a table that already knows the answer for all of them.
 Complete through five pieces. MIT licensed. The tables are a free download.
 
 > [!IMPORTANT]
-> **631 six-piece tablebases have never been computed, and 281 of them need
+> **629 six-piece tablebases have never been computed, and 279 of them need
 > only 32 GiB of RAM and about a day of CPU each.** If you have a machine that
 > idles overnight, you can compute something nobody ever has — and get credited
 > for it.
@@ -73,15 +73,15 @@ Generation is a one-off cost. Every query afterwards is a table lookup.
 | --- | --- | --- |
 | 2–4 | 66 | **complete** |
 | 5 | 220 | **complete** |
-| 6 | 645 | 14 done, 631 to go |
+| 6 | 645 | 16 done, 629 to go |
 | 7+ | — | needs an out-of-core generator that does not exist |
 
-**300 tables, 50.2 GiB** block-compressed, published as a Hugging Face
+**302 tables, 52.2 GiB** block-compressed, published as a Hugging Face
 dataset. The deepest mate in the corpus is h#17.
 
 [**The deepest sound problem in every material class →**](docs/DEEPEST.md)
 
-**Or on a board:** [osick.github.io/helpmate-tablebase](https://osick.github.io/helpmate-tablebase/) — the deepest sound problems played through, 930 unique-solution puzzles to solve, and the corpus table by table. Static, no server, built from the same data.
+**Or on a board:** [osick.github.io/helpmate-tablebase](https://osick.github.io/helpmate-tablebase/) — the deepest sound problems played through, 1071 unique-solution puzzles to solve (filter by theme; a solved puzzle shows the themes it exhibits), and the corpus table by table. Static, no server, built from the same data.
 One position per material, with a diagram and its solution — and a link that
 opens each one in the [Helpmate Analyzer](https://helpman.komtera.lt/) with the
 stipulation already set. The same data is typeset as a print booklet:
@@ -99,7 +99,7 @@ each class the first time someone asks for it.
 Six hundred machine-days of work remain at six pieces, and it will not come
 from one desk.
 
-**281 of the missing tables need only 32 GiB of RAM** and about a day each.
+**279 of the missing tables need only 32 GiB of RAM** and about a day each.
 If you have a machine that idles overnight, you can compute something nobody
 ever has. Contributions land as pull requests on the dataset, and every
 merged table is credited.

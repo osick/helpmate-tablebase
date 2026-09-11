@@ -6,7 +6,8 @@ Run by hand against a corpus, like tools/deepest_showcase.py; the output is
 committed, because the GitHub Pages workflow has no tables. Four files:
 
   deepest.json    docs/DEEPEST.json with every solution expanded ply by ply
-  puzzles.json    the dashboard's puzzles.epd, each with its one solution
+  puzzles.json    the dashboard's puzzles.epd, each with its one solution and
+                  the themes it shows (`helpmate probe --themes`, one call per puzzle)
   materials.json  one row per table from the stats sidecars and file sizes
   corpus.json     the totals the front page states
 
@@ -59,6 +60,26 @@ def expand_solution(fen: str, san_line: str) -> list[dict]:
     if not board.is_checkmate():
         raise ValueError(f"{fen}: line {san_line!r} does not end in checkmate")
     return plies
+
+
+def helpmate_themes(binary: str, fen: str, tables: str) -> list[str]:
+    """The theme names `helpmate probe --themes` prints for `fen`, in registry order.
+
+    Its stdout is `dtm=... count=...` then one `themes:` line: `(none)` for a
+    position showing nothing, `(unavailable: ...)` when detection could not run
+    (a colour-flipped probe, a missing sub-table); both give an empty list
+    here rather than a fake tag."""
+    out = subprocess.run(
+        [binary, "probe", fen, "--themes", "--tables", tables],
+        capture_output=True, text=True, check=True,
+    ).stdout
+    for line in out.splitlines():
+        if line.startswith("themes:"):
+            rest = line[len("themes:"):].strip()
+            if not rest or rest.startswith("("):
+                return []
+            return rest.split()
+    raise RuntimeError(f"{fen}: probe --themes printed no themes line:\n{out}")
 
 
 def parse_epd(text: str) -> list[dict]:
@@ -204,6 +225,7 @@ def main(argv: list[str] | None = None) -> int:
                 "material": mat,
                 "pieces": piece_count(mat),
                 "plies": plies,
+                "themes": helpmate_themes(a.binary, p["fen"], str(tables)),
             }
         )
     (out / "puzzles.json").write_text(json.dumps(puzzles, separators=(",", ":")))

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { stipulation, positionAt, numberedLine, numberedTokens, grade, pickSession, byPieces, sortRows, humanBytes }
+import { stipulation, positionAt, numberedLine, numberedTokens, grade, pickSession, byPieces, byTheme, themeCounts, sortRows, humanBytes }
   from "../js/lib/solution.js";
 
 const START = "8/7k/5K2/8/8/8/8/6Q1 b - - 0 1";
@@ -61,4 +61,17 @@ test("humanBytes", () => {
   assert.equal(humanBytes(480), "480 B");
   assert.equal(humanBytes(71647), "70 KiB");
   assert.equal(humanBytes(4156844486), "3.9 GiB");
+});
+
+test("byTheme and themeCounts", () => {
+  const items = [
+    { id: 1, themes: ["mirror", "model"] },
+    { id: 2, themes: ["model"] },
+    { id: 3 },
+  ];
+  assert.deepEqual(byTheme(items, "all").map((x) => x.id), [1, 2, 3]);
+  assert.deepEqual(byTheme(items, "model").map((x) => x.id), [1, 2]);
+  assert.deepEqual(byTheme(items, "mirror").map((x) => x.id), [1]);
+  assert.deepEqual(byTheme(items, "nosuch"), []);
+  assert.deepEqual(themeCounts(items), [["model", 2], ["mirror", 1]]);
 });

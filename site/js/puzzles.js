@@ -1,5 +1,5 @@
 import { makeBoard } from "./board.js";
-import { stipulation, numberedTokens, grade, pickSession, byPieces } from "./lib/solution.js";
+import { stipulation, numberedTokens, grade, pickSession, byPieces, byTheme, themeCounts } from "./lib/solution.js";
 
 const SESSION = 10;
 let all = [], board, session = [], idx = 0, puzzle = null, ply = 0, revealed = false, solved = 0;
@@ -12,7 +12,10 @@ export async function initPuzzles({ puzzles }) {
   const lenSel = document.getElementById("puzzle-length");
   lenSel.innerHTML = `<option value="all">any</option>` +
     lengths.map((d) => `<option value="${d}">${stipulation(d)}</option>`).join("");
-  for (const id of ["puzzle-length", "puzzle-pieces"]) {
+  const themeSel = document.getElementById("puzzle-theme");
+  themeSel.innerHTML = `<option value="all">any</option>` +
+    themeCounts(all).map(([t, n]) => `<option value="${t}">${t} (${n})</option>`).join("");
+  for (const id of ["puzzle-length", "puzzle-pieces", "puzzle-theme"]) {
     document.getElementById(id).addEventListener("change", startSession);
   }
   document.getElementById("puzzle-reveal").addEventListener("click", reveal);
@@ -23,7 +26,8 @@ export async function initPuzzles({ puzzles }) {
 function pool() {
   const len = document.getElementById("puzzle-length").value;
   const pieces = document.getElementById("puzzle-pieces").value;
-  let p = byPieces(all, pieces);
+  const theme = document.getElementById("puzzle-theme").value;
+  let p = byTheme(byPieces(all, pieces), theme);
   if (len !== "all") p = p.filter((x) => String(x.dtm) === len);
   return p;
 }
@@ -38,6 +42,7 @@ function startSession() {
     puzzle = null;
     setStatus("No puzzle matches these filters.", "");
     document.getElementById("puzzle-line").textContent = "";
+    renderThemes(false);
     return;
   }
   load();
@@ -51,7 +56,19 @@ function load() {
     `<span><strong>${stipulation(puzzle.dtm)}</strong> · ${puzzle.material} · ${idx + 1}/${session.length}</span>` +
     `<span>${stm} to move</span>`;
   setStatus(`${stm} moves first. Find the only solution.`, "");
+  renderThemes(false);
   renderLine();
+}
+
+// The themes a puzzle shows describe its mate picture and its mechanism, so
+// they are a spoiler: shown only once the puzzle is solved or revealed.
+function renderThemes(show) {
+  const el = document.getElementById("puzzle-themes");
+  const themes = (puzzle && puzzle.themes) || [];
+  if (!show || !themes.length) { el.innerHTML = ""; el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = `<span class="tags-label">Themes</span>` +
+    themes.map((t) => `<span class="tag">${t}</span>`).join("");
 }
 
 function onDrag(uci) {
@@ -64,6 +81,7 @@ function onDrag(uci) {
       solved += 1;
       document.getElementById("puzzle-score").textContent = String(solved);
       setStatus("Mate. That was the only way.", "ok");
+      renderThemes(true);
     } else {
       setStatus(`${puzzle.plies[ply - 1].san} — yes. ${sideToMove()} to move.`, "ok");
     }
@@ -85,6 +103,7 @@ function reveal() {
   revealed = true; ply = puzzle.plies.length;
   board.show(puzzle.plies[ply - 1].fen);
   setStatus("Solution shown.", "");
+  renderThemes(true);
   renderLine();
 }
 
