@@ -27,7 +27,48 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0530828",
+    "author": "Niemann, John",
+    "sources": [
+     "Schachmatt, No. 427, 13/07/1947",
+     "Catalogue h# (CHM) avec 6 pieces, No. 61, 1995",
+     "Wenigsteiner im Hilfsmatt, No. 77, 1977",
+     "Problemista, No. 1569, 07-10/1981"
+    ],
+    "stipulation": "h#6",
+    "fen": "6k1/8/8/8/8/8/4P3/2K5"
+   },
+   {
+    "id": "P1100755",
+    "author": "Ban, Jen\u00f6",
+    "sources": [
+     "Magyar Sakkelet, 1961",
+     "Ideal-Mate Encyclopedia Vol.1, No. 12, 1999"
+    ],
+    "stipulation": "h#7 0.1...",
+    "fen": "1k6/8/8/8/8/8/3P4/5K2"
+   }
+  ],
+  "alternative": {
+   "fen": "8/8/8/1K6/8/3P4/7k/8 w - - 0 1",
+   "solution": "d4 Kg3 d5 Kf4 d6 Ke5 d7 Kd6 Ka5 Kc7 Ka6 Kb8 d8=Q#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "promotion",
+    "single-piece",
+    "single-piece:black",
+    "nocapture",
+    "nocheck",
+    "umnov",
+    "promotions:q"
+   ]
+  }
  },
  {
   "material": "KQvk",
@@ -50,7 +91,33 @@
    "single-piece:black",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0551296",
+    "author": "Csaszar, Imre",
+    "sources": [
+     "Magyar Sakkvilag, 1945",
+     "Ideal-Mate Review, 1990",
+     "Catalogue h# (CHM) avec 6 pieces, No. 165, 1995"
+    ],
+    "stipulation": "h#6",
+    "fen": "5k2/4Q3/8/8/8/8/8/K7"
+   }
+  ],
+  "alternative": {
+   "fen": "8/7k/8/6Q1/8/8/8/K7 b - - 0 1",
+   "solution": "Kh8 Kb2 Kh7 Kc3 Kh8 Kd4 Kh7 Ke5 Kh8 Kf6 Kh7 Qg7#",
+   "themes": [
+    "set-play",
+    "switchback",
+    "single-piece",
+    "single-piece:black",
+    "pendulum",
+    "nocapture",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KRvk",
@@ -73,6 +140,19 @@
    "single-piece:black",
    "nocapture",
    "nocheck"
+  ],
+  "published": [
+   {
+    "id": "P0531991",
+    "author": "Ban, Jen\u00f6",
+    "sources": [
+     "Diagramme und Figuren, No. 1295, 27/11/1965",
+     "Catalogue h# (CHM) avec 6 pieces, No. 122, 1995",
+     "Ideal-Mate Encyclopedia Vol.1, No. 1848, 1999"
+    ],
+    "stipulation": "h#5 0.1...",
+    "fen": "3k4/8/8/8/8/8/5R2/6K1"
+   }
   ]
  },
  {
@@ -92,6 +172,19 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
+  ],
+  "published": [
+   {
+    "id": "P0545758",
+    "author": "Maslar, Zdravko",
+    "sources": [
+     "feenschach, 01-03/1978",
+     "Catalogue h# (CHM) avec 6 pieces, No. 899, 1995",
+     "Problemkiste, No. A1, 03/2012"
+    ],
+    "stipulation": "h#7 0.1...",
+    "fen": "K7/2B5/8/8/8/7B/8/7k"
+   }
   ]
  },
  {
@@ -135,7 +228,30 @@
    "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P1187767",
+    "author": "Elkies, Noam D.",
+    "sources": [
+     "The Problemist, No. H2794, 07/2004"
+    ],
+    "stipulation": "h#7",
+    "fen": "7k/8/8/8/B7/8/P7/3K4"
+   }
+  ],
+  "alternative": {
+   "fen": "7k/8/8/8/B7/P7/8/3K4 b - - 0 1",
+   "solution": "Kg7 Bb3 Kf6 a4 Ke5 a5 Kd4 a6 Kc3 a7 Kb2 a8=Q Kb1 Qa2#",
+   "themes": [
+    "promotion",
+    "single-piece",
+    "single-piece:black",
+    "nocapture",
+    "nocheck",
+    "promotions:q"
+   ]
+  }
  },
  {
   "material": "KBvkb",
@@ -221,7 +337,33 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0545484",
+    "author": "Bebesi, Gyula",
+    "sources": [
+     "Diagramme und Figuren, No. 1910, 12/12/1966",
+     "Catalogue h# (CHM) avec 6 pieces, No. 624, 1995",
+     "Ideal-Mate Encyclopedia Vol.1, No. 930, 1999"
+    ],
+    "stipulation": "h#7 0.1...",
+    "fen": "1k5N/8/8/8/8/8/7N/3K4"
+   }
+  ],
+  "alternative": {
+   "fen": "6kN/8/8/8/8/8/7N/3K4 w - - 0 1",
+   "solution": "Ke2 Kg7 Kf3 Kf6 Kg4 Ke5 Kh5 Kf4 Ng6+ Kg3 Nf1+ Kh3 Nf4#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black",
+    "nocapture"
+   ]
+  }
  },
  {
   "material": "KNPvk",
@@ -244,7 +386,31 @@
    "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P1187769",
+    "author": "Elkies, Noam D.",
+    "sources": [
+     "The Problemist, No. H2793, 07/2004"
+    ],
+    "stipulation": "h#7",
+    "fen": "8/8/8/8/8/N7/P7/3K3k"
+   }
+  ],
+  "alternative": {
+   "fen": "8/8/8/8/8/5N2/1K3P2/6k1 b - - 0 1",
+   "solution": "Kf1 Nd4 Ke1 f4 Kd2 f5 Kd3 f6 Kc4 f7 Kb4 f8=Q+ Ka4 Qa3#",
+   "themes": [
+    "promotion",
+    "excelsior",
+    "excelsior:white",
+    "single-piece",
+    "single-piece:black",
+    "nocapture",
+    "promotions:q"
+   ]
+  }
  },
  {
   "material": "KNvkb",
@@ -286,7 +452,39 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0542897",
+    "author": "Kotesovec, Vaclav",
+    "sources": [
+     "Sachova skladba, No. 1065, 06/1987"
+    ],
+    "stipulation": "h#8 0.1...",
+    "fen": "8/6N1/n7/8/6k1/8/8/7K"
+   },
+   {
+    "id": "P0542908",
+    "author": "?, ?",
+    "sources": [
+     "?, 03/1975"
+    ],
+    "stipulation": "h#8 0.1...",
+    "fen": "7K/8/8/6k1/8/n7/6N1/8"
+   }
+  ],
+  "alternative": {
+   "fen": "5n2/8/8/8/6N1/8/3k4/1K6 w - - 0 1",
+   "solution": "Ne5 Ke3 Kc2 Kf4 Kd3 Kg5 Ke4 Kh6 Kf5 Kh7 Kf6 Kh8 Kf7 Nh7 Ng6#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "self-block",
+    "nocapture",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KNvkp",
@@ -332,7 +530,41 @@
    "switchback",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0543062",
+    "author": "Elkies, Noam D.",
+    "sources": [
+     "Variantim, No. 546, 11/1995"
+    ],
+    "stipulation": "h#8",
+    "fen": "1Nk5/8/1r6/8/8/8/8/K7"
+   },
+   {
+    "id": "P0543063",
+    "author": "Mertes, Helmut",
+    "sources": [
+     "feenschach, 01/1977",
+     "Ideal-Mate Encyclopedia Vol.1, No. 400, 1999"
+    ],
+    "stipulation": "h#8",
+    "fen": "8/8/8/8/8/7k/5r1N/K7"
+   }
+  ],
+  "alternative": {
+   "fen": "8/7k/N7/8/8/8/4r3/1K6 b - - 0 1",
+   "solution": "Kg6 Nb4 Kf5 Nc2 Ke4 Kb2 Kd3 Kc1 Kc3 Kd1 Kb2 Nd4 Ka1 Kc1 Ra2 Nb3#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "switchback",
+    "self-block",
+    "nocapture",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KPPvk",
@@ -352,6 +584,20 @@
    "single-piece:black",
    "nocapture",
    "promotions:q"
+  ],
+  "published": [
+   {
+    "id": "P0545149",
+    "author": "Salazar Lopez, Francisco",
+    "sources": [
+     "British Chess Magazine, 03/1973",
+     "Catalogue h# (CHM) avec 6 pieces, No. 213, 1995",
+     "The Problemist, 05/2005",
+     "Problemkiste, No. G), 01/2010"
+    ],
+    "stipulation": "h#7",
+    "fen": "8/k7/8/8/8/1P6/1P5K/8"
+   }
   ]
  },
  {
@@ -467,6 +713,17 @@
    "excelsior",
    "excelsior:white",
    "promotions:q"
+  ],
+  "published": [
+   {
+    "id": "P0542623",
+    "author": "Maslar, Zdravko",
+    "sources": [
+     "?,"
+    ],
+    "stipulation": "h#8 0.1...",
+    "fen": "8/7k/8/8/8/7r/1K5P/8"
+   }
   ]
  },
  {
@@ -661,7 +918,32 @@
    "ideal",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0574108",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (257), 05-06/1998"
+    ],
+    "stipulation": "h#6 0.1...",
+    "fen": "8/3Q4/5k2/8/8/8/8/K1q5"
+   }
+  ],
+  "alternative": {
+   "fen": "8/7k/8/6Q1/8/8/1q6/K7 w - - 0 1",
+   "solution": "Kxb2 Kh8 Kc3 Kh7 Kd4 Kh8 Ke5 Kh7 Kf6 Kh8 Qg7#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "switchback",
+    "single-piece",
+    "single-piece:black",
+    "pendulum",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KQvkr",
@@ -721,7 +1003,30 @@
    "single-piece:black",
    "nocapture",
    "umnov"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0545644",
+    "author": "Maslar, Zdravko",
+    "sources": [
+     "Stern, 15/01/1981",
+     "Catalogue h# (CHM) avec 6 pieces, No. 784, 1995"
+    ],
+    "stipulation": "h#5",
+    "fen": "8/3k4/2R5/8/8/8/8/K1N5"
+   }
+  ],
+  "alternative": {
+   "fen": "8/8/8/6k1/8/N4R2/8/K7 b - - 0 1",
+   "solution": "Kg4 Rb3 Kf4 Rb2 Ke3 Nc2+ Kd2 Ne3+ Kc1 Rc2#",
+   "themes": [
+    "set-play",
+    "single-piece",
+    "single-piece:black",
+    "nocapture",
+    "umnov"
+   ]
+  }
  },
  {
   "material": "KRPvk",
@@ -1062,7 +1367,33 @@
    "single-piece:black",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0574110",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (259), 05-06/1998"
+    ],
+    "stipulation": "h#7 0.1...",
+    "fen": "K7/2B3N1/7N/8/8/8/8/7k"
+   }
+  ],
+  "alternative": {
+   "fen": "7k/7N/8/8/8/8/2B3N1/K7 w - - 0 1",
+   "solution": "Kb2 Kg8 Kc3 Kg7 Kd4 Kh6 Ke5 Kh5 Kf6 Kg4 Kg7 Kh5 Bd1#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "switchback",
+    "single-piece",
+    "single-piece:black",
+    "nocapture",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KBNPvk",
@@ -1271,6 +1602,19 @@
    "switchback",
    "single-piece",
    "single-piece:black"
+  ],
+  "published": [
+   {
+    "id": "P0577820",
+    "author": "Szentai, Endre",
+    "sources": [
+     "Magyar Sakkelet, 1958",
+     "Suomen Teht\u00e4v\u00e4niekat, No. 320, 18/10/1999",
+     "Ideal-Mate Encyclopedia Vol.1, No. 1304, 1999"
+    ],
+    "stipulation": "h#11 0.1...",
+    "fen": "2B5/8/8/p7/P7/6k1/8/6K1"
+   }
   ]
  },
  {
@@ -1466,7 +1810,26 @@
    "set-play",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0574155",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (304), 05-06/1998"
+    ],
+    "stipulation": "h#7 0.1...",
+    "fen": "8/B7/1q6/8/2b5/8/8/K6k"
+   }
+  ],
+  "alternative": {
+   "fen": "8/8/6b1/8/8/6k1/1q1B4/K7 w - - 0 1",
+   "solution": "Kxb2 Kg4 Kc3 Kf5 Kd4 Kf6 Bc3 Kg7 Ke5 Kh8 Kf6 Bh7 Kf7#",
+   "themes": [
+    "self-block",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KBvkqn",
@@ -1702,6 +2065,17 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
+  ],
+  "published": [
+   {
+    "id": "P0574120",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (269), 05-06/1998"
+    ],
+    "stipulation": "h#7",
+    "fen": "7k/8/4q3/2K5/8/8/8/1N1N4"
+   }
   ]
  },
  {
@@ -1790,7 +2164,30 @@
    "excelsior",
    "excelsior:white",
    "promotions:q"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P1421423",
+    "author": "Paliulionis, Viktoras",
+    "sources": [
+     "Sachmatija, No. H5293, 01-03/2024"
+    ],
+    "stipulation": "h#8 0.1.1...",
+    "fen": "N7/K7/8/7n/8/8/P7/7k"
+   }
+  ],
+  "alternative": {
+   "fen": "N7/K7/8/7n/8/P7/8/7k w - - 0 1",
+   "solution": "a4 Nf6 a5 Nd7 a6 Nb8 Kb6 Kg2 a7 Kf3 axb8=Q Ke4 Qf4+ Kd5 Nc7#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "promotion",
+    "promotions:q"
+   ]
+  }
  },
  {
   "material": "KNPvkp",
@@ -1965,6 +2362,17 @@
    "self-block",
    "nocapture",
    "nocheck"
+  ],
+  "published": [
+   {
+    "id": "P0574137",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (286), 05-06/1998"
+    ],
+    "stipulation": "h#9 0.1...",
+    "fen": "N5k1/8/8/8/8/1p6/8/Kn6"
+   }
   ]
  },
  {
@@ -2008,6 +2416,17 @@
    "self-block",
    "nocapture",
    "nocheck"
+  ],
+  "published": [
+   {
+    "id": "P0574142",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (291), 05-06/1998"
+    ],
+    "stipulation": "h#10 0.1...",
+    "fen": "k7/1N6/8/8/8/8/4q2b/6K1"
+   }
   ]
  },
  {
@@ -2030,7 +2449,30 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0574140",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (289), 05-06/1998"
+    ],
+    "stipulation": "h#8",
+    "fen": "K7/1nq5/N7/8/8/8/7k/8"
+   }
+  ],
+  "alternative": {
+   "fen": "8/N6k/8/8/8/8/1nq5/K7 b - - 0 1",
+   "solution": "Qa4+ Kb1 Kg6 Kc1 Kf5 Kd2 Ke4 Ke1 Kd3 Nb5 Kc2 Ke2 Kb1 Kd2 Qa1 Nc3#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "closed-walk",
+    "self-block",
+    "nocapture"
+   ]
+  }
  },
  {
   "material": "KNvkqp",
@@ -2353,7 +2795,29 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0564289",
+    "author": "Locker, Miklos S.",
+    "sources": [
+     "Magyar Sakkelet, 02/1966"
+    ],
+    "stipulation": "h#10 0.1...",
+    "fen": "8/8/6p1/8/6P1/k7/8/Kb6"
+   }
+  ],
+  "alternative": {
+   "fen": "8/8/6p1/8/6P1/k7/2b5/K7 w - - 0 1",
+   "solution": "g5 Kb4 Kb2 Kc5 Kc3 Kd6 Kd4 Ke7 Ke5 Kf8 Kf6 Bb3 Kxg6 Kg8 Kh6 Kh8 g6 Bg8 g7#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "self-block",
+    "nocheck"
+   ]
+  }
  },
  {
   "material": "KPvknn",
@@ -2418,6 +2882,18 @@
    "excelsior:white",
    "umnov",
    "promotions:qb"
+  ],
+  "published": [
+   {
+    "id": "P0559294",
+    "author": "Ban, Jen\u00f6",
+    "sources": [
+     "Stella Polaris, No. 1072, 06/1967",
+     "Ideal-Mate Encyclopedia Vol.1, No. 70, 1999"
+    ],
+    "stipulation": "h#10",
+    "fen": "1k6/8/8/8/3p2p1/8/3P4/7K"
+   }
   ]
  },
  {
@@ -3798,7 +4274,32 @@
    "single-piece",
    "single-piece:black",
    "promotions:b"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P1188551",
+    "author": "Abdurahmanovic, Fadil; Becker, Richard",
+    "sources": [
+     "The Problemist, No. (R), 01/2006"
+    ],
+    "stipulation": "h#7",
+    "fen": "7k/6R1/8/8/8/B7/P7/2K5"
+   }
+  ],
+  "alternative": {
+   "fen": "1k6/R7/8/8/6B1/8/6P1/3K4 b - - 0 1",
+   "solution": "Kxa7 Bf3 Kb6 g4 Kc5 g5 Kd4 g6 Ke3 g7 Kf2 g8=Q Kf1 Qg2#",
+   "themes": [
+    "promotion",
+    "excelsior",
+    "excelsior:white",
+    "closed-walk",
+    "single-piece",
+    "single-piece:black",
+    "nocheck",
+    "promotions:q"
+   ]
+  }
  },
  {
   "material": "KRBvkb",
@@ -4417,7 +4918,30 @@
    "mirror",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "published": [
+   {
+    "id": "P0574158",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (306), 05-06/1998"
+    ],
+    "stipulation": "h#6",
+    "fen": "1R3k2/8/8/8/n7/3b4/8/K7"
+   }
+  ],
+  "alternative": {
+   "fen": "8/8/7k/8/2b5/7R/8/K2n4 b - - 0 1",
+   "solution": "Kg5 Rc3 Kf4 Rxc4+ Ke3 Ka2 Kd2 Rd4+ Kc1 Kb3 Kb1 Rxd1#",
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black"
+   ]
+  }
  },
  {
   "material": "KRvkbp",
@@ -4524,6 +5048,17 @@
    "mirror",
    "switchback",
    "nocapture"
+  ],
+  "published": [
+   {
+    "id": "P0574163",
+    "author": "Sheglow, Wiktor S.",
+    "sources": [
+     "Suomen Teht\u00e4v\u00e4niekat, No. (312), 05-06/1998"
+    ],
+    "stipulation": "h#7 0.1...",
+    "fen": "5b2/5q1K/8/3R4/8/2k5/8/8"
+   }
   ]
  },
  {

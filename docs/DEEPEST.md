@@ -294,7 +294,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 13 positions of 86,688 indexed have a unique solution at h#6.5. The class runs to h#8.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...e3 2.Kf7 e4 3.Ke6 e5 4.Kd5 e6 5.Kc4 e7 6.Kb3 e8=Q 7.Ka2 Qa4#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Published:</b> Niemann, John — Schachmatt, No. 427, 13/07/1947; Catalogue h# (CHM) avec 6 pieces, No. 61, 1995; Wenigsteiner im Hilfsmatt, No. 77, 1977; Problemista, No. 1569, 07-10/1981, as h#6 (P0530828) · Ban, Jenö — Magyar Sakkelet, 1961; Ideal-Mate Encyclopedia Vol.1, No. 12, 1999, as h#7 0.1... (P1100755)<br>
 <br><code>6k1/8/8/8/8/8/4P3/2K5 w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPvk-b.svg" width="200" alt="KPvk, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 1</sub></td>
+<td valign="top">
+<b>No. 1b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1K6/8/3P4/7k/8&moves=6.5">solve ↗</a><br>
+The same material and stipulation as No. 1, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...d4 2.Kg3 d5 3.Kf4 d6 4.Ke5 d7 5.Kd6 Ka5 6.Kc7 Ka6 7.Kb8 d8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>8/8/8/1K6/8/3P4/7k/8 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -307,7 +319,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 3 positions of 29,568 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh7 Kb2 2.Kh8 Kc3 3.Kh7 Kd4 4.Kh8 Ke5 5.Kh7 Kf6 6.Kh8 Qg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Csaszar, Imre — Magyar Sakkvilag, 1945; Ideal-Mate Review, 1990; Catalogue h# (CHM) avec 6 pieces, No. 165, 1995, as h#6 (P0551296)<br>
 <br><code>8/8/7k/6Q1/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQvk-b.svg" width="200" alt="KQvk, h#6, unpublished"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 1</sub></td>
+<td valign="top">
+<b>No. 2b</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/6Q1/8/8/8/K7&moves=6">solve ↗</a><br>
+The same material and stipulation as No. 2, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Qg7#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>8/7k/8/6Q1/8/8/8/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -320,6 +344,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 29,568 indexed has a unique solution at h#4.5. The class runs to h#7, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kc1 2.Kf7 Kd2 3.Kg6 Ke3 4.Kh5 Kf4 5.Kh4 Rh2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Ban, Jenö — Diagramme und Figuren, No. 1295, 27/11/1965; Catalogue h# (CHM) avec 6 pieces, No. 122, 1995; Ideal-Mate Encyclopedia Vol.1, No. 1848, 1999, as h#5 0.1... (P0531991)<br>
 <br><code>4k3/8/8/8/8/8/2R5/1K6 w - - 0 1</code>
 </td>
 </tr></table>
@@ -398,7 +423,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 9 positions of 1,892,352 indexed have a unique solution at h#8. The class runs to h#9.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg2 Nf3 2.Kf1 Kb1 3.Ke2 Kb2 4.Kd3+ Kc1 5.Kc3 Kd1 6.Kb2 Nd4 7.Ka1 Kc1 8.Ra2 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocapture</code><br>
+<br><b>Published:</b> Elkies, Noam D. — Variantim, No. 546, 11/1995, as h#8 (P0543062) · Mertes, Helmut — feenschach, 01/1977; Ideal-Mate Encyclopedia Vol.1, No. 400, 1999, as h#8 (P0543063)<br>
 <br><code>8/8/8/8/8/7k/5r1N/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNvkr-b.svg" width="200" alt="KNvkr, h#8, unpublished"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 2</sub></td>
+<td valign="top">
+<b>No. 9b</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/N7/8/8/8/4r3/1K6&moves=8">solve ↗</a><br>
+The same material and stipulation as No. 9, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kg6 Nb4 2.Kf5 Nc2 3.Ke4 Kb2 4.Kd3 Kc1 5.Kc3 Kd1 6.Kb2 Nd4 7.Ka1 Kc1 8.Ra2 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>8/7k/N7/8/8/8/4r3/1K6 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -411,7 +448,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 14 positions of 1,892,352 indexed have a unique solution at h#7.5. The class runs to h#10, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nh4 2.Ke3 Kb2 3.Kf4 Kc3 4.Kg5 Kd4 5.Kh6 Ke5 6.Kh7 Kf6 7.Kh8 Kf7 8.Nh7 Ng6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Kotesovec, Vaclav — Sachova skladba, No. 1065, 06/1987, as h#8 0.1... (P0542897) · ?, ? — ?, 03/1975, as h#8 0.1... (P0542908)<br>
 <br><code>5n2/8/8/8/8/8/3k2N1/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNvkn-b.svg" width="200" alt="KNvkn, h#7.5, unpublished"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 2</sub></td>
+<td valign="top">
+<b>No. 10b</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5n2/8/8/8/6N1/8/3k4/1K6&moves=7.5">solve ↗</a><br>
+The same material and stipulation as No. 10, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...Ne5 2.Ke3 Kc2 3.Kf4 Kd3 4.Kg5 Ke4 5.Kh6 Kf5 6.Kh7 Kf6 7.Kh8 Kf7 8.Nh7 Ng6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>5n2/8/8/8/6N1/8/3k4/1K6 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -463,6 +512,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 5,548,032 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka2 2.Ra3+ Kxa3 3.Kg6 h4 4.Kf5 h5 5.Ke4 h6 6.Kd3 h7 7.Kc2 h8=Q 8.Kb1 Qb2#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Published:</b> Maslar, Zdravko — ?,, as h#8 0.1... (P0542623)<br>
 <br><code>8/7k/8/8/8/7r/1K5P/8 w - - 0 1</code>
 </td>
 </tr></table>
@@ -476,7 +526,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 12 positions of 5,548,032 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg7 Bb3 2.Kf6 a4 3.Ke5 a5 4.Kd4 a6 5.Kc3 a7 6.Kb2 a8=Q 7.Kb1 Qa2#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Published:</b> Elkies, Noam D. — The Problemist, No. H2794, 07/2004, as h#7 (P1187767)<br>
 <br><code>7k/8/8/8/B7/8/P7/3K4 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvk-b.svg" width="200" alt="KBPvk, h#7, unpublished"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 1</sub></td>
+<td valign="top">
+<b>No. 15b</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/B7/P7/8/3K4&moves=7">solve ↗</a><br>
+The same material and stipulation as No. 15, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kg7 Bb3 2.Kf6 a4 3.Ke5 a5 4.Kd4 a6 5.Kc3 a7 6.Kb2 a8=Q 7.Kb1 Qa2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><code>7k/8/8/8/B7/P7/8/3K4 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -489,7 +551,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 49 positions of 5,548,032 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg2 Nc2 2.Kf3 a4 3.Ke4 a5 4.Kd3 a6 5.Kc3 a7 6.Kb2 a8=Q 7.Kb1 Qa1#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Published:</b> Elkies, Noam D. — The Problemist, No. H2793, 07/2004, as h#7 (P1187769)<br>
 <br><code>8/8/8/8/8/N7/P7/3K3k b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvk-b.svg" width="200" alt="KNPvk, h#7, unpublished"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 1</sub></td>
+<td valign="top">
+<b>No. 16b</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/5N2/1K3P2/6k1&moves=7">solve ↗</a><br>
+The same material and stipulation as No. 16, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kf1 Nd4 2.Ke1 f4 3.Kd2 f5 4.Kd3 f6 5.Kc4 f7 6.Kb4 f8=Q+ 7.Ka4 Qa3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>promotions:q</code><br>
+<br><code>8/8/8/8/8/5N2/1K3P2/6k1 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -502,6 +576,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 2 positions of 4,161,024 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg6 Ka3 2.Kf5 g4+ 3.Ke4 g5 4.Kd3 g6 5.Kc2 g7 6.Kb1 g8=Q 7.Ka1 Qa2#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>promotions:q</code><br>
+<br><b>Published:</b> Salazar Lopez, Francisco — British Chess Magazine, 03/1973; Catalogue h# (CHM) avec 6 pieces, No. 213, 1995; The Problemist, 05/2005; Problemkiste, No. G), 01/2010, as h#7 (P0545149)<br>
 <br><code>8/7k/8/8/8/6P1/K5P1/8 b - - 0 1</code>
 </td>
 </tr></table>
@@ -528,6 +603,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 1,892,352 indexed has a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg8 Kc3 3.Kf7 Kd3 4.Kg6 Ke4 5.Kh5 Kf5 6.Kh4 Bg5+ 7.Kh5 Bd1#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><b>Published:</b> Maslar, Zdravko — feenschach, 01-03/1978; Catalogue h# (CHM) avec 6 pieces, No. 899, 1995; Problemkiste, No. A1, 03/2012, as h#7 0.1... (P0545758)<br>
 <br><code>7k/8/7B/8/8/8/2B5/K7 w - - 0 1</code>
 </td>
 </tr></table>
@@ -554,7 +630,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 9 positions of 1,892,352 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ke2 2.Kc7 Kf3 3.Kd6 Kg4 4.Ke5 Kh5 5.Kf4 Ng6+ 6.Kg3 Nf1+ 7.Kh3 Nf4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><b>Published:</b> Bebesi, Gyula — Diagramme und Figuren, No. 1910, 12/12/1966; Catalogue h# (CHM) avec 6 pieces, No. 624, 1995; Ideal-Mate Encyclopedia Vol.1, No. 930, 1999, as h#7 0.1... (P0545484)<br>
 <br><code>1k5N/8/8/8/8/8/7N/3K4 w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvk-b.svg" width="200" alt="KNNvk, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 1</sub></td>
+<td valign="top">
+<b>No. 21b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6kN/8/8/8/8/8/7N/3K4&moves=6.5">solve ↗</a><br>
+The same material and stipulation as No. 21, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...Ke2 2.Kg7 Kf3 3.Kf6 Kg4 4.Ke5 Kh5 5.Kf4 Ng6+ 6.Kg3 Nf1+ 7.Kh3 Nf4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><code>6kN/8/8/8/8/8/7N/3K4 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -697,7 +785,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 7 positions of 1,892,352 indexed have a unique solution at h#5.5. The class runs to h#7, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Qd3+ Kc1 3.Qg6 Kd2 4.Kg7 Ke3 5.Kh6 Kf4 6.Qh7 Qg5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (257), 05-06/1998, as h#6 0.1... (P0574108)<br>
 <br><code>8/8/5k2/8/6Q1/q7/8/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQvkq-b.svg" width="200" alt="KQvkq, h#5.5, unpublished"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 2</sub></td>
+<td valign="top">
+<b>No. 32b</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/6Q1/8/8/1q6/K7&moves=5.5">solve ↗</a><br>
+The same material and stipulation as No. 32, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...Kxb2 2.Kh8 Kc3 3.Kh7 Kd4 4.Kh8 Ke5 5.Kh7 Kf6 6.Kh8 Qg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><code>8/7k/8/6Q1/8/8/1q6/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -762,7 +862,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 19 positions of 1,892,352 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg5 Rb3 2.Kf4 Rb2 3.Ke3 Nc2+ 4.Kd2 Ne3+ 5.Kc1 Rc2#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>umnov</code><br>
+<br><b>Published:</b> Maslar, Zdravko — Stern, 15/01/1981; Catalogue h# (CHM) avec 6 pieces, No. 784, 1995, as h#5 (P0545644)<br>
 <br><code>8/8/8/8/6k1/N4R2/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNvk-b.svg" width="200" alt="KRNvk, h#5, unpublished"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 1</sub></td>
+<td valign="top">
+<b>No. 37b</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6k1/8/N4R2/8/K7&moves=5">solve ↗</a><br>
+The same material and stipulation as No. 37, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kg4 Rb3 2.Kf4 Rb2 3.Ke3 Nc2+ 4.Kd2 Ne3+ 5.Kc1 Rc2#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>umnov</code><br>
+<br><code>8/8/8/6k1/8/N4R2/8/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -853,6 +965,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 266,305,536 indexed has a unique solution at h#10.5. The class runs to h#16, so the deepest sound problem is 11 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kc1 2.Kc4 Kd2 3.Kd5 Ke3 4.Ke6 Kf4 5.Kf7 Kg5 6.Kg8 Kxh5 7.Kh8 Kg6 8.Kg8 h5 9.Kh8 h6 10.Kg8 h7+ 11.Kh8 Bg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Published:</b> Szentai, Endre — Magyar Sakkelet, 1958; Suomen Tehtäväniekat, No. 320, 18/10/1999; Ideal-Mate Encyclopedia Vol.1, No. 1304, 1999, as h#11 0.1... (P0577820)<br>
 <br><code>5B2/8/8/7p/7P/1k6/8/1K6 w - - 0 1</code>
 </td>
 </tr></table>
@@ -866,6 +979,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 2 positions of 199,729,152 indexed have a unique solution at h#10. The class runs to h#15.5, so the deepest sound problem is 11 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.b3 Kb1 2.b2 Kc2 3.b1=B+ Kc1 4.Bd3 exd3 5.Kf7 dxe4 6.Ke6 e5 7.Kd5 e6 8.Kc4 e7 9.Kb3 e8=Q 10.Ka2 Qa4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>umnov</code> <code>promotions:qb</code><br>
+<br><b>Published:</b> Ban, Jenö — Stella Polaris, No. 1072, 06/1967; Ideal-Mate Encyclopedia Vol.1, No. 70, 1999, as h#10 (P0559294)<br>
 <br><code>6k1/8/8/8/1p2p3/8/4P3/K7 b - - 0 1</code>
 </td>
 </tr></table>
@@ -931,6 +1045,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 121,110,528 indexed has a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Kg8 Nf5 3.Kf7 Ne3 4.Ke6 Nc2 5.Kd5 Kb2 6.Kc4 Ka3 7.Kc3 Ka4 8.Kb2 Nd4 9.Ka1 Ka3 10.Bb1 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (291), 05-06/1998, as h#10 0.1... (P0574142)<br>
 <br><code>7k/6N1/8/8/8/8/b2q4/1K6 w - - 0 1</code>
 </td>
 </tr></table>
@@ -957,7 +1072,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 9 positions of 266,305,536 indexed have a unique solution at h#9.5. The class runs to h#14.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...g5 2.Kb4 Kb2 3.Kc5 Kc3 4.Kd6 Kd4 5.Ke7 Ke5 6.Kf8 Kf6 7.Ba2 Kxg6 8.Kg8 Kh6 9.Kh8 g6 10.Bg8 g7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Published:</b> Locker, Miklos S. — Magyar Sakkelet, 02/1966, as h#10 0.1... (P0564289)<br>
 <br><code>8/8/6p1/8/6P1/k7/8/Kb6 w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPvkbp-b.svg" width="200" alt="KPvkbp, h#9.5, unpublished"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 3</sub></td>
+<td valign="top">
+<b>No. 52b</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/6P1/k7/2b5/K7&moves=9.5">solve ↗</a><br>
+The same material and stipulation as No. 52, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...g5 2.Kb4 Kb2 3.Kc5 Kc3 4.Kd6 Kd4 5.Ke7 Ke5 6.Kf8 Kf6 7.Bb3 Kxg6 8.Kg8 Kh6 9.Kh8 g6 10.Bg8 g7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><code>8/8/6p1/8/6P1/k7/2b5/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -1100,6 +1227,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 355,074,048 indexed has a unique solution at h#8.5. The class runs to h#10, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Nc3 Ka3 3.Kf7 Kb4 4.Ke6 Ka5 5.Kd5 Kb6 6.Kc4 Ka6 7.Kb4 Nb6 8.Ka3 Ka5 9.Na2 Nc4#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (286), 05-06/1998, as h#9 0.1... (P0574137)<br>
 <br><code>N5k1/8/8/8/8/1p6/8/Kn6 w - - 0 1</code>
 </td>
 </tr></table>
@@ -1243,7 +1371,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 2 positions of 121,110,528 indexed have a unique solution at h#8. The class runs to h#10.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Qa4 Kb1 2.Kg6 Kc1 3.Kf5 Kd2 4.Ke4 Ke1 5.Kd3 Nb5 6.Kc2 Ke2 7.Kb1 Kd2 8.Qa1 Nc3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (289), 05-06/1998, as h#8 (P0574140)<br>
 <br><code>8/7k/8/8/8/N7/1nq5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNvkqn-b.svg" width="200" alt="KNvkqn, h#8, unpublished"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 3</sub></td>
+<td valign="top">
+<b>No. 74b</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/N6k/8/8/8/8/1nq5/K7&moves=8">solve ↗</a><br>
+The same material and stipulation as No. 74, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Qa4+ Kb1 2.Kg6 Kc1 3.Kf5 Kd2 4.Ke4 Ke1 5.Kd3 Nb5 6.Kc2 Ke2 7.Kb1 Kd2 8.Qa1 Nc3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code><br>
+<br><code>8/N6k/8/8/8/8/1nq5/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -1412,7 +1552,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 2 positions of 355,074,048 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...a4 2.Nf6 a5 3.Nd7 a6 4.Nb8 Kb6 5.Kg2 a7 6.Kf3 axb8=Q 7.Ke4 Qf4+ 8.Kd5 Nc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Published:</b> Paliulionis, Viktoras — Sachmatija, No. H5293, 01-03/2024, as h#8 0.1.1... (P1421423)<br>
 <br><code>N7/K7/8/7n/8/8/P7/7k w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkn-b.svg" width="200" alt="KNPvkn, h#7.5, unpublished"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 2</sub></td>
+<td valign="top">
+<b>No. 87b</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/K7/8/7n/8/P7/8/7k&moves=7.5">solve ↗</a><br>
+The same material and stipulation as No. 87, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...a4 2.Nf6 a5 3.Nd7 a6 4.Nb8 Kb6 5.Kg2 a7 6.Kf3 axb8=Q 7.Ke4 Qf4+ 8.Kd5 Nc7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>promotions:q</code><br>
+<br><code>N7/K7/8/7n/8/P7/8/7k w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -1815,6 +1967,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 121,110,528 indexed has a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kb7 Ke4 2.Kc6 Kf4 3.Kd5 Kg5 4.Ke6+ Kh6 5.Kf7 Ng4 6.Kg8 Nf6+ 7.Kh8 Ng6#<br>
 <br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (269), 05-06/1998, as h#7 (P0574120)<br>
 <br><code>k7/8/8/2q5/7N/3K4/7N/8 b - - 0 1</code>
 </td>
 </tr></table>
@@ -2010,7 +2163,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 17 positions of 355,074,048 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg7 Bb2+ 2.Kf7 a4 3.Ke6 a5 4.Kd5 a6 5.Kc4 a7 6.Kb3 a8=B 7.Ka2 Bd5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:b</code><br>
+<br><b>Published:</b> Abdurahmanovic, Fadil; Becker, Richard — The Problemist, No. (R), 01/2006, as h#7 (P1188551)<br>
 <br><code>7k/6R1/8/8/8/B7/P7/2K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPvk-b.svg" width="200" alt="KRBPvk, h#7, unpublished"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 1</sub></td>
+<td valign="top">
+<b>No. 133b</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k6/R7/8/8/6B1/8/6P1/3K4&moves=7">solve ↗</a><br>
+The same material and stipulation as No. 133, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kxa7 Bf3 2.Kb6 g4 3.Kc5 g5 4.Kd4 g6 5.Ke3 g7 6.Kf2 g8=Q 7.Kf1 Qg2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><code>1k6/R7/8/8/6B1/8/6P1/3K4 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -2153,7 +2318,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 8 positions of 121,110,528 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg8 Kc3 3.Kg7 Kd4 4.Kh6 Ke5 5.Kh5 Kf6 6.Kg4 Kg7 7.Kh5 Bd1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (259), 05-06/1998, as h#7 0.1... (P0574110)<br>
 <br><code>7k/8/8/8/8/7N/2B3N1/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNvk-b.svg" width="200" alt="KBNNvk, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 1</sub></td>
+<td valign="top">
+<b>No. 144b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7N/8/8/8/8/2B3N1/K7&moves=6.5">solve ↗</a><br>
+The same material and stipulation as No. 144, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...Kb2 2.Kg8 Kc3 3.Kg7 Kd4 4.Kh6 Ke5 5.Kh5 Kf6 6.Kg4 Kg7 7.Kh5 Bd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>7k/7N/8/8/8/8/2B3N1/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -2166,7 +2343,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 256 positions of 121,110,528 indexed have a unique solution at h#6.5. The class runs to h#9.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bb8 2.Qg1+ Kb2 3.Kg2 Kc3 4.Kf2 Kd4 5.Qd1+ Ke4 6.Ke1 Ke3 7.Bf1 Bg3#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>self-block</code> <code>nocapture</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (304), 05-06/1998, as h#7 0.1... (P0574155)<br>
 <br><code>8/B7/1q6/8/2b5/8/8/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBvkqb-b.svg" width="200" alt="KBvkqb, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 3</sub></td>
+<td valign="top">
+<b>No. 145b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6b1/8/8/6k1/1q1B4/K7&moves=6.5">solve ↗</a><br>
+The same material and stipulation as No. 145, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1...Kxb2 2.Kg4 Kc3 3.Kf5 Kd4 4.Kf6 Bc3 5.Kg7 Ke5 6.Kh8 Kf6 7.Bh7 Kf7#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><code>8/8/6b1/8/8/6k1/1q1B4/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -2244,6 +2433,7 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 1 position of 121,110,528 indexed has a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Bb2+ Kb1 3.Be5+ Kc1 4.Kg5 Kd2 5.Kh4 Ke2 6.Bc3 Kf3 7.Kh3 Rh5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>nocapture</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (312), 05-06/1998, as h#7 0.1... (P0574163)<br>
 <br><code>8/8/5k2/3R4/8/bq6/8/1K6 w - - 0 1</code>
 </td>
 </tr></table>
@@ -2660,7 +2850,19 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 12 positions of 121,110,528 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg5 Rc2 2.Kf4 Rxc4+ 3.Ke3 Ka2 4.Kd2 Rd4+ 5.Kc1 Kb3 6.Kb1 Rxd1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (306), 05-06/1998, as h#6 (P0574158)<br>
 <br><code>8/8/7k/8/2b5/8/7R/K2n4 b - - 0 1</code>
+</td>
+</tr></table>
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRvkbn-b.svg" width="200" alt="KRvkbn, h#6, unpublished"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 3</sub></td>
+<td valign="top">
+<b>No. 183b</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/2b5/7R/8/K2n4&moves=6">solve ↗</a><br>
+The same material and stipulation as No. 183, which is published; this position is not in the published database (checked under every mirroring).<br>
+<br><b>Solution:</b> 1.Kg5 Rc3 2.Kf4 Rxc4+ 3.Ke3 Ka2 4.Kd2 Rd4+ 5.Kc1 Kb3 6.Kb1 Rxd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><code>8/8/7k/8/2b5/7R/8/K2n4 b - - 0 1</code>
 </td>
 </tr></table>
 

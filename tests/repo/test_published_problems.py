@@ -64,6 +64,15 @@ def test_parse_reads_blocks_and_converts_german_letters():
     assert len(b.sources) == 2 and b.stipulation == "h#2 Duplex"
 
 
+def test_detex_turns_tex_umlauts_back_into_letters():
+    assert pp.detex('Ban, Jen"o') == "Ban, Jenö"
+    assert pp.detex('Suomen Teht"av"aniekat') == "Suomen Tehtäväniekat"
+    assert pp.detex('Gla"s, G"unter') == "Glaß, Günter"
+    assert pp.detex("The Problemist, No. H2794") == "The Problemist, No. H2794"
+    ps = pp.parse('No. 1 (id: P1)\nBan, Jen"o\nsource 1: Tidskrift f"or Schack\n8/8/8/8/8/8/8/K6k\nstipulation: h#2\nsolution:\n1.x\n')
+    assert ps[0].author == "Ban, Jenö" and ps[0].sources == ["Tidskrift för Schack"]
+
+
 def test_canon_is_invariant_under_the_symmetries_that_apply():
     pawnless = "8/1q6/1n6/8/8/8/q7/KBk5"
     # transpose + flips of a pawnless board all share one key
@@ -124,6 +133,9 @@ def test_annotate_adds_publication_and_an_unpublished_alternative():
 
 def test_annotate_is_a_no_op_without_matches():
     rows = json.loads(DATA.read_text())
+    for r in rows:  # start from a showcase that carries no annotation
+        r.pop("published", None)
+        r.pop("alternative", None)
     snapshot = json.dumps(rows)
     matched, changed = pp.annotate(rows, pp.PublishedIndex([]), mine=lambda m, d, n: [], describe_fn=None)
     assert (matched, changed) == (0, 0)
@@ -132,10 +144,12 @@ def test_annotate_is_a_no_op_without_matches():
 
 @pytest.mark.skipif(not (ROOT / "sampledata" / "hmatt_lower7.fen").exists(),
                     reason="the published database is not part of the repo")
-def test_real_database_parses_and_matches_no_showcase_entry_today():
-    text = (ROOT / "sampledata" / "hmatt_lower7.fen").read_text(encoding="utf-8", errors="replace")
+def test_real_database_parses_and_the_annotation_agrees_with_it():
+    text = (ROOT / "sampledata" / "hmatt_lower7.fen").read_text(encoding="latin-1")
     ps = pp.parse(text)
     assert len(ps) > 8000
     index = pp.PublishedIndex(ps)
     rows = json.loads(DATA.read_text())
-    assert sum(1 for r in rows if index.lookup(r["fen"])) == 0
+    # whatever the database holds today, the annotation in DEEPEST.json agrees with it
+    assert [r["material"] for r in rows if index.lookup(r["fen"])] == \
+        [r["material"] for r in rows if r.get("published")]
