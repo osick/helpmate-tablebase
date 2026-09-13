@@ -70,7 +70,7 @@
 <rect x="80" y="280" width="40" height="40" fill="#d2d2d2"/>
 <rect x="160" y="280" width="40" height="40" fill="#d2d2d2"/>
 <rect x="240" y="280" width="40" height="40" fill="#d2d2d2"/>
-<use xlink:href="#bk" href="#bk" x="280" y="160"/>
+<use xlink:href="#bk" href="#bk" x="280" y="80"/>
 <use xlink:href="#bb" href="#bb" x="0" y="200"/>
 <use xlink:href="#wq" href="#wq" x="240" y="200"/>
 <use xlink:href="#wk" href="#wk" x="0" y="280"/>

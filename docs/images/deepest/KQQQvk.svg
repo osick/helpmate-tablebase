@@ -62,10 +62,10 @@
 <rect x="80" y="280" width="40" height="40" fill="#d2d2d2"/>
 <rect x="160" y="280" width="40" height="40" fill="#d2d2d2"/>
 <rect x="240" y="280" width="40" height="40" fill="#d2d2d2"/>
-<use xlink:href="#wq" href="#wq" x="80" y="0"/>
-<use xlink:href="#wq" href="#wq" x="80" y="40"/>
+<use xlink:href="#wq" href="#wq" x="200" y="0"/>
+<use xlink:href="#wq" href="#wq" x="160" y="40"/>
 <use xlink:href="#wk" href="#wk" x="0" y="280"/>
-<use xlink:href="#bk" href="#bk" x="80" y="280"/>
-<use xlink:href="#wq" href="#wq" x="120" y="280"/>
+<use xlink:href="#wq" href="#wq" x="80" y="280"/>
+<use xlink:href="#bk" href="#bk" x="120" y="280"/>
 <rect x="-0.5" y="-0.5" width="321" height="321" fill="none" stroke="#000" stroke-width="1.5"/>
 </svg>

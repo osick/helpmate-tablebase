@@ -33,10 +33,29 @@ Two things happen for every DEEPEST entry:
    `alternative`: fen, solution and themes, ready to be shown next to the
    published one as an unpublished problem of the same stipulation.
 
-Entries without a match are left exactly as they were, and the JSON is only
-rewritten when something changed, so running this with a file that contains
-none of the showcase (the case on 2026-09-13: a database of h#2 against a
-showcase of h#6..h#17) is a no-op that says so.
+Every position shown -- the showcase's own and every alternative -- is also
+graded as a chess problem (`quality`):
+
+* 2a: the solution begins with a capture;
+* 2b: the side to move is in check in the diagram;
+* 3: the diagram has no legal last move, i.e. no legal position with the
+  other side to move leads to it by a legal move. That is decided exactly
+  for one retraction: every quiet move, uncapture of any piece, and
+  unpromotion (with or without capture) by the side that just moved is
+  tried, and the predecessor must be legal and the move legal from it. En
+  passant is not retracted. A diagram with the side NOT to move in check is
+  illegal outright.
+
+Ranking, best first: no weakness, check only, capture only, both, illegal.
+An unpublished showcase position with a weakness is replaced by the
+best-ranked unpublished unique position of the same material and depth the
+tablebase can offer, if that one ranks better; otherwise it stays and the
+documents say what is wrong with it. A published showcase position is never
+replaced (it is the published problem); its alternative is chosen by the
+same ranking. `published_by` (`Sheglow (1998)`) is stored for the index
+tables.
+
+The JSON is only rewritten when something changed.
 """
 from __future__ import annotations
 
@@ -49,6 +68,8 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
+
+import chess
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from deepest_lib import hn  # noqa: E402
@@ -199,49 +220,201 @@ def describe(binary: str, tables: str, fen: str) -> dict:
     return {"fen": fen, "solution": solution, "themes": themes}
 
 
-def find_alternative(entry: dict, index: PublishedIndex,
-                     mine: Callable[[str, int, int], list[str]],
-                     describe_fn: Callable[[str], dict],
-                     max_hits: int = 5000) -> dict | None:
-    """The first unique-solution position of the entry's material at its
-    depth that is neither the entry itself nor published, described."""
+YEAR = re.compile(r"(?<!\d)(1[89]\d\d|20\d\d)(?!\d)")
+
+
+def published_by(p: "Published | dict") -> str:
+    """`Sheglow (1998)`; `Abdurahmanovic & Becker (2006)`; `unknown (1987)`."""
+    author = p.author if isinstance(p, Published) else p.get("author", "")
+    sources = p.sources if isinstance(p, Published) else p.get("sources", [])
+    names = []
+    for part in author.split(";"):
+        last = part.split(",")[0].strip()
+        names.append(last if last and last != "?" else "unknown")
+    who = " & ".join(names) if names else "unknown"
+    years = [m.group(1) for src in sources for m in YEAR.finditer(src)]
+    return f"{who} ({years[0]})" if years else who
+
+
+# --------------------------------------------------------------------------
+# quality of a position as a chess problem
+
+
+def legal_last_move(board: chess.Board) -> bool:
+    """Does a legal position with the other side to move lead to `board` by
+    one legal move? Exact over quiet moves, uncaptures (any piece) and
+    unpromotions, with or without capture; en passant is not retracted."""
+    if not board.is_valid():
+        return False
+    mover = not board.turn
+    opp = board.turn
+    target = board.board_fen()
+    uncaptures = [None, chess.QUEEN, chess.ROOK, chess.BISHOP, chess.KNIGHT, chess.PAWN]
+    for t in chess.SquareSet(board.occupied_co[mover]):
+        piece = board.piece_at(t)
+        last_rank = 7 if mover == chess.WHITE else 0
+        back = -8 if mover == chess.WHITE else 8  # one step back for this side's pawns
+        # (origin square, piece that stood there, promotion, capture required)
+        origins: list[tuple[int, int, int | None, bool]] = []
+        if piece.piece_type == chess.PAWN:
+            f = t + back
+            if 0 <= f < 64:
+                origins.append((f, chess.PAWN, None, False))
+                for df in (-1, 1):
+                    g = f + df
+                    if 0 <= g < 64 and abs(chess.square_file(g) - chess.square_file(t)) == 1:
+                        origins.append((g, chess.PAWN, None, True))
+            if chess.square_rank(t) == (3 if mover == chess.WHITE else 4):
+                origins.append((t + 2 * back, chess.PAWN, None, False))
+        else:
+            for f in chess.SQUARES:
+                if f != t and board.piece_at(f) is None:
+                    origins.append((f, piece.piece_type, None, False))
+            if chess.square_rank(t) == last_rank and piece.piece_type != chess.KING:
+                f = t + back
+                if 0 <= f < 64:
+                    origins.append((f, chess.PAWN, piece.piece_type, False))
+                    for df in (-1, 1):
+                        g = f + df
+                        if 0 <= g < 64 and abs(chess.square_file(g) - chess.square_file(t)) == 1:
+                            origins.append((g, chess.PAWN, piece.piece_type, True))
+        for f, ptype, promo, must_capture in origins:
+            for cap in uncaptures:
+                if must_capture and cap is None:
+                    continue
+                if cap == chess.PAWN and chess.square_rank(t) in (0, 7):
+                    continue
+                prev = chess.Board(None)
+                prev.set_piece_map(board.piece_map())
+                prev.remove_piece_at(t)
+                prev.set_piece_at(f, chess.Piece(ptype, mover))
+                if cap is not None:
+                    prev.set_piece_at(t, chess.Piece(cap, opp))
+                prev.turn = mover
+                if not prev.is_valid():
+                    continue
+                mv = chess.Move(f, t, promotion=promo)
+                if mv not in prev.legal_moves:
+                    continue
+                prev.push(mv)
+                if prev.board_fen() == target:
+                    return True
+    return False
+
+
+def assess(fen: str, solution: str) -> dict:
+    """The weaknesses of a problem: see the module docstring."""
+    board = chess.Board(fen)
+    first = solution.split()[0] if solution.split() else ""
+    return {
+        "capture_first": "x" in first,
+        "check": board.is_check(),
+        "legal": board.is_valid() and legal_last_move(board),
+    }
+
+
+def rank(q: dict) -> int:
+    """0 best. Check is the milder weakness, a first-move capture the more
+    dramatic one, an illegal diagram the worst."""
+    if not q["legal"]:
+        return 4
+    if q["capture_first"] and q["check"]:
+        return 3
+    if q["capture_first"]:
+        return 2
+    if q["check"]:
+        return 1
+    return 0
+
+
+def quality_note(q: dict) -> str:
+    """Empty for a well-formed problem, else what is wrong, for the documents."""
+    if not q["legal"]:
+        return "the diagram has no legal last move, so it cannot arise in a game"
+    parts = []
+    if q["check"]:
+        parts.append("the side to move is in check in the diagram")
+    if q["capture_first"]:
+        parts.append("the solution begins with a capture")
+    return "; ".join(parts)
+
+
+def best_candidate(entry: dict, index: PublishedIndex,
+                   mine: Callable[[str, int, int], list[str]],
+                   describe_fn: Callable[[str], dict],
+                   max_hits: int = 5000, better_than: int = 5) -> dict | None:
+    """The best-ranked unique-solution position of the entry's material at
+    its depth that is neither the entry itself nor published; None if no
+    candidate ranks better than `better_than`. Cheap checks (check, legal
+    last move) come from the FEN alone; the solution is fetched only for
+    candidates that could still win, and the scan stops at a flawless one."""
     own = canon(entry["fen"])
+    best: dict | None = None
+    best_rank = min(better_than, 4)  # an illegal diagram is never worth offering
     for fen in mine(entry["material"], entry["dtm"], max_hits):
-        k = canon(fen)
-        if k == own or index.lookup(fen):
+        if canon(fen) == own or index.lookup(fen):
             continue
-        return describe_fn(fen)
-    return None
-
-
-def published_record(p: Published) -> dict:
-    return {"id": p.id, "author": p.author, "sources": p.sources,
-            "stipulation": p.stipulation, "fen": p.fen}
+        board = chess.Board(fen)
+        legal = board.is_valid() and legal_last_move(board)
+        floor = 4 if not legal else (1 if board.is_check() else 0)
+        if floor >= best_rank:
+            continue
+        d = describe_fn(fen)
+        q = assess(fen, d["solution"])
+        r = rank(q)
+        if r < best_rank:
+            best, best_rank = {**d, "quality": q}, r
+            if r == 0:
+                break
+    return best
 
 
 def annotate(rows: list[dict], index: PublishedIndex,
              mine: Callable[[str, int, int], list[str]],
-             describe_fn: Callable[[str], dict]) -> tuple[int, int]:
-    """Set `published` / `alternative` on matching entries, drop them from
-    the rest. Returns (entries matched, entries changed)."""
-    matched = changed = 0
+             describe_fn: Callable[[str], dict],
+             max_hits: int = 5000, replace: bool = True) -> tuple[int, int, int]:
+    """Set `published`/`published_by`/`alternative`/`quality` on every entry.
+    Returns (entries published, entries whose position was replaced, entries
+    changed)."""
+    matched = replaced = changed = 0
     for r in rows:
-        before = (r.get("published"), r.get("alternative"))
+        before = json.dumps({k: r.get(k) for k in
+                             ("fen", "published", "published_by", "alternative", "quality")},
+                            sort_keys=True)
         hits = index.lookup(r["fen"])
+        r["quality"] = assess(r["fen"], r["solution"])
         if hits:
             matched += 1
             r["published"] = [published_record(p) for p in hits]
-            alt = find_alternative(r, index, mine, describe_fn)
+            r["published_by"] = published_by(hits[0])
+            alt = best_candidate(r, index, mine, describe_fn, max_hits)
             if alt:
                 r["alternative"] = alt
             else:
                 r.pop("alternative", None)
         else:
-            r.pop("published", None)
-            r.pop("alternative", None)
-        if (r.get("published"), r.get("alternative")) != before:
+            for k in ("published", "published_by", "alternative"):
+                r.pop(k, None)
+            if replace and rank(r["quality"]) > 0:
+                better = best_candidate(r, index, mine, describe_fn, max_hits,
+                                        better_than=rank(r["quality"]))
+                if better:
+                    r.setdefault("replaced_from", r["fen"])
+                    r["fen"], r["solution"] = better["fen"], better["solution"]
+                    r["themes"], r["quality"] = better["themes"], better["quality"]
+                    r["probe"] = f"dtm={r['dtm']} ({hn(r['dtm'])}) count=1"
+                    replaced += 1
+        after = json.dumps({k: r.get(k) for k in
+                            ("fen", "published", "published_by", "alternative", "quality")},
+                           sort_keys=True)
+        if after != before:
             changed += 1
-    return matched, changed
+    return matched, replaced, changed
+
+
+def published_record(p: Published) -> dict:
+    return {"id": p.id, "author": p.author, "sources": p.sources,
+            "stipulation": p.stipulation, "fen": p.fen}
 
 
 def main() -> int:
@@ -253,6 +426,8 @@ def main() -> int:
     ap.add_argument("--binary", default="./build/helpmate")
     ap.add_argument("--max-hits", type=int, default=5000,
                     help="how many unique positions to scan for an alternative")
+    ap.add_argument("--keep-positions", action="store_true",
+                    help="never replace a weak unpublished showcase position")
     a = ap.parse_args()
 
     problems = parse(Path(a.published).read_text(encoding="latin-1"))
@@ -261,26 +436,35 @@ def main() -> int:
     print(f"{len(problems)} published problems indexed; {len(rows)} showcase entries",
           file=sys.stderr)
 
-    matched, changed = annotate(
+    ap_replace = not a.keep_positions
+    matched, replaced, changed = annotate(
         rows, index,
         mine=lambda mat, dtm, n: mine_unique(a.binary, a.tables, mat, dtm, n),
         describe_fn=lambda fen: describe(a.binary, a.tables, fen),
+        max_hits=a.max_hits, replace=ap_replace,
     )
+    weak = 0
     for r in rows:
+        note = quality_note(r["quality"])
         if r.get("published"):
-            p = r["published"][0]
             alt = r.get("alternative")
-            print(f"  {r['material']} {hn(r['dtm'])}: published -- {p['author']}, "
-                  f"{p['sources'][0] if p['sources'] else '?'} ({p['id']})"
-                  + (f"; alternative {alt['fen']}" if alt else "; no unpublished alternative found"),
-                  file=sys.stderr)
+            print(f"  {r['material']} {hn(r['dtm'])}: published by {r['published_by']}"
+                  + (f"; alternative {alt['fen']} ({quality_note(alt['quality']) or 'well formed'})"
+                     if alt else "; no unpublished alternative found"), file=sys.stderr)
+        elif r.get("replaced_from"):
+            print(f"  {r['material']} {hn(r['dtm'])}: replaced {r['replaced_from']} -> {r['fen']}"
+                  f" ({note or 'well formed'})", file=sys.stderr)
+        if note:
+            weak += 1
+            print(f"  {r['material']} {hn(r['dtm'])}: weakness stays -- {note}", file=sys.stderr)
     out = Path(a.out) if a.out else Path(a.data)
     if changed or (a.out and out != Path(a.data)):
         out.write_text(json.dumps(rows, indent=1))
-        print(f"wrote {out}: {matched} published, {changed} entries changed", file=sys.stderr)
+        print(f"wrote {out}: {matched} published, {replaced} positions replaced, "
+              f"{weak} still with a weakness, {changed} entries changed", file=sys.stderr)
     else:
-        print(f"{matched} showcase entries are published; nothing to change in {a.data}",
-              file=sys.stderr)
+        print(f"{matched} showcase entries are published, {weak} with a weakness; "
+              f"nothing to change in {a.data}", file=sys.stderr)
     return 0
 
 

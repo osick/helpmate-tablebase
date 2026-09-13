@@ -24,6 +24,18 @@ bumps may change behavior).
   source, and 16 of them are followed by an unpublished sibling of the same
   material and stipulation. The database's TeX umlauts (`Jen"o`) are decoded.
   `sampledata/` is git-ignored.
+- **Every showcase position is graded as a chess problem.** Three weaknesses
+  are detected: the solution begins with a capture, the side to move is in
+  check in the diagram, and the diagram has no legal last move (decided
+  exactly for one retraction: quiet moves, uncaptures of any piece and
+  unpromotions, with or without capture; en passant not retracted). An
+  unpublished showcase position with a weakness is swapped for the
+  best-ranked cleaner unique position of the same material and depth the
+  tablebase offers (ranking: flawless, check only, capture only, both;
+  illegal diagrams are never offered); published positions stay and their
+  sibling is chosen the same way. A remaining weakness is stated in a *Note*
+  on the card and in the booklet. The index tables gain a *published by*
+  column (`Sheglow (1998)`).
 
 ## [0.19.0] - 2026-09-11
 

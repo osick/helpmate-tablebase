@@ -67,8 +67,19 @@
     "nocheck",
     "umnov",
     "promotions:q"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Niemann (1947)"
  },
  {
   "material": "KQvk",
@@ -116,8 +127,19 @@
     "pendulum",
     "nocapture",
     "nocheck"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "published_by": "Csaszar (1945)"
  },
  {
   "material": "KRvk",
@@ -153,7 +175,13 @@
     "stipulation": "h#5 0.1...",
     "fen": "3k4/8/8/8/8/8/5R2/6K1"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Ban (1965)"
  },
  {
   "material": "KBBvk",
@@ -185,7 +213,13 @@
     "stipulation": "h#7 0.1...",
     "fen": "K7/2B5/8/8/8/7B/8/7k"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Maslar (1978)"
  },
  {
   "material": "KBNvk",
@@ -204,7 +238,12 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBPvk",
@@ -250,8 +289,19 @@
     "nocapture",
     "nocheck",
     "promotions:q"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Elkies (2004)"
  },
  {
   "material": "KBvkb",
@@ -269,28 +319,40 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkn",
   "pieces": 4,
-  "fen": "8/8/8/8/8/1k6/5n2/1K1B4 b - - 0 1",
+  "fen": "8/8/8/8/8/1k6/5n2/1K5B b - - 0 1",
   "probe": "dtm=16 (h#8) count=1",
   "dtm": 16,
   "max_dtm": 24,
   "unique_at_depth": 19,
   "plane_size": 1892352,
   "saturated_at_max": true,
-  "solution": "Kc3 Be2 Kd2 Bf1 Ke1 Kc2 Nh3 Kd3 Kf2 Ke4 Kg1 Kf3 Kh1 Kg3 Ng1 Bg2#",
+  "solution": "Kc3 Bg2 Kd2 Bf1 Ke1 Kc2 Nh3 Kd3 Kf2 Ke4 Kg1 Kf3 Kh1 Kg3 Ng1 Bg2#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
+   "switchback",
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/1k6/5n2/1K1B4 b - - 0 1"
  },
  {
   "material": "KBvkp",
@@ -315,7 +377,12 @@
    "nocapture",
    "umnov",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNNvk",
@@ -362,8 +429,19 @@
     "single-piece",
     "single-piece:black",
     "nocapture"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Bebesi (1910)"
  },
  {
   "material": "KNPvk",
@@ -399,18 +477,31 @@
    }
   ],
   "alternative": {
-   "fen": "8/8/8/8/8/5N2/1K3P2/6k1 b - - 0 1",
-   "solution": "Kf1 Nd4 Ke1 f4 Kd2 f5 Kd3 f6 Kc4 f7 Kb4 f8=Q+ Ka4 Qa3#",
+   "fen": "8/8/8/8/8/KN6/P7/7k b - - 0 1",
+   "solution": "Kg2 Kb4 Kf3 a4 Ke4 a5 Kd5 a6 Kc6 a7 Kb7 Kc5 Ka6 a8=Q#",
    "themes": [
+    "mirror",
     "promotion",
     "excelsior",
     "excelsior:white",
     "single-piece",
     "single-piece:black",
     "nocapture",
+    "nocheck",
     "promotions:q"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Elkies (2004)"
  },
  {
   "material": "KNvkb",
@@ -431,7 +522,12 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvkn",
@@ -483,8 +579,19 @@
     "self-block",
     "nocapture",
     "nocheck"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Kotesovec (1987)"
  },
  {
   "material": "KNvkp",
@@ -509,7 +616,12 @@
    "nocheck",
    "umnov",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvkr",
@@ -563,8 +675,19 @@
     "self-block",
     "nocapture",
     "nocheck"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Elkies (1995)"
  },
  {
   "material": "KPPvk",
@@ -598,32 +721,43 @@
     "stipulation": "h#7",
     "fen": "8/k7/8/8/8/1P6/1P5K/8"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Salazar Lopez (1973)"
  },
  {
   "material": "KPvkb",
   "pieces": 4,
-  "fen": "6k1/8/8/8/8/3b4/3P4/1K6 w - - 0 1",
+  "fen": "8/8/1K6/8/2b5/2P5/7k/8 w - - 0 1",
   "probe": "dtm=15 (h#7.5) count=1",
   "dtm": 15,
   "max_dtm": 17,
   "unique_at_depth": 13,
   "plane_size": 5548032,
   "saturated_at_max": true,
-  "solution": "Kc1 Be4 d3 Kf7 dxe4 Ke6 e5 Kd5 e6 Kc4 e7 Kb3 e8=Q Ka2 Qa4#",
+  "solution": "Ka5 Bd5 c4 Kg3 cxd5 Kf4 d6 Ke5 d7 Kd6 Kb5 Kc7 Ka6 Kb8 d8=Q#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "pure",
    "model",
    "ideal",
    "mirror",
    "promotion",
-   "excelsior",
-   "excelsior:white",
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "6k1/8/8/8/8/3b4/3P4/1K6 w - - 0 1"
  },
  {
   "material": "KPvkn",
@@ -646,7 +780,12 @@
    "single-piece",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkp",
@@ -668,32 +807,42 @@
    "promotion",
    "switchback",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkq",
   "pieces": 4,
-  "fen": "6k1/8/8/8/8/1q6/3P4/1K6 w - - 0 1",
+  "fen": "8/K7/8/8/8/8/3P4/2q4k w - - 0 1",
   "probe": "dtm=15 (h#7.5) count=1",
   "dtm": 15,
   "max_dtm": 18,
   "unique_at_depth": 32,
   "plane_size": 5548032,
   "saturated_at_max": true,
-  "solution": "Kc1 Qe3 dxe3 Kf7 e4 Ke6 e5 Kd5 e6 Kc4 e7 Kb3 e8=Q Ka2 Qa4#",
+  "solution": "d4 Kg2 d5 Kf3 d6 Ke4 d7 Kd5 d8=Q+ Kc6 Qd5+ Kc7 Ka6 Kb8 Qb7#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "mirror",
    "promotion",
    "excelsior",
    "excelsior:white",
-   "nocheck",
+   "closed-walk",
+   "single-piece",
+   "single-piece:black",
+   "nocapture",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "6k1/8/8/8/8/1q6/3P4/1K6 w - - 0 1"
  },
  {
   "material": "KPvkr",
@@ -724,51 +873,65 @@
     "stipulation": "h#8 0.1...",
     "fen": "8/7k/8/8/8/7r/1K5P/8"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Maslar"
  },
  {
   "material": "KQBvk",
   "pieces": 4,
-  "fen": "8/7B/7k/6Q1/8/8/8/K7 b - - 0 1",
+  "fen": "7B/7k/8/6Q1/8/8/8/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 3,
   "plane_size": 1892352,
   "saturated_at_max": true,
-  "solution": "Kxh7 Kb2 Kh8 Kc3 Kh7 Kd4 Kh8 Ke5 Kh7 Kf6 Kh8 Qg7#",
+  "solution": "Kxh8 Kb2 Kh7 Kc3 Kh8 Kd4 Kh7 Ke5 Kh8 Kf6 Kh7 Qg7#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
    "switchback",
    "single-piece",
    "single-piece:black",
+   "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/7B/7k/6Q1/8/8/8/K7 b - - 0 1"
  },
  {
   "material": "KQNvk",
   "pieces": 4,
-  "fen": "8/7N/7k/6Q1/8/8/8/K7 b - - 0 1",
+  "fen": "7N/7k/8/6Q1/8/8/8/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 3,
   "plane_size": 1892352,
   "saturated_at_max": true,
-  "solution": "Kxh7 Kb2 Kh8 Kc3 Kh7 Kd4 Kh8 Ke5 Kh7 Kf6 Kh8 Qg7#",
+  "solution": "Kxh8 Kb2 Kh7 Kc3 Kh8 Kd4 Kh7 Ke5 Kh8 Kf6 Kh7 Qg7#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
    "switchback",
    "single-piece",
    "single-piece:black",
+   "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/7N/7k/6Q1/8/8/8/K7 b - - 0 1"
  },
  {
   "material": "KQPvk",
@@ -797,7 +960,12 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQvk",
@@ -817,7 +985,12 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQRvk",
@@ -837,12 +1010,17 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkb",
   "pieces": 4,
-  "fen": "8/8/8/8/7k/b5Q1/8/K7 b - - 0 1",
+  "fen": "8/8/7k/8/8/b5Q1/8/K7 b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 12,
@@ -854,12 +1032,18 @@
   "themes": [
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/7k/b5Q1/8/K7 b - - 0 1"
  },
  {
   "material": "KQvkn",
   "pieces": 4,
-  "fen": "8/8/7k/6Q1/8/8/1n6/K7 b - - 0 1",
+  "fen": "7k/8/8/6Q1/8/8/1n6/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
@@ -869,14 +1053,22 @@
   "solution": "Kh7 Kxb2 Kh8 Kc3 Kh7 Kd4 Kh8 Ke5 Kh7 Kf6 Kh8 Qg7#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "pure",
    "model",
    "ideal",
    "switchback",
    "single-piece",
    "single-piece:black",
+   "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/7k/6Q1/8/8/1n6/K7 b - - 0 1"
  },
  {
   "material": "KQvkp",
@@ -898,7 +1090,12 @@
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkq",
@@ -942,8 +1139,19 @@
     "single-piece:black",
     "pendulum",
     "nocheck"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": true,
+    "check": true,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KQvkr",
@@ -960,7 +1168,12 @@
   "themes": [
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRBvk",
@@ -983,7 +1196,12 @@
    "pendulum",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRNvk",
@@ -1025,8 +1243,19 @@
     "single-piece:black",
     "nocapture",
     "umnov"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Maslar (1981)"
  },
  {
   "material": "KRPvk",
@@ -1051,7 +1280,12 @@
    "pendulum",
    "nocapture",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRRvk",
@@ -1074,48 +1308,63 @@
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRvkb",
   "pieces": 4,
-  "fen": "8/8/8/8/8/8/6Rk/K1b5 b - - 0 1",
+  "fen": "8/8/8/8/8/7k/6R1/K4b2 b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 14,
   "unique_at_depth": 365,
   "plane_size": 1892352,
   "saturated_at_max": true,
-  "solution": "Kh1 Rh2+ Kg1 Kb1 Kf1 Kc2 Ke1 Kd3 Kd1 Rh1#",
+  "solution": "Bd3 Ra2 Kg3 Kb2 Kf2 Kc3+ Ke1 Kxd3 Kd1 Ra1#",
   "extra_lines": 0,
   "themes": [
-   "single-piece",
-   "single-piece:black",
-   "nocapture",
-   "umnov"
-  ]
+   "pure",
+   "model",
+   "ideal",
+   "mirror"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/8/6Rk/K1b5 b - - 0 1"
  },
  {
   "material": "KRvkn",
   "pieces": 4,
-  "fen": "8/8/8/8/8/n7/6Rk/K7 b - - 0 1",
+  "fen": "8/8/8/8/8/n6k/6R1/K7 b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 14,
   "unique_at_depth": 247,
   "plane_size": 1892352,
   "saturated_at_max": true,
-  "solution": "Kh1 Rh2+ Kg1 Kb2 Kf1 Kc3 Ke1 Kd3 Kd1 Rh1#",
+  "solution": "Nb5 Ra2 Kg3 Kb2 Kf2 Kc2 Ke1 Kd3 Kd1 Ra1#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "mirror",
-   "single-piece",
-   "single-piece:black",
    "nocapture",
-   "umnov"
-  ]
+   "nocheck"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/n7/6Rk/K7 b - - 0 1"
  },
  {
   "material": "KRvkp",
@@ -1141,7 +1390,12 @@
    "nocheck",
    "umnov",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRvkq",
@@ -1161,7 +1415,12 @@
    "ideal",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRvkr",
@@ -1182,7 +1441,12 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBBvk",
@@ -1205,7 +1469,12 @@
    "pendulum",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBNvk",
@@ -1223,7 +1492,12 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBPvk",
@@ -1248,7 +1522,12 @@
    "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkb",
@@ -1266,7 +1545,12 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkn",
@@ -1285,7 +1569,12 @@
    "model",
    "ideal",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkp",
@@ -1308,7 +1597,12 @@
    "self-block",
    "umnov",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkq",
@@ -1326,24 +1620,35 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkr",
   "pieces": 5,
-  "fen": "8/7k/7B/8/1r6/8/8/KB6 b - - 0 1",
+  "fen": "7k/8/7B/8/8/8/1r6/KB6 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 15,
   "unique_at_depth": 28,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kg8 Ka2 Ra4+ Kb3 Ra8 Kc4 Kf7 Kd5 Ke8 Ke6 Rd8 Bg6#",
+  "solution": "Rb8 Ka2 Ra8+ Kb3 Kg8 Kc4 Kf7 Kd5 Ke8 Ke6 Rd8 Bg6#",
   "extra_lines": 0,
   "themes": [
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/7k/7B/8/1r6/8/8/KB6 b - - 0 1"
  },
  {
   "material": "KBNNvk",
@@ -1392,29 +1697,51 @@
     "single-piece:black",
     "nocapture",
     "nocheck"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KBNPvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/5N2/K4PB1/7k b - - 0 1",
+  "fen": "2K5/8/8/8/8/4N1Bk/4P3/8 b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 16,
   "unique_at_depth": 9,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxg2 Nd4 Kf1 f4 Ke1 f5 Kd2 f6 Kc3 f7 Kb4 f8=Q+ Ka4 Qa3#",
+  "solution": "Kxg3 Nd5 Kf2 e4 Ke2 e5 Kd3 e6 Kc4 e7 Kb5 e8=Q+ Ka6 Qa4#",
   "extra_lines": 0,
   "themes": [
+   "pure",
+   "model",
+   "ideal",
+   "mirror",
    "promotion",
    "excelsior",
    "excelsior:white",
    "single-piece",
    "single-piece:black",
+   "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/5N2/K4PB1/7k b - - 0 1"
  },
  {
   "material": "KBNvkb",
@@ -1436,7 +1763,12 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBNvkn",
@@ -1457,7 +1789,12 @@
    "mirror",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBNvkp",
@@ -1476,7 +1813,12 @@
    "model",
    "ideal",
    "mirror"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBNvkq",
@@ -1494,7 +1836,12 @@
    "mirror",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBNvkr",
@@ -1515,29 +1862,42 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBPPvk",
   "pieces": 5,
-  "fen": "7k/7P/8/8/8/1KB5/1P6/8 b - - 0 1",
+  "fen": "8/8/8/8/2B5/2PK4/2P4k/8 b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 16,
   "unique_at_depth": 12,
   "plane_size": 266305536,
   "saturated_at_max": true,
-  "solution": "Kxh7 Ka2 Kg6 b4 Kf5 b5 Ke4 b6 Kd3 b7 Kc2 b8=Q Kc1 Qb1#",
+  "solution": "Kg3 Ba6 Kf4 c4 Ke5 c5 Kd5 c6 Kc5 c7 Kb6 c8=Q Ka7 Qb7#",
   "extra_lines": 0,
   "themes": [
+   "pure",
+   "model",
    "promotion",
-   "excelsior",
-   "excelsior:white",
    "single-piece",
    "single-piece:black",
+   "nocapture",
    "nocheck",
+   "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "7k/7P/8/8/8/1KB5/1P6/8 b - - 0 1"
  },
  {
   "material": "KBPvkb",
@@ -1561,27 +1921,43 @@
    "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBPvkn",
   "pieces": 5,
-  "fen": "8/B7/8/8/8/K7/P7/3n2k1 b - - 0 1",
+  "fen": "8/8/8/8/8/K1n5/PB6/7k b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 24,
   "unique_at_depth": 101,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Ne3 Kb2 Kf1 a4 Nd5 a5 Nb6 axb6 Ke2 b7 Kd3 b8=Q Kc4 Qb3#",
+  "solution": "Kg2 Kb4 Kf3 a4 Ke4 a5 Kd5 a6 Kc6 a7 Kb7 Kc5 Ka6 a8=Q#",
   "extra_lines": 0,
   "themes": [
+   "pure",
+   "mirror",
    "promotion",
    "excelsior",
    "excelsior:white",
+   "single-piece",
+   "single-piece:black",
+   "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/B7/8/8/8/K7/P7/3n2k1 b - - 0 1"
  },
  {
   "material": "KBPvkp",
@@ -1615,57 +1991,70 @@
     "stipulation": "h#11 0.1...",
     "fen": "2B5/8/8/p7/P7/6k1/8/6K1"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Szentai (1958)"
  },
  {
   "material": "KBPvkq",
   "pieces": 5,
-  "fen": "8/8/8/8/4B3/8/4P3/qk1K4 b - - 0 1",
+  "fen": "8/8/B7/8/8/K7/P4q2/6k1 b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 17,
   "unique_at_depth": 75,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kb2+ Bb1 Kc3 e4 Kd4 e5 Ke3 e6 Kf4 e7 Kg5 e8=Q Kh6 Qg6#",
+  "solution": "Kg2 Kb4 Kf3 a4 Ke4 a5 Qb6+ axb6 Kd5 b7 Kc6 Bb5+ Kb6 b8=Q#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
+   "ideal",
    "promotion",
    "excelsior",
    "excelsior:white",
-   "single-piece",
-   "single-piece:black",
-   "nocapture",
-   "umnov",
+   "kniest",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/4B3/8/4P3/qk1K4 b - - 0 1"
  },
  {
   "material": "KBPvkr",
   "pieces": 5,
-  "fen": "8/8/8/8/4B3/8/4P3/rk1K4 b - - 0 1",
+  "fen": "8/8/B7/2r5/8/K7/P7/7k b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 17,
   "unique_at_depth": 69,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kb2+ Bb1 Kc3 e4 Kd4 e5 Ke3 e6 Kf4 e7 Kg5 e8=Q Kh6 Qg6#",
+  "solution": "Kg2 Kb4 Kf3 a4 Rb5+ axb5 Ke4 b6 Kd5 b7 Kc6 Bb5+ Kb6 b8=Q#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
+   "ideal",
    "promotion",
    "excelsior",
    "excelsior:white",
-   "single-piece",
-   "single-piece:black",
-   "nocapture",
-   "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/4B3/8/4P3/rk1K4 b - - 0 1"
  },
  {
   "material": "KBvkbb",
@@ -1682,7 +2071,12 @@
   "themes": [
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkbn",
@@ -1702,7 +2096,12 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkbp",
@@ -1728,7 +2127,12 @@
    "kniest",
    "umnov",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvknn",
@@ -1750,7 +2154,12 @@
    "self-block",
    "kniest",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvknp",
@@ -1770,7 +2179,12 @@
    "ideal",
    "self-block",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkpp",
@@ -1792,7 +2206,12 @@
    "self-block",
    "nocapture",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqb",
@@ -1823,32 +2242,51 @@
    }
   ],
   "alternative": {
-   "fen": "8/8/6b1/8/8/6k1/1q1B4/K7 w - - 0 1",
-   "solution": "Kxb2 Kg4 Kc3 Kf5 Kd4 Kf6 Bc3 Kg7 Ke5 Kh8 Kf6 Bh7 Kf7#",
+   "fen": "8/B7/1q6/8/2b5/7k/8/K7 w - - 0 1",
+   "solution": "Bb8 Qg1+ Kb2 Kg2 Kc3 Kf2 Kd4 Qd1+ Ke4 Ke1 Ke3 Bf1 Bg3#",
    "themes": [
+    "set-play",
     "self-block",
-    "nocheck"
-   ]
-  }
+    "nocapture"
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KBvkqn",
   "pieces": 5,
-  "fen": "8/8/8/8/n7/2q5/2k5/K4B2 w - - 0 1",
+  "fen": "8/8/5q2/8/8/1k6/8/1K1n1B2 w - - 0 1",
   "probe": "dtm=19 (h#9.5) count=1",
   "dtm": 19,
   "max_dtm": 26,
   "unique_at_depth": 46,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Ka2 Nc5 Bc4 Na6 Bb3+ Kd3 Ka3 Kd4 Ka4 Kc5 Be6 Kb6 Bc8 Ka7 Kb5 Ka8 Kb6 Nb8 Bb7#",
+  "solution": "Kc1 Nf2 Kd2 Nh3 Ke3 Kc2 Bd3+ Kd1 Bf5 Ke1 Kf3 Kf1 Kg3 Kg1 Bd3 Kh1 Bf1 Ng1 Bg2#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
+   "switchback",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/n7/2q5/2k5/K4B2 w - - 0 1"
  },
  {
   "material": "KBvkqp",
@@ -1871,7 +2309,12 @@
    "nocapture",
    "umnov",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkrb",
@@ -1892,7 +2335,12 @@
    "switchback",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkrn",
@@ -1912,7 +2360,12 @@
    "switchback",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkrp",
@@ -1936,7 +2389,12 @@
    "self-block",
    "umnov",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNNNvk",
@@ -1957,28 +2415,42 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNNPvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/5N2/K4PN1/7k b - - 0 1",
+  "fen": "8/K7/8/8/6N1/4N3/4P3/6k1 b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 16,
   "unique_at_depth": 5,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxg2 Nd4 Kf1 f4 Ke1 f5 Kd2 f6 Kc3 f7 Kb4 f8=Q+ Ka4 Qa3#",
+  "solution": "Kh1 Nf5 Kg2 e4 Kf3 e5 Kf4 e6 Kg5 e7 Kg6 e8=Q+ Kh7 Nf6#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
+   "mirror",
    "promotion",
    "excelsior",
    "excelsior:white",
    "single-piece",
    "single-piece:black",
+   "nocapture",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/5N2/K4PN1/7k b - - 0 1"
  },
  {
   "material": "KNNvkb",
@@ -1999,7 +2471,12 @@
    "single-piece",
    "single-piece:black",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNNvkn",
@@ -2020,7 +2497,12 @@
    "mirror",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNNvkp",
@@ -2046,7 +2528,12 @@
    "nocheck",
    "umnov",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNNvkq",
@@ -2076,7 +2563,13 @@
     "stipulation": "h#7",
     "fen": "7k/8/4q3/2K5/8/8/8/1N1N4"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KNNvkr",
@@ -2096,28 +2589,39 @@
    "ideal",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNPPvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/5N2/K4PP1/7k b - - 0 1",
+  "fen": "8/8/8/8/4N3/K3P3/4P3/k7 b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 17,
   "unique_at_depth": 18,
   "plane_size": 266305536,
   "saturated_at_max": true,
-  "solution": "Kxg2 Nd4 Kf1 f4 Ke1 f5 Kd2 f6 Kc3 f7 Kb4 f8=Q+ Ka4 Qa3#",
+  "solution": "Kb1 Nd6 Kc2 e4 Kc3 e5 Kd4 e6 Kc5 e7 Kb6 e8=Q Ka5 Qb5#",
   "extra_lines": 0,
   "themes": [
    "promotion",
-   "excelsior",
-   "excelsior:white",
    "single-piece",
    "single-piece:black",
+   "nocapture",
+   "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/5N2/K4PP1/7k b - - 0 1"
  },
  {
   "material": "KNPvkb",
@@ -2141,7 +2645,12 @@
    "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNPvkn",
@@ -2186,8 +2695,19 @@
     "mirror",
     "promotion",
     "promotions:q"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Paliulionis (2024)"
  },
  {
   "material": "KNPvkp",
@@ -2210,28 +2730,38 @@
    "self-block",
    "nocheck",
    "promotions:qr"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNPvkq",
   "pieces": 5,
-  "fen": "8/8/8/8/8/5N2/q4P2/K6k w - - 0 1",
+  "fen": "8/8/8/8/8/7N/1q5P/k1K5 w - - 0 1",
   "probe": "dtm=15 (h#7.5) count=1",
   "dtm": 15,
   "max_dtm": 17,
   "unique_at_depth": 17,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxa2 Kg2 Nd4 Kf1 f4 Ke1 f5 Kd2 f6 Kc3 f7 Kb4 f8=Q+ Ka4 Qa3#",
+  "solution": "Kd1 Qg7 Nf4 Kb2 h4 Kc3 h5 Kd4 h6 Ke3 hxg7 Kf2 g8=Q Kf1 Qg2#",
   "extra_lines": 0,
   "themes": [
    "promotion",
    "excelsior",
    "excelsior:white",
-   "single-piece",
-   "single-piece:black",
+   "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/5N2/q4P2/K6k w - - 0 1"
  },
  {
   "material": "KNPvkr",
@@ -2257,7 +2787,12 @@
    "single-piece",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNvkbb",
@@ -2277,7 +2812,12 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvkbn",
@@ -2298,19 +2838,24 @@
    "closed-walk",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvkbp",
   "pieces": 5,
-  "fen": "7k/8/8/p7/8/8/2b5/NK6 w - - 0 1",
+  "fen": "k7/8/8/7p/8/8/5b2/3K3N w - - 0 1",
   "probe": "dtm=17 (h#8.5) count=1",
   "dtm": 17,
   "max_dtm": 21,
   "unique_at_depth": 12,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kb2 Kg7 Kc3 Kf6 Kc4 Ke5 Kb5 Kd4 Nb3+ Kc3 Nxa5 Kb2 Kb4 Ka1 Ka3 Bb1 Nb3#",
+  "solution": "Ke2 Kb7 Kf3 Kc6 Kf4 Kd5 Kg5 Ke4 Ng3+ Kf3 Nxh5 Kg2 Kg4 Kh1 Kh3 Bg1 Ng3#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -2318,7 +2863,13 @@
    "ideal",
    "switchback",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "7k/8/8/p7/8/8/2b5/NK6 w - - 0 1"
  },
  {
   "material": "KNvknn",
@@ -2339,7 +2890,12 @@
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvknp",
@@ -2373,7 +2929,13 @@
     "stipulation": "h#9 0.1...",
     "fen": "N5k1/8/8/8/8/1p6/8/Kn6"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KNvkpp",
@@ -2395,7 +2957,12 @@
    "underpromotion",
    "self-block",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvkqb",
@@ -2427,7 +2994,13 @@
     "stipulation": "h#10 0.1...",
     "fen": "k7/1N6/8/8/8/8/4q2b/6K1"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KNvkqn",
@@ -2471,32 +3044,46 @@
     "closed-walk",
     "self-block",
     "nocapture"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KNvkqp",
   "pieces": 5,
-  "fen": "8/8/6p1/8/8/q1N5/8/K1k5 w - - 0 1",
+  "fen": "8/8/4p3/4k3/8/8/2q5/K3N3 w - - 0 1",
   "probe": "dtm=19 (h#9.5) count=1",
   "dtm": 19,
   "max_dtm": 23,
   "unique_at_depth": 194,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Na2+ Kd2 Kb1 g5 Nc3 Qc1+ Ka2 g4 Kb3 g3 Kc4 g2 Kd4 g1=R Ne4+ Kd1 Kd3 Re1 Nf2#",
+  "solution": "Nf3+ Kf4 Nd2 Qd1+ Kb2 e5 Kc3 e4 Kd4 Kg3 Ke5 Kf2 Kf4 Ke1 Kg3 e3 Kg2 e2 Nf3#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
-   "promotion",
-   "underpromotion",
    "switchback",
    "self-block",
-   "nocapture",
-   "promotions:r"
-  ]
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/6p1/8/8/q1N5/8/K1k5 w - - 0 1"
  },
  {
   "material": "KNvkqr",
@@ -2517,7 +3104,12 @@
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNvkrb",
@@ -2537,7 +3129,12 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNvkrn",
@@ -2556,7 +3153,12 @@
    "model",
    "ideal",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNvkrp",
@@ -2580,7 +3182,12 @@
    "nocapture",
    "nocheck",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KNvkrr",
@@ -2601,19 +3208,24 @@
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KPPPvk",
   "pieces": 5,
-  "fen": "8/8/8/8/K7/PP6/6P1/7k b - - 0 1",
+  "fen": "8/8/8/8/K7/PP4P1/8/7k b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 16,
   "unique_at_depth": 2,
   "plane_size": 199729152,
   "saturated_at_max": true,
-  "solution": "Kxg2 Kb4 Kf3 a4 Ke4 a5 Kd5 a6 Kc6 a7 Kb7 Kc5 Ka6 a8=Q#",
+  "solution": "Kg2 Kb4 Kf3 a4 Ke4 a5 Kd5 a6 Kc6 a7 Kb7 Kc5 Ka6 a8=Q#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -2622,9 +3234,16 @@
    "promotion",
    "single-piece",
    "single-piece:black",
+   "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/K7/PP6/6P1/7k b - - 0 1"
  },
  {
   "material": "KPPvkb",
@@ -2643,7 +3262,12 @@
    "excelsior",
    "excelsior:white",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPPvkn",
@@ -2662,7 +3286,12 @@
    "excelsior",
    "excelsior:white",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KPPvkp",
@@ -2683,7 +3312,12 @@
    "promotion",
    "switchback",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPPvkq",
@@ -2702,56 +3336,65 @@
    "single-piece",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KPPvkr",
   "pieces": 5,
-  "fen": "8/8/8/8/8/1P6/P7/K1r3k1 w - - 0 1",
+  "fen": "8/8/6r1/6k1/6P1/6P1/8/K7 w - - 0 1",
   "probe": "dtm=13 (h#6.5) count=1",
   "dtm": 13,
   "max_dtm": 17,
   "unique_at_depth": 784,
   "plane_size": 266305536,
   "saturated_at_max": true,
-  "solution": "Kb2 Kf2 a4 Ke3 a5 Kd4 a6 Kc5 a7 Kb4 a8=Q Rc5 Qa4#",
-  "extra_lines": 0,
-  "themes": [
-   "promotion",
-   "excelsior",
-   "excelsior:white",
-   "closed-walk",
-   "self-block",
-   "nocapture",
-   "nocheck",
-   "promotions:q"
-  ]
- },
- {
-  "material": "KPvkbb",
-  "pieces": 5,
-  "fen": "8/5b1k/5b2/8/8/8/4P3/K7 w - - 0 1",
-  "probe": "dtm=15 (h#7.5) count=1",
-  "dtm": 15,
-  "max_dtm": 19,
-  "unique_at_depth": 448,
-  "plane_size": 355074048,
-  "saturated_at_max": true,
-  "solution": "Kb1 Kg6 Kc1 Kf5 e4+ Ke6 e5 Kd5 e6 Kc4 e7 Kb3 e8=Q Ka2 Qa4#",
+  "solution": "Kb2 Rf6 Kc3 Rf5 gxf5 Kg4 f6 Kf3 f7 Ke2 f8=Q Kd1 Qf1#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "mirror",
    "promotion",
-   "excelsior",
-   "excelsior:white",
-   "single-piece",
-   "single-piece:black",
-   "nocapture",
+   "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/1P6/P7/K1r3k1 w - - 0 1"
+ },
+ {
+  "material": "KPvkbb",
+  "pieces": 5,
+  "fen": "8/7k/8/3b4/8/bP6/8/K7 w - - 0 1",
+  "probe": "dtm=15 (h#7.5) count=1",
+  "dtm": 15,
+  "max_dtm": 19,
+  "unique_at_depth": 448,
+  "plane_size": 355074048,
+  "saturated_at_max": true,
+  "solution": "Ka2 Kg6 Kxa3 Kf5 b4 Ke4 b5 Kd3 b6 Kc2 b7 Kb1 b8=Q+ Ka1 Qb2#",
+  "extra_lines": 0,
+  "themes": [
+   "promotion",
+   "single-piece",
+   "single-piece:black",
+   "promotions:q"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/5b1k/5b2/8/8/8/4P3/K7 w - - 0 1"
  },
  {
   "material": "KPvkbn",
@@ -2775,7 +3418,12 @@
    "nocapture",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkbp",
@@ -2816,8 +3464,19 @@
     "ideal",
     "self-block",
     "nocheck"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Locker (1966)"
  },
  {
   "material": "KPvknn",
@@ -2838,7 +3497,12 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvknp",
@@ -2857,7 +3521,12 @@
    "excelsior",
    "excelsior:white",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkpp",
@@ -2894,7 +3563,13 @@
     "stipulation": "h#10",
     "fen": "1k6/8/8/8/3p2p1/8/3P4/7K"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Ban (1967)"
  },
  {
   "material": "KPvkqb",
@@ -2917,7 +3592,12 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkqn",
@@ -2938,26 +3618,38 @@
    "closed-walk",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkqp",
   "pieces": 5,
-  "fen": "8/7k/q7/8/7p/8/7P/K7 w - - 0 1",
+  "fen": "6kq/8/8/8/8/p7/P7/1K6 w - - 0 1",
   "probe": "dtm=17 (h#8.5) count=1",
   "dtm": 17,
   "max_dtm": 29,
   "unique_at_depth": 9,
   "plane_size": 266305536,
   "saturated_at_max": true,
-  "solution": "Kb2 Qg6 Ka3 Qg3+ hxg3 Kg6 gxh4 Kf5 h5 Ke4 h6 Kd3 h7 Kc2 h8=Q Kb1 Qb2#",
+  "solution": "Kc2 Qh3 Kc1 Qb3 axb3 Kf7 b4 Ke6 b5 Kd5 b6 Kc4 b7 Kb3 b8=Q+ Ka2 Qb1#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "promotion",
    "excelsior",
    "excelsior:white",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/7k/q7/8/7p/8/7P/K7 w - - 0 1"
  },
  {
   "material": "KPvkqq",
@@ -2980,71 +3672,92 @@
    "nocapture",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkqr",
   "pieces": 5,
-  "fen": "8/7k/8/8/5r2/8/q5P1/K7 w - - 0 1",
+  "fen": "8/7k/8/1q6/K7/8/Pr6/8 w - - 0 1",
   "probe": "dtm=15 (h#7.5) count=1",
   "dtm": 15,
   "max_dtm": 17,
   "unique_at_depth": 40,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxa2 Kg6 Ka3 Kf5 g4+ Ke4 g5 Kd3 g6 Kc2 g7 Kb1 g8=Q Ka1 Qa2#",
+  "solution": "Ka3 Qb3+ axb3 Kg6 b4 Kf5 b5 Ke4 b6 Kd3 b7 Kc2 b8=Q Kb1 Qxb2#",
   "extra_lines": 0,
   "themes": [
    "promotion",
    "excelsior",
    "excelsior:white",
-   "single-piece",
-   "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/7k/8/8/5r2/8/q5P1/K7 w - - 0 1"
  },
  {
   "material": "KPvkrb",
   "pieces": 5,
-  "fen": "7k/8/8/8/2b5/8/1P6/1Kr5 w - - 0 1",
+  "fen": "K7/8/8/8/1r6/b7/P6k/8 w - - 0 1",
   "probe": "dtm=15 (h#7.5) count=1",
   "dtm": 15,
   "max_dtm": 17,
   "unique_at_depth": 6,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxc1 Kg7 b3 Kf6 b4 Ke5 b5 Kd4 b6 Kc3 b7 Kb3 b8=Q+ Ka2 Qb2#",
+  "solution": "Ka7 Re4 Kb6 Be7 a4 Kg3 a5 Kf4 a6 Ke5 a7 Kd6 a8=Q Re5 Qc6#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "promotion",
    "excelsior",
    "excelsior:white",
-   "closed-walk",
-   "single-piece",
-   "single-piece:black",
+   "self-block",
+   "nocapture",
+   "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "7k/8/8/8/2b5/8/1P6/1Kr5 w - - 0 1"
  },
  {
   "material": "KPvkrn",
   "pieces": 5,
-  "fen": "8/7k/8/8/8/8/r2n2P1/K7 w - - 0 1",
+  "fen": "8/7k/8/8/8/7r/1K5P/n7 w - - 0 1",
   "probe": "dtm=15 (h#7.5) count=1",
   "dtm": 15,
   "max_dtm": 19,
   "unique_at_depth": 50,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxa2 Kg6 Ka3 Kf5 g4+ Ke4 g5 Kd3 g6 Kc2 g7 Kb1 g8=Q Ka1 Qa2#",
+  "solution": "Ka2 Ra3+ Kxa3 Kg6 h4 Kf5 h5 Ke4 h6 Kd3 h7 Kc2 h8=Q Kb1 Qb2#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "promotion",
    "excelsior",
    "excelsior:white",
-   "single-piece",
-   "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/7k/8/8/8/8/r2n2P1/K7 w - - 0 1"
  },
  {
   "material": "KPvkrp",
@@ -3067,7 +3780,12 @@
    "excelsior:white",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KPvkrr",
@@ -3088,7 +3806,12 @@
    "single-piece",
    "single-piece:white",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KQBBvk",
@@ -3106,7 +3829,12 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": false
+  }
  },
  {
   "material": "KQBNvk",
@@ -3124,7 +3852,12 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQBPvk",
@@ -3149,7 +3882,12 @@
    "single-piece",
    "single-piece:black",
    "promotions:b"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQBvkb",
@@ -3166,7 +3904,12 @@
   "themes": [
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQBvkn",
@@ -3187,7 +3930,12 @@
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQBvkp",
@@ -3210,7 +3958,12 @@
    "self-block",
    "umnov",
    "promotions:n"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQBvkq",
@@ -3234,7 +3987,12 @@
    "kniest",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQBvkr",
@@ -3252,7 +4010,12 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNNvk",
@@ -3273,7 +4036,12 @@
    "mirror",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNPvk",
@@ -3296,7 +4064,12 @@
    "phoenix",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNvkb",
@@ -3316,7 +4089,12 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNvkn",
@@ -3336,7 +4114,12 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNvkp",
@@ -3360,7 +4143,12 @@
    "nocheck",
    "umnov",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNvkq",
@@ -3384,7 +4172,12 @@
    "kniest",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQNvkr",
@@ -3404,7 +4197,12 @@
    "ideal",
    "switchback",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQPPvk",
@@ -3424,7 +4222,12 @@
    "single-piece:black",
    "phoenix",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQPvkb",
@@ -3448,7 +4251,12 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQPvkn",
@@ -3474,7 +4282,12 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQPvkp",
@@ -3497,7 +4310,12 @@
    "switchback",
    "phoenix",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQPvkq",
@@ -3520,7 +4338,12 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQPvkr",
@@ -3545,28 +4368,39 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQBvk",
   "pieces": 5,
-  "fen": "8/8/8/8/3Q4/1Bk5/2Q5/K7 b - - 0 1",
+  "fen": "8/8/8/8/4Q3/B2k4/1Q6/K7 b - - 0 1",
   "probe": "dtm=6 (h#3) count=1",
   "dtm": 6,
   "max_dtm": 8,
   "unique_at_depth": 293,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxd4 Qg6 Kc5 Kb2 Kb4 Qb6#",
+  "solution": "Kxe4 Kb1 Ke3 Bc5+ Kd3 Qc2#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
+   "closed-walk",
    "single-piece",
-   "single-piece:black",
-   "nocheck"
-  ]
+   "single-piece:black"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/3Q4/1Bk5/2Q5/K7 b - - 0 1"
  },
  {
   "material": "KQQNvk",
@@ -3586,7 +4420,12 @@
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQPvk",
@@ -3606,61 +4445,87 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQQvk",
   "pieces": 5,
-  "fen": "2Q5/2Q5/8/8/8/8/8/K1kQ4 b - - 0 1",
+  "fen": "5Q2/4Q3/8/8/8/8/8/K1Qk4 b - - 0 1",
   "probe": "dtm=4 (h#2) count=1",
   "dtm": 4,
   "max_dtm": 6,
   "unique_at_depth": 3150,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxd1 Qh2 Ke1 Qc1#",
+  "solution": "Kxc1 Qf2 Kd1 Qee1#",
   "extra_lines": 0,
   "themes": [
-   "mirror",
+   "switchback",
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "2Q5/2Q5/8/8/8/8/8/K1kQ4 b - - 0 1"
  },
  {
   "material": "KQQRvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/4Q3/1RQk4/K7 b - - 0 1",
+  "fen": "8/8/8/8/3Q4/3k4/2R5/K1Q5 b - - 0 1",
   "probe": "dtm=6 (h#3) count=1",
   "dtm": 6,
   "max_dtm": 8,
   "unique_at_depth": 775,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxe3 Ka2 Kd4 Qe4+ Kc3 Rc2#",
+  "solution": "Kxd4 Kb2 Ke4 Qf4+ Kd3 Rd2#",
   "extra_lines": 0,
   "themes": [
+   "closed-walk",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/4Q3/1RQk4/K7 b - - 0 1"
  },
  {
   "material": "KQQvkb",
   "pieces": 5,
-  "fen": "8/8/8/7Q/6k1/4Q3/8/K2b4 b - - 0 1",
+  "fen": "4k2b/2Q3Q1/8/8/8/8/8/1K6 b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 12,
   "unique_at_depth": 408,
   "plane_size": 121110528,
   "saturated_at_max": false,
-  "solution": "Kxh5 Kb2 Kg4 Qg5+ Kf3 Kc3 Kf2 Kd3 Ke1 Qg1#",
+  "solution": "Bxg7 Kc2 Kf8 Kd3 Kg8 Ke4 Kh7 Kf5 Kh6 Qh2#",
   "extra_lines": 0,
   "themes": [
-   "switchback",
-   "single-piece",
-   "single-piece:black"
-  ]
+   "pure",
+   "model",
+   "ideal",
+   "self-block",
+   "nocheck"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/7Q/6k1/4Q3/8/K2b4 b - - 0 1"
  },
  {
   "material": "KQQvkn",
@@ -3680,7 +4545,12 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQvkp",
@@ -3700,7 +4570,12 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQvkq",
@@ -3716,29 +4591,42 @@
   "extra_lines": 0,
   "themes": [
    "mirror"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQQvkr",
   "pieces": 5,
-  "fen": "8/8/8/8/7Q/1r3Q1k/8/K7 b - - 0 1",
+  "fen": "8/8/2rQ4/7Q/6k1/8/8/K7 b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 12,
   "unique_at_depth": 46,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxh4 Qxb3 Kg4 Qa2 Kf3 Kb2 Ke2 Kc3+ Kd1 Qd2#",
+  "solution": "Kxh5 Qxc6 Kg4 Qh6 Kf3 Kb2 Ke2 Kc3 Kd1 Qd2#",
   "extra_lines": 0,
   "themes": [
+   "switchback",
    "single-piece",
-   "single-piece:black"
-  ]
+   "single-piece:black",
+   "nocheck"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/7Q/1r3Q1k/8/K7 b - - 0 1"
  },
  {
   "material": "KQRBvk",
   "pieces": 5,
-  "fen": "8/7Q/6k1/8/7B/6R1/8/K7 b - - 0 1",
+  "fen": "8/7Q/7k/8/7B/6R1/8/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
@@ -3756,7 +4644,13 @@
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/7Q/6k1/8/7B/6R1/8/K7 b - - 0 1"
  },
  {
   "material": "KQRNvk",
@@ -3774,12 +4668,17 @@
    "single-piece",
    "single-piece:black",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQRPvk",
   "pieces": 5,
-  "fen": "8/7Q/6Rk/8/8/8/5P2/K7 b - - 0 1",
+  "fen": "7k/7Q/6R1/8/8/8/5P2/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
@@ -3796,43 +4695,63 @@
    "single-piece",
    "single-piece:black",
    "phoenix",
+   "pendulum",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/7Q/6Rk/8/8/8/5P2/K7 b - - 0 1"
  },
  {
   "material": "KQRRvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/4R3/1RQk4/K7 b - - 0 1",
+  "fen": "8/8/8/8/4R3/3k4/2R5/K1Q5 b - - 0 1",
   "probe": "dtm=6 (h#3) count=1",
   "dtm": 6,
   "max_dtm": 10,
   "unique_at_depth": 1116,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxe3 Ka2 Kd4 Qe4+ Kc3 Rc2#",
+  "solution": "Kxe4 Kb2 Kd4 Qf4+ Kd3 Rd2#",
   "extra_lines": 0,
   "themes": [
+   "closed-walk",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/4R3/1RQk4/K7 b - - 0 1"
  },
  {
   "material": "KQRvkb",
   "pieces": 5,
-  "fen": "8/8/8/8/8/8/6R1/K1b3kQ b - - 0 1",
+  "fen": "7b/6Q1/8/8/8/8/6R1/K6k b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 14,
   "unique_at_depth": 1113,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxh1 Rh2+ Kg1 Kb1 Kf1 Kc2 Ke1 Kd3 Kd1 Rh1#",
+  "solution": "Bxg7+ Rb2 Kg1 Kb1 Kf1 Kc2 Ke1 Kd3 Kd1 Rb1#",
   "extra_lines": 0,
   "themes": [
-   "switchback",
-   "single-piece",
-   "single-piece:black"
-  ]
+   "pure",
+   "model",
+   "mirror"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/8/6R1/K1b3kQ b - - 0 1"
  },
  {
   "material": "KQRvkn",
@@ -3852,19 +4771,24 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQRvkp",
   "pieces": 5,
-  "fen": "8/7Q/6Rk/8/8/1p6/8/K7 b - - 0 1",
+  "fen": "7Q/7k/8/6R1/p7/8/8/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 72,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxh7 Kb2 Kh8 Kc3 b2 Kd4 b1=R Ke5 Rb8 Kf6 Rg8 Rh6#",
+  "solution": "Kxh8 Kb2 a3+ Kc3 a2 Kd4 a1=R Ke5 Ra8 Kf6 Rg8 Rh5#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -3873,10 +4797,15 @@
    "promotion",
    "underpromotion",
    "self-block",
-   "nocheck",
-   "umnov",
+   "kniest",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/7Q/6Rk/8/8/1p6/8/K7 b - - 0 1"
  },
  {
   "material": "KQRvkq",
@@ -3895,7 +4824,12 @@
    "model",
    "ideal",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQRvkr",
@@ -3915,7 +4849,12 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkbb",
@@ -3935,7 +4874,12 @@
    "mirror",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkbn",
@@ -3952,7 +4896,12 @@
   "themes": [
    "mirror",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkbp",
@@ -3969,7 +4918,12 @@
   "themes": [
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvknn",
@@ -3991,7 +4945,12 @@
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvknp",
@@ -4014,19 +4973,24 @@
    "nocapture",
    "nocheck",
    "promotions:b"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkpp",
   "pieces": 5,
-  "fen": "8/6k1/4pQ2/8/p7/8/8/K7 b - - 0 1",
+  "fen": "8/7k/5Q2/p4p2/8/8/8/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 15,
   "plane_size": 266305536,
   "saturated_at_max": true,
-  "solution": "Kg8 Kb2 a3+ Kc3 a2 Kd4 a1=R Ke5 Rh1 Kxe6 Rh8 Qf7#",
+  "solution": "a4 Kb2 a3+ Kc3 a2 Kd4 a1=R Ke5 Ra8 Kxf5 Rh8 Qg6#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -4035,27 +4999,40 @@
    "promotion",
    "underpromotion",
    "self-block",
+   "single-piece",
+   "single-piece:black",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/6k1/4pQ2/8/p7/8/8/K7 b - - 0 1"
  },
  {
   "material": "KQvkqb",
   "pieces": 5,
-  "fen": "8/8/5k2/8/6Q1/q7/8/Kb6 w - - 0 1",
+  "fen": "8/8/7k/8/1b6/q7/8/KQ6 w - - 0 1",
   "probe": "dtm=11 (h#5.5) count=1",
   "dtm": 11,
   "max_dtm": 15,
   "unique_at_depth": 25,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxb1 Qd3+ Kc1 Qg6 Kd2 Kg7 Ke3 Kh6 Kf4 Qh7 Qg5#",
+  "solution": "Qa2 Kg5 Qxa3 Kf4 Qa2 Ke3 Kb2 Kd2 Kb3+ Kc1 Qc2#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "self-block"
-  ]
+   "switchback",
+   "single-piece",
+   "single-piece:black"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/5k2/8/6Q1/q7/8/Kb6 w - - 0 1"
  },
  {
   "material": "KQvkqn",
@@ -4075,7 +5052,12 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkqp",
@@ -4093,26 +5075,38 @@
    "self-block",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkqq",
   "pieces": 5,
-  "fen": "8/8/5k2/8/6Q1/q7/8/Kq6 w - - 0 1",
+  "fen": "8/7k/8/8/8/1q6/Q7/K2q4 w - - 0 1",
   "probe": "dtm=11 (h#5.5) count=1",
   "dtm": 11,
   "max_dtm": 15,
   "unique_at_depth": 58,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxb1 Qd3+ Kc1 Qg6 Kd2 Kg7 Ke3 Kh6 Kf4 Qh7 Qg5#",
+  "solution": "Qb1+ Qdd3 Qe1 Qf7 Kb2 Qdg6 Kc3 Kg7 Kd4 Kf6 Qe5#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
-   "self-block"
-  ]
+   "self-block",
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/5k2/8/6Q1/q7/8/Kq6 w - - 0 1"
  },
  {
   "material": "KQvkqr",
@@ -4131,7 +5125,12 @@
    "model",
    "ideal",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkrb",
@@ -4153,7 +5152,12 @@
    "single-piece:black",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkrn",
@@ -4170,7 +5174,12 @@
   "themes": [
    "mirror",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkrp",
@@ -4192,29 +5201,35 @@
    "single-piece:black",
    "nocapture",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KQvkrr",
   "pieces": 5,
-  "fen": "8/5Q2/8/8/6k1/1r6/r7/K7 w - - 0 1",
+  "fen": "8/8/8/6k1/8/8/1r2r3/K4Q2 w - - 0 1",
   "probe": "dtm=9 (h#4.5) count=1",
   "dtm": 9,
   "max_dtm": 12,
   "unique_at_depth": 460,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxa2 Kg3 Qc4 Kf2 Kxb3 Ke1 Kc3 Kd1 Qf1#",
+  "solution": "Qb1 Kf4 Qxb2 Ke3 Qa3+ Kd2 Kb1 Kd1 Qc1#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "mirror",
    "single-piece",
-   "single-piece:black",
-   "nocheck"
-  ]
+   "single-piece:black"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/5Q2/8/8/6k1/1r6/r7/K7 w - - 0 1"
  },
  {
   "material": "KRBBvk",
@@ -4232,7 +5247,12 @@
    "switchback",
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": false
+  }
  },
  {
   "material": "KRBNvk",
@@ -4249,7 +5269,12 @@
   "themes": [
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRBPvk",
@@ -4298,29 +5323,43 @@
     "single-piece:black",
     "nocheck",
     "promotions:q"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": true,
+    "check": false,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "published_by": "Abdurahmanovic & Becker (2006)"
  },
  {
   "material": "KRBvkb",
   "pieces": 5,
-  "fen": "8/4B3/8/6Rk/7b/8/8/K7 b - - 0 1",
+  "fen": "7b/7k/8/4R3/8/8/8/K1B5 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 20,
   "unique_at_depth": 28,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kh6 Rg8 Kh5 Re8 Kg4 Kb2 Kf3 Kc3 Ke2 Bxh4+ Kd1 Re1#",
+  "solution": "Kg6 Bg5 Kh5 Kb1 Kg4 Re8 Kf3 Be7 Ke2 Bb4+ Kd1 Re1#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "switchback",
    "single-piece",
-   "single-piece:black"
-  ]
+   "single-piece:black",
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/4B3/8/6Rk/7b/8/8/K7 b - - 0 1"
  },
  {
   "material": "KRBvkn",
@@ -4340,31 +5379,39 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRBvkp",
   "pieces": 5,
-  "fen": "8/8/8/8/8/8/2pR4/K1k3B1 b - - 0 1",
+  "fen": "6R1/8/7k/7p/7B/8/8/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 32,
   "unique_at_depth": 175,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxd2 Ka2 Kc1 Kb3 Kb1 Bc5 Ka1 Ba3 c1=N+ Kc2 Na2 Bb2#",
+  "solution": "Kh7 Kb2 Kh6 Kc3 Kh7 Kd4 Kh6 Ke5 Kh7 Kf6 Kh6 Rh8#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "promotion",
-   "underpromotion",
    "switchback",
-   "self-block",
-   "umnov",
-   "promotions:n"
-  ]
+   "single-piece",
+   "single-piece:black",
+   "pendulum",
+   "nocapture",
+   "nocheck"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/8/2pR4/K1k3B1 b - - 0 1"
  },
  {
   "material": "KRBvkq",
@@ -4386,7 +5433,12 @@
    "single-piece:black",
    "pendulum",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRBvkr",
@@ -4405,28 +5457,41 @@
    "model",
    "ideal",
    "mirror"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRNNvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/8/k1K5/R1N4N b - - 0 1",
+  "fen": "5k2/4R3/7N/8/6N1/8/2K5/8 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 16,
   "unique_at_depth": 27,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxa1 Kd1 Kb2 Nb3 Kc3 Kc1 Kd3 Nc5+ Ke2 Ng3+ Ke1 Nd3#",
+  "solution": "Kxe7 Nf2 Kf6 Kd3 Kg5 Ke4 Kh4 Kf5 Kg3 Kg6 Kh4 Nf5#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
    "mirror",
+   "switchback",
    "single-piece",
-   "single-piece:black"
-  ]
+   "single-piece:black",
+   "nocheck"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/8/k1K5/R1N4N b - - 0 1"
  },
  {
   "material": "KRNPvk",
@@ -4448,7 +5513,12 @@
    "single-piece:black",
    "nocheck",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRNvkb",
@@ -4469,7 +5539,12 @@
    "closed-walk",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRNvkn",
@@ -4489,19 +5564,24 @@
    "ideal",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRNvkp",
   "pieces": 5,
-  "fen": "7k/4N2R/8/8/8/3p4/8/1K6 b - - 0 1",
+  "fen": "8/8/8/8/3R4/2kp4/3N4/2K5 b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 23,
   "unique_at_depth": 6,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxh7 Kc1 Kg7 Kd2 Kh8 Ke3 d2 Kf4 d1=B Kg5 Bb3 Kh6 Bg8 Ng6#",
+  "solution": "Kxd4 Nf1 d2+ Kb2 d1=R Ka3 Kc3 Ka4 Kb2 Ne3 Ka1 Ka3 Rb1 Nc2#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -4509,12 +5589,17 @@
    "ideal",
    "promotion",
    "underpromotion",
-   "closed-walk",
+   "switchback",
    "self-block",
-   "nocheck",
    "umnov",
-   "promotions:b"
-  ]
+   "promotions:r"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "7k/4N2R/8/8/8/3p4/8/1K6 b - - 0 1"
  },
  {
   "material": "KRNvkq",
@@ -4531,7 +5616,12 @@
   "themes": [
    "single-piece",
    "single-piece:black"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRNvkr",
@@ -4551,7 +5641,12 @@
    "ideal",
    "switchback",
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRPPvk",
@@ -4570,7 +5665,12 @@
    "single-piece",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRPvkb",
@@ -4593,7 +5693,12 @@
    "single-piece:white",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRPvkn",
@@ -4620,31 +5725,42 @@
    "nocheck",
    "umnov",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRPvkp",
   "pieces": 5,
-  "fen": "8/8/3p4/8/8/k1K5/R1P5/8 b - - 0 1",
+  "fen": "8/8/8/pK6/P7/8/6R1/7k b - - 0 1",
   "probe": "dtm=14 (h#7) count=1",
   "dtm": 14,
   "max_dtm": 28,
   "unique_at_depth": 41,
   "plane_size": 266305536,
   "saturated_at_max": true,
-  "solution": "Kxa2 Kb4 d5 c4 d4 c5 d3 c6 d2 c7 d1=R c8=Q Ra1 Qc2#",
+  "solution": "Kxg2 Kxa5 Kf3 Kb4 Ke4 a5 Kd5 a6 Kc6 a7 Kb7 Kc5 Ka6 a8=Q#",
   "extra_lines": 0,
   "themes": [
+   "pure",
+   "model",
+   "ideal",
+   "mirror",
    "promotion",
-   "underpromotion",
-   "excelsior",
-   "excelsior:white",
-   "closed-walk",
-   "self-block",
-   "kniest",
+   "single-piece",
+   "single-piece:black",
    "nocheck",
-   "promotions:qr"
-  ]
+   "promotions:q"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/3p4/8/8/k1K5/R1P5/8 b - - 0 1"
  },
  {
   "material": "KRPvkq",
@@ -4667,7 +5783,12 @@
    "single-piece:white",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRPvkr",
@@ -4691,7 +5812,12 @@
    "single-piece",
    "single-piece:black",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRRBvk",
@@ -4714,7 +5840,12 @@
    "single-piece",
    "single-piece:black",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRRNvk",
@@ -4732,7 +5863,12 @@
    "single-piece",
    "single-piece:black",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRRPvk",
@@ -4755,27 +5891,36 @@
    "single-piece:black",
    "pendulum",
    "promotions:q"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRRRvk",
   "pieces": 5,
-  "fen": "8/8/8/8/8/4R3/3RkR2/K7 b - - 0 1",
+  "fen": "8/8/8/8/3R4/2k5/1R6/K3R3 b - - 0 1",
   "probe": "dtm=6 (h#3) count=1",
   "dtm": 6,
   "max_dtm": 10,
   "unique_at_depth": 217,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxe3 Kb2 Ke4 Kc3 Ke3 Rde2#",
+  "solution": "Kxd4 Rbb1 Kd3 Kb2 Kd2 Rbd1#",
   "extra_lines": 0,
   "themes": [
-   "switchback",
    "single-piece",
    "single-piece:black",
-   "kniest",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/4R3/3RkR2/K7 b - - 0 1"
  },
  {
   "material": "KRRvkb",
@@ -4793,40 +5938,50 @@
    "pure",
    "model",
    "mirror"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRRvkn",
   "pieces": 5,
-  "fen": "8/8/8/8/8/n7/1R6/K5kR b - - 0 1",
+  "fen": "7k/6R1/8/8/7n/8/8/1K5R b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 14,
   "unique_at_depth": 229,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kxh1 Rh2+ Kg1 Kb2 Kf1 Kc3 Ke1 Kd3 Kd1 Rh1#",
+  "solution": "Kxg7 Kc2 Nf3 Kd3 Nh2 Ke4 Kh6 Kf5 Kh5 Rxh2#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
+   "ideal",
    "mirror",
-   "switchback",
-   "single-piece",
-   "single-piece:black"
-  ]
+   "nocheck"
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/n7/1R6/K5kR b - - 0 1"
  },
  {
   "material": "KRRvkp",
   "pieces": 5,
-  "fen": "8/7R/6Rk/8/8/1p6/8/K7 b - - 0 1",
+  "fen": "K7/8/8/8/5R1p/7k/6R1/8 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 43,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxh7 Kb2 Kh8 Kc3 b2 Kd4 b1=R Ke5 Rb8 Kf6 Rg8 Rh6#",
+  "solution": "Kxg2 Kb7 h3 Kc6 h2 Kd5 h1=R Ke4 Kh2 Kf3 Rg1 Rh4#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -4836,30 +5991,40 @@
    "underpromotion",
    "self-block",
    "nocheck",
-   "umnov",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/7R/6Rk/8/8/1p6/8/K7 b - - 0 1"
  },
  {
   "material": "KRRvkq",
   "pieces": 5,
-  "fen": "8/8/8/8/8/8/3q1R2/K3R2k b - - 0 1",
+  "fen": "8/8/8/8/8/8/5R2/K4Rqk b - - 0 1",
   "probe": "dtm=10 (h#5) count=1",
   "dtm": 10,
   "max_dtm": 14,
   "unique_at_depth": 219,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Qxe1+ Kb2 Kg1 Rc2 Qf2 Kc3 Kf1 Kd3 Ke1 Rc1#",
+  "solution": "Qxf1+ Kb2 Kg1 Rc2 Qf2 Kc3 Kf1 Kd3 Ke1 Rc1#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
    "self-block",
-   "kniest",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/8/8/8/8/3q1R2/K3R2k b - - 0 1"
  },
  {
   "material": "KRRvkr",
@@ -4879,7 +6044,12 @@
    "ideal",
    "mirror",
    "switchback"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRvkbb",
@@ -4897,7 +6067,12 @@
    "pure",
    "model",
    "mirror"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRvkbn",
@@ -4940,53 +6115,66 @@
     "mirror",
     "single-piece",
     "single-piece:black"
-   ]
-  }
+   ],
+   "quality": {
+    "capture_first": false,
+    "check": true,
+    "legal": true
+   }
+  },
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KRvkbp",
   "pieces": 5,
-  "fen": "8/8/6k1/6R1/8/pb6/8/K7 b - - 0 1",
+  "fen": "8/8/7k/6p1/6R1/8/8/K1b5 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 817,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kh7 Kb1 Bg8 Kc2 a2 Kd3 a1=R Ke4 Ra7 Kf5 Rg7 Rh5#",
+  "solution": "Kh5 Rxg5+ Kh4 Rh5+ Kg3 Kb1 Kf2 Kc2 Ke1 Kd3 Kd1 Rh1#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "promotion",
-   "underpromotion",
-   "self-block",
-   "nocapture",
-   "nocheck",
-   "promotions:r"
-  ]
+   "single-piece",
+   "single-piece:black",
+   "umnov"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/6k1/6R1/8/pb6/8/K7 b - - 0 1"
  },
  {
   "material": "KRvknn",
   "pieces": 5,
-  "fen": "8/8/5Rk1/8/8/2nn4/8/K7 b - - 0 1",
+  "fen": "8/8/7k/6R1/8/8/1n5n/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 38,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kg5 Rc6 Kf4 Rxc3 Ke3 Ka2 Kd2 Rxd3+ Kc1 Kb3 Kb1 Rd1#",
+  "solution": "Nd3 Kb1 Nf4 Kc2 Nh5 Kd3 Ng4 Ke4 Ngf6+ Kf5 Nh7 Rg6#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "mirror",
-   "single-piece",
-   "single-piece:black"
-  ]
+   "self-block",
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/5Rk1/8/8/2nn4/8/K7 b - - 0 1"
  },
  {
   "material": "KRvknp",
@@ -5008,7 +6196,12 @@
    "self-block",
    "nocapture",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRvkpp",
@@ -5028,7 +6221,12 @@
    "underpromotion",
    "umnov",
    "promotions:b"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRvkqb",
@@ -5059,7 +6257,13 @@
     "stipulation": "h#7 0.1...",
     "fen": "5b2/5q1K/8/3R4/8/2k5/8/8"
    }
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "published_by": "Sheglow (1998)"
  },
  {
   "material": "KRvkqn",
@@ -5078,19 +6282,24 @@
    "model",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KRvkqp",
   "pieces": 5,
-  "fen": "8/8/7k/6R1/8/1p6/8/qK6 w - - 0 1",
+  "fen": "6k1/5R2/8/8/8/1p6/2q5/1K6 w - - 0 1",
   "probe": "dtm=13 (h#6.5) count=1",
   "dtm": 13,
   "max_dtm": 15,
   "unique_at_depth": 17,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kxa1 Kh7 Kb2 Kh8 Kc3 b2 Kd4 b1=R Ke5 Rb8 Kf6 Rg8 Rh5#",
+  "solution": "Ka1 Qb2+ Kxb2 Kh8 Kc3 b2 Kd4 b1=R Ke5 Rh1 Kf6 Rh7 Rf8#",
   "extra_lines": 0,
   "themes": [
    "pure",
@@ -5099,10 +6308,15 @@
    "promotion",
    "underpromotion",
    "self-block",
-   "nocheck",
    "umnov",
    "promotions:r"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/7k/6R1/8/1p6/8/qK6 w - - 0 1"
  },
  {
   "material": "KRvkqq",
@@ -5123,7 +6337,12 @@
    "switchback",
    "self-block",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRvkqr",
@@ -5144,28 +6363,37 @@
    "switchback",
    "self-block",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRvkrb",
   "pieces": 5,
-  "fen": "8/3b4/6k1/6R1/8/8/3r4/K7 b - - 0 1",
+  "fen": "8/7k/8/6R1/8/b7/4r3/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 14,
   "unique_at_depth": 55,
   "plane_size": 121110528,
   "saturated_at_max": true,
-  "solution": "Kh7 Kb1 Rd6 Kc2 Rg6 Kd3 Be6 Ke4 Bg8 Kf5 Rg7 Rh5#",
+  "solution": "Bb2+ Ka2 Bg7+ Kb3 Kg8 Kc4 Kf8 Kd5 Be5 Ke6 Ke8 Rg8#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
-   "ideal",
-   "self-block",
-   "nocapture",
-   "nocheck"
-  ]
+   "mirror",
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/3b4/6k1/6R1/8/8/3r4/K7 b - - 0 1"
  },
  {
   "material": "KRvkrn",
@@ -5182,27 +6410,44 @@
   "themes": [
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KRvkrp",
   "pieces": 5,
-  "fen": "8/8/7k/8/8/8/p1r5/K6R b - - 0 1",
+  "fen": "8/8/7k/6R1/8/1p6/1r6/K7 b - - 0 1",
   "probe": "dtm=12 (h#6) count=1",
   "dtm": 12,
   "max_dtm": 15,
   "unique_at_depth": 175,
   "plane_size": 355074048,
   "saturated_at_max": true,
-  "solution": "Kg5 Rb1 Kf4 Rb2 Ke3 Kxa2 Kd2 Kb3 Kc1 Ra2 Rd2 Ra1#",
+  "solution": "Kh7 Kxb2 Kh8 Kc3 b2 Kd4 b1=R Ke5 Rb8 Kf6 Rg8 Rh5#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "pure",
    "model",
    "ideal",
+   "promotion",
+   "underpromotion",
    "self-block",
-   "nocheck"
-  ]
+   "phoenix",
+   "nocheck",
+   "umnov",
+   "promotions:r"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/8/7k/8/8/8/p1r5/K6R b - - 0 1"
  },
  {
   "material": "KRvkrr",
@@ -5223,7 +6468,12 @@
    "single-piece",
    "single-piece:black",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkbb",
@@ -5240,7 +6490,12 @@
   "themes": [
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBvkbn",
@@ -5258,7 +6513,12 @@
    "pure",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBBvknn",
@@ -5278,7 +6538,12 @@
    "ideal",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqbb",
@@ -5294,27 +6559,39 @@
   "extra_lines": 0,
   "themes": [
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqbn",
   "pieces": 6,
-  "fen": "8/8/1n6/3b4/q7/8/8/K1kB4 w - - 0 1",
+  "fen": "7n/8/2B5/3b4/8/2k5/2q5/1K6 w - - 0 1",
   "probe": "dtm=19 (h#9.5) count=1",
   "dtm": 19,
   "max_dtm": 25,
   "unique_at_depth": 90,
   "plane_size": 7751073792,
   "saturated_at_max": true,
-  "solution": "Bxa4 Kd2 Bb5 Kc3 Ba6 Kb4 Kb2 Ka5 Kc3 Nc8 Kd4 Kb6 Kxd5 Ka7 Kc6 Ka8 Kc7 Na7 Bb7#",
+  "solution": "Ka1 Kb4 Bb5 Qc5 Kb2 Bb3 Bc4 Ka4 Kc3 Qa3 Kd4 Ng6 Kd5 Nf4+ Kc6 Nd3 Kb6 Nb4 Bb5#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
    "ideal",
+   "switchback",
    "self-block",
-   "nocheck"
-  ]
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  },
+  "replaced_from": "8/8/1n6/3b4/q7/8/8/K1kB4 w - - 0 1"
  },
  {
   "material": "KBvkqnn",
@@ -5334,7 +6611,12 @@
    "ideal",
    "self-block",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqqb",
@@ -5350,7 +6632,12 @@
   "extra_lines": 0,
   "themes": [
    "self-block"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqqn",
@@ -5371,7 +6658,12 @@
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqrb",
@@ -5389,28 +6681,39 @@
    "switchback",
    "self-block",
    "umnov"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KBvkqrn",
   "pieces": 6,
-  "fen": "8/1q6/1n6/8/8/8/r7/KBk5 w - - 0 1",
+  "fen": "n7/8/4r3/8/8/5k2/2qB4/K7 w - - 0 1",
   "probe": "dtm=19 (h#9.5) count=1",
   "dtm": 19,
   "max_dtm": 25,
   "unique_at_depth": 394,
   "plane_size": 7751073792,
   "saturated_at_max": true,
-  "solution": "Kxa2 Kd2 Be4 Kc3 Bxb7 Kb4 Ba6 Ka5 Kb3 Nc8 Kc4 Kb6 Kd5 Ka7 Kc6 Ka8 Kc7 Na7 Bb7#",
+  "solution": "Be3 Qd1+ Kb2 Nc7 Kc3 Nb5+ Kc4 Nd4 Kd5 Rd6+ Ke5 Ke2 Kf4 Ke1 Kg3 Ne2+ Kg2 Rd2 Bf2#",
   "extra_lines": 0,
   "themes": [
+   "set-play",
    "pure",
    "model",
    "ideal",
-   "switchback",
    "self-block",
-   "nocheck"
-  ]
+   "nocapture"
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "8/1q6/1n6/8/8/8/r7/KBk5 w - - 0 1"
  },
  {
   "material": "KBvkrbb",
@@ -5428,47 +6731,61 @@
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": true,
+   "check": true,
+   "legal": true
+  }
  },
  {
   "material": "KNNvknn",
   "pieces": 6,
-  "fen": "7k/8/8/8/8/2n5/8/NKnN4 w - - 0 1",
+  "fen": "1k5n/8/8/8/8/6Nn/8/3K3N w - - 0 1",
   "probe": "dtm=13 (h#6.5) count=1",
   "dtm": 13,
   "max_dtm": 16,
   "unique_at_depth": 31,
   "plane_size": 7751073792,
   "saturated_at_max": true,
-  "solution": "Kb2 Kg7 Ka3 Kf6 Kb4 Ke5 Kc5 Nb3+ Kc6 Kd4 Nc2+ Kc4 Nb2#",
+  "solution": "Ke2 Kc7 Kf3 Kd6 Kg4 Ke5 Kh5 Kf4 Kh6 Kg4 Nf2+ Kh4 Nf5#",
   "extra_lines": 0,
   "themes": [
-   "pure",
-   "model",
-   "ideal",
-   "self-block",
+   "single-piece",
+   "single-piece:black",
    "nocapture"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "7k/8/8/8/8/2n5/8/NKnN4 w - - 0 1"
  },
  {
   "material": "KNvknnn",
   "pieces": 6,
-  "fen": "7k/8/8/8/8/8/1n6/KNn1n3 w - - 0 1",
+  "fen": "7k/8/1n6/8/8/8/8/KNn1n3 w - - 0 1",
   "probe": "dtm=17 (h#8.5) count=1",
   "dtm": 17,
   "max_dtm": 19,
   "unique_at_depth": 4,
   "plane_size": 7751073792,
   "saturated_at_max": true,
-  "solution": "Kxb2 Kg7 Kc3 Kf6 Kd2 Ke5 Kd1 Kd4 Nd2 Kc3 Kxe1 Kb2 Kd1 Ka1 Kc2 Na2 Nb3#",
+  "solution": "Kb2 Kg7 Kc3 Kf6 Kd2 Ke5 Kd1 Kd4 Nd2 Kc3 Kxe1 Kb2 Kd1 Ka1 Kc2 Na2 Nb3#",
   "extra_lines": 0,
   "themes": [
    "pure",
    "model",
-   "ideal",
    "switchback",
    "self-block",
    "nocheck"
-  ]
+  ],
+  "quality": {
+   "capture_first": false,
+   "check": false,
+   "legal": true
+  },
+  "replaced_from": "7k/8/8/8/8/8/1n6/KNn1n3 w - - 0 1"
  }
 ]

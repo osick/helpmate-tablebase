@@ -403,6 +403,24 @@ def stats_chapter(rows: list[dict], s: dict) -> list[str]:
     return L
 
 
+def quality_note(q: dict | None) -> str:
+    if not q:
+        return ""
+    if not q.get("legal", True):
+        return "the diagram has no legal last move, so it cannot arise in a game"
+    parts = []
+    if q.get("check"):
+        parts.append("the side to move is in check in the diagram")
+    if q.get("capture_first"):
+        parts.append("the solution begins with a capture")
+    return "; ".join(parts)
+
+
+def note_tex(q: dict | None) -> str:
+    n = quality_note(q)
+    return rf"\\[0.3em]\textit{{Note:}} {tex_escape(n)}." if n else ""
+
+
 def published_tex(pubs: list[dict]) -> str:
     parts = []
     for p in pubs:
@@ -429,6 +447,7 @@ def facts(r: dict) -> str:
         rf"{'have' if plural else 'has'} a unique solution at "
         rf"{tex_escape(hn(r['dtm']))}."
         + (published_tex(r["published"]) if r.get("published") else "")
+        + note_tex(r.get("quality"))
     )
 
 
@@ -439,7 +458,8 @@ def alternative_entry(r: dict, n: int) -> str:
     themes = a.get("themes") or []
     facts_b = (rf"\textbf{{{tex_escape(hn(r['dtm']))}}}, unique solution.\\[0.3em]"
                rf"Same material and stipulation as No.~{n}, which is published; "
-               rf"this position is not in the published database, under any mirroring.")
+               rf"this position is not in the published database, under any mirroring."
+               + note_tex(a.get("quality")))
     return "\\hmentry{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}" % (
         rf"No.~{n}b\quad {tex_escape(r['material'])}",
         f"{r['material']}-b",
@@ -479,13 +499,13 @@ def index_appendix(rows: list[dict]) -> list[str]:
         r"longest helpmate in that material at any solution count.",
         "",
         r"{\footnotesize",
-        r"\begin{longtable}{lrrrrr}",
+        r"\begin{longtable}{lrrrrlr}",
         r"\toprule",
-        r"material & men & sound & class max & gap & page \\",
+        r"material & men & sound & class max & gap & published by & page \\",
         r"\midrule",
         r"\endfirsthead",
         r"\toprule",
-        r"material & men & sound & class max & gap & page \\",
+        r"material & men & sound & class max & gap & published by & page \\",
         r"\midrule",
         r"\endhead",
         r"\bottomrule",
@@ -496,6 +516,7 @@ def index_appendix(rows: list[dict]) -> list[str]:
             rf"{r['material']} & {r['pieces']} & "
             rf"\textbf{{{tex_escape(hn(r['dtm']))}}} & "
             rf"{tex_escape(hn(r['max_dtm']))} & {r['max_dtm'] - r['dtm']} & "
+            rf"{tex_escape(r.get('published_by', ''))} & "
             rf"\pageref{{hm:{r['material']}}} \\"
         )
     L += [r"\end{longtable}", r"}", ""]

@@ -409,3 +409,26 @@ def test_booklet_entry_numbers_links_and_lists_themes(rows):
     assert tex.count("}{") == 8  # nine arguments
     assert "pure, model" in tex
     assert lib.helpman_url(r["fen"], r["dtm"]) in tex
+
+
+def test_markdown_index_has_a_published_by_column_and_cards_carry_notes(markdown, rows):
+    assert "| published by |" in markdown
+    for r in rows:
+        if r.get("published_by"):
+            assert f"| {r['published_by']} |" in markdown, r["material"]
+    render = _load("render_deepest")
+    r = dict(next(x for x in rows if x["material"] == "KQvk"))
+    r["quality"] = {"capture_first": True, "check": False, "legal": True}
+    assert "<b>Note:</b> the solution begins with a capture." in render.card(r, 1, "x.svg")
+    r["quality"] = {"capture_first": False, "check": False, "legal": True}
+    assert "<b>Note:</b>" not in render.card(r, 1, "x.svg")
+    r["quality"] = {"capture_first": False, "check": True, "legal": False}
+    assert "no legal last move" in render.card(r, 1, "x.svg")
+
+
+def test_booklet_index_has_a_published_by_column_and_entries_carry_notes(tex, rows):
+    assert r"material & men & sound & class max & gap & published by & page" in tex
+    booklet = _load("deepest_booklet")
+    r = dict(next(x for x in rows if x["material"] == "KQvk"))
+    r["quality"] = {"capture_first": True, "check": True, "legal": True}
+    assert r"\textit{Note:} the side to move is in check in the diagram; the solution begins with a capture." in booklet.entry(r, 1)
