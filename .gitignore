@@ -258,3 +258,6 @@ site/vendor/
 # rule above (lib/) would hide them, and did once -- the first Pages deploy failed
 # on a missing module.
 !site/js/lib/
+
+# published-problem databases used by tools/published_problems.py; not ours to redistribute
+sampledata/

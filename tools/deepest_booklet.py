@@ -403,6 +403,15 @@ def stats_chapter(rows: list[dict], s: dict) -> list[str]:
     return L
 
 
+def published_tex(pubs: list[dict]) -> str:
+    parts = []
+    for p in pubs:
+        src = "; ".join(p.get("sources") or []) or "source unknown"
+        stip = f", as {p['stipulation']}" if p.get("stipulation") else ""
+        parts.append(tex_escape(f"{p['author']} -- {src}{stip} ({p['id']})"))
+    return r"\\[0.3em]\textit{Published:} " + "; ".join(parts)
+
+
 def facts(r: dict) -> str:
     """The right-hand column of an entry: what the numbers say about it."""
     g = r["max_dtm"] - r["dtm"]
@@ -419,6 +428,28 @@ def facts(r: dict) -> str:
         rf"{num(r['unique_at_depth'])} position{plural}{of_total} "
         rf"{'have' if plural else 'has'} a unique solution at "
         rf"{tex_escape(hn(r['dtm']))}."
+        + (published_tex(r["published"]) if r.get("published") else "")
+    )
+
+
+def alternative_entry(r: dict, n: int) -> str:
+    """The unpublished sibling of a published problem, as its own entry."""
+    a = r["alternative"]
+    w, b = piece_counts(a["fen"])
+    themes = a.get("themes") or []
+    facts_b = (rf"\textbf{{{tex_escape(hn(r['dtm']))}}}, unique solution.\\[0.3em]"
+               rf"Same material and stipulation as No.~{n}, which is published; "
+               rf"this position is not in the published database, under any mirroring.")
+    return "\\hmentry{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}{%s}" % (
+        rf"No.~{n}b\quad {tex_escape(r['material'])}",
+        f"{r['material']}-b",
+        a["fen"],
+        tex_escape(hn(r["dtm"])),
+        facts_b,
+        tex_escape(numbered(a["solution"], r["dtm"])),
+        helpman_url(a["fen"], r["dtm"]),
+        f"{w} + {b}",
+        tex_escape(", ".join(themes)) if themes else r"\textit{none detected}",
     )
 
 
@@ -497,7 +528,10 @@ def build(rows: list[dict]) -> str:
             rf"with {n} men that can hold a mate, deepest sound problem first.",
             "",
         ]
-        L += [entry(r, nums[r["material"]]) for r in group]
+        for r in group:
+            L.append(entry(r, nums[r["material"]]))
+            if r.get("alternative"):
+                L.append(alternative_entry(r, nums[r["material"]]))
         L.append("")
 
     L += index_appendix(rows)

@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 version numbers follow [Semantic Versioning](https://semver.org/) (0.x: minor
 bumps may change behavior).
 
+## [Unreleased]
+
+### Added
+- **`tools/published_problems.py`: cross the DEEPEST showcase with a database
+  of published helpmates.** Parses the plain-text format (German piece
+  letters, one block per problem), matches positions under every mirroring
+  (all eight board symmetries when pawnless, the two that keep pawns moving
+  up otherwise), writes `published` (author, sources, stipulation, id) into
+  DEEPEST.json for every showcase entry the database contains, and for each
+  such entry asks the tablebase for an unpublished position of the same
+  material and depth with a unique solution, stored as `alternative` and
+  rendered as card "No. N b" in DEEPEST.md and the booklet. The database on
+  hand (8,952 problems, almost all h#2) contains none of the 234 showcase
+  problems, so the shipped documents are unchanged; the path is covered by
+  tests with a synthetic match. `sampledata/` is git-ignored.
+
 ## [0.19.0] - 2026-09-11
 
 ### Added
