@@ -216,7 +216,9 @@ def test_markdown_no_longer_links_to_lichess(markdown):
 
 
 def test_markdown_has_one_helpman_link_per_class(markdown, rows):
-    assert markdown.count("https://helpman.komtera.lt/?fen=") == len(rows)
+    # one link per class, plus one per unpublished sibling of a published problem
+    expected = len(rows) + sum(1 for r in rows if r.get("alternative"))
+    assert markdown.count("https://helpman.komtera.lt/?fen=") == expected
 
 
 def test_markdown_uses_svg_cards_not_ascii_diagrams(markdown, rows):
@@ -264,7 +266,8 @@ def test_booklet_draws_boards_with_the_chessboard_package(tex):
 
 
 def test_booklet_has_one_diagram_per_class(tex, rows):
-    assert tex.count("\\hmentry{") == len(rows)
+    expected = len(rows) + sum(1 for r in rows if r.get("alternative"))
+    assert tex.count("\\hmentry{") == expected
     for r in rows:
         assert r["fen"] in tex, r["material"]
 

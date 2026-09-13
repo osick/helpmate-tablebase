@@ -16,7 +16,10 @@ line between blocks::
     1.Tf4 Td1 2.Tbe4 Td3#
 
 Piece letters are German (K D T L S B = king queen rook bishop knight pawn;
-case is colour) and the board is given without side to move.
+case is colour) and the board is given without side to move. The file is
+Latin-1 with CRLF line ends, and umlauts in names and sources are written as
+TeX shorthands (`Jen"o`, `Teht"av"aniekat`, `Gla"s`); those are turned back
+into letters here.
 
 Two things happen for every DEEPEST entry:
 
@@ -51,6 +54,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from deepest_lib import hn  # noqa: E402
 
 GERMAN = {"K": "K", "D": "Q", "T": "R", "L": "B", "S": "N", "B": "P"}
+UMLAUTS = {'"a': "ä", '"o': "ö", '"u': "ü", '"A': "Ä", '"O': "Ö", '"U': "Ü", '"s': "ß"}
+
+
+def detex(text: str) -> str:
+    """`Ban, Jen"o` -> `Ban, Jenö`; `Gla"s` -> `Glaß`. Only the German
+    umlaut shorthands: anything else stays as written."""
+    for k, v in UMLAUTS.items():
+        text = text.replace(k, v)
+    return text
 BLOCK_HEAD = re.compile(r"No\.\s*(\d+)\s*\(id:\s*([^)]+)\)")
 BOARD_LINE = re.compile(r"[KDTLSBkdtlsb1-8/]+")
 PLAIN_STIP = re.compile(r"h#(\d+)(\.5)?\s*$")
@@ -90,15 +102,15 @@ def parse(text: str) -> list[Published]:
         m = BLOCK_HEAD.match(lines[0])
         if not m:
             continue
-        author = lines[1].strip() if len(lines) > 1 else ""
-        sources = [ln.split(":", 1)[1].strip() for ln in lines[2:]
+        author = detex(lines[1].strip()) if len(lines) > 1 else ""
+        sources = [detex(ln.split(":", 1)[1].strip()) for ln in lines[2:]
                    if ln.startswith("source")]
         board = next((ln.strip() for ln in lines[2:]
                       if BOARD_LINE.fullmatch(ln.strip()) and ln.count("/") == 7), None)
         if board is None:
             continue
-        stip = next((ln[len("stipulation:"):].strip() for ln in lines
-                     if ln.startswith("stipulation:")), "")
+        stip = detex(next((ln[len("stipulation:"):].strip() for ln in lines
+                           if ln.startswith("stipulation:")), ""))
         sol = block[block.find("solution:") + len("solution:"):].strip() if "solution:" in block else ""
         out.append(Published(m.group(1), m.group(2).strip(), author, sources,
                              german_to_english(board), stip, sol, block))
@@ -243,7 +255,7 @@ def main() -> int:
                     help="how many unique positions to scan for an alternative")
     a = ap.parse_args()
 
-    problems = parse(Path(a.published).read_text(encoding="utf-8", errors="replace"))
+    problems = parse(Path(a.published).read_text(encoding="latin-1"))
     index = PublishedIndex(problems)
     rows = json.loads(Path(a.data).read_text())
     print(f"{len(problems)} published problems indexed; {len(rows)} showcase entries",

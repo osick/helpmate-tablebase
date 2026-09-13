@@ -17,10 +17,13 @@ bumps may change behavior).
   DEEPEST.json for every showcase entry the database contains, and for each
   such entry asks the tablebase for an unpublished position of the same
   material and depth with a unique solution, stored as `alternative` and
-  rendered as card "No. N b" in DEEPEST.md and the booklet. The database on
-  hand (8,952 problems, almost all h#2) contains none of the 234 showcase
-  problems, so the shipped documents are unchanged; the path is covered by
-  tests with a synthetic match. `sampledata/` is git-ignored.
+  rendered as card "No. N b" in DEEPEST.md and the booklet. Against a
+  database of 23,807 published helpmates (h#2 to h#13), 26 of the 234
+  showcase problems turn out to be published (Sheglow, Elkies, Bán, Maslar,
+  Kotesovec, Paliulionis and others); they now carry their author and
+  source, and 16 of them are followed by an unpublished sibling of the same
+  material and stipulation. The database's TeX umlauts (`Jen"o`) are decoded.
+  `sampledata/` is git-ignored.
 
 ## [0.19.0] - 2026-09-11
 
