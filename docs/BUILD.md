@@ -344,6 +344,51 @@ pip install . ./src/packages/api ./src/packages/web
 (`helpmate-api` depends on `helpmate`, and nothing is published to PyPI yet,
 so installing out of order sends pip looking for the name upstream).
 
+### Virtual environments, and why `pipx install ./src/packages/api` fails
+
+A venv is the ordinary way to install the three distributions without
+touching the system Python. The order is the only thing that matters:
+
+```bash
+python3 -m venv ~/.venvs/helpmate && source ~/.venvs/helpmate/bin/activate
+make install        # pip install .  then  pip install ./src/packages/api ./src/packages/web
+```
+
+`pipx` is a reasonable thing to reach for, because `helpmate-api` ships two
+console scripts (`helpmate-server`, `helpmate-tables`). It fails on this
+repository unless you tell it about `helpmate`:
+
+```
+$ pipx install ./src/packages/api
+pip seemed to fail to build package: fastapi>=0.110
+ERROR: Could not find a version that satisfies the requirement
+       helpmate<0.20,>=0.19.0 (from helpmate-api) (from versions: none)
+```
+
+**The FastAPI line is a red herring.** pipx guesses at the culprit from
+where pip's output stopped, and pip happened to be collecting FastAPI when
+the resolution failed. The real message is the one below it: `from versions:
+none` means the index has no project of that name at all, because `helpmate`
+is built from this tree and is not on PyPI. pipx makes the usual fix
+insufficient: it puts every application in its **own** isolated venv, so a
+`helpmate` installed globally, or in the venv you happen to be standing in,
+is invisible to it.
+
+Install the root distribution into that same isolated venv first, with
+`--preinstall` (repeatable; take the dashboard too if you want
+`helpmate-server` to serve it):
+
+```bash
+pipx install ./src/packages/api \
+  --preinstall "$PWD" \
+  --preinstall "$PWD/src/packages/web"
+```
+
+That compiles the C++ core a second time, inside pipx's venv, which takes a
+few minutes and needs the same CMake and compiler as an ordinary build — and
+it re-runs `FetchContent`, so the hang described below applies here too
+(`GIT_CONFIG_GLOBAL=/dev/null pipx install …`).
+
 Packaging of `helpmate` itself is via scikit-build-core + pybind11 (build
 requirements are fetched from PyPI over HTTPS). `pip install` runs **its
 own** CMake configure with `-DHELPMATE_PYTHON=ON` — entirely separate from
