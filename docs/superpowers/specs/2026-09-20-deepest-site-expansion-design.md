@@ -105,22 +105,38 @@ filter at any depth, ships an empty `duals[]` and a note.
 
 Between two candidates:
 
-- `sol_dist` — Levenshtein distance over the SAN token lists, normalized by the
-  longer list's length.
-- `pos_dist` — the number of pieces not standing on the same square, counted as
-  a multiset difference over `(piece, square)` pairs.
+- `white_line` — the SAN tokens played by **White** alone. Which indices those
+  are depends on the side to move in the FEN: with Black to move (even dtm)
+  White plays the odd indices, with White to move (odd dtm) the even ones.
+- `sol_dist` — Levenshtein distance over the full SAN token lists, normalized
+  by the longer list's length.
+- `pos_dist` — the number of men not standing on the same square: the symmetric
+  difference over `(piece, square)` pairs, halved.
 
-Two candidates are **the same idea** when `sol_dist < 0.34` **and**
-`pos_dist <= 1`. Both conditions are required: a genuinely different position
-reached by the same manoeuvre is still a different problem, and so is the same
-position solved a different way.
+Two candidates are **the same idea** when their `white_line` is identical
+**and** `pos_dist <= 1`.
+
+The obvious rule — "`sol_dist` below some threshold" — was tried first and is
+wrong. Measured on KQvk's three positions, the pairs 1-2 and 2-3 score
+`sol_dist = 0.50`, above any threshold that does not also collapse genuinely
+different problems, because the black king shuffles h7/h8 in one order and
+h8/h7 in the other. White plays the identical `Kb2 Kc3 Kd4 Ke5 Kf6 Qg7#` in
+all three. In a helpmate Black's moves are the cooperative ones; the
+composition's content is White's manoeuvre and the mating picture, so White's
+line is the signal and the full line is noise.
+
+`pos_dist <= 1` is the necessary guard on the other side: the same white
+manoeuvre set up with two or more men elsewhere is a different problem, not a
+twin.
 
 Selection is greedy max-min:
 
 1. Seed with the candidate carrying a published attribution in
    `docs/DEEPEST.json`, if any; otherwise the first candidate in scan order.
 2. Repeatedly add the candidate whose minimum distance to the already-chosen
-   set is largest, where distance is `max(sol_dist, pos_dist_normalized)`.
+   set is largest, where distance between two candidates is
+   `max(white_line_dist, pos_dist / men)` — the normalized Levenshtein over
+   White's moves, against the fraction of men standing elsewhere.
 3. Stop at three, or when the best remaining candidate is the same idea as
    something already chosen.
 4. If fewer than three were chosen, append a note naming the reason and the
