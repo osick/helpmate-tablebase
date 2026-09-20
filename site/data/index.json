@@ -5,7 +5,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvk",
@@ -13,7 +13,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KNvk",
@@ -21,7 +21,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KPvk",
@@ -29,7 +29,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvk",
@@ -37,7 +37,7 @@
   "stipulation": "h#6",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvk",
@@ -45,7 +45,7 @@
   "stipulation": "h#4.5",
   "unique": 1,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "Kvkb",
@@ -53,7 +53,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkn",
@@ -61,7 +61,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkp",
@@ -69,7 +69,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkq",
@@ -77,7 +77,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkr",
@@ -85,7 +85,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBBvk",
@@ -93,7 +93,7 @@
   "stipulation": "h#6.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNvk",
@@ -101,7 +101,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPvk",
@@ -109,7 +109,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkb",
@@ -117,7 +117,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkn",
@@ -125,7 +125,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 0,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkp",
@@ -133,7 +133,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkq",
@@ -141,7 +141,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvkr",
@@ -149,7 +149,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KNNvk",
@@ -157,7 +157,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPvk",
@@ -165,7 +165,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkb",
@@ -173,7 +173,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkn",
@@ -181,7 +181,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkp",
@@ -189,7 +189,7 @@
   "stipulation": "h#8",
   "unique": 2,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkq",
@@ -197,7 +197,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KNvkr",
@@ -205,7 +205,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPvk",
@@ -213,7 +213,7 @@
   "stipulation": "h#7",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkb",
@@ -221,7 +221,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkn",
@@ -229,7 +229,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkp",
@@ -237,7 +237,7 @@
   "stipulation": "h#8.5",
   "unique": 1,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkq",
@@ -245,7 +245,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkr",
@@ -253,7 +253,7 @@
   "stipulation": "h#7.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBvk",
@@ -261,7 +261,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNvk",
@@ -269,7 +269,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPvk",
@@ -277,7 +277,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQvk",
@@ -285,7 +285,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRvk",
@@ -293,7 +293,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkb",
@@ -301,7 +301,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkn",
@@ -309,7 +309,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkp",
@@ -317,7 +317,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkq",
@@ -325,7 +325,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkr",
@@ -333,7 +333,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBvk",
@@ -341,7 +341,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNvk",
@@ -349,7 +349,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPvk",
@@ -357,7 +357,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRvk",
@@ -365,7 +365,7 @@
   "stipulation": "h#4",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkb",
@@ -373,7 +373,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkn",
@@ -381,7 +381,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkp",
@@ -389,7 +389,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkq",
@@ -397,7 +397,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkr",
@@ -405,7 +405,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "Kvkbb",
@@ -413,7 +413,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbn",
@@ -421,7 +421,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbp",
@@ -429,7 +429,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvknn",
@@ -437,7 +437,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvknp",
@@ -445,7 +445,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkpp",
@@ -453,7 +453,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqb",
@@ -461,7 +461,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqn",
@@ -469,7 +469,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqp",
@@ -477,7 +477,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqq",
@@ -485,7 +485,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqr",
@@ -493,7 +493,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrb",
@@ -501,7 +501,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrn",
@@ -509,7 +509,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrp",
@@ -517,7 +517,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrr",
@@ -525,7 +525,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBBBvk",
@@ -533,7 +533,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBNvk",
@@ -541,7 +541,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBPvk",
@@ -549,7 +549,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvkb",
@@ -557,7 +557,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvkn",
@@ -565,7 +565,7 @@
   "stipulation": "h#9",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvkp",
@@ -573,7 +573,7 @@
   "stipulation": "h#9",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvkq",
@@ -581,7 +581,7 @@
   "stipulation": "h#6.5",
   "unique": 2,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvkr",
@@ -589,7 +589,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNNvk",
@@ -597,7 +597,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNPvk",
@@ -605,7 +605,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNvkb",
@@ -613,7 +613,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNvkn",
@@ -621,7 +621,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNvkp",
@@ -629,7 +629,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNvkq",
@@ -637,7 +637,7 @@
   "stipulation": "h#7.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBNvkr",
@@ -645,7 +645,7 @@
   "stipulation": "h#7",
   "unique": 2,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPPvk",
@@ -653,7 +653,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPvkb",
@@ -661,7 +661,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPvkn",
@@ -669,7 +669,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPvkp",
@@ -677,7 +677,7 @@
   "stipulation": "h#10.5",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPvkq",
@@ -685,7 +685,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBPvkr",
@@ -693,7 +693,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkbb",
@@ -701,7 +701,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkbn",
@@ -709,7 +709,7 @@
   "stipulation": "h#9",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkbp",
@@ -717,7 +717,7 @@
   "stipulation": "h#11.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvknn",
@@ -725,7 +725,7 @@
   "stipulation": "h#9",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvknp",
@@ -733,7 +733,7 @@
   "stipulation": "h#9.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkpp",
@@ -741,7 +741,7 @@
   "stipulation": "h#9",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqb",
@@ -749,7 +749,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqn",
@@ -757,7 +757,7 @@
   "stipulation": "h#9.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqp",
@@ -765,7 +765,7 @@
   "stipulation": "h#12",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqq",
@@ -773,7 +773,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvkqr",
@@ -781,7 +781,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvkrb",
@@ -789,7 +789,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkrn",
@@ -797,7 +797,7 @@
   "stipulation": "h#9.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkrp",
@@ -805,7 +805,7 @@
   "stipulation": "h#13",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkrr",
@@ -813,7 +813,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KNNNvk",
@@ -821,7 +821,7 @@
   "stipulation": "h#6",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNPvk",
@@ -829,7 +829,7 @@
   "stipulation": "h#7",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNvkb",
@@ -837,7 +837,7 @@
   "stipulation": "h#6.5",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNvkn",
@@ -845,7 +845,7 @@
   "stipulation": "h#6.5",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNvkp",
@@ -853,7 +853,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNvkq",
@@ -861,7 +861,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNvkr",
@@ -869,7 +869,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPPvk",
@@ -877,7 +877,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPvkb",
@@ -885,7 +885,7 @@
   "stipulation": "h#7.5",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPvkn",
@@ -893,7 +893,7 @@
   "stipulation": "h#7.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPvkp",
@@ -901,7 +901,7 @@
   "stipulation": "h#9",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPvkq",
@@ -909,7 +909,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNPvkr",
@@ -917,7 +917,7 @@
   "stipulation": "h#7.5",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkbb",
@@ -925,7 +925,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkbn",
@@ -933,7 +933,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkbp",
@@ -941,7 +941,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvknn",
@@ -949,7 +949,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvknp",
@@ -957,7 +957,7 @@
   "stipulation": "h#8.5",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkpp",
@@ -965,7 +965,7 @@
   "stipulation": "h#9.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkqb",
@@ -973,7 +973,7 @@
   "stipulation": "h#9.5",
   "unique": 1,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkqn",
@@ -981,7 +981,7 @@
   "stipulation": "h#8",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkqp",
@@ -989,7 +989,7 @@
   "stipulation": "h#9.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkqq",
@@ -997,7 +997,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KNvkqr",
@@ -1005,7 +1005,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkrb",
@@ -1013,7 +1013,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkrn",
@@ -1021,7 +1021,7 @@
   "stipulation": "h#8.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkrp",
@@ -1029,7 +1029,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvkrr",
@@ -1037,7 +1037,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPPvk",
@@ -1045,7 +1045,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPvkb",
@@ -1053,7 +1053,7 @@
   "stipulation": "h#7.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPvkn",
@@ -1061,7 +1061,7 @@
   "stipulation": "h#7.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPvkp",
@@ -1069,7 +1069,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPvkq",
@@ -1077,7 +1077,7 @@
   "stipulation": "h#7.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPPvkr",
@@ -1085,7 +1085,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkbb",
@@ -1093,7 +1093,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkbn",
@@ -1101,7 +1101,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkbp",
@@ -1109,7 +1109,7 @@
   "stipulation": "h#9.5",
   "unique": 2,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvknn",
@@ -1117,7 +1117,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvknp",
@@ -1125,7 +1125,7 @@
   "stipulation": "h#9",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkpp",
@@ -1133,7 +1133,7 @@
   "stipulation": "h#10",
   "unique": 2,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkqb",
@@ -1141,7 +1141,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkqn",
@@ -1149,7 +1149,7 @@
   "stipulation": "h#8.5",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkqp",
@@ -1157,7 +1157,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkqq",
@@ -1165,7 +1165,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkqr",
@@ -1173,7 +1173,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkrb",
@@ -1181,7 +1181,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkrn",
@@ -1189,7 +1189,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkrp",
@@ -1197,7 +1197,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KPvkrr",
@@ -1205,7 +1205,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBBvk",
@@ -1213,7 +1213,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBNvk",
@@ -1221,7 +1221,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBPvk",
@@ -1229,7 +1229,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBvkb",
@@ -1237,7 +1237,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBvkn",
@@ -1245,7 +1245,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBvkp",
@@ -1253,7 +1253,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBvkq",
@@ -1261,7 +1261,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQBvkr",
@@ -1269,7 +1269,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNNvk",
@@ -1277,7 +1277,7 @@
   "stipulation": "h#7",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNPvk",
@@ -1285,7 +1285,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNvkb",
@@ -1293,7 +1293,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNvkn",
@@ -1301,7 +1301,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNvkp",
@@ -1309,7 +1309,7 @@
   "stipulation": "h#8",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNvkq",
@@ -1317,7 +1317,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQNvkr",
@@ -1325,7 +1325,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPPvk",
@@ -1333,7 +1333,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPvkb",
@@ -1341,7 +1341,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPvkn",
@@ -1349,7 +1349,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPvkp",
@@ -1357,7 +1357,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPvkq",
@@ -1365,7 +1365,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQPvkr",
@@ -1373,7 +1373,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQBvk",
@@ -1381,7 +1381,7 @@
   "stipulation": "h#3",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQNvk",
@@ -1389,7 +1389,7 @@
   "stipulation": "h#4",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQPvk",
@@ -1397,7 +1397,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQQvk",
@@ -1405,7 +1405,7 @@
   "stipulation": "h#2",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQRvk",
@@ -1413,7 +1413,7 @@
   "stipulation": "h#3",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQvkb",
@@ -1421,7 +1421,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQvkn",
@@ -1429,7 +1429,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQvkp",
@@ -1437,7 +1437,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQvkq",
@@ -1445,7 +1445,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQQvkr",
@@ -1453,7 +1453,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRBvk",
@@ -1461,7 +1461,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRNvk",
@@ -1469,7 +1469,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRPvk",
@@ -1477,7 +1477,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRRvk",
@@ -1485,7 +1485,7 @@
   "stipulation": "h#3",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRvkb",
@@ -1493,7 +1493,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRvkn",
@@ -1501,7 +1501,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRvkp",
@@ -1509,7 +1509,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRvkq",
@@ -1517,7 +1517,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQRvkr",
@@ -1525,7 +1525,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkbb",
@@ -1533,7 +1533,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkbn",
@@ -1541,7 +1541,7 @@
   "stipulation": "h#6",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkbp",
@@ -1549,7 +1549,7 @@
   "stipulation": "h#5.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvknn",
@@ -1557,7 +1557,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvknp",
@@ -1565,7 +1565,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkpp",
@@ -1573,7 +1573,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkqb",
@@ -1581,7 +1581,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkqn",
@@ -1589,7 +1589,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkqp",
@@ -1597,7 +1597,7 @@
   "stipulation": "h#6",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkqq",
@@ -1605,7 +1605,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkqr",
@@ -1613,7 +1613,7 @@
   "stipulation": "h#5.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkrb",
@@ -1621,7 +1621,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkrn",
@@ -1629,7 +1629,7 @@
   "stipulation": "h#5.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkrp",
@@ -1637,7 +1637,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KQvkrr",
@@ -1645,7 +1645,7 @@
   "stipulation": "h#4.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBBvk",
@@ -1653,7 +1653,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBNvk",
@@ -1661,7 +1661,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBPvk",
@@ -1669,7 +1669,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBvkb",
@@ -1677,7 +1677,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBvkn",
@@ -1685,7 +1685,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBvkp",
@@ -1693,7 +1693,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBvkq",
@@ -1701,7 +1701,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRBvkr",
@@ -1709,7 +1709,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNNvk",
@@ -1717,7 +1717,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNPvk",
@@ -1725,7 +1725,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNvkb",
@@ -1733,7 +1733,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNvkn",
@@ -1741,7 +1741,7 @@
   "stipulation": "h#8",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNvkp",
@@ -1749,7 +1749,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNvkq",
@@ -1757,7 +1757,7 @@
   "stipulation": "h#5.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRNvkr",
@@ -1765,7 +1765,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPPvk",
@@ -1773,7 +1773,7 @@
   "stipulation": "h#7",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPvkb",
@@ -1781,7 +1781,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPvkn",
@@ -1789,7 +1789,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPvkp",
@@ -1797,7 +1797,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPvkq",
@@ -1805,7 +1805,7 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRPvkr",
@@ -1813,7 +1813,7 @@
   "stipulation": "h#7",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRBvk",
@@ -1821,7 +1821,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRNvk",
@@ -1829,7 +1829,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRPvk",
@@ -1837,7 +1837,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRRvk",
@@ -1845,7 +1845,7 @@
   "stipulation": "h#3",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRvkb",
@@ -1853,7 +1853,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRvkn",
@@ -1861,7 +1861,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRvkp",
@@ -1869,7 +1869,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRvkq",
@@ -1877,7 +1877,7 @@
   "stipulation": "h#5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRRvkr",
@@ -1885,7 +1885,7 @@
   "stipulation": "h#6",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkbb",
@@ -1893,7 +1893,7 @@
   "stipulation": "h#6",
   "unique": 1,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkbn",
@@ -1901,7 +1901,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkbp",
@@ -1909,7 +1909,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvknn",
@@ -1917,7 +1917,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvknp",
@@ -1925,7 +1925,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkpp",
@@ -1933,7 +1933,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkqb",
@@ -1941,7 +1941,7 @@
   "stipulation": "h#6.5",
   "unique": 1,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkqn",
@@ -1949,7 +1949,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkqp",
@@ -1957,7 +1957,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkqq",
@@ -1965,7 +1965,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkqr",
@@ -1973,7 +1973,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkrb",
@@ -1981,7 +1981,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkrn",
@@ -1989,7 +1989,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkrp",
@@ -1997,7 +1997,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KRvkrr",
@@ -2005,7 +2005,7 @@
   "stipulation": "h#6",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "Kvkbbb",
@@ -2013,7 +2013,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbbn",
@@ -2021,7 +2021,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbbp",
@@ -2029,7 +2029,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbnn",
@@ -2037,7 +2037,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbnp",
@@ -2045,7 +2045,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkbpp",
@@ -2053,7 +2053,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvknnn",
@@ -2061,7 +2061,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvknnp",
@@ -2069,7 +2069,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvknpp",
@@ -2077,7 +2077,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkppp",
@@ -2085,7 +2085,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqbb",
@@ -2093,7 +2093,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqbn",
@@ -2101,7 +2101,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqbp",
@@ -2109,7 +2109,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqnn",
@@ -2117,7 +2117,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqnp",
@@ -2125,7 +2125,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqpp",
@@ -2133,7 +2133,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqqb",
@@ -2141,7 +2141,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqqn",
@@ -2149,7 +2149,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqqp",
@@ -2157,7 +2157,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqqq",
@@ -2165,7 +2165,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqqr",
@@ -2173,7 +2173,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqrb",
@@ -2181,7 +2181,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqrn",
@@ -2189,7 +2189,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqrp",
@@ -2197,7 +2197,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkqrr",
@@ -2205,7 +2205,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrbb",
@@ -2213,7 +2213,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrbn",
@@ -2221,7 +2221,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrbp",
@@ -2229,7 +2229,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrnn",
@@ -2237,7 +2237,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrnp",
@@ -2245,7 +2245,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrpp",
@@ -2253,7 +2253,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrrb",
@@ -2261,7 +2261,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrrn",
@@ -2269,7 +2269,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrrp",
@@ -2277,7 +2277,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "Kvkrrr",
@@ -2285,7 +2285,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBBvkbb",
@@ -2293,7 +2293,7 @@
   "stipulation": "h#8",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvkbn",
@@ -2301,7 +2301,7 @@
   "stipulation": "h#9",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBBvknn",
@@ -2309,7 +2309,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqbb",
@@ -2317,7 +2317,7 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqbn",
@@ -2325,7 +2325,7 @@
   "stipulation": "h#9.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqnn",
@@ -2333,7 +2333,7 @@
   "stipulation": "h#10",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqqb",
@@ -2341,7 +2341,7 @@
   "stipulation": "h#7.5",
   "unique": 3,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqqn",
@@ -2349,7 +2349,7 @@
   "stipulation": "h#9.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqqq",
@@ -2357,7 +2357,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvkqqr",
@@ -2365,7 +2365,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvkqrb",
@@ -2373,7 +2373,7 @@
   "stipulation": "h#7.5",
   "unique": 2,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqrn",
@@ -2381,7 +2381,7 @@
   "stipulation": "h#9.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KBvkqrr",
@@ -2389,7 +2389,7 @@
   "stipulation": null,
   "unique": 0,
   "duals": 0,
-  "has_table": false
+  "has_helpmate": false
  },
  {
   "material": "KBvkrbb",
@@ -2397,7 +2397,7 @@
   "stipulation": "h#8.5",
   "unique": 2,
   "duals": 2,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNNvknn",
@@ -2405,7 +2405,7 @@
   "stipulation": "h#6.5",
   "unique": 3,
   "duals": 3,
-  "has_table": true
+  "has_helpmate": true
  },
  {
   "material": "KNvknnn",
@@ -2413,6 +2413,6 @@
   "stipulation": "h#8.5",
   "unique": 3,
   "duals": 1,
-  "has_table": true
+  "has_helpmate": true
  }
 ]

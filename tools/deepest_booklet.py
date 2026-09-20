@@ -404,6 +404,11 @@ def stats_chapter(rows: list[dict], s: dict) -> list[str]:
 
 
 def quality_note(q: dict | None) -> str:
+    """What is wrong with a position as a problem, or empty.
+
+    Two other stdlib clones of this exact wording exist: tools/render_site.py
+    (_quality_note) and tools/render_deepest.py (quality_note, around line
+    52). Update all three together."""
     if not q:
         return ""
     if not q.get("legal", True):

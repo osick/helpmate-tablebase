@@ -79,7 +79,11 @@ def _quality_note(q: Optional[Dict]) -> str:
     importing it. That module does `import chess` at module scope, and the
     Pages workflow builds this site with node only -- no pip step, so
     python-chess is absent in CI. Importing it here would break the deploy.
-    Keep the two wordings in step."""
+    Keep the two wordings in step.
+
+    Two other stdlib clones of this exact wording exist: tools/render_deepest.py
+    (quality_note, around line 52) and tools/deepest_booklet.py (quality_note,
+    around line 406). Update all three together."""
     if not q:
         return ""
     if not q.get("legal", True):
@@ -169,19 +173,59 @@ def stats_html(doc: Dict) -> str:
 
 
 def _section(title: str, problems: List[Dict], empty: str,
-             offset: int = 0) -> str:
+             offset: int = 0, note: str = "") -> str:
+    note_html = f'<p class="note">{esc(note)}</p>' if note else ""
     if not problems:
-        return (f"<section><h2>{esc(title)}</h2><p class=\"empty\">"
+        return (f"<section><h2>{esc(title)}</h2>{note_html}<p class=\"empty\">"
                 f"{esc(empty)}</p></section>")
     body = "".join(problem_html(p, i + offset) for i, p in enumerate(problems,
                                                                       1))
-    return f"<section><h2>{esc(title)}</h2>{body}</section>"
+    return f"<section><h2>{esc(title)}</h2>{note_html}{body}</section>"
+
+
+def _attribute_notes(doc: Dict):
+    """Where each of `doc["notes"]` belongs.
+
+    `pick()` (tools/problem_picker.py) emits at most one note per call, and
+    only when it returned fewer than 3 problems -- so for a non-marker
+    material the attribution is deterministic: the first note belongs to the
+    unique section iff `len(doc["unique"]) < 3`, and the last belongs to the
+    dual section iff `len(doc["duals"]) < 3`. Verified against all 302
+    committed documents with zero violations.
+
+    Returns (unique_note, dual_note, floating_notes) -- exactly one of the
+    first two is non-empty, or `floating_notes` carries everything, never
+    both. A marker material (no helpmate at all: `deepest_unique_dtm is
+    None`) has exactly one note and no sections, so it always floats. A
+    mismatch between the note count and the invariant above also falls back
+    to floating everything together -- a wrong label is worse than an
+    unlabelled one."""
+    notes = doc.get("notes", [])
+    if doc["stats"]["deepest_unique_dtm"] is None:
+        return "", "", notes
+
+    unique_short = len(doc["unique"]) < 3
+    dual_short = len(doc["duals"]) < 3
+    expected = int(unique_short) + int(dual_short)
+    if len(notes) != expected:
+        return "", "", notes
+
+    idx = 0
+    unique_note = ""
+    dual_note = ""
+    if unique_short:
+        unique_note = notes[idx]
+        idx += 1
+    if dual_short:
+        dual_note = notes[idx]
+        idx += 1
+    return unique_note, dual_note, []
 
 
 def material_page(doc: Dict) -> str:
     s = doc["stats"]
-    notes = "".join(f'<p class="note">{esc(n)}</p>' for n in doc.get("notes",
-                                                                     []))
+    unique_note, dual_section_note, floating = _attribute_notes(doc)
+    notes = "".join(f'<p class="note">{esc(n)}</p>' for n in floating)
 
     dual_title = "Deepest dual problems"
     if (s["strict_dual_dtm"] is not None and
@@ -208,12 +252,14 @@ def material_page(doc: Dict) -> str:
   {stats_html(doc)}
   {notes}
   {_section("Deepest unique problems", doc["unique"],
-            "No unique solution exists at any depth in this material.")}
+            "No unique solution exists at any depth in this material.",
+            note=unique_note)}
   {considered}
   {dual_note}
   {_section(dual_title, doc["duals"],
             "No position in this material has exactly two solutions "
-            "differing in both their first and last move.", offset=10)}
+            "differing in both their first and last move.", offset=10,
+            note=dual_section_note)}
 </div>
 <script type="module" src="../js/static-board.js"></script>"""
     return page(doc["material"], body, depth=1,
@@ -222,6 +268,10 @@ def material_page(doc: Dict) -> str:
                              f'themes.'))
 
 
+ENGINE_THEME_ENTRIES = 30      # registry entries, including colour-specific
+                               # variants -- see docs/USAGE.md ("Thirty
+                               # registry entries cover twenty-six themes")
+ENGINE_THEMES = 26             # distinct theme names the engine can detect
 GLOSSARY_THEMES = 295          # named in the Helpmate Analyzer glossary
 
 
@@ -230,7 +280,7 @@ def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
     blocks = []
     for name in sorted(themes):
         entry = themes[name]
-        n = entry["count"]
+        n = len(entry["problems"])
         items = "".join(
             f'<li><a href="material/{esc(p["material"])}.html">'
             f'{esc(p["material"])}</a> · {esc(p["stipulation"])} '
@@ -242,12 +292,18 @@ def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
             f'{"problem" if n == 1 else "problems"}</span></h2>'
             f'<ul class="theme-problems">{items}</ul></section>')
 
-    with_table = sum(1 for r in index if r["has_table"])
-    lede = (f'<p class="lede">{len(themes)} themes across {len(index)} '
-            f'materials, {with_table} of which hold a helpmate. The Helpmate '
-            f'Analyzer glossary names {GLOSSARY_THEMES} themes; these are the '
-            f'ones this engine detects directly from the tables, so the list '
-            f'is short by design rather than incomplete.</p>')
+    with_helpmate = sum(1 for r in index if r["has_helpmate"])
+    # Three different numbers, deliberately not conflated: how many themes
+    # this site's problems happen to exhibit, how many the engine's registry
+    # can detect at all, and how many the glossary names in total.
+    lede = (f'<p class="lede">The {len(themes)} themes below are the ones '
+            f'that appear on the problems selected for this site, drawn from '
+            f'{len(index)} materials ({with_helpmate} of which hold a '
+            f'helpmate). The engine can detect {ENGINE_THEMES} themes '
+            f'({ENGINE_THEME_ENTRIES} registry entries, some colour-specific) '
+            f'directly from the tables; the Helpmate Analyzer glossary names '
+            f'{GLOSSARY_THEMES} in all, so this list is short by design '
+            f'rather than incomplete.</p>')
 
     toc = " ".join(f'<a href="#{esc(t)}">{esc(t)}</a>' for t in sorted(themes))
     body = (f'<div class="themes"><h1>Themes</h1>{lede}'

@@ -139,6 +139,34 @@ def test_a_flawed_problem_says_what_is_wrong():
     assert "the solution begins with a capture" in out
 
 
+# --- FIX 5: _quality_note is a deliberate clone of published_problems's
+# quality_note (see its docstring) -- untested branches would drift silently.
+
+def test_quality_note_illegal_diagram():
+    m = _load()
+    note = m._quality_note({"legal": False, "check": True, "capture_first": True})
+    assert note == "the diagram has no legal last move, so it cannot arise in a game"
+
+
+def test_quality_note_check_only():
+    m = _load()
+    note = m._quality_note({"legal": True, "check": True, "capture_first": False})
+    assert note == "the side to move is in check in the diagram"
+
+
+def test_quality_note_both_check_and_capture_first():
+    m = _load()
+    note = m._quality_note({"legal": True, "check": True, "capture_first": True})
+    assert note == ("the side to move is in check in the diagram; "
+                    "the solution begins with a capture")
+
+
+def test_quality_note_none_or_missing_quality():
+    m = _load()
+    assert m._quality_note(None) == ""
+    assert m._quality_note({}) == ""
+
+
 def test_author_names_are_escaped():
     m = _load()
     nasty = dict(PROBLEM, published_by='<script>alert(1)</script>',
@@ -231,6 +259,74 @@ def test_material_page_links_back_to_the_materials_directory():
     assert "../index.html#/materials" in m.material_page(DOC)
 
 
+# --- FIX 1: attributing doc["notes"] to the section each one describes ----
+#
+# pick() emits at most one note per call, and only when it returned fewer
+# than 3 problems -- verified against all 302 committed documents. So the
+# first note belongs to the unique section iff len(unique) < 3, and the last
+# belongs to the dual section iff len(duals) < 3.
+
+DOC_TWO_NOTES = dict(DOC, notes=["unique section note text",
+                                 "dual section note text"])
+
+DOC_ONLY_DUAL_SHORT = dict(
+    DOC, unique=[PROBLEM, PROBLEM, PROBLEM], duals=[DUAL],
+    notes=["the only note, for the dual section"])
+
+DOC_ONLY_UNIQUE_SHORT = dict(
+    DOC, unique=[PROBLEM], duals=[DUAL, DUAL, DUAL],
+    notes=["the only note, for the unique section"])
+
+DOC_NOTE_COUNT_MISMATCH = dict(
+    DOC, unique=[PROBLEM], duals=[DUAL, DUAL, DUAL],
+    notes=["stray note one", "stray note two"])   # expected 1, got 2
+
+
+def test_material_page_splits_two_notes_across_the_two_sections():
+    m = _load()
+    out = m.material_page(DOC_TWO_NOTES)
+    assert ('<h2>Deepest unique problems</h2>'
+            '<p class="note">unique section note text</p>') in out
+    assert ('<h2>Deepest dual problems</h2>'
+            '<p class="note">dual section note text</p>') in out
+
+
+def test_material_page_attributes_the_single_note_to_the_short_dual_section():
+    m = _load()
+    out = m.material_page(DOC_ONLY_DUAL_SHORT)
+    assert ('<h2>Deepest dual problems</h2>'
+            '<p class="note">the only note, for the dual section</p>') in out
+    assert '<h2>Deepest unique problems</h2><p class="note">' not in out
+
+
+def test_material_page_attributes_the_single_note_to_the_short_unique_section():
+    m = _load()
+    out = m.material_page(DOC_ONLY_UNIQUE_SHORT)
+    assert ('<h2>Deepest unique problems</h2>'
+            '<p class="note">the only note, for the unique section</p>') in out
+    assert '<h2>Deepest dual problems</h2><p class="note">' not in out
+
+
+def test_material_page_falls_back_to_floating_notes_on_a_count_mismatch():
+    """A wrong label is worse than an unlabelled one: when the note count
+    does not match the invariant, print them together, as before, rather
+    than mis-attributing one to a section."""
+    m = _load()
+    out = m.material_page(DOC_NOTE_COUNT_MISMATCH)
+    assert "stray note one" in out and "stray note two" in out
+    assert '<h2>Deepest unique problems</h2><p class="note">' not in out
+    assert '<h2>Deepest dual problems</h2><p class="note">' not in out
+    # Floating, above both sections -- same place today's code puts it.
+    assert out.index("stray note one") < out.index("<section>")
+
+
+def test_marker_material_floats_its_single_note_above_the_sections():
+    """A marker has exactly one note and no sections to attribute it to."""
+    m = _load()
+    out = m.material_page(MARKER)
+    assert out.index("No helpmate exists in this material.") < out.index("<section>")
+
+
 THEMES = {
     "model": {"count": 2, "problems": [
         {"material": "KQvk", "fen": "8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
@@ -245,9 +341,9 @@ THEMES = {
 }
 INDEX = [
     {"material": "KQvk", "pieces": 3, "stipulation": "h#6",
-     "unique": 1, "duals": 1, "has_table": True},
+     "unique": 1, "duals": 1, "has_helpmate": True},
     {"material": "Kvk", "pieces": 2, "stipulation": None,
-     "unique": 0, "duals": 0, "has_table": False},
+     "unique": 0, "duals": 0, "has_helpmate": False},
 ]
 
 
@@ -279,12 +375,31 @@ def test_themes_page_distinguishes_unique_from_dual_problems():
 
 
 def test_themes_page_says_how_many_themes_the_engine_implements():
-    """295 are named in the glossary; the engine implements far fewer. Saying
-    so keeps the short list from reading as a gap."""
+    """Three different numbers, none of which may be confused for another:
+    how many themes this site's problems show (2, from THEMES), how many the
+    engine's registry can detect (26), and how many the glossary names (295).
+    The old wording claimed the engine "detects directly from the tables"
+    only the ones shown here, which is false -- 24 is how many the selected
+    problems happen to exhibit, not the engine's ceiling."""
     m = _load()
     out = m.themes_page(THEMES, INDEX)
-    assert "295" in out
-    assert "2 themes" in out
+    assert "2 themes" in out           # this site's problems
+    assert "26 themes" in out          # the engine's registry
+    assert "295" in out                # the glossary
+    assert "30 registry entries" in out
+
+
+def test_themes_page_uses_the_actual_problem_count_not_the_stored_one():
+    """entry["count"] can drift from len(entry["problems"]) if something
+    upstream is wrong; the page must render what it is actually listing."""
+    m = _load()
+    themes = {"model": {"count": 99, "problems": [
+        {"material": "KQvk", "fen": "8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
+         "dtm": 12, "stipulation": "h#6", "kind": "unique"},
+    ]}}
+    out = m.themes_page(themes, INDEX)
+    assert "1 problem<" in out
+    assert "99" not in out
 
 
 def test_themes_page_counts_the_materials_it_covers():

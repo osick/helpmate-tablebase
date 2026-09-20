@@ -104,7 +104,7 @@ def test_theme_index_links_reach_a_material_page(server, browser):
 
 def test_a_marker_material_says_no_helpmate_exists(server, browser):
     index = json.loads((SITE / "data/index.json").read_text())
-    marker = next((r["material"] for r in index if not r["has_table"]), None)
+    marker = next((r["material"] for r in index if not r["has_helpmate"]), None)
     if marker is None:
         pytest.skip("no marker material in the index")
     page, bad_responses = _new_page_failing_on_error_responses(browser)
