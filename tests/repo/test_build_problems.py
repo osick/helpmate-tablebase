@@ -73,6 +73,26 @@ def _fake_run(outputs):
     return run
 
 
+def _fake_run_with_codes(responses):
+    """Stand in for subprocess.run, returning canned (returncode, stdout, stderr).
+
+    `responses` is a list of (returncode, stdout, stderr) tuples, consumed in
+    order. The argv of each call is recorded so the test can assert what was
+    asked of the binary."""
+    calls = []
+
+    def run(argv, capture_output=True, text=True, **kw):
+        calls.append(argv)
+        if responses:
+            code, out, err = responses.pop(0)
+        else:
+            code, out, err = 0, "", ""
+        return types.SimpleNamespace(returncode=code, stdout=out, stderr=err)
+
+    run.calls = calls
+    return run
+
+
 HEADER = '{"material":"KQvk","filter":{},"max":500}'
 FOOTER = '{"positions":1,"skipped_saturated":0}'
 ROW = ('{"fen":"8/8/7k/6Q1/8/8/8/K7 b - - 0 1","dtm":12,"count":1,'
@@ -129,3 +149,40 @@ def test_strict_dual_depth_returns_none_when_no_depth_yields(monkeypatch):
     monkeypatch.setattr(subprocess, "run", _fake_run([empty, empty]))
     depth, rows = m.strict_dual_depth("./build/helpmate", "/tb", "KQvk", STATS)
     assert depth is None and rows == []
+
+
+def test_run_jsonl_raises_on_nonzero_return_without_checksum_error(monkeypatch):
+    """Non-zero return code with non-checksum error fails immediately."""
+    m = _load()
+    import pytest
+    fake = _fake_run_with_codes([(1, "", "some other error")])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="some other error"):
+        m.run_jsonl("./build/helpmate", ["mine", "KQvk"], "/tb")
+    assert len(fake.calls) == 1
+
+
+def test_run_jsonl_raises_when_output_has_no_footer(monkeypatch):
+    """Header without footer (single line) indicates truncated scan."""
+    m = _load()
+    import pytest
+    fake = _fake_run_with_codes([(0, HEADER, "")])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="cut short"):
+        m.run_jsonl("./build/helpmate", ["mine", "KQvk"], "/tb")
+
+
+def test_run_jsonl_retries_on_checksum_and_raises_after_limit(monkeypatch):
+    """Checksum errors are retried; gives up after exhausting retries."""
+    m = _load()
+    import pytest
+    responses = [
+        (1, "", "checksum error: ..."),
+        (1, "", "checksum error: ..."),
+        (1, "", "checksum error: ..."),
+    ]
+    fake = _fake_run_with_codes(responses)
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="failed after 3 retries"):
+        m.run_jsonl("./build/helpmate", ["mine", "KQvk"], "/tb")
+    assert len(fake.calls) == 3
