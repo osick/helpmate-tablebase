@@ -457,20 +457,29 @@ python3 tools/build_problems.py --tables ~/tb [--binary ./build/helpmate] \
     [--out site/data] [--material NAME ...]
 ```
 
-Part 1 of this feature adds a `make site-data` wrapper around the same
-invocation; if that target isn't in the Makefile yet in your checkout, run
-the command directly.
+`make site-data` runs exactly this, with `TABLES` defaulting to `~/tb`;
+override it on the command line (`make site-data TABLES=/path/to/tables`)
+for a different corpus location.
 
 Needs a real corpus -- the full 302-table corpus is 576 GB on disk -- and
-takes roughly one to two hours. Per material, two calls to `helpmate mine
---jsonl --themes --solutions` find up to three deepest positions with a
-unique solution and up to three deepest positions with exactly two solutions
-that differ in both their first and last move (a "strict dual"); the depths
-themselves come from the stats sidecar's `uniqueness` map and are exact, so
-nothing needs scanning to find them. Output: one document per material at
-`site/data/material/<NAME>.json` (302 of them, including the 68 markers --
-material in which no helpmate exists) plus the two aggregate files
-`site/data/themes.json` and `site/data/index.json`.
+takes 80 minutes, measured on this machine for the full 302-material corpus.
+The cost is front-loaded: the sixteen six-piece tables dominate it at
+roughly 150 seconds each, five-piece tables average about 14 seconds, and
+four-piece and smaller are negligible. Materials are processed alphabetically
+and six-piece names sort first, so the run looks alarmingly slow for its
+first half hour before it accelerates -- that is normal, not a hang.
+
+Per material, two calls to `helpmate mine --jsonl --themes --solutions` find
+up to three deepest positions with a unique solution and up to three deepest
+positions with exactly two solutions that differ in both their first and
+last move (a "strict dual"); the depths themselves come from the stats
+sidecar's `uniqueness` map and are exact, so nothing needs scanning to find
+them. Output: one document per material at `site/data/material/<NAME>.json`
+(302 of them, including the 68 markers -- material in which no helpmate
+exists) plus the two aggregate files `site/data/themes.json` and
+`site/data/index.json`. The last full run reported `wrote 302 materials, 24
+themes, 0 failure(s)`; the committed data is 4.5 MB (302 documents at 3.5 MB,
+`themes.json` 968 KB, `index.json` 36 KB).
 
 `--material NAME` (repeatable) scopes a run to specific materials. A scoped
 run merges into the two aggregate files rather than replacing them -- each

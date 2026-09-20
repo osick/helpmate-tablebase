@@ -9,7 +9,7 @@ BOOKLET ?= build-booklet
 GCOV ?= gcov-13
 .PHONY: configure build test slowtest stress coverage clean jstest \
 	install install-dev install-bin uninstall-bin test-core test-cli test-api test-web test-bindings test-repo test-all \
-	lint typecheck format-check format docs-deepest booklet
+	lint typecheck format-check format docs-deepest site-data booklet
 configure:
 	cmake -S . -B $(BUILD)
 build: configure
