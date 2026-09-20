@@ -709,6 +709,7 @@ git commit -m "render_site: the corpus-wide theme index"
 ### Task 5: The board script for static pages
 
 **Files:**
+- Modify: `site/js/board.js` (add an `assetsUrl` option with the current value as its default)
 - Create: `site/js/static-board.js`
 - Test: `site/tests/static-board.test.js`
 
@@ -716,9 +717,30 @@ git commit -m "render_site: the corpus-wide theme index"
 - Consumes: `makeBoard` from `site/js/board.js`; the `data-fen` / `data-plies` attributes Task 2 emits.
 - Produces: a module that, on load, turns every `.board` into a cm-chessboard and wires a step-through control. Exports `parsePlies(el)` so the parsing is testable without a DOM.
 
-- [ ] **Step 1: Read the existing board module**
+- [ ] **Step 1: Teach `makeBoard` where its assets live**
 
-Run: `cat site/js/board.js` and note `makeBoard(element)`'s exact API — the material pages must use it the same way `front.js` and `deepest.js` do, not a second board implementation.
+`site/js/board.js:10` hardcodes `assetsUrl: "vendor/cm-chessboard/assets/"`. That is a **relative** URL with no `<base>` tag in play, so it resolves against the document's own path. It is correct for `index.html` at the site root and wrong for `material/KQvk.html`, where it would resolve to `material/vendor/...` — every piece sprite 404s and every board on all 302 material pages renders empty.
+
+Give the option a seam, keeping the current value as the default so the SPA is untouched:
+
+```javascript
+export function makeBoard(el, { input = false, assetsUrl = "vendor/cm-chessboard/assets/" } = {}) {
+  const board = new Chessboard(el, {
+    position: "8/8/8/8/8/8/8/8",
+    assetsUrl,
+    style: { borderType: BORDER_TYPE.none },
+    extensions: input ? [{ class: PromotionDialog }] : [],
+  });
+```
+
+Everything else in `makeBoard` stays exactly as it is. `front.js`, `deepest.js` and `puzzles.js` call it without the new option and keep working unchanged.
+
+Then note `makeBoard`'s remaining API — `show(fen, jump)`, `enableInput`, `disableInput` — the material pages use it the same way the SPA screens do, never a second board implementation.
+
+- [ ] **Step 1b: Verify the SPA still works before moving on**
+
+Run: `node --check site/js/board.js && make test-site`
+Expected: passes. The default argument means this change is a no-op for every existing caller.
 
 - [ ] **Step 2: Write the failing test**
 
@@ -768,7 +790,9 @@ export function parsePlies(el) {
 function wire(el) {
   const fen = el.dataset.fen;
   const lines = parsePlies(el);
-  const board = makeBoard(el);
+  // These pages live one directory down, so the sprites are up a level. The
+  // SPA at the site root keeps makeBoard's default.
+  const board = makeBoard(el, { assetsUrl: "../vendor/cm-chessboard/assets/" });
   board.show(fen, true);
   if (!lines.length) return;
 
