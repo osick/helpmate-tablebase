@@ -267,3 +267,7 @@ sampledata/
 # committed -- 302 files of generated markup would swamp every diff.
 site/material/
 site/themes.html
+
+# Superpowers SDD scratch: ledgers, briefs, review diffs. Working notes for
+# an in-flight plan, not project history -- git log is the record.
+.superpowers/
