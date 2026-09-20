@@ -23,10 +23,7 @@ from __future__ import annotations
 
 import html
 import json
-from pathlib import Path
-from typing import Dict, Optional
-
-ROOT = Path(__file__).resolve().parents[1]
+from typing import Dict, List, Optional
 
 
 def esc(value) -> str:
@@ -137,3 +134,86 @@ def problem_html(p: Dict, n: int) -> str:
     {attribution_html(p)}
   </div>
 </article>"""
+
+
+def stipulation(dtm: Optional[int]) -> str:
+    """`h#n` from a ply distance. Odd dtm means White to move: the .5 case."""
+    if dtm is None:
+        return "—"
+    return f"h#{dtm // 2}" if dtm % 2 == 0 else f"h#{dtm // 2}.5"
+
+
+def _num(n) -> str:
+    return "—" if n is None else f"{n:,}"
+
+
+def stats_html(doc: Dict) -> str:
+    s = doc["stats"]
+    rows = [
+        ("longest mate", stipulation(s["max_dtm"])),
+        ("deepest unique", stipulation(s["deepest_unique_dtm"])),
+        ("positions at that depth", _num(s["unique_at_depth"])),
+        ("deepest dual", stipulation(s["deepest_dual_dtm"])),
+        ("deepest strict dual", stipulation(s["strict_dual_dtm"])),
+        ("positions with a helpmate", _num(s["solvable"])),
+        ("with a unique solution", _num(s["unique"])),
+        ("cells in the plane", _num(s["plane_size"])),
+        ("on disk", _num(s["size_bytes"]) + " bytes"),
+    ]
+    cells = "".join(f"<div><dd>{esc(v)}</dd><dt>{esc(k)}</dt></div>" for k, v in
+                    rows)
+    return f'<dl class="numbers">{cells}</dl>'
+
+
+def _section(title: str, problems: List[Dict], empty: str,
+             offset: int = 0) -> str:
+    if not problems:
+        return (f"<section><h2>{esc(title)}</h2><p class=\"empty\">"
+                f"{esc(empty)}</p></section>")
+    body = "".join(problem_html(p, i + offset) for i, p in enumerate(problems,
+                                                                      1))
+    return f"<section><h2>{esc(title)}</h2>{body}</section>"
+
+
+def material_page(doc: Dict) -> str:
+    s = doc["stats"]
+    notes = "".join(f'<p class="note">{esc(n)}</p>' for n in doc.get("notes",
+                                                                     []))
+
+    dual_title = "Deepest dual problems"
+    if (s["strict_dual_dtm"] is not None and
+            s["deepest_dual_dtm"] != s["strict_dual_dtm"]):
+        dual_note = (f'<p class="note">Deepest dual with different first and '
+                     f'last moves: {stipulation(s["strict_dual_dtm"])}. The '
+                     f'deepest dual overall is '
+                     f'{stipulation(s["deepest_dual_dtm"])}, where the two '
+                     f'solutions share a first or a last move.</p>')
+    else:
+        dual_note = ""
+
+    considered = ""
+    if doc.get("candidates_total", 0) > doc.get("candidates_considered", 0):
+        considered = (f'<p class="note">Chosen from the first '
+                      f'{_num(doc["candidates_considered"])} of '
+                      f'{_num(doc["candidates_total"])} positions at this '
+                      f'depth.</p>')
+
+    body = f"""<div class="material">
+  <p class="crumb"><a href="../index.html#/materials">← all materials</a></p>
+  <h1>{esc(doc["material"])}</h1>
+  <p class="lede">{esc(doc["pieces"])} pieces.</p>
+  {stats_html(doc)}
+  {notes}
+  {_section("Deepest unique problems", doc["unique"],
+            "No unique solution exists at any depth in this material.")}
+  {considered}
+  {dual_note}
+  {_section(dual_title, doc["duals"],
+            "No position in this material has exactly two solutions "
+            "differing in both their first and last move.", offset=10)}
+</div>
+<script type="module" src="../js/static-board.js"></script>"""
+    return page(doc["material"], body, depth=1,
+                description=(f'The deepest helpmate problems in '
+                             f'{doc["material"]}, with their solutions and '
+                             f'themes.'))

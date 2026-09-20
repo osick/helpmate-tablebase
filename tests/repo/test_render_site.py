@@ -144,3 +144,68 @@ def test_author_names_are_escaped():
                  published=[{"id": "x", "author": "a", "sources": ["s"]}])
     assert "<script>" not in m.attribution_html(nasty)
     assert "&lt;script&gt;" in m.attribution_html(nasty)
+
+
+DOC = {
+    "material": "KQvk", "pieces": 3,
+    "stats": {"max_dtm": 14, "deepest_unique_dtm": 12, "unique_at_depth": 3,
+              "deepest_dual_dtm": 10, "strict_dual_dtm": 7, "plane_size": 29568,
+              "solvable": 45723, "unique": 3064, "size_bytes": 71647,
+              "saturated_at_max": True, "dtm_histogram": {}},
+    "unique": [PROBLEM], "duals": [DUAL],
+    "notes": ["Only one distinct idea exists at this depth: 3 positions share a solution."],
+    "candidates_considered": 3, "candidates_total": 3,
+}
+
+MARKER = {
+    "material": "Kvk", "pieces": 2,
+    "stats": {"max_dtm": None, "deepest_unique_dtm": None, "unique_at_depth": 0,
+              "deepest_dual_dtm": None, "strict_dual_dtm": None, "plane_size": 462,
+              "solvable": 0, "unique": 0, "size_bytes": 466,
+              "saturated_at_max": False, "dtm_histogram": {}},
+    "unique": [], "duals": [],
+    "notes": ["No helpmate exists in this material."],
+    "candidates_considered": 0, "candidates_total": 0,
+}
+
+
+def test_material_page_shows_both_problem_classes():
+    m = _load()
+    out = m.material_page(DOC)
+    assert "KQvk" in out
+    assert "Deepest unique" in out and "Deepest dual" in out
+    assert out.count('class="problem"') == 2
+
+
+def test_material_page_prints_the_notes_verbatim():
+    m = _load()
+    out = m.material_page(DOC)
+    assert "Only one distinct idea exists at this depth" in out
+
+
+def test_material_page_states_both_dual_depths_because_they_differ():
+    """The strict dual is usually shallower than the deepest dual; say so."""
+    m = _load()
+    out = m.material_page(DOC)
+    assert "h#3.5" in out          # strict_dual_dtm 7
+    assert "h#5" in out            # deepest_dual_dtm 10
+
+
+def test_marker_material_gets_a_page_saying_no_helpmate_exists():
+    m = _load()
+    out = m.material_page(MARKER)
+    assert "No helpmate exists in this material." in out
+    assert 'class="problem"' not in out
+    assert out.startswith("<!doctype html>")
+
+
+def test_stats_html_formats_numbers_with_separators():
+    m = _load()
+    out = m.stats_html(DOC)
+    assert "45,723" in out
+    assert "3,064" in out
+
+
+def test_material_page_links_back_to_the_materials_directory():
+    m = _load()
+    assert "../index.html#/materials" in m.material_page(DOC)
