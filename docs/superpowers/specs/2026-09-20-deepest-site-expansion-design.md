@@ -236,12 +236,19 @@ Also written:
   stipulation, kind}]}}`, where `kind` is `"unique"` or `"dual"`.
 - `site/data/index.json` — one slim row per material for the front page and the
   material list: material, pieces, deepest stipulation, problem counts, whether
-  a table exists.
+  a helpmate exists (`has_helpmate`; every material has a table, so this is not
+  "whether a table exists" -- it is derived from `solvable != 0`, not from
+  `deepest_unique_dtm`, so a material with helpmates but no unique solution is
+  never mislabelled).
 
 ### Validation before writing
 
 Every selected problem is re-probed and must report the dtm, count, starts and
-ends the entry claims. Every solution is replayed with python-chess and must
+ends the entry claims. Two commands discharge this, both independent of
+`mine`: `helpmate probe FEN` for dtm and count, and `helpmate line FEN --all`
+for count (again), starts and ends — the number of lines it prints, the
+number of distinct first moves across them, and the number of distinct last
+moves. Every solution is replayed with python-chess and must
 end in checkmate — `build_site_data.expand_solution` already raises on an
 illegal, ambiguous or non-mating line, and that behaviour is reused unchanged.
 A material failing either check is reported and **excluded**, never shipped

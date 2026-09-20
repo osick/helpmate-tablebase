@@ -193,6 +193,21 @@ def test_run_jsonl_retries_on_checksum_and_raises_after_limit(monkeypatch):
 
 pytest.importorskip("chess")
 
+PROBE_OUT = "dtm=13 (h#6.5) count=1\n"
+LINE_OUT = ("e3 Kf7 e4 Ke6 e5 Kd5 e6 Kc4 e7 Kb3 e8=Q Ka2 Qa4#\n")
+
+
+def _fake_probe_and_line(probe_out, line_out):
+    """Stand in for subprocess.run during problem_record: the first call is
+    `probe`, the second `line --all`."""
+    outputs = [probe_out, line_out]
+
+    def run(argv, capture_output=True, text=True, **kw):
+        out = outputs.pop(0) if outputs else ""
+        return types.SimpleNamespace(returncode=0, stdout=out, stderr="")
+    return run
+
+
 DEEPEST_ROW = {
     "material": "KPvk",
     "fen": "6k1/8/8/8/8/8/4P3/2K5 w - - 0 1",
@@ -210,37 +225,102 @@ def test_attribution_is_keyed_by_fen():
     assert a["6k1/8/8/8/8/8/4P3/2K5 w - - 0 1"]["published_by"] == "Niemann (1947)"
 
 
-def test_problem_record_carries_attribution_over_by_fen():
+def test_problem_record_carries_attribution_over_by_fen(monkeypatch):
     m = _load()
+    monkeypatch.setattr(subprocess, "run", _fake_probe_and_line(PROBE_OUT, LINE_OUT))
     cand = {"fen": DEEPEST_ROW["fen"], "dtm": 13, "count": 1, "starts": 1, "ends": 1,
             "themes": ["model"],
             "solutions": [["e3", "Kf7", "e4", "Ke6", "e5", "Kd5", "e6", "Kc4",
                            "e7", "Kb3", "e8=Q", "Ka2", "Qa4#"]]}
-    rec = m.problem_record(cand, m.attribution([DEEPEST_ROW]))
+    rec = m.problem_record("./build/helpmate", "/tb", cand, m.attribution([DEEPEST_ROW]))
     assert rec["published_by"] == "Niemann (1947)"
     assert rec["stipulation"] == "h#6.5"
     assert rec["solutions"][0][0] == {"san": "e3", "uci": "e2e3",
                                       "fen": "6k1/8/8/8/8/4P3/8/2K5 b - - 0 1"}
 
 
-def test_problem_record_recomputes_quality_for_a_new_position():
+def test_problem_record_recomputes_quality_for_a_new_position(monkeypatch):
     """Most problems have no DEEPEST.json row to carry quality from."""
     m = _load()
+    monkeypatch.setattr(subprocess, "run", _fake_probe_and_line(PROBE_OUT, LINE_OUT))
     cand = {"fen": DEEPEST_ROW["fen"], "dtm": 13, "count": 1, "starts": 1, "ends": 1,
             "themes": [],
             "solutions": [["e3", "Kf7", "e4", "Ke6", "e5", "Kd5", "e6", "Kc4",
                            "e7", "Kb3", "e8=Q", "Ka2", "Qa4#"]]}
-    rec = m.problem_record(cand, {})          # no attribution at all
+    rec = m.problem_record("./build/helpmate", "/tb", cand, {})   # no attribution at all
     assert rec["published"] is None and rec["published_by"] is None
     assert rec["quality"] == {"capture_first": False, "check": False, "legal": True}
 
 
-def test_problem_record_rejects_a_line_that_does_not_mate():
+def test_problem_record_rejects_a_line_that_does_not_mate(monkeypatch):
     m = _load()
+    # Reprobe must agree with the (bogus) claim so the mate check is what fails.
+    monkeypatch.setattr(subprocess, "run", _fake_probe_and_line(
+        "dtm=2 (h#1) count=1\n", "Kh6 Qg5\n"))
     cand = {"fen": "8/7k/5K2/8/8/8/8/6Q1 b - - 0 1", "dtm": 2, "count": 1,
             "starts": 1, "ends": 1, "themes": [], "solutions": [["Kh6", "Qg5"]]}
     with pytest.raises(ValueError, match="does not end in checkmate"):
-        m.problem_record(cand, {})
+        m.problem_record("./build/helpmate", "/tb", cand, {})
+
+
+def test_reprobe_passes_when_probe_agrees(monkeypatch):
+    m = _load()
+    fake = _fake_run(["dtm=12 (h#6) count=1\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    m.reprobe("./build/helpmate", "/tb", "fen", 12, 1)          # does not raise
+
+
+def test_reprobe_raises_when_dtm_disagrees(monkeypatch):
+    m = _load()
+    fake = _fake_run(["dtm=11 (h#5.5) count=1\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="dtm"):
+        m.reprobe("./build/helpmate", "/tb", "fen", 12, 1)
+
+
+def test_reprobe_raises_when_count_disagrees(monkeypatch):
+    m = _load()
+    fake = _fake_run(["dtm=12 (h#6) count=2\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="count"):
+        m.reprobe("./build/helpmate", "/tb", "fen", 12, 1)
+
+
+def test_reprobe_lines_passes_when_line_all_agrees(monkeypatch):
+    m = _load()
+    fake = _fake_run(["Qa2 Kf3 Kb2 Ke2 Kc3+ Kd1 Qd2#\nQc4 Kf2 Kb2 Ke1 Kc3 Kd1 Qf1#\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    m.reprobe_lines("./build/helpmate", "/tb", "fen", 2, 2, 2)  # does not raise
+    argv = fake.calls[0]
+    assert argv[1:4] == ["line", "fen", "--all"]
+    assert "--max" in argv and argv[argv.index("--max") + 1] == "infinity"
+
+
+def test_reprobe_lines_raises_on_starts_mismatch(monkeypatch):
+    """Both lines start with the same move, so starts is really 1, not 2."""
+    m = _load()
+    fake = _fake_run(["Qa2 Kf3 Kb2 Ke2 Kc3+ Kd1 Qd2#\nQa2 Kf2 Kb2 Ke1 Kc3 Kd1 Qf1#\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="starts"):
+        m.reprobe_lines("./build/helpmate", "/tb", "fen", 2, 2, 2)
+
+
+def test_reprobe_lines_raises_on_ends_mismatch(monkeypatch):
+    """Both lines end with the same move, so ends is really 1, not 2."""
+    m = _load()
+    fake = _fake_run(["Qa2 Kf3 Kb2 Ke2 Kc3+ Kd1 Qd2#\nQc4 Kf2 Kb2 Ke1 Kc3 Kd1 Qd2#\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="ends"):
+        m.reprobe_lines("./build/helpmate", "/tb", "fen", 2, 2, 2)
+
+
+def test_reprobe_lines_raises_on_count_mismatch(monkeypatch):
+    """mine claimed count=2 but line --all printed only one line."""
+    m = _load()
+    fake = _fake_run(["Qa2 Kf3 Kb2 Ke2 Kc3+ Kd1 Qd2#\n"])
+    monkeypatch.setattr(subprocess, "run", fake)
+    with pytest.raises(RuntimeError, match="count"):
+        m.reprobe_lines("./build/helpmate", "/tb", "fen", 2, 2, 2)
 
 
 def test_saturated_at_max_is_false_for_a_marker():
@@ -274,6 +354,23 @@ def test_build_material_on_a_marker_reports_no_helpmate_without_mining(monkeypat
     assert doc["stats"]["deepest_unique_dtm"] is None
 
 
+def test_build_material_does_not_claim_no_helpmate_when_solvable_is_nonzero(monkeypatch):
+    """The marker note is derived from row['solvable'], not from
+    deepest_unique_dtm being None. A material with helpmates but no unique
+    solution anywhere must not falsely publish 'No helpmate exists'."""
+    m = _load()
+    stats_no_unique = {"material": "KQvk", "max_dtm": 14, "plane_size": 29568,
+                       "uniqueness": {"wtm": {"7": {"2": 3}}, "btm": {"10": {"2": 4}}}}
+    row = {"material": "KQvk", "pieces": 3, "max_dtm": 14,
+          "solvable": 45723, "unique": 0, "size_bytes": 71647}
+    monkeypatch.setattr(m, "mine", lambda *a, **k: [])
+    monkeypatch.setattr(m, "strict_dual_depth", lambda *a, **k: (None, []))
+    doc = m.build_material("./build/helpmate", "/tb", "KQvk", stats_no_unique, row, {})
+    assert doc["notes"] != ["No helpmate exists in this material."]
+    assert doc["stats"]["deepest_unique_dtm"] is None      # still true and still reported
+    assert doc["stats"]["solvable"] == 45723
+
+
 def test_build_material_records_both_dual_depths(monkeypatch):
     m = _load()
     cand = {"fen": "8/8/7k/6Q1/8/8/8/K7 b - - 0 1", "dtm": 12, "count": 1,
@@ -284,7 +381,7 @@ def test_build_material_records_both_dual_depths(monkeypatch):
             "solutions": [["Qf3", "Kh4", "Qh3#"], ["Qg7", "Kh4", "Qh6#"]]}
     monkeypatch.setattr(m, "mine", lambda *a, **k: [cand])
     monkeypatch.setattr(m, "strict_dual_depth", lambda *a, **k: (7, [dual]))
-    monkeypatch.setattr(m, "problem_record", lambda c, a: dict(c, stipulation="x"))
+    monkeypatch.setattr(m, "problem_record", lambda b, t, c, a: dict(c, stipulation="x"))
     doc = m.build_material("./build/helpmate", "/tb", "KQvk", STATS, MATERIAL_ROW, {})
     assert doc["stats"]["deepest_unique_dtm"] == 12
     assert doc["stats"]["deepest_dual_dtm"] == 10      # from the sidecar
@@ -305,12 +402,12 @@ def test_merge_index_replaces_processed_rows_and_keeps_others():
     m = _load()
     existing = [
         {"material": "KPvk", "pieces": 3, "stipulation": "h#6.5",
-         "unique": 1, "duals": 1, "has_table": True},
+         "unique": 1, "duals": 1, "has_helpmate": True},
         {"material": "KQvk", "pieces": 3, "stipulation": "h#2.5",
-         "unique": 3, "duals": 2, "has_table": True},          # stale
+         "unique": 3, "duals": 2, "has_helpmate": True},          # stale
     ]
     fresh = [{"material": "KQvk", "pieces": 3, "stipulation": "h#6",
-              "unique": 1, "duals": 1, "has_table": True}]
+              "unique": 1, "duals": 1, "has_helpmate": True}]
     merged = m.merge_index(existing, fresh, {"KQvk"})
     assert [r["material"] for r in merged] == ["KPvk", "KQvk"]     # sorted, no dupes
     kqvk = next(r for r in merged if r["material"] == "KQvk")
@@ -358,9 +455,9 @@ def test_main_merges_a_scoped_run_into_an_existing_index_and_themes(tmp_path, mo
     (out / "materials.json").write_text(json.dumps([MATERIAL_ROW]))
     (out / "index.json").write_text(json.dumps([
         {"material": "KPvk", "pieces": 3, "stipulation": "h#6.5",
-         "unique": 1, "duals": 1, "has_table": True},
+         "unique": 1, "duals": 1, "has_helpmate": True},
         {"material": "KQvk", "pieces": 3, "stipulation": "h#2.5",
-         "unique": 3, "duals": 2, "has_table": True},          # stale, must be replaced
+         "unique": 3, "duals": 2, "has_helpmate": True},          # stale, must be replaced
     ]))
     (out / "themes.json").write_text(json.dumps({
         "model": {"count": 2, "problems": [
