@@ -9,6 +9,20 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Added
+- **A page per material on the static showcase, and a corpus-wide theme
+  index.** `tools/build_problems.py` (run by hand against a corpus, output
+  committed) finds, per material, up to three deepest positions with a
+  unique solution and up to three deepest positions with exactly two
+  solutions that differ in both their first and last move (a "strict dual"),
+  with every problem's themes attached. `tools/render_site.py` (run by
+  `make site`, standard library only, no corpus needed) turns that into
+  `site/material/<NAME>.html` for all 302 materials -- including the 68
+  markers where no helpmate exists -- and `site/themes.html`, which links
+  every theme to every problem across the corpus that shows it. A material's
+  deepest strict dual is usually one ply shallower than its deepest dual
+  overall, since the two solutions at the very deepest dual depth almost
+  always share a first or a last move; the page states both depths rather
+  than quietly showing the shallower one.
 - **`tools/published_problems.py`: cross the DEEPEST showcase with a database
   of published helpmates.** Parses the plain-text format (German piece
   letters, one block per problem), matches positions under every mirroring
