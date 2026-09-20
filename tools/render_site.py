@@ -217,3 +217,38 @@ def material_page(doc: Dict) -> str:
                 description=(f'The deepest helpmate problems in '
                              f'{doc["material"]}, with their solutions and '
                              f'themes.'))
+
+
+GLOSSARY_THEMES = 295          # named in the Helpmate Analyzer glossary
+
+
+def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
+    """Every theme, and every problem showing it, across the whole corpus."""
+    blocks = []
+    for name in sorted(themes):
+        entry = themes[name]
+        n = entry["count"]
+        items = "".join(
+            f'<li><a href="material/{esc(p["material"])}.html">'
+            f'{esc(p["material"])}</a> · {esc(p["stipulation"])} '
+            f'<span class="kind">{esc(p["kind"])}</span></li>'
+            for p in entry["problems"])
+        blocks.append(
+            f'<section class="theme-block" id="{esc(name)}">'
+            f'<h2>{esc(name)} <span class="count">{n} '
+            f'{"problem" if n == 1 else "problems"}</span></h2>'
+            f'<ul class="theme-problems">{items}</ul></section>')
+
+    with_table = sum(1 for r in index if r["has_table"])
+    lede = (f'<p class="lede">{len(themes)} themes across {len(index)} '
+            f'materials, {with_table} of which hold a helpmate. The Helpmate '
+            f'Analyzer glossary names {GLOSSARY_THEMES} themes; these are the '
+            f'ones this engine detects directly from the tables, so the list '
+            f'is short by design rather than incomplete.</p>')
+
+    toc = " ".join(f'<a href="#{esc(t)}">{esc(t)}</a>' for t in sorted(themes))
+    body = (f'<div class="themes"><h1>Themes</h1>{lede}'
+            f'<nav class="toc">{toc}</nav>{"".join(blocks)}</div>')
+    return page("Themes", body, depth=0,
+                description=("Every theme the helpmate tablebases detect, and "
+                             "the deepest problems showing each one."))

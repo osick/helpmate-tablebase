@@ -209,3 +209,65 @@ def test_stats_html_formats_numbers_with_separators():
 def test_material_page_links_back_to_the_materials_directory():
     m = _load()
     assert "../index.html#/materials" in m.material_page(DOC)
+
+
+THEMES = {
+    "model": {"count": 2, "problems": [
+        {"material": "KQvk", "fen": "8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
+         "dtm": 12, "stipulation": "h#6", "kind": "unique"},
+        {"material": "KRvk", "fen": "8/8/8/8/8/8/8/K1R2k2 b - - 0 1",
+         "dtm": 10, "stipulation": "h#5", "kind": "dual"},
+    ]},
+    "single-piece:black": {"count": 1, "problems": [
+        {"material": "KQvk", "fen": "8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
+         "dtm": 12, "stipulation": "h#6", "kind": "unique"},
+    ]},
+}
+INDEX = [
+    {"material": "KQvk", "pieces": 3, "stipulation": "h#6",
+     "unique": 1, "duals": 1, "has_table": True},
+    {"material": "Kvk", "pieces": 2, "stipulation": None,
+     "unique": 0, "duals": 0, "has_table": False},
+]
+
+
+def test_themes_page_lists_every_theme_with_its_count():
+    m = _load()
+    out = m.themes_page(THEMES, INDEX)
+    assert ">model<" in out and "2 problems" in out
+    assert "single-piece:black" in out and "1 problem<" in out
+
+
+def test_each_theme_is_an_anchor_a_problem_can_link_to():
+    m = _load()
+    out = m.themes_page(THEMES, INDEX)
+    assert 'id="model"' in out
+    assert 'id="single-piece:black"' in out
+
+
+def test_theme_entries_link_to_the_material_page():
+    m = _load()
+    out = m.themes_page(THEMES, INDEX)
+    assert 'href="material/KQvk.html"' in out
+    assert 'href="material/KRvk.html"' in out
+
+
+def test_themes_page_distinguishes_unique_from_dual_problems():
+    m = _load()
+    out = m.themes_page(THEMES, INDEX)
+    assert "unique" in out and "dual" in out
+
+
+def test_themes_page_says_how_many_themes_the_engine_implements():
+    """295 are named in the glossary; the engine implements far fewer. Saying
+    so keeps the short list from reading as a gap."""
+    m = _load()
+    out = m.themes_page(THEMES, INDEX)
+    assert "295" in out
+    assert "2 themes" in out
+
+
+def test_themes_page_counts_the_materials_it_covers():
+    m = _load()
+    out = m.themes_page(THEMES, INDEX)
+    assert "2 materials" in out
