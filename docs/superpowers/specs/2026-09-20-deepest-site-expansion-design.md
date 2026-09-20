@@ -270,11 +270,27 @@ stay out of git (`site/material/` and `site/themes.html` are git-ignored).
 - The front page — corpus totals and entry points: materials by piece count,
   the theme index, the puzzle trainer, the booklet PDF.
 
-**`index.html` remains the SPA shell.** The existing `#/puzzles`,
-`#/deepest` and `#/materials` routes are live URLs and keep working unchanged.
-What changes is that its no-hash front view is rendered statically at build
-time instead of by `front.js`, and gains links into the new static pages. The
-new pages are plain documents; they do not load `app.js`.
+**`index.html` remains the SPA shell and the main starting page.** The existing
+`#/puzzles`, `#/deepest` and `#/materials` routes are live URLs and keep
+working unchanged.
+
+The front view is **not** statically generated. An earlier draft of this spec
+said it would be; that was wrong, and planning caught it. `front.js` animates
+the deepest six-piece problem on a board on load, stepping it ply by ply on a
+timer, and pre-rendering the markup would either kill the animation or leave
+two renderers to keep in sync for no gain.
+
+What changes instead is smaller and already half-built:
+
+- The existing `#/materials` screen becomes the directory of the new pages —
+  `materials.js` links each row's material to `material/<MAT>.html`. That
+  screen already lists all 302 tables with sorting and a piece-count filter,
+  so the directory requires a link, not a new view.
+- `index.html` gains one nav entry, `Themes`, pointing at `themes.html`. It is
+  a plain `href`, not a hash route, because the theme index is a generated
+  document rather than a screen.
+
+The generated pages are plain documents; they do not load `app.js`.
 
 Boards render with the vendored cm-chessboard already in `site/vendor`, and
 solutions step through `{san, uci, fen}` triples, so the new pages need no
