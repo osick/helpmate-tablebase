@@ -88,6 +88,13 @@ opens each one in the [Helpmate Analyzer](https://helpman.komtera.lt/) with the
 stipulation already set. The same data is typeset as a print booklet:
 `make booklet`.
 
+> **These positions were enumerated, not composed.** No authorship is claimed
+> over any of them, none will be entered in a composing tourney, and a
+> generated database anticipates nobody — a composer who arrives independently
+> at one of these positions is unaffected. Where a position is already a
+> published composition it is credited to its author.
+> **→ [Authorship, anticipation, and what this corpus is for](docs/AUTHORSHIP.md)**
+
 ```bash
 helpmate-tables pull --tables ./tables --repo osick/helpmate-tables
 ```

@@ -188,3 +188,11 @@ a.theme:hover { color: var(--accent); border-color: var(--accent); text-decorati
 }
 .theme-problems li { break-inside: avoid; padding: .1rem 0; }
 .theme-problems .kind { color: var(--ink-faint); font-size: var(--f0); }
+
+/* The authorship note. Set as a quiet aside rather than body copy: it
+   qualifies everything on the page without competing with it. */
+.disclaimer {
+  max-width: 46rem; font-size: var(--f1); color: var(--ink-soft);
+  border-left: 2px solid var(--rule-strong); padding-left: .8rem; margin: 1rem 0 0;
+}
+footer .disclaimer { margin: 0; border-left: 0; padding-left: 0; max-width: 60rem; }

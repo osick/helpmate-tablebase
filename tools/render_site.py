@@ -29,6 +29,11 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
+# The statement lives in the repository rather than on the site: it is
+# prose that belongs with the code and the data, not a generated page.
+REPO = "https://github.com/osick/helpmate-tablebase"
+
+
 def esc(value) -> str:
     """Every value that reaches HTML goes through here. `None` is empty."""
     return "" if value is None else html.escape(str(value), quote=True)
@@ -67,6 +72,15 @@ def page(title: str, body: str, depth: int = 0,
 <main>
 {body}
 </main>
+<footer>
+  <p class="disclaimer">These positions were enumerated, not composed. No
+  authorship is claimed over them and a generated database anticipates
+  nobody — a composer who independently arrives at one of these positions is
+  unaffected. Where a position is an already published composition it is
+  credited to its author; corrections are welcome.
+  <a href="{REPO}/blob/main/docs/AUTHORSHIP.md">Authorship and what this
+  corpus is for →</a></p>
+</footer>
 </body>
 </html>
 """
