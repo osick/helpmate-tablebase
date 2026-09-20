@@ -173,14 +173,22 @@ def stats_html(doc: Dict) -> str:
 
 
 def _section(title: str, problems: List[Dict], empty: str,
-             offset: int = 0, note: str = "") -> str:
-    note_html = f'<p class="note">{esc(note)}</p>' if note else ""
+             offset: int = 0, note: str = "", depth_note: str = "") -> str:
+    # `depth_note` frames the whole section (which depth these came from and
+    # why), so it precedes the picker's note about how many were found. Both
+    # belong under the heading: rendered above it they read as a trailing
+    # remark on the previous section.
+    note_html = "".join(f'<p class="note">{esc(n)}</p>'
+                        for n in (depth_note, note) if n)
     if not problems:
         return (f"<section><h2>{esc(title)}</h2>{note_html}<p class=\"empty\">"
                 f"{esc(empty)}</p></section>")
+    # The articles need a wrapper of their own: the grid that lays them two
+    # per row cannot sit on <section>, whose first child is the heading.
     body = "".join(problem_html(p, i + offset) for i, p in enumerate(problems,
                                                                       1))
-    return f"<section><h2>{esc(title)}</h2>{note_html}{body}</section>"
+    return (f"<section><h2>{esc(title)}</h2>{note_html}"
+            f'<div class="problems">{body}</div></section>')
 
 
 def _attribute_notes(doc: Dict):
@@ -230,11 +238,10 @@ def material_page(doc: Dict) -> str:
     dual_title = "Deepest dual problems"
     if (s["strict_dual_dtm"] is not None and
             s["deepest_dual_dtm"] != s["strict_dual_dtm"]):
-        dual_note = (f'<p class="note">Deepest dual with different first and '
-                     f'last moves: {stipulation(s["strict_dual_dtm"])}. The '
-                     f'deepest dual overall is '
-                     f'{stipulation(s["deepest_dual_dtm"])}, where the two '
-                     f'solutions share a first or a last move.</p>')
+        dual_note = (f'Deepest dual with different first and last moves: '
+                     f'{stipulation(s["strict_dual_dtm"])}. The deepest dual '
+                     f'overall is {stipulation(s["deepest_dual_dtm"])}, where '
+                     f'the two solutions share a first or a last move.')
     else:
         dual_note = ""
 
@@ -255,11 +262,10 @@ def material_page(doc: Dict) -> str:
             "No unique solution exists at any depth in this material.",
             note=unique_note)}
   {considered}
-  {dual_note}
   {_section(dual_title, doc["duals"],
             "No position in this material has exactly two solutions "
             "differing in both their first and last move.", offset=10,
-            note=dual_section_note)}
+            note=dual_section_note, depth_note=dual_note)}
 </div>
 <script type="module" src="../js/static-board.js"></script>"""
     return page(doc["material"], body, depth=1,
@@ -305,9 +311,13 @@ def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
             f'{GLOSSARY_THEMES} in all, so this list is short by design '
             f'rather than incomplete.</p>')
 
+    # `theme-index`, not `themes`: a problem's own theme list is already
+    # `<p class="themes">`, and one class meaning two different things is a
+    # specificity trap waiting for whoever styles this next.
     toc = " ".join(f'<a href="#{esc(t)}">{esc(t)}</a>' for t in sorted(themes))
-    body = (f'<div class="themes"><h1>Themes</h1>{lede}'
-            f'<nav class="toc">{toc}</nav>{"".join(blocks)}</div>')
+    body = (f'<div class="theme-index"><h1>Themes</h1>{lede}'
+            f'<nav class="toc">{toc}</nav>'
+            f'<div class="theme-blocks">{"".join(blocks)}</div></div>')
     return page("Themes", body, depth=0,
                 description=("Every theme the helpmate tablebases detect, and "
                              "the deepest problems showing each one."))

@@ -20,7 +20,7 @@ code, .mono { font-family: var(--mono); font-size: .95em; }
 header { display: flex; align-items: baseline; gap: 2rem; padding: .9rem 1.5rem; background: var(--panel); border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
 .brand .title { color: var(--ink); font-weight: 600; font-size: var(--f4); }
 .brand .tagline { color: var(--ink-soft); margin-left: .75rem; font-size: var(--f1); }
-nav { display: flex; gap: .25rem; margin-left: auto; }
+nav { display: flex; flex-wrap: wrap; gap: .25rem; margin-left: auto; }  /* wraps: five entries overflow a 320px viewport */
 nav a { color: var(--ink-soft); padding: .3rem .7rem; border-radius: 4px; }
 nav a.active { color: var(--ink); background: var(--sunk); }
 main { flex: 1; max-width: 1100px; width: 100%; margin: 0 auto; padding: 1.5rem; }
@@ -79,3 +79,112 @@ table.data tbody tr.marker td { color: var(--ink-faint); }
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; margin: .5rem 0; font-size: var(--f1); }
 .tags-label { color: var(--ink-soft); margin-right: .25rem; }
 .tag { font-family: var(--mono); padding: .05rem .45rem; border: 1px solid var(--rule, #ccc); border-radius: .4rem; color: var(--ink); }
+
+/* ---------------------------------------------------------------------
+   Generated pages: material/<NAME>.html and themes.html.
+
+   These are static documents rather than SPA screens, so none of the
+   layout above reaches them -- before this block they rendered on browser
+   defaults plus the generic `.board { width: 100% }`, which let a diagram
+   grow to the full 1052px column. Everything here reuses the tokens at the
+   top of the file: no new colours, and rules rather than shadows, which is
+   how the rest of this system draws a boundary.
+   --------------------------------------------------------------------- */
+
+.crumb { margin: 0 0 .5rem; font-size: var(--f1); }
+
+/* A note the generator emitted -- why a material shows fewer than three
+   problems, or that no helpmate exists. It qualifies the section it sits
+   in, so it is set as a caption rather than body copy. */
+.note { color: var(--ink-soft); font-size: var(--f1); margin: 0 0 1rem; max-width: 46rem; }
+
+.material section > h2, .theme-index h1 + .lede { margin-top: 0; }
+.material section { margin-top: 2rem; }
+.material section > h2 {
+  font-size: var(--f4); font-weight: 600; margin: 0 0 .75rem;
+  padding-bottom: .4rem; border-bottom: 1px solid var(--rule);
+}
+
+/* Two problems per row in the 1100px main, one below 800px -- the same
+   breakpoint `.two-col` already uses. 380px is the narrowest at which a
+   diagram and its solution both stay readable. */
+.problems {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  gap: 1.5rem; align-items: start;
+}
+.problem {
+  background: var(--panel); border: 1px solid var(--rule);
+  border-radius: 4px; padding: 1rem;
+}
+
+/* 420px is not an arbitrary cap: it is where `.two-col` already puts the
+   dashboard's board, so the diagram keeps the size it has everywhere else
+   on the site. */
+.problem .board { width: 100%; max-width: 420px; margin: 0 auto; }
+/* Kept compact and centred under the diagram rather than stretched across
+   its full width, so the two buttons read as one control. */
+.board-controls {
+  display: flex; align-items: center; justify-content: center; gap: .75rem;
+  margin: .6rem 0 0;
+}
+.board-controls button { padding: .2rem .6rem; line-height: 1.2; }
+.board-controls .ply {
+  min-width: 6rem; text-align: center; font-family: var(--mono);
+  font-size: var(--f1); color: var(--ink-soft);
+}
+
+/* The stipulation is the problem's identity, so it heads the card. */
+.detail h3 { font-size: var(--f3); font-weight: 600; margin: 1rem 0 .3rem; }
+.detail .fen {
+  font-size: var(--f0); color: var(--ink-faint);
+  margin: 0 0 .6rem; word-break: break-all;
+}
+.duals { font-size: var(--f1); color: var(--ink-soft); margin: 0 0 .5rem; }
+
+/* Solutions are data, so they are set in mono. A single solution is not a
+   list of choices and takes no marker; two are numbered, because with a
+   dual the reader needs to tell them apart. */
+.solutions { margin: 0 0 .6rem; padding-left: 1.3rem; }
+.solutions li { font-family: var(--mono); font-size: var(--f1); line-height: 1.7; }
+.problem:not(:has(.solutions li + li)) .solutions { list-style: none; padding-left: 0; }
+
+.problem .themes { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0 0 .6rem; }
+.theme {
+  font-size: var(--f0); color: var(--ink-soft); padding: .1rem .45rem;
+  background: var(--sunk); border: 1px solid var(--rule); border-radius: 3px;
+}
+a.theme:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
+.caveat { font-size: var(--f1); color: var(--ink-soft); margin: .5rem 0 0; }
+.attribution {
+  margin: .7rem 0 0; padding-top: .7rem; border-top: 1px solid var(--rule);
+  font-size: var(--f1); color: var(--ink-soft);
+}
+.attribution p { margin: 0 0 .25rem; }
+.attribution ul { margin: 0; padding-left: 1.1rem; }
+.empty { color: var(--ink-soft); margin: 0; }
+
+/* Theme index. The blocks stay in one column because their sizes are wildly
+   uneven -- `pure` carries 790 problems and `kniest` three -- so a two-up
+   grid would leave one tall column beside a stub. The density comes from
+   flowing each block's list into columns instead. */
+.theme-index .toc {
+  display: flex; flex-wrap: wrap; gap: .3rem .7rem; font-size: var(--f1);
+  margin: 1rem 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule);
+}
+.theme-blocks { display: flex; flex-direction: column; gap: 1.25rem; }
+.theme-block {
+  background: var(--panel); border: 1px solid var(--rule);
+  border-radius: 4px; padding: 1rem; scroll-margin-top: 1rem;
+}
+.theme-block h2 {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 1rem; font-size: var(--f3); font-weight: 600; margin: 0 0 .6rem;
+}
+.theme-block .count { font-size: var(--f1); font-weight: 400; color: var(--ink-faint); }
+.theme-problems {
+  list-style: none; margin: 0; padding: 0; font-size: var(--f1);
+  columns: 16rem; column-gap: 1.5rem;
+}
+.theme-problems li { break-inside: avoid; padding: .1rem 0; }
+.theme-problems .kind { color: var(--ink-faint); font-size: var(--f0); }

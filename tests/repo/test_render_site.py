@@ -6,6 +6,7 @@ names still reach HTML as text, so escaping is tested rather than assumed.
 
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -282,29 +283,45 @@ DOC_NOTE_COUNT_MISMATCH = dict(
     notes=["stray note one", "stray note two"])   # expected 1, got 2
 
 
+def _section_of(html, title):
+    """The markup of one named <section>, so a note can be located precisely.
+
+    Stronger than asserting the note directly follows the <h2>: that only
+    proves adjacency and breaks when a section legitimately carries a second
+    note, while this proves the note is inside THAT section and, paired with
+    the negative assertions, nowhere near the other one."""
+    for m in re.finditer(r"<section>.*?</section>", html, re.S):
+        if f"<h2>{title}</h2>" in m.group(0):
+            return m.group(0)
+    raise AssertionError(f"no section titled {title!r} in the page")
+
+
 def test_material_page_splits_two_notes_across_the_two_sections():
     m = _load()
     out = m.material_page(DOC_TWO_NOTES)
-    assert ('<h2>Deepest unique problems</h2>'
-            '<p class="note">unique section note text</p>') in out
-    assert ('<h2>Deepest dual problems</h2>'
-            '<p class="note">dual section note text</p>') in out
+    uniq = _section_of(out, "Deepest unique problems")
+    dual = _section_of(out, "Deepest dual problems")
+    assert "unique section note text" in uniq
+    assert "unique section note text" not in dual
+    assert "dual section note text" in dual
+    assert "dual section note text" not in uniq
 
 
 def test_material_page_attributes_the_single_note_to_the_short_dual_section():
     m = _load()
     out = m.material_page(DOC_ONLY_DUAL_SHORT)
-    assert ('<h2>Deepest dual problems</h2>'
-            '<p class="note">the only note, for the dual section</p>') in out
-    assert '<h2>Deepest unique problems</h2><p class="note">' not in out
+    assert ("the only note, for the dual section"
+            in _section_of(out, "Deepest dual problems"))
+    assert 'class="note"' not in _section_of(out, "Deepest unique problems")
 
 
 def test_material_page_attributes_the_single_note_to_the_short_unique_section():
     m = _load()
     out = m.material_page(DOC_ONLY_UNIQUE_SHORT)
-    assert ('<h2>Deepest unique problems</h2>'
-            '<p class="note">the only note, for the unique section</p>') in out
-    assert '<h2>Deepest dual problems</h2><p class="note">' not in out
+    assert ("the only note, for the unique section"
+            in _section_of(out, "Deepest unique problems"))
+    dual = _section_of(out, "Deepest dual problems")
+    assert "the only note, for the unique section" not in dual
 
 
 def test_material_page_falls_back_to_floating_notes_on_a_count_mismatch():
@@ -314,8 +331,13 @@ def test_material_page_falls_back_to_floating_notes_on_a_count_mismatch():
     m = _load()
     out = m.material_page(DOC_NOTE_COUNT_MISMATCH)
     assert "stray note one" in out and "stray note two" in out
-    assert '<h2>Deepest unique problems</h2><p class="note">' not in out
-    assert '<h2>Deepest dual problems</h2><p class="note">' not in out
+    # Neither stray note may be adopted by a section. Asserting on the
+    # sections' own markup rather than on adjacency to the <h2>, because a
+    # section may legitimately carry a depth note of its own.
+    for title in ("Deepest unique problems", "Deepest dual problems"):
+        sec = _section_of(out, title)
+        assert "stray note one" not in sec
+        assert "stray note two" not in sec
     # Floating, above both sections -- same place today's code puts it.
     assert out.index("stray note one") < out.index("<section>")
 
