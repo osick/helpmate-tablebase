@@ -30,7 +30,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -238,6 +238,41 @@ def build_material(binary: str, tables: str, material: str, stats: dict,
     return doc
 
 
+def merge_index(existing: List[Dict], new_rows: List[Dict], processed: Set[str]) -> List[Dict]:
+    """This run's index rows folded into whatever index.json already held.
+
+    Every row for a material this run processed is dropped from `existing`
+    first (so a re-run replaces rather than duplicates it), then `new_rows`
+    is added. Every other material's row -- one this run never touched --
+    passes through untouched. Sorted stably by (pieces, material) so a
+    scoped run's output is indistinguishable in order from a full run's."""
+    kept = [r for r in existing if r["material"] not in processed]
+    merged = kept + new_rows
+    merged.sort(key=lambda r: (r["pieces"], r["material"]))
+    return merged
+
+
+def merge_themes(existing: Dict[str, Dict], new_entries: Dict[str, List[Dict]],
+                 processed: Set[str]) -> Dict[str, Dict]:
+    """This run's theme entries folded into whatever themes.json already held.
+
+    Every problem entry belonging to a material this run processed is
+    dropped from `existing` first -- whether or not that material ends up
+    contributing a new entry for that theme -- then this run's entries are
+    added. `count` is recomputed from the final list. A theme left holding
+    no problems disappears rather than lingering at count 0."""
+    merged: Dict[str, List[Dict]] = {}
+    for t, info in existing.items():
+        kept = [p for p in info.get("problems", []) if p["material"] not in processed]
+        if kept:
+            merged[t] = kept
+    for t, ps in new_entries.items():
+        merged.setdefault(t, [])
+        merged[t] += ps
+    return {t: {"count": len(ps), "problems": ps}
+            for t, ps in sorted(merged.items()) if ps}
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser("build_problems")
     ap.add_argument("--tables", required=True)
@@ -257,6 +292,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     index: List[Dict] = []
     themes: Dict[str, List[Dict]] = {}
+    processed: Set[str] = set()
     failures = 0
     for sc in sorted(Path(a.tables).glob("*.stats.json")):
         material = sc.name[: -len(".stats.json")]
@@ -273,6 +309,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             failures += 1
             continue
 
+        processed.add(material)
         (out / "material" / f"{material}.json").write_text(json.dumps(doc, indent=1))
         for kind in ("unique", "duals"):
             for p in doc[kind]:
@@ -291,11 +328,19 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"  {material}: {len(doc['unique'])} unique, {len(doc['duals'])} dual",
               file=sys.stderr)
 
-    (out / "themes.json").write_text(json.dumps(
-        {t: {"count": len(ps), "problems": ps} for t, ps in sorted(themes.items())},
-        indent=1))
-    (out / "index.json").write_text(json.dumps(index, indent=1))
-    print(f"wrote {len(index)} materials, {len(themes)} themes, "
+    # A scoped run (--material) must not wipe out every other material's
+    # entry in the committed index/theme files -- merge in place of them.
+    index_path = out / "index.json"
+    existing_index = json.loads(index_path.read_text()) if index_path.exists() else []
+    merged_index = merge_index(existing_index, index, processed)
+
+    themes_path = out / "themes.json"
+    existing_themes = json.loads(themes_path.read_text()) if themes_path.exists() else {}
+    merged_themes = merge_themes(existing_themes, themes, processed)
+
+    themes_path.write_text(json.dumps(merged_themes, indent=1))
+    index_path.write_text(json.dumps(merged_index, indent=1))
+    print(f"wrote {len(merged_index)} materials, {len(merged_themes)} themes, "
           f"{failures} failure(s)", file=sys.stderr)
     return 1 if failures else 0
 

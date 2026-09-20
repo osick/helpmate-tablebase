@@ -5,6 +5,7 @@ tested here; the mining itself is driven through a fake binary in Task 5.
 """
 
 import importlib.util
+import json
 import subprocess
 import sys
 import types
@@ -298,3 +299,104 @@ def test_build_material_carries_the_pickers_notes(monkeypatch):
     monkeypatch.setattr(m, "strict_dual_depth", lambda *a, **k: (None, []))
     doc = m.build_material("./build/helpmate", "/tb", "KQvk", STATS, MATERIAL_ROW, {})
     assert "No position at this depth satisfies the filter." in doc["notes"]
+
+
+def test_merge_index_replaces_processed_rows_and_keeps_others():
+    m = _load()
+    existing = [
+        {"material": "KPvk", "pieces": 3, "stipulation": "h#6.5",
+         "unique": 1, "duals": 1, "has_table": True},
+        {"material": "KQvk", "pieces": 3, "stipulation": "h#2.5",
+         "unique": 3, "duals": 2, "has_table": True},          # stale
+    ]
+    fresh = [{"material": "KQvk", "pieces": 3, "stipulation": "h#6",
+              "unique": 1, "duals": 1, "has_table": True}]
+    merged = m.merge_index(existing, fresh, {"KQvk"})
+    assert [r["material"] for r in merged] == ["KPvk", "KQvk"]     # sorted, no dupes
+    kqvk = next(r for r in merged if r["material"] == "KQvk")
+    assert kqvk["stipulation"] == "h#6"                            # replaced, not appended
+    kpvk = next(r for r in merged if r["material"] == "KPvk")
+    assert kpvk["unique"] == 1 and kpvk["duals"] == 1              # untouched
+
+
+def test_merge_themes_drops_stale_entries_and_removes_a_theme_left_empty():
+    m = _load()
+    existing = {
+        "model": {"count": 2, "problems": [
+            {"material": "KPvk", "fen": "kpvk-fen", "dtm": 13,
+             "stipulation": "h#6.5", "kind": "unique"},
+            {"material": "KQvk", "fen": "stale-fen", "dtm": 5,
+             "stipulation": "h#2.5", "kind": "unique"},
+        ]},
+        "capture": {"count": 1, "problems": [
+            {"material": "KQvk", "fen": "stale-fen", "dtm": 5,
+             "stipulation": "h#2.5", "kind": "unique"},
+        ]},
+    }
+    new_entries = {"model": [
+        {"material": "KQvk", "fen": "new-fen", "dtm": 12,
+         "stipulation": "h#6", "kind": "unique"},
+    ]}
+    merged = m.merge_themes(existing, new_entries, {"KQvk"})
+    assert "capture" not in merged            # its only entry was for KQvk: gone, not count 0
+    assert merged["model"]["count"] == 2
+    fens = {p["fen"] for p in merged["model"]["problems"]}
+    assert fens == {"kpvk-fen", "new-fen"}     # stale KQvk entry replaced, KPvk untouched
+
+
+def test_main_merges_a_scoped_run_into_an_existing_index_and_themes(tmp_path, monkeypatch):
+    """A run scoped to one material must not disturb another material's rows,
+    and must replace -- not duplicate -- its own. Uses tmp_path throughout,
+    never site/data."""
+    m = _load()
+    tables = tmp_path / "tables"
+    tables.mkdir()
+    (tables / "KQvk.stats.json").write_text(json.dumps(STATS))
+
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "materials.json").write_text(json.dumps([MATERIAL_ROW]))
+    (out / "index.json").write_text(json.dumps([
+        {"material": "KPvk", "pieces": 3, "stipulation": "h#6.5",
+         "unique": 1, "duals": 1, "has_table": True},
+        {"material": "KQvk", "pieces": 3, "stipulation": "h#2.5",
+         "unique": 3, "duals": 2, "has_table": True},          # stale, must be replaced
+    ]))
+    (out / "themes.json").write_text(json.dumps({
+        "model": {"count": 2, "problems": [
+            {"material": "KPvk", "fen": "kpvk-fen", "dtm": 13,
+             "stipulation": "h#6.5", "kind": "unique"},
+            {"material": "KQvk", "fen": "stale-fen", "dtm": 5,
+             "stipulation": "h#2.5", "kind": "unique"},
+        ]},
+    }))
+
+    fake_doc = {
+        "material": "KQvk", "pieces": 3,
+        "stats": {"deepest_unique_dtm": 12, "unique_at_depth": 1,
+                  "deepest_dual_dtm": 10, "strict_dual_dtm": 7,
+                  "max_dtm": 14, "plane_size": 29568, "solvable": 45723,
+                  "unique": 3064, "size_bytes": 71647,
+                  "saturated_at_max": True, "dtm_histogram": {}},
+        "unique": [{"fen": "new-fen", "dtm": 12, "themes": ["model"],
+                    "stipulation": "h#6"}],
+        "duals": [], "notes": [],
+        "candidates_considered": 1, "candidates_total": 1,
+    }
+    monkeypatch.setattr(m, "build_material", lambda *a, **k: fake_doc)
+
+    rc = m.main(["--tables", str(tables), "--binary", "x", "--out", str(out),
+                "--material", "KQvk"])
+    assert rc == 0
+
+    index = json.loads((out / "index.json").read_text())
+    assert {r["material"] for r in index} == {"KPvk", "KQvk"}
+    kqvk = next(r for r in index if r["material"] == "KQvk")
+    assert kqvk["stipulation"] == "h#6"                 # replaced, not duplicated
+    kpvk = next(r for r in index if r["material"] == "KPvk")
+    assert kpvk["stipulation"] == "h#6.5"               # untouched
+
+    themes = json.loads((out / "themes.json").read_text())
+    fens = {p["fen"] for p in themes["model"]["problems"]}
+    assert fens == {"kpvk-fen", "new-fen"}
+    assert themes["model"]["count"] == 2
