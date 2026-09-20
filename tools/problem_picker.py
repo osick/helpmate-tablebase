@@ -16,7 +16,7 @@ content is White's manoeuvre plus the mating picture. That is the signal.
 """
 from __future__ import annotations
 
-from typing import Dict, List, Sequence
+from typing import Dict, List, Optional, Sequence, Tuple
 
 
 def white_line(solution: Sequence[str], white_moves_first: bool) -> List[str]:
@@ -90,12 +90,15 @@ def distance(a: Dict, b: Dict) -> float:
                position_distance(a["fen"], b["fen"]) / men)
 
 
-def pick(candidates: List[Dict], limit: int = 3, seed_fen: str = None):
+def pick(
+    candidates: List[Dict],
+    limit: int = 3,
+    seed_fen: Optional[str] = None,
+) -> Tuple[List[Dict], List[str]]:
     """Up to `limit` candidates that are not each other's twins, plus notes.
 
     Greedy max-min: seed, then repeatedly take whatever is farthest from
-    everything already chosen, stopping when the best remaining is the same
-    idea as something held."""
+    everything already chosen, stopping when no non-twin remains."""
     if not candidates:
         return [], ["No position at this depth satisfies the filter."]
 
@@ -105,9 +108,10 @@ def pick(candidates: List[Dict], limit: int = 3, seed_fen: str = None):
     pool.remove(seed)
 
     while pool and len(chosen) < limit:
-        best = max(pool, key=lambda c: min(distance(c, k) for k in chosen))
-        if any(same_idea(best, k) for k in chosen):
+        fresh = [c for c in pool if not any(same_idea(c, k) for k in chosen)]
+        if not fresh:
             break
+        best = max(fresh, key=lambda c: min(distance(c, k) for k in chosen))
         chosen.append(best)
         pool.remove(best)
 
