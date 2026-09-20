@@ -306,11 +306,18 @@ def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
             f'{esc(p["material"])}</a> · {esc(p["stipulation"])} '
             f'<span class="kind">{esc(p["kind"])}</span></li>'
             for p in entry["problems"])
+        # Collapsed by default. Open, this page runs to tens of thousands of
+        # pixels -- `pure` alone carries several hundred problems -- and the
+        # theme names, which are what a reader is scanning for, are lost in
+        # it. `theme-open.js` opens the right one when a problem page links
+        # to `#<theme>`, and offers an "open all" so find-in-page still
+        # reaches every entry.
         blocks.append(
-            f'<section class="theme-block" id="{esc(name)}">'
-            f'<h2>{esc(name)} <span class="count">{n} '
-            f'{"problem" if n == 1 else "problems"}</span></h2>'
-            f'<ul class="theme-problems">{items}</ul></section>')
+            f'<details class="theme-block" id="{esc(name)}">'
+            f'<summary><span class="theme-name">{esc(name)}</span>'
+            f'<span class="count">{n} '
+            f'{"problem" if n == 1 else "problems"}</span></summary>'
+            f'<ul class="theme-problems">{items}</ul></details>')
 
     with_helpmate = sum(1 for r in index if r["has_helpmate"])
     # Three different numbers, deliberately not conflated: how many themes
@@ -331,7 +338,10 @@ def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
     toc = " ".join(f'<a href="#{esc(t)}">{esc(t)}</a>' for t in sorted(themes))
     body = (f'<div class="theme-index"><h1>Themes</h1>{lede}'
             f'<nav class="toc">{toc}</nav>'
-            f'<div class="theme-blocks">{"".join(blocks)}</div></div>')
+            f'<p class="toggle-all"><button type="button" id="open-all">'
+            f'Open all themes</button></p>'
+            f'<div class="theme-blocks">{"".join(blocks)}</div></div>'
+            f'<script type="module" src="js/theme-open.js"></script>')
     return page("Themes", body, depth=0,
                 description=("Every theme the helpmate tablebases detect, and "
                              "the deepest problems showing each one."))
