@@ -51,7 +51,11 @@ def card(r: dict, n: int, img: str) -> str:
 
 def quality_note(q: dict | None) -> str:
     """What is wrong with a position as a problem, or empty. Mirrors
-    tools/published_problems.quality_note without importing python-chess."""
+    tools/published_problems.quality_note without importing python-chess.
+
+    Two other stdlib clones of this exact wording exist: tools/render_site.py
+    (_quality_note) and tools/deepest_booklet.py (quality_note, around line
+    406). Update all three together."""
     if not q:
         return ""
     if not q.get("legal", True):

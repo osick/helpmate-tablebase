@@ -1,0 +1,373 @@
+{
+ "material": "KRRNvk",
+ "pieces": 5,
+ "stats": {
+  "max_dtm": 14,
+  "deepest_unique_dtm": 10,
+  "unique_at_depth": 4,
+  "deepest_dual_dtm": 10,
+  "strict_dual_dtm": 7,
+  "plane_size": 121110528,
+  "solvable": 80175866,
+  "unique": 11232760,
+  "size_bytes": 35508104,
+  "saturated_at_max": true,
+  "dtm_histogram": {
+   "btm": {
+    "0": 554955,
+    "10": 88253,
+    "12": 3725,
+    "14": 8,
+    "2": 6255137,
+    "4": 34811471,
+    "6": 8847885,
+    "8": 346209
+   },
+   "wtm": {
+    "1": 2248636,
+    "3": 16294430,
+    "5": 10488610,
+    "7": 236539,
+    "9": 8
+   }
+  }
+ },
+ "unique": [
+  {
+   "fen": "8/8/8/6R1/7k/N4R2/8/K7 b - - 0 1",
+   "dtm": 10,
+   "stipulation": "h#5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "single-piece",
+    "single-piece:black",
+    "umnov"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kxg5",
+      "uci": "h4g5",
+      "fen": "8/8/8/6k1/8/N4R2/8/K7 w - - 0 2"
+     },
+     {
+      "san": "Rb3",
+      "uci": "f3b3",
+      "fen": "8/8/8/6k1/8/NR6/8/K7 b - - 1 2"
+     },
+     {
+      "san": "Kf4",
+      "uci": "g5f4",
+      "fen": "8/8/8/8/5k2/NR6/8/K7 w - - 2 3"
+     },
+     {
+      "san": "Rb2",
+      "uci": "b3b2",
+      "fen": "8/8/8/8/5k2/N7/1R6/K7 b - - 3 3"
+     },
+     {
+      "san": "Ke3",
+      "uci": "f4e3",
+      "fen": "8/8/8/8/8/N3k3/1R6/K7 w - - 4 4"
+     },
+     {
+      "san": "Nc2+",
+      "uci": "a3c2",
+      "fen": "8/8/8/8/8/4k3/1RN5/K7 b - - 5 4"
+     },
+     {
+      "san": "Kd2",
+      "uci": "e3d2",
+      "fen": "8/8/8/8/8/8/1RNk4/K7 w - - 6 5"
+     },
+     {
+      "san": "Ne3+",
+      "uci": "c2e3",
+      "fen": "8/8/8/8/8/4N3/1R1k4/K7 b - - 7 5"
+     },
+     {
+      "san": "Kc1",
+      "uci": "d2c1",
+      "fen": "8/8/8/8/8/4N3/1R6/K1k5 w - - 8 6"
+     },
+     {
+      "san": "Rc2#",
+      "uci": "b2c2",
+      "fen": "8/8/8/8/8/4N3/2R5/K1k5 b - - 9 6"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": true,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  },
+  {
+   "fen": "3k4/4R3/8/8/7N/2R5/8/1K6 b - - 0 1",
+   "dtm": 10,
+   "stipulation": "h#5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black",
+    "nocheck"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kxe7",
+      "uci": "d8e7",
+      "fen": "8/4k3/8/8/7N/2R5/8/1K6 w - - 0 2"
+     },
+     {
+      "san": "Kc2",
+      "uci": "b1c2",
+      "fen": "8/4k3/8/8/7N/2R5/2K5/8 b - - 1 2"
+     },
+     {
+      "san": "Kf6",
+      "uci": "e7f6",
+      "fen": "8/8/5k2/8/7N/2R5/2K5/8 w - - 2 3"
+     },
+     {
+      "san": "Kd3",
+      "uci": "c2d3",
+      "fen": "8/8/5k2/8/7N/2RK4/8/8 b - - 3 3"
+     },
+     {
+      "san": "Kg5",
+      "uci": "f6g5",
+      "fen": "8/8/8/6k1/7N/2RK4/8/8 w - - 4 4"
+     },
+     {
+      "san": "Ke4",
+      "uci": "d3e4",
+      "fen": "8/8/8/6k1/4K2N/2R5/8/8 b - - 5 4"
+     },
+     {
+      "san": "Kxh4",
+      "uci": "g5h4",
+      "fen": "8/8/8/8/4K2k/2R5/8/8 w - - 0 5"
+     },
+     {
+      "san": "Kf5",
+      "uci": "e4f5",
+      "fen": "8/8/8/5K2/7k/2R5/8/8 b - - 1 5"
+     },
+     {
+      "san": "Kh5",
+      "uci": "h4h5",
+      "fen": "8/8/8/5K1k/8/2R5/8/8 w - - 2 6"
+     },
+     {
+      "san": "Rh3#",
+      "uci": "c3h3",
+      "fen": "8/8/8/5K1k/8/7R/8/8 b - - 3 6"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": true,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  },
+  {
+   "fen": "3k4/4R3/2R5/8/8/8/8/NK6 b - - 0 1",
+   "dtm": 10,
+   "stipulation": "h#5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "single-piece",
+    "single-piece:black",
+    "umnov"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kxe7",
+      "uci": "d8e7",
+      "fen": "8/4k3/2R5/8/8/8/8/NK6 w - - 0 2"
+     },
+     {
+      "san": "Rc2",
+      "uci": "c6c2",
+      "fen": "8/4k3/8/8/8/8/2R5/NK6 b - - 1 2"
+     },
+     {
+      "san": "Kd6",
+      "uci": "e7d6",
+      "fen": "8/8/3k4/8/8/8/2R5/NK6 w - - 2 3"
+     },
+     {
+      "san": "Rb2",
+      "uci": "c2b2",
+      "fen": "8/8/3k4/8/8/8/1R6/NK6 b - - 3 3"
+     },
+     {
+      "san": "Kc5",
+      "uci": "d6c5",
+      "fen": "8/8/8/2k5/8/8/1R6/NK6 w - - 4 4"
+     },
+     {
+      "san": "Nb3+",
+      "uci": "a1b3",
+      "fen": "8/8/8/2k5/8/1N6/1R6/1K6 b - - 5 4"
+     },
+     {
+      "san": "Kb4",
+      "uci": "c5b4",
+      "fen": "8/8/8/8/1k6/1N6/1R6/1K6 w - - 6 5"
+     },
+     {
+      "san": "Nc5+",
+      "uci": "b3c5",
+      "fen": "8/8/8/2N5/1k6/8/1R6/1K6 b - - 7 5"
+     },
+     {
+      "san": "Ka3",
+      "uci": "b4a3",
+      "fen": "8/8/8/2N5/8/k7/1R6/1K6 w - - 8 6"
+     },
+     {
+      "san": "Rb3#",
+      "uci": "b2b3",
+      "fen": "8/8/8/2N5/8/kR6/8/1K6 b - - 9 6"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": true,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "duals": [
+  {
+   "fen": "8/8/8/2R5/3k4/4R3/1N6/K7 w - - 0 1",
+   "dtm": 7,
+   "stipulation": "h#3.5",
+   "count": 2,
+   "starts": 2,
+   "ends": 2,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "single-piece",
+    "single-piece:black",
+    "zilahi"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kb1",
+      "uci": "a1b1",
+      "fen": "8/8/8/2R5/3k4/4R3/1N6/1K6 b - - 1 1"
+     },
+     {
+      "san": "Kxc5",
+      "uci": "d4c5",
+      "fen": "8/8/8/2k5/8/4R3/1N6/1K6 w - - 0 2"
+     },
+     {
+      "san": "Kc2",
+      "uci": "b1c2",
+      "fen": "8/8/8/2k5/8/4R3/1NK5/8 b - - 1 2"
+     },
+     {
+      "san": "Kb4",
+      "uci": "c5b4",
+      "fen": "8/8/8/8/1k6/4R3/1NK5/8 w - - 2 3"
+     },
+     {
+      "san": "Re4+",
+      "uci": "e3e4",
+      "fen": "8/8/8/8/1k2R3/8/1NK5/8 b - - 3 3"
+     },
+     {
+      "san": "Ka3",
+      "uci": "b4a3",
+      "fen": "8/8/8/8/4R3/k7/1NK5/8 w - - 4 4"
+     },
+     {
+      "san": "Ra4#",
+      "uci": "e4a4",
+      "fen": "8/8/8/8/R7/k7/1NK5/8 b - - 5 4"
+     }
+    ],
+    [
+     {
+      "san": "Ka2",
+      "uci": "a1a2",
+      "fen": "8/8/8/2R5/3k4/4R3/KN6/8 b - - 1 1"
+     },
+     {
+      "san": "Kxe3",
+      "uci": "d4e3",
+      "fen": "8/8/8/2R5/8/4k3/KN6/8 w - - 0 2"
+     },
+     {
+      "san": "Kb3",
+      "uci": "a2b3",
+      "fen": "8/8/8/2R5/8/1K2k3/1N6/8 b - - 1 2"
+     },
+     {
+      "san": "Kd2",
+      "uci": "e3d2",
+      "fen": "8/8/8/2R5/8/1K6/1N1k4/8 w - - 2 3"
+     },
+     {
+      "san": "Rd5+",
+      "uci": "c5d5",
+      "fen": "8/8/8/3R4/8/1K6/1N1k4/8 b - - 3 3"
+     },
+     {
+      "san": "Kc1",
+      "uci": "d2c1",
+      "fen": "8/8/8/3R4/8/1K6/1N6/2k5 w - - 4 4"
+     },
+     {
+      "san": "Rd1#",
+      "uci": "d5d1",
+      "fen": "8/8/8/8/8/1K6/1N6/2kR4 b - - 5 4"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "notes": [
+  "Only one position exists at this depth."
+ ],
+ "candidates_considered": 4,
+ "candidates_total": 4
+}

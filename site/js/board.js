@@ -4,10 +4,10 @@
 import { Chessboard, INPUT_EVENT_TYPE, BORDER_TYPE } from "../vendor/cm-chessboard/Chessboard.js";
 import { PromotionDialog, PROMOTION_DIALOG_RESULT_TYPE } from "../vendor/cm-chessboard/extensions/promotion-dialog/PromotionDialog.js";
 
-export function makeBoard(el, { input = false } = {}) {
+export function makeBoard(el, { input = false, assetsUrl = "vendor/cm-chessboard/assets/" } = {}) {
   const board = new Chessboard(el, {
     position: "8/8/8/8/8/8/8/8",
-    assetsUrl: "vendor/cm-chessboard/assets/",
+    assetsUrl,
     style: { borderType: BORDER_TYPE.none },
     extensions: input ? [{ class: PromotionDialog }] : [],
   });

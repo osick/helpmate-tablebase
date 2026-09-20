@@ -444,6 +444,81 @@ pytest src/packages/bindings/tests              # fast (~seconds)
 pytest src/packages/bindings/tests --run-slow   # + exhaustive KQvk cross-check (~10 min)
 ```
 
+## Static showcase (site/)
+
+Two stages, run in that order. `site/data/*.json` is committed (the Pages
+workflow has no tables); `site/material/*.html` and `site/themes.html` are
+generated on every build and git-ignored.
+
+### Stage 1: mining problem data from the corpus
+
+```bash
+python3 tools/build_problems.py --tables ~/tb [--binary ./build/helpmate] \
+    [--out site/data] [--material NAME ...]
+```
+
+`make site-data` runs exactly this, with `TABLES` defaulting to `~/tb`;
+override it on the command line (`make site-data TABLES=/path/to/tables`)
+for a different corpus location.
+
+Needs a real corpus -- the full 302-table corpus is 576 GB on disk -- and
+takes 80 minutes, measured on this machine for the full 302-material corpus.
+The cost is front-loaded: the sixteen six-piece tables dominate it at
+roughly 150 seconds each, five-piece tables average about 14 seconds, and
+four-piece and smaller are negligible. Materials are processed alphabetically
+and six-piece names sort first, so the run looks alarmingly slow for its
+first half hour before it accelerates -- that is normal, not a hang.
+
+Per material, two calls to `helpmate mine --jsonl --themes --solutions` find
+up to three deepest positions with a unique solution and up to three deepest
+positions with exactly two solutions that differ in both their first and
+last move (a "strict dual"); the depths themselves come from the stats
+sidecar's `uniqueness` map and are exact, so nothing needs scanning to find
+them. Output: one document per material at `site/data/material/<NAME>.json`
+(302 of them, including the 68 markers -- material in which no helpmate
+exists) plus the two aggregate files `site/data/themes.json` and
+`site/data/index.json`. The last full run reported `wrote 302 materials, 24
+themes, 0 failure(s)`; the committed data is 4.5 MB (302 documents at 3.5 MB,
+`themes.json` 968 KB, `index.json` 36 KB).
+
+`--material NAME` (repeatable) scopes a run to specific materials. A scoped
+run merges into the two aggregate files rather than replacing them -- each
+touched material's prior contribution is dropped from `themes.json` first,
+then its new one added -- so a partial run never wipes the rest of the corpus
+out of the site index.
+
+Worth a note on the depths: the deepest strict dual is usually one ply
+shallower than the deepest dual overall, because at the very deepest depth
+where a dual exists at all, the two solutions almost always share a first or
+a last move. Both depths are recorded (`deepest_dual_dtm`,
+`strict_dual_dtm` in the stats), and the material page states both and
+explains the difference rather than quietly showing the shallower number.
+
+### Stage 2: rendering the pages (`make site`)
+
+```bash
+python3 tools/render_site.py --data site/data --out site
+```
+
+Reads only the JSON stage 1 committed -- no corpus, no network, and
+deliberately no third-party Python: `.github/workflows/pages.yml` builds the
+site with `actions/setup-node` and no pip step, so anything `render_site.py`
+imported beyond the standard library would simply not be there in CI. It
+writes `site/material/<NAME>.html` (one per material, including the 68
+markers) and `site/themes.html`, a corpus-wide index of every theme linking
+to every problem that shows it. Boards step through the `{san, uci, fen}`
+triples the JSON already carries, so these pages need no chess logic of
+their own. Output is derived and deterministic, so it is git-ignored rather
+than committed, and rebuilt on every `make site`.
+
+**Editing page markup never needs the corpus.** Changing `render_site.py`'s
+HTML only needs `make site` against whatever JSON is already committed;
+only regenerating the problem data itself needs stage 1 and a real corpus.
+
+`make test-site` runs `make site` and then the site's node tests
+(`site/tests/*.test.js`, plus `node --check` on every `site/js` file); it is
+part of `make test-all` and the Pages CI gate.
+
 ## Continuous integration
 
 `.github/workflows/ci.yml` runs on every push to `main` and every pull

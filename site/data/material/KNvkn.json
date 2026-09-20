@@ -1,0 +1,555 @@
+{
+ "material": "KNvkn",
+ "pieces": 4,
+ "stats": {
+  "max_dtm": 20,
+  "deepest_unique_dtm": 15,
+  "unique_at_depth": 14,
+  "deepest_dual_dtm": 16,
+  "strict_dual_dtm": 13,
+  "plane_size": 1892352,
+  "solvable": 3134443,
+  "unique": 5273,
+  "size_bytes": 1219754,
+  "saturated_at_max": true,
+  "dtm_histogram": {
+   "btm": {
+    "0": 1,
+    "10": 192680,
+    "12": 469589,
+    "14": 564810,
+    "16": 250581,
+    "18": 30966,
+    "2": 9,
+    "20": 966,
+    "4": 436,
+    "6": 6909,
+    "8": 50275
+   },
+   "wtm": {
+    "1": 5,
+    "11": 308996,
+    "13": 578521,
+    "15": 454954,
+    "17": 98220,
+    "19": 3546,
+    "3": 73,
+    "5": 2188,
+    "7": 20124,
+    "9": 100594
+   }
+  }
+ },
+ "unique": [
+  {
+   "fen": "5n2/8/8/8/8/8/3k2N1/K7 w - - 0 1",
+   "dtm": 15,
+   "stipulation": "h#7.5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "self-block",
+    "nocapture",
+    "nocheck"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Nh4",
+      "uci": "g2h4",
+      "fen": "5n2/8/8/8/7N/8/3k4/K7 b - - 1 1"
+     },
+     {
+      "san": "Ke3",
+      "uci": "d2e3",
+      "fen": "5n2/8/8/8/7N/4k3/8/K7 w - - 2 2"
+     },
+     {
+      "san": "Kb2",
+      "uci": "a1b2",
+      "fen": "5n2/8/8/8/7N/4k3/1K6/8 b - - 3 2"
+     },
+     {
+      "san": "Kf4",
+      "uci": "e3f4",
+      "fen": "5n2/8/8/8/5k1N/8/1K6/8 w - - 4 3"
+     },
+     {
+      "san": "Kc3",
+      "uci": "b2c3",
+      "fen": "5n2/8/8/8/5k1N/2K5/8/8 b - - 5 3"
+     },
+     {
+      "san": "Kg5",
+      "uci": "f4g5",
+      "fen": "5n2/8/8/6k1/7N/2K5/8/8 w - - 6 4"
+     },
+     {
+      "san": "Kd4",
+      "uci": "c3d4",
+      "fen": "5n2/8/8/6k1/3K3N/8/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kh6",
+      "uci": "g5h6",
+      "fen": "5n2/8/7k/8/3K3N/8/8/8 w - - 8 5"
+     },
+     {
+      "san": "Ke5",
+      "uci": "d4e5",
+      "fen": "5n2/8/7k/4K3/7N/8/8/8 b - - 9 5"
+     },
+     {
+      "san": "Kh7",
+      "uci": "h6h7",
+      "fen": "5n2/7k/8/4K3/7N/8/8/8 w - - 10 6"
+     },
+     {
+      "san": "Kf6",
+      "uci": "e5f6",
+      "fen": "5n2/7k/5K2/8/7N/8/8/8 b - - 11 6"
+     },
+     {
+      "san": "Kh8",
+      "uci": "h7h8",
+      "fen": "5n1k/8/5K2/8/7N/8/8/8 w - - 12 7"
+     },
+     {
+      "san": "Kf7",
+      "uci": "f6f7",
+      "fen": "5n1k/5K2/8/8/7N/8/8/8 b - - 13 7"
+     },
+     {
+      "san": "Nh7",
+      "uci": "f8h7",
+      "fen": "7k/5K1n/8/8/7N/8/8/8 w - - 14 8"
+     },
+     {
+      "san": "Ng6#",
+      "uci": "h4g6",
+      "fen": "7k/5K1n/6N1/8/8/8/8/8 b - - 15 8"
+     }
+    ]
+   ],
+   "published": [
+    {
+     "id": "P0542897",
+     "author": "Kotesovec, Vaclav",
+     "sources": [
+      "Sachova skladba, No. 1065, 06/1987"
+     ],
+     "stipulation": "h#8 0.1...",
+     "fen": "8/6N1/n7/8/6k1/8/8/7K"
+    },
+    {
+     "id": "P0542908",
+     "author": "?, ?",
+     "sources": [
+      "?, 03/1975"
+     ],
+     "stipulation": "h#8 0.1...",
+     "fen": "7K/8/8/6k1/8/n7/6N1/8"
+    }
+   ],
+   "published_by": "Kotesovec (1987)",
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": {
+    "fen": "5n2/8/8/8/6N1/8/3k4/1K6 w - - 0 1",
+    "solution": "Ne5 Ke3 Kc2 Kf4 Kd3 Kg5 Ke4 Kh6 Kf5 Kh7 Kf6 Kh8 Kf7 Nh7 Ng6#",
+    "themes": [
+     "pure",
+     "model",
+     "ideal",
+     "self-block",
+     "nocapture",
+     "nocheck"
+    ],
+    "quality": {
+     "capture_first": false,
+     "check": false,
+     "legal": true
+    }
+   }
+  },
+  {
+   "fen": "7n/8/8/4N3/3k4/8/8/1K6 w - - 0 1",
+   "dtm": 15,
+   "stipulation": "h#7.5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "self-block",
+    "nocapture"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Nc4",
+      "uci": "e5c4",
+      "fen": "7n/8/8/8/2Nk4/8/8/1K6 b - - 1 1"
+     },
+     {
+      "san": "Nf7",
+      "uci": "h8f7",
+      "fen": "8/5n2/8/8/2Nk4/8/8/1K6 w - - 2 2"
+     },
+     {
+      "san": "Nd6",
+      "uci": "c4d6",
+      "fen": "8/5n2/3N4/8/3k4/8/8/1K6 b - - 3 2"
+     },
+     {
+      "san": "Ke5",
+      "uci": "d4e5",
+      "fen": "8/5n2/3N4/4k3/8/8/8/1K6 w - - 4 3"
+     },
+     {
+      "san": "Kc2",
+      "uci": "b1c2",
+      "fen": "8/5n2/3N4/4k3/8/8/2K5/8 b - - 5 3"
+     },
+     {
+      "san": "Kf6",
+      "uci": "e5f6",
+      "fen": "8/5n2/3N1k2/8/8/8/2K5/8 w - - 6 4"
+     },
+     {
+      "san": "Kd3",
+      "uci": "c2d3",
+      "fen": "8/5n2/3N1k2/8/8/3K4/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kg7",
+      "uci": "f6g7",
+      "fen": "8/5nk1/3N4/8/8/3K4/8/8 w - - 8 5"
+     },
+     {
+      "san": "Ke4",
+      "uci": "d3e4",
+      "fen": "8/5nk1/3N4/8/4K3/8/8/8 b - - 9 5"
+     },
+     {
+      "san": "Kh8",
+      "uci": "g7h8",
+      "fen": "7k/5n2/3N4/8/4K3/8/8/8 w - - 10 6"
+     },
+     {
+      "san": "Kf5",
+      "uci": "e4f5",
+      "fen": "7k/5n2/3N4/5K2/8/8/8/8 b - - 11 6"
+     },
+     {
+      "san": "Nh6+",
+      "uci": "f7h6",
+      "fen": "7k/8/3N3n/5K2/8/8/8/8 w - - 12 7"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f5g6",
+      "fen": "7k/8/3N2Kn/8/8/8/8/8 b - - 13 7"
+     },
+     {
+      "san": "Ng8",
+      "uci": "h6g8",
+      "fen": "6nk/8/3N2K1/8/8/8/8/8 w - - 14 8"
+     },
+     {
+      "san": "Nf7#",
+      "uci": "d6f7",
+      "fen": "6nk/5N2/6K1/8/8/8/8/8 b - - 15 8"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  },
+  {
+   "fen": "2n5/8/8/3N4/6k1/8/8/K7 w - - 0 1",
+   "dtm": 15,
+   "stipulation": "h#7.5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "self-block",
+    "nocapture",
+    "nocheck"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kb2",
+      "uci": "a1b2",
+      "fen": "2n5/8/8/3N4/6k1/8/1K6/8 b - - 1 1"
+     },
+     {
+      "san": "Kf5",
+      "uci": "g4f5",
+      "fen": "2n5/8/8/3N1k2/8/8/1K6/8 w - - 2 2"
+     },
+     {
+      "san": "Kc3",
+      "uci": "b2c3",
+      "fen": "2n5/8/8/3N1k2/8/2K5/8/8 b - - 3 2"
+     },
+     {
+      "san": "Ke6",
+      "uci": "f5e6",
+      "fen": "2n5/8/4k3/3N4/8/2K5/8/8 w - - 4 3"
+     },
+     {
+      "san": "Kd4",
+      "uci": "c3d4",
+      "fen": "2n5/8/4k3/3N4/3K4/8/8/8 b - - 5 3"
+     },
+     {
+      "san": "Kd7",
+      "uci": "e6d7",
+      "fen": "2n5/3k4/8/3N4/3K4/8/8/8 w - - 6 4"
+     },
+     {
+      "san": "Ke5",
+      "uci": "d4e5",
+      "fen": "2n5/3k4/8/3NK3/8/8/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kc6",
+      "uci": "d7c6",
+      "fen": "2n5/8/2k5/3NK3/8/8/8/8 w - - 8 5"
+     },
+     {
+      "san": "Ke6",
+      "uci": "e5e6",
+      "fen": "2n5/8/2k1K3/3N4/8/8/8/8 b - - 9 5"
+     },
+     {
+      "san": "Kb7",
+      "uci": "c6b7",
+      "fen": "2n5/1k6/4K3/3N4/8/8/8/8 w - - 10 6"
+     },
+     {
+      "san": "Kd7",
+      "uci": "e6d7",
+      "fen": "2n5/1k1K4/8/3N4/8/8/8/8 b - - 11 6"
+     },
+     {
+      "san": "Ka8",
+      "uci": "b7a8",
+      "fen": "k1n5/3K4/8/3N4/8/8/8/8 w - - 12 7"
+     },
+     {
+      "san": "Kc7",
+      "uci": "d7c7",
+      "fen": "k1n5/2K5/8/3N4/8/8/8/8 b - - 13 7"
+     },
+     {
+      "san": "Na7",
+      "uci": "c8a7",
+      "fen": "k7/n1K5/8/3N4/8/8/8/8 w - - 14 8"
+     },
+     {
+      "san": "Nb6#",
+      "uci": "d5b6",
+      "fen": "k7/n1K5/1N6/8/8/8/8/8 b - - 15 8"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "duals": [
+  {
+   "fen": "8/8/6n1/8/8/2kN4/8/K7 w - - 0 1",
+   "dtm": 13,
+   "stipulation": "h#6.5",
+   "count": 2,
+   "starts": 2,
+   "ends": 2,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "self-block",
+    "nocapture",
+    "umnov"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kb1",
+      "uci": "a1b1",
+      "fen": "8/8/6n1/8/8/2kN4/8/1K6 b - - 1 1"
+     },
+     {
+      "san": "Nf4",
+      "uci": "g6f4",
+      "fen": "8/8/8/8/5n2/2kN4/8/1K6 w - - 2 2"
+     },
+     {
+      "san": "Kc1",
+      "uci": "b1c1",
+      "fen": "8/8/8/8/5n2/2kN4/8/2K5 b - - 3 2"
+     },
+     {
+      "san": "Ne2+",
+      "uci": "f4e2",
+      "fen": "8/8/8/8/8/2kN4/4n3/2K5 w - - 4 3"
+     },
+     {
+      "san": "Kd1",
+      "uci": "c1d1",
+      "fen": "8/8/8/8/8/2kN4/4n3/3K4 b - - 5 3"
+     },
+     {
+      "san": "Nc1",
+      "uci": "e2c1",
+      "fen": "8/8/8/8/8/2kN4/8/2nK4 w - - 6 4"
+     },
+     {
+      "san": "Nc5",
+      "uci": "d3c5",
+      "fen": "8/8/8/2N5/8/2k5/8/2nK4 b - - 7 4"
+     },
+     {
+      "san": "Kb2",
+      "uci": "c3b2",
+      "fen": "8/8/8/2N5/8/8/1k6/2nK4 w - - 8 5"
+     },
+     {
+      "san": "Kd2",
+      "uci": "d1d2",
+      "fen": "8/8/8/2N5/8/8/1k1K4/2n5 b - - 9 5"
+     },
+     {
+      "san": "Ka1",
+      "uci": "b2a1",
+      "fen": "8/8/8/2N5/8/8/3K4/k1n5 w - - 10 6"
+     },
+     {
+      "san": "Kc2",
+      "uci": "d2c2",
+      "fen": "8/8/8/2N5/8/8/2K5/k1n5 b - - 11 6"
+     },
+     {
+      "san": "Na2",
+      "uci": "c1a2",
+      "fen": "8/8/8/2N5/8/8/n1K5/k7 w - - 12 7"
+     },
+     {
+      "san": "Nb3#",
+      "uci": "c5b3",
+      "fen": "8/8/8/8/8/1N6/n1K5/k7 b - - 13 7"
+     }
+    ],
+    [
+     {
+      "san": "Ka2",
+      "uci": "a1a2",
+      "fen": "8/8/6n1/8/8/2kN4/K7/8 b - - 1 1"
+     },
+     {
+      "san": "Ne5",
+      "uci": "g6e5",
+      "fen": "8/8/8/4n3/8/2kN4/K7/8 w - - 2 2"
+     },
+     {
+      "san": "Ka3",
+      "uci": "a2a3",
+      "fen": "8/8/8/4n3/8/K1kN4/8/8 b - - 3 2"
+     },
+     {
+      "san": "Nc4+",
+      "uci": "e5c4",
+      "fen": "8/8/8/8/2n5/K1kN4/8/8 w - - 4 3"
+     },
+     {
+      "san": "Ka4",
+      "uci": "a3a4",
+      "fen": "8/8/8/8/K1n5/2kN4/8/8 b - - 5 3"
+     },
+     {
+      "san": "Na3",
+      "uci": "c4a3",
+      "fen": "8/8/8/8/K7/n1kN4/8/8 w - - 6 4"
+     },
+     {
+      "san": "Ne1",
+      "uci": "d3e1",
+      "fen": "8/8/8/8/K7/n1k5/8/4N3 b - - 7 4"
+     },
+     {
+      "san": "Kb2",
+      "uci": "c3b2",
+      "fen": "8/8/8/8/K7/n7/1k6/4N3 w - - 8 5"
+     },
+     {
+      "san": "Kb4",
+      "uci": "a4b4",
+      "fen": "8/8/8/8/1K6/n7/1k6/4N3 b - - 9 5"
+     },
+     {
+      "san": "Ka1",
+      "uci": "b2a1",
+      "fen": "8/8/8/8/1K6/n7/8/k3N3 w - - 10 6"
+     },
+     {
+      "san": "Kb3",
+      "uci": "b4b3",
+      "fen": "8/8/8/8/8/nK6/8/k3N3 b - - 11 6"
+     },
+     {
+      "san": "Nb1",
+      "uci": "a3b1",
+      "fen": "8/8/8/8/8/1K6/8/kn2N3 w - - 12 7"
+     },
+     {
+      "san": "Nc2#",
+      "uci": "e1c2",
+      "fen": "8/8/8/8/8/1K6/2N5/kn6 b - - 13 7"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "notes": [
+  "Only one position exists at this depth."
+ ],
+ "candidates_considered": 14,
+ "candidates_total": 14
+}

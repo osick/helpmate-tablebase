@@ -32,7 +32,7 @@ function render() {
   document.querySelector("#materials-table tbody").innerHTML = shown.map((r) => {
     const marker = r.max_dtm === null;
     return `<tr class="${marker ? "marker" : ""}">
-      <td class="mono">${r.material}</td><td class="num">${r.pieces}</td>
+      <td class="mono"><a href="material/${r.material}.html">${r.material}</a></td><td class="num">${r.pieces}</td>
       <td class="num">${marker ? "—" : stipulation(r.max_dtm)}</td>
       <td class="num">${marker ? "0" : fmt(r.solvable)}</td>
       <td class="num">${marker ? "0" : fmt(r.unique)}</td>

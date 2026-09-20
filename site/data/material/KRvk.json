@@ -1,0 +1,376 @@
+{
+ "material": "KRvk",
+ "pieces": 3,
+ "stats": {
+  "max_dtm": 14,
+  "deepest_unique_dtm": 9,
+  "unique_at_depth": 1,
+  "deepest_dual_dtm": 10,
+  "strict_dual_dtm": 9,
+  "plane_size": 29568,
+  "solvable": 49952,
+  "unique": 3910,
+  "size_bytes": 54800,
+  "saturated_at_max": true,
+  "dtm_histogram": {
+   "btm": {
+    "0": 27,
+    "10": 4473,
+    "12": 734,
+    "14": 27,
+    "2": 294,
+    "4": 3270,
+    "6": 9039,
+    "8": 10129
+   },
+   "wtm": {
+    "1": 189,
+    "11": 1041,
+    "13": 35,
+    "3": 1372,
+    "5": 5248,
+    "7": 7893,
+    "9": 6181
+   }
+  }
+ },
+ "unique": [
+  {
+   "fen": "4k3/8/8/8/8/8/2R5/1K6 w - - 0 1",
+   "dtm": 9,
+   "stipulation": "h#4.5",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black",
+    "nocapture",
+    "nocheck"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kc1",
+      "uci": "b1c1",
+      "fen": "4k3/8/8/8/8/8/2R5/2K5 b - - 1 1"
+     },
+     {
+      "san": "Kf7",
+      "uci": "e8f7",
+      "fen": "8/5k2/8/8/8/8/2R5/2K5 w - - 2 2"
+     },
+     {
+      "san": "Kd2",
+      "uci": "c1d2",
+      "fen": "8/5k2/8/8/8/8/2RK4/8 b - - 3 2"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f7g6",
+      "fen": "8/8/6k1/8/8/8/2RK4/8 w - - 4 3"
+     },
+     {
+      "san": "Ke3",
+      "uci": "d2e3",
+      "fen": "8/8/6k1/8/8/4K3/2R5/8 b - - 5 3"
+     },
+     {
+      "san": "Kh5",
+      "uci": "g6h5",
+      "fen": "8/8/8/7k/8/4K3/2R5/8 w - - 6 4"
+     },
+     {
+      "san": "Kf4",
+      "uci": "e3f4",
+      "fen": "8/8/8/7k/5K2/8/2R5/8 b - - 7 4"
+     },
+     {
+      "san": "Kh4",
+      "uci": "h5h4",
+      "fen": "8/8/8/8/5K1k/8/2R5/8 w - - 8 5"
+     },
+     {
+      "san": "Rh2#",
+      "uci": "c2h2",
+      "fen": "8/8/8/8/5K1k/8/7R/8 b - - 9 5"
+     }
+    ]
+   ],
+   "published": [
+    {
+     "id": "P0531991",
+     "author": "Ban, Jen\u00f6",
+     "sources": [
+      "Diagramme und Figuren, No. 1295, 27/11/1965",
+      "Catalogue h# (CHM) avec 6 pieces, No. 122, 1995",
+      "Ideal-Mate Encyclopedia Vol.1, No. 1848, 1999"
+     ],
+     "stipulation": "h#5 0.1...",
+     "fen": "3k4/8/8/8/8/8/5R2/6K1"
+    }
+   ],
+   "published_by": "Ban (1965)",
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "duals": [
+  {
+   "fen": "4k3/2R5/8/8/8/8/8/2K5 w - - 0 1",
+   "dtm": 9,
+   "stipulation": "h#4.5",
+   "count": 2,
+   "starts": 2,
+   "ends": 2,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black",
+    "nocapture"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Rc2",
+      "uci": "c7c2",
+      "fen": "4k3/8/8/8/8/8/2R5/2K5 b - - 1 1"
+     },
+     {
+      "san": "Kf7",
+      "uci": "e8f7",
+      "fen": "8/5k2/8/8/8/8/2R5/2K5 w - - 2 2"
+     },
+     {
+      "san": "Kd2",
+      "uci": "c1d2",
+      "fen": "8/5k2/8/8/8/8/2RK4/8 b - - 3 2"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f7g6",
+      "fen": "8/8/6k1/8/8/8/2RK4/8 w - - 4 3"
+     },
+     {
+      "san": "Ke3",
+      "uci": "d2e3",
+      "fen": "8/8/6k1/8/8/4K3/2R5/8 b - - 5 3"
+     },
+     {
+      "san": "Kh5",
+      "uci": "g6h5",
+      "fen": "8/8/8/7k/8/4K3/2R5/8 w - - 6 4"
+     },
+     {
+      "san": "Kf4",
+      "uci": "e3f4",
+      "fen": "8/8/8/7k/5K2/8/2R5/8 b - - 7 4"
+     },
+     {
+      "san": "Kh4",
+      "uci": "h5h4",
+      "fen": "8/8/8/8/5K1k/8/2R5/8 w - - 8 5"
+     },
+     {
+      "san": "Rh2#",
+      "uci": "c2h2",
+      "fen": "8/8/8/8/5K1k/8/7R/8 b - - 9 5"
+     }
+    ],
+    [
+     {
+      "san": "Rc8+",
+      "uci": "c7c8",
+      "fen": "2R1k3/8/8/8/8/8/8/2K5 b - - 1 1"
+     },
+     {
+      "san": "Kf7",
+      "uci": "e8f7",
+      "fen": "2R5/5k2/8/8/8/8/8/2K5 w - - 2 2"
+     },
+     {
+      "san": "Kd2",
+      "uci": "c1d2",
+      "fen": "2R5/5k2/8/8/8/8/3K4/8 b - - 3 2"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f7g6",
+      "fen": "2R5/8/6k1/8/8/8/3K4/8 w - - 4 3"
+     },
+     {
+      "san": "Ke3",
+      "uci": "d2e3",
+      "fen": "2R5/8/6k1/8/8/4K3/8/8 b - - 5 3"
+     },
+     {
+      "san": "Kh5",
+      "uci": "g6h5",
+      "fen": "2R5/8/8/7k/8/4K3/8/8 w - - 6 4"
+     },
+     {
+      "san": "Kf4",
+      "uci": "e3f4",
+      "fen": "2R5/8/8/7k/5K2/8/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kh4",
+      "uci": "h5h4",
+      "fen": "2R5/8/8/8/5K1k/8/8/8 w - - 8 5"
+     },
+     {
+      "san": "Rh8#",
+      "uci": "c8h8",
+      "fen": "7R/8/8/8/5K1k/8/8/8 b - - 9 5"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  },
+  {
+   "fen": "4k3/3R4/8/8/8/8/8/2K5 w - - 0 1",
+   "dtm": 9,
+   "stipulation": "h#4.5",
+   "count": 2,
+   "starts": 2,
+   "ends": 2,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black",
+    "nocapture"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Rd1",
+      "uci": "d7d1",
+      "fen": "4k3/8/8/8/8/8/8/2KR4 b - - 1 1"
+     },
+     {
+      "san": "Kf7",
+      "uci": "e8f7",
+      "fen": "8/5k2/8/8/8/8/8/2KR4 w - - 2 2"
+     },
+     {
+      "san": "Kd2",
+      "uci": "c1d2",
+      "fen": "8/5k2/8/8/8/8/3K4/3R4 b - - 3 2"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f7g6",
+      "fen": "8/8/6k1/8/8/8/3K4/3R4 w - - 4 3"
+     },
+     {
+      "san": "Ke3",
+      "uci": "d2e3",
+      "fen": "8/8/6k1/8/8/4K3/8/3R4 b - - 5 3"
+     },
+     {
+      "san": "Kh5",
+      "uci": "g6h5",
+      "fen": "8/8/8/7k/8/4K3/8/3R4 w - - 6 4"
+     },
+     {
+      "san": "Kf4",
+      "uci": "e3f4",
+      "fen": "8/8/8/7k/5K2/8/8/3R4 b - - 7 4"
+     },
+     {
+      "san": "Kh4",
+      "uci": "h5h4",
+      "fen": "8/8/8/8/5K1k/8/8/3R4 w - - 8 5"
+     },
+     {
+      "san": "Rh1#",
+      "uci": "d1h1",
+      "fen": "8/8/8/8/5K1k/8/8/7R b - - 9 5"
+     }
+    ],
+    [
+     {
+      "san": "Rd8+",
+      "uci": "d7d8",
+      "fen": "3Rk3/8/8/8/8/8/8/2K5 b - - 1 1"
+     },
+     {
+      "san": "Kf7",
+      "uci": "e8f7",
+      "fen": "3R4/5k2/8/8/8/8/8/2K5 w - - 2 2"
+     },
+     {
+      "san": "Kd2",
+      "uci": "c1d2",
+      "fen": "3R4/5k2/8/8/8/8/3K4/8 b - - 3 2"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f7g6",
+      "fen": "3R4/8/6k1/8/8/8/3K4/8 w - - 4 3"
+     },
+     {
+      "san": "Ke3",
+      "uci": "d2e3",
+      "fen": "3R4/8/6k1/8/8/4K3/8/8 b - - 5 3"
+     },
+     {
+      "san": "Kh5",
+      "uci": "g6h5",
+      "fen": "3R4/8/8/7k/8/4K3/8/8 w - - 6 4"
+     },
+     {
+      "san": "Kf4",
+      "uci": "e3f4",
+      "fen": "3R4/8/8/7k/5K2/8/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kh4",
+      "uci": "h5h4",
+      "fen": "3R4/8/8/8/5K1k/8/8/8 w - - 8 5"
+     },
+     {
+      "san": "Rh8#",
+      "uci": "d8h8",
+      "fen": "7R/8/8/8/5K1k/8/8/8 b - - 9 5"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "notes": [
+  "Only one position exists at this depth.",
+  "Only 2 distinct ideas exist at this depth."
+ ],
+ "candidates_considered": 1,
+ "candidates_total": 1
+}

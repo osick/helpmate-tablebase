@@ -9,7 +9,7 @@ BOOKLET ?= build-booklet
 GCOV ?= gcov-13
 .PHONY: configure build test slowtest stress coverage clean jstest \
 	install install-dev install-bin uninstall-bin test-core test-cli test-api test-web test-bindings test-repo test-all \
-	lint typecheck format-check format docs-deepest booklet
+	lint typecheck format-check format docs-deepest site-data booklet
 configure:
 	cmake -S . -B $(BUILD)
 build: configure
@@ -225,6 +225,16 @@ docs-deepest:
 	python3 tools/render_deepest.py --data docs/DEEPEST.json --out docs/DEEPEST.md
 	python3 tools/deepest_booklet.py --data docs/DEEPEST.json --out docs/DEEPEST.tex
 
+# The per-material problem data behind the site's material pages. Needs a
+# corpus, like docs-deepest -- the output is committed because the Pages
+# workflow has no tables. TABLES defaults to ~/tb; a target-specific
+# assignment (not the global "?=" the stress target already uses at line
+# 195) so the two defaults don't fight over which one wins first.
+site-data: TABLES = $(HOME)/tb
+site-data: build
+	python3 tools/build_problems.py --tables $(TABLES) --binary $(BUILD)/helpmate \
+	  --out site/data
+
 # Typeset the booklet. Twice: the index carries page references, which are
 # only correct once the .aux from the first pass exists. Needs chessboard.sty
 # -- TeX Live ships it in texlive-games.
@@ -251,6 +261,7 @@ site:
 	rm -rf site/vendor && mkdir -p site/vendor
 	cp -r src/packages/web/helpmate_web/static/vendor/cm-chessboard site/vendor/cm-chessboard
 	cp src/packages/web/helpmate_web/static/vendor/README.md site/vendor/README.md
+	python3 tools/render_site.py --data site/data --out site
 
 test-site: site
 	node --test site/tests/*.test.js

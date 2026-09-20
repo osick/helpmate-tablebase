@@ -82,7 +82,7 @@ dataset. The deepest mate in the corpus is h#17.
 [**The deepest sound problem in every material class →**](docs/DEEPEST.md)
 — also as a [printable A5 booklet (PDF)](docs/DEEPEST.pdf).
 
-**Or on a board:** [osick.github.io/helpmate-tablebase](https://osick.github.io/helpmate-tablebase/) — the deepest sound problems played through, 1071 unique-solution puzzles to solve (filter by theme; a solved puzzle shows the themes it exhibits), and the corpus table by table. Static, no server, built from the same data.
+**Or on a board:** [osick.github.io/helpmate-tablebase](https://osick.github.io/helpmate-tablebase/) — the deepest sound problems played through, 1071 unique-solution puzzles to solve (filter by theme; a solved puzzle shows the themes it exhibits), and the corpus table by table. Every material now has a page of its own — its deepest unique and deepest dual problems, their themes, and its statistics — e.g. [osick.github.io/helpmate-tablebase/material/KQvk.html](https://osick.github.io/helpmate-tablebase/material/KQvk.html) — and a corpus-wide theme index links every theme to every problem that shows it: [osick.github.io/helpmate-tablebase/themes.html](https://osick.github.io/helpmate-tablebase/themes.html). Static, no server, built from the same data.
 One position per material, with a diagram and its solution — and a link that
 opens each one in the [Helpmate Analyzer](https://helpman.komtera.lt/) with the
 stipulation already set. The same data is typeset as a print booklet:
