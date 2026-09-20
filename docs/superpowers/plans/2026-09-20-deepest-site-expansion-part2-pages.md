@@ -16,7 +16,7 @@
 
 - Python floor is **3.9**. `from __future__ import annotations`; `typing.List` / `Dict` / `Optional`, not PEP 604.
 - ruff: `line-length = 100`, `select = ["E4","E7","E9","F"]`. `ruff format` is not used.
-- **No new Python dependency.** Templating is f-strings plus `html.escape`. Jinja2 is not in `pyproject.toml` and is not being added for this.
+- **`tools/render_site.py` must import the standard library only.** Not a style preference — a hard constraint. `.github/workflows/pages.yml` runs `make test-site` after `actions/setup-node` and nothing else: there is no `pip install` step, so **python-chess is not available when the site is built in CI**. `make site` now runs this script, so any import that reaches `chess` (directly, or via `tools/published_problems.py`, which does `import chess` at line 72) breaks the Pages deploy. Templating is f-strings plus `html.escape`; Jinja2 is not in `pyproject.toml` and is not being added.
 - **Escape every value that reaches HTML.** Material names, theme names and author names all come from JSON; `html.escape` is not optional.
 - Tests live in `tests/repo/`, loaded with `importlib.util.spec_from_file_location`.
 - Playwright must launch with `args=["--no-sandbox"]` — user namespaces are restricted on this machine.
@@ -256,10 +256,23 @@ def test_problem_html_renders_both_solutions_of_a_dual():
     assert "Qg7#" in out and "Qg6#" in out
 
 
-def test_problem_html_embeds_the_plies_as_json_for_the_board():
+def test_problem_html_embeds_the_plies_as_escaped_json_for_the_board():
+    """The JSON rides in an HTML attribute, so its quotes are entity-escaped.
+
+    Asserting the raw `"uci": "g5g7"` here would fail, and the tempting way to
+    make that pass is to drop the escaping — which is exactly the bug. The
+    browser unescapes `&quot;` when it reads `dataset.plies`, so what must hold
+    is that the values survive and the attribute is escaped."""
     m = _load()
     out = m.problem_html(PROBLEM, 1)
-    assert '"uci": "g5g7"' in out or '"uci":"g5g7"' in out
+    assert "data-plies='" in out
+    assert "g5g7" in out and "Qg7#" in out
+    assert "&quot;uci&quot;" in out
+    # And it must round-trip the way the browser will read it.
+    import html as html_mod
+    import json as json_mod
+    attr = out.split("data-plies='")[1].split("'")[0]
+    assert json_mod.loads(html_mod.unescape(attr))[0][1]["uci"] == "g5g7"
 
 
 def test_attribution_names_the_author_and_source_when_published():
@@ -301,9 +314,11 @@ Append to `tools/render_site.py`:
 def _quality_note(q: Optional[Dict]) -> str:
     """What is wrong with a problem, in words.
 
-    Mirrors tools/published_problems.quality_note, which cannot be imported
-    here: that module reads the published-problem database at import time and
-    pulls in python-chess, neither of which a pure renderer should need."""
+    Deliberately mirrors tools/published_problems.quality_note rather than
+    importing it. That module does `import chess` at module scope, and the
+    Pages workflow builds this site with node only -- no pip step, so
+    python-chess is absent in CI. Importing it here would break the deploy.
+    Keep the two wordings in step."""
     if not q:
         return ""
     if not q.get("legal", True):
@@ -1143,7 +1158,9 @@ what the strict dual filter costs in depth.
 
 **Deliberate deviation from the spec, already folded back into it:** the spec's first draft said the front view would be statically generated. `front.js` animates the deepest six-piece problem on a timer, so pre-rendering it would kill the animation or duplicate the renderer. The spec now says the front view stays dynamic and the Materials screen becomes the directory.
 
-**Known gap, deliberate:** `_quality_note` in Task 2 duplicates the wording of `quality_note` in `tools/published_problems.py` rather than importing it. That module reads the published-problem database and imports python-chess at module scope, which a pure renderer should not need. The two must be kept in step; if a third caller appears, extract the wording into a shared module rather than copying it again.
+**Known gap, deliberate and forced:** `_quality_note` in Task 2 duplicates the wording of `quality_note` in `tools/published_problems.py` rather than importing it. That module does `import chess` at module scope (line 72), and `.github/workflows/pages.yml` builds the site with `actions/setup-node` and no pip step — python-chess is simply not there in CI. Since `make site` now runs the renderer, importing it would break the Pages deploy. The duplication is the cheaper of two bad options; keep the two wordings in step, and if a third caller appears, extract the wording into a dependency-free module rather than copying it again.
+
+**Defect found in pre-flight and corrected:** Task 2's original test asserted the raw `'"uci": "g5g7"'` appeared in the output. It does not — the JSON rides in an HTML attribute and `html.escape` turns its quotes into `&quot;`. Left as written, the obvious way to make that test pass is to drop the escaping, which is the actual bug. The test now asserts the attribute is escaped *and* round-trips through `html.unescape` + `json.loads` the way the browser reads it.
 
 **Placeholder scan:** none. Every code step carries real code. Task 8's PR body is described by what it must contain rather than quoted, which is a writing instruction, not a deferred decision.
 
