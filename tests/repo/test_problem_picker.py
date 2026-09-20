@@ -81,3 +81,75 @@ def test_full_san_distance_does_not_separate_the_kqvk_twins():
     collapse genuinely different problems."""
     m = _load()
     assert m.san_distance(KQVK[0]["solutions"][0], KQVK[1]["solutions"][0]) == 0.5
+
+
+def _cand(fen, solution, dtm=12):
+    return {"fen": fen, "dtm": dtm, "count": 1, "starts": 1, "ends": 1,
+            "themes": [], "solutions": [solution]}
+
+
+KQVK_CANDS = [_cand(c["fen"], c["solutions"][0]) for c in KQVK]
+
+
+def test_kqvk_twins_are_one_idea():
+    m = _load()
+    assert m.same_idea(KQVK_CANDS[0], KQVK_CANDS[1])
+    assert m.same_idea(KQVK_CANDS[0], KQVK_CANDS[2])
+    assert m.same_idea(KQVK_CANDS[1], KQVK_CANDS[2])
+
+
+def test_pick_collapses_kqvk_to_one_problem_with_a_note():
+    m = _load()
+    chosen, notes = m.pick(KQVK_CANDS, limit=3)
+    assert len(chosen) == 1
+    assert chosen[0]["fen"] == KQVK_CANDS[0]["fen"]
+    assert notes == [
+        "Only one distinct idea exists at this depth: 3 positions share a solution."
+    ]
+
+
+def test_a_different_white_manoeuvre_is_a_different_problem():
+    m = _load()
+    other = _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
+                  ["Kh7", "Qg1", "Kh8", "Qa7", "Kh7", "Qb8",
+                   "Kh8", "Qc7", "Kh7", "Qd8", "Kh8", "Qg7#"])
+    assert not m.same_idea(KQVK_CANDS[0], other)
+    chosen, notes = m.pick([KQVK_CANDS[0], other], limit=3)
+    assert len(chosen) == 2
+    assert notes == ["Only 2 distinct ideas exist at this depth."]
+
+
+def test_same_white_line_but_two_men_elsewhere_is_a_different_problem():
+    m = _load()
+    # Same white manoeuvre, but the queen starts elsewhere too: 2 men differ.
+    moved = _cand("8/7k/8/8/6Q1/8/8/K7 b - - 0 1", KQVK_CANDS[0]["solutions"][0])
+    assert m.position_distance(KQVK_CANDS[0]["fen"], moved["fen"]) == 2
+    assert not m.same_idea(KQVK_CANDS[0], moved)
+
+
+def test_pick_seeds_with_the_published_position_when_given_one():
+    m = _load()
+    a = _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1", ["Kh7", "Kb2", "Kh8", "Qg7#"])
+    b = _cand("8/8/8/6Q1/8/7k/8/K7 b - - 0 1", ["Kh4", "Qd2", "Kh5", "Qh6#"])
+    chosen, _ = m.pick([a, b], limit=1, seed_fen=b["fen"])
+    assert chosen[0]["fen"] == b["fen"]
+
+
+def test_pick_stops_at_the_limit_even_when_more_are_distinct():
+    m = _load()
+    cands = [
+        _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1", ["Kh7", "Ka2", "Kh8", "Qg7#"]),
+        _cand("8/8/8/6Q1/8/7k/8/K7 b - - 0 1", ["Kh4", "Qd2", "Kh5", "Qh6#"]),
+        _cand("8/8/8/8/6Q1/8/7k/K7 b - - 0 1", ["Kh3", "Qb4", "Kh2", "Qh4#"]),
+        _cand("8/8/8/8/8/6Q1/7k/K7 b - - 0 1", ["Kh1", "Qc3", "Kh2", "Qh3#"]),
+    ]
+    chosen, notes = m.pick(cands, limit=3)
+    assert len(chosen) == 3
+    assert notes == []
+
+
+def test_pick_on_an_empty_candidate_list_notes_it():
+    m = _load()
+    chosen, notes = m.pick([], limit=3)
+    assert chosen == []
+    assert notes == ["No position at this depth satisfies the filter."]

@@ -65,3 +65,59 @@ def position_distance(fen_a: str, fen_b: str) -> int:
     for m in b:
         counts[m] = counts.get(m, 0) - 1
     return sum(abs(v) for v in counts.values()) // 2
+
+
+def _white_line_of(cand: Dict) -> List[str]:
+    """White's moves in a candidate's first solution.
+
+    `mine` emits the FEN it scanned, so the side to move is in the FEN --
+    not inferred from the dtm's parity, which would invert on a flipped probe."""
+    white_first = cand["fen"].split()[1] == "w"
+    return white_line(cand["solutions"][0], white_first)
+
+
+def same_idea(a: Dict, b: Dict) -> bool:
+    """One problem wearing two hats: White plays the same moves and at most
+    one man stands elsewhere."""
+    return (_white_line_of(a) == _white_line_of(b)
+            and position_distance(a["fen"], b["fen"]) <= 1)
+
+
+def distance(a: Dict, b: Dict) -> float:
+    """How far apart two candidates are, for the greedy max-min pick."""
+    men = max(len(_men(a["fen"])), 1)
+    return max(san_distance(_white_line_of(a), _white_line_of(b)),
+               position_distance(a["fen"], b["fen"]) / men)
+
+
+def pick(candidates: List[Dict], limit: int = 3, seed_fen: str = None):
+    """Up to `limit` candidates that are not each other's twins, plus notes.
+
+    Greedy max-min: seed, then repeatedly take whatever is farthest from
+    everything already chosen, stopping when the best remaining is the same
+    idea as something held."""
+    if not candidates:
+        return [], ["No position at this depth satisfies the filter."]
+
+    pool = list(candidates)
+    seed = next((c for c in pool if c["fen"] == seed_fen), pool[0])
+    chosen = [seed]
+    pool.remove(seed)
+
+    while pool and len(chosen) < limit:
+        best = max(pool, key=lambda c: min(distance(c, k) for k in chosen))
+        if any(same_idea(best, k) for k in chosen):
+            break
+        chosen.append(best)
+        pool.remove(best)
+
+    notes = []
+    if len(chosen) < limit:
+        if len(chosen) == 1:
+            notes.append(
+                "Only one distinct idea exists at this depth: "
+                f"{len(candidates)} positions share a solution."
+            )
+        else:
+            notes.append(f"Only {len(chosen)} distinct ideas exist at this depth.")
+    return chosen, notes
