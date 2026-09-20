@@ -103,14 +103,67 @@ def test_material_page_draws_a_board_and_steps_it(server, browser):
 
 
 def test_theme_index_links_reach_a_material_page(server, browser):
+    """The real flow: themes are collapsed, so a reader expands one first."""
     page, bad_responses = _new_page_failing_on_error_responses(browser)
     page.goto(f"{server}/themes.html")
-    page.wait_for_selector(".theme-block")
+    page.wait_for_selector("details.theme-block")
+    assert page.locator("details.theme-block[open]").count() == 0, \
+        "themes should start collapsed"
+
+    page.locator("details.theme-block > summary").first.click()
     link = page.locator(".theme-problems a").first
     href = link.get_attribute("href")
     link.click()
     page.wait_for_load_state()
     assert href.replace("material/", "") in page.url
+    assert not bad_responses, f"4xx/5xx responses: {bad_responses}"
+    page.close()
+
+
+def test_a_problem_theme_link_opens_that_theme_on_the_index(server, browser):
+    """Linking into a collapsed <details> is the risk the collapse creates.
+
+    A problem page links to `themes.html#<theme>`; if the target stays shut
+    the reader lands on a closed box and the link looks broken. Browsers
+    differ on whether fragment navigation opens it, so theme-open.js does,
+    and this pins that it works -- including for a theme whose id contains a
+    colon, which is not a usable CSS selector."""
+    page, bad_responses = _new_page_failing_on_error_responses(browser)
+    material = _first_material_with_problems()
+    page.goto(f"{server}/material/{material}.html")
+    link = page.locator(".problem .themes a").first
+    theme = link.inner_text()
+    link.click()
+    page.wait_for_load_state()
+    page.wait_for_timeout(300)
+
+    state = page.evaluate(
+        "() => {const el = document.getElementById("
+        "decodeURIComponent(location.hash.slice(1)));"
+        " return el && {open: el.open, tag: el.tagName};}")
+    assert state, f"no element for theme {theme!r} at {page.url}"
+    assert state["tag"] == "DETAILS"
+    assert state["open"], f"theme {theme!r} did not open when linked to"
+    assert not bad_responses, f"4xx/5xx responses: {bad_responses}"
+    page.close()
+
+
+def test_open_all_expands_every_theme_so_find_in_page_works(server, browser):
+    """Closed <details> are invisible to find-in-page outside Chrome, so the
+    control that restores Ctrl+F over the whole index has to actually work."""
+    page, bad_responses = _new_page_failing_on_error_responses(browser)
+    page.goto(f"{server}/themes.html")
+    page.wait_for_selector("details.theme-block")
+    total = page.locator("details.theme-block").count()
+
+    page.click("#open-all")
+    page.wait_for_timeout(200)
+    assert page.locator("details.theme-block[open]").count() == total
+    assert "Close" in page.locator("#open-all").inner_text()
+
+    page.click("#open-all")
+    page.wait_for_timeout(200)
+    assert page.locator("details.theme-block[open]").count() == 0
     assert not bad_responses, f"4xx/5xx responses: {bad_responses}"
     page.close()
 
