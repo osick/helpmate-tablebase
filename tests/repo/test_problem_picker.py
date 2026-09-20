@@ -155,47 +155,54 @@ def test_pick_on_an_empty_candidate_list_notes_it():
     assert notes == ["No position at this depth satisfies the filter."]
 
 
-def test_pick_is_order_independent_for_twins_vs_distinct():
-    """Regression: pick must not discard distinct problems based on pool order.
+def test_pick_is_order_independent_for_tied_candidates():
+    """Regression: pick must not discard distinct problems when distances tie.
 
-    With a chosen problem A and a pool containing both TWIN (same_idea to A)
-    and NEAR (genuinely different), the result must be the same regardless of
-    whether TWIN or NEAR appears first in the pool. The greedy loop must not
-    break on encountering a twin; it must filter twins first, then rank."""
+    When a twin and a genuinely different problem have equal distance from the
+    chosen set, the greedy loop must not break on the first twin it encounters.
+    It must filter twins first, then rank, so result is order-independent.
+
+    This construction ensures distance(A, TWIN) == distance(A, NEAR) == 0.3333:
+    NEAR's white line differs in exactly 2 of 6 moves, and position_distance is 1.
+    The tie forces a consistent ranking independent of pool iteration order."""
     m = _load()
-    # A: base problem (from KQVK[0])
+    # A: base problem
     a = _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
               ["Kh7", "Kb2", "Kh8", "Kc3", "Kh7", "Kd4",
                "Kh8", "Ke5", "Kh7", "Kf6", "Kh8", "Qg7#"])
-    # TWIN: same white manoeuvre, one man differs (position_distance = 1)
-    twin = _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
-                 ["Kh7", "Kb2", "Kh8", "Kc3", "Kh7", "Kd4",
-                  "Kh8", "Ke5", "Kh7", "Kf6", "Kh8", "Qg7#"])
-    # Make TWIN a true twin by changing only one piece position
-    twin["fen"] = "8/8/7k/6Q1/8/8/8/K7 b - - 0 1"  # Same as A
-    # Actually, let me use KQVK[1] which is a true twin of KQVK[0]
-    twin = _cand(KQVK[1]["fen"], KQVK[0]["solutions"][0])
-    # NEAR: genuinely different white manoeuvre
-    near = _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
-                 ["Kh7", "Qg1", "Kh8", "Qa7", "Kh7", "Qb8",
-                  "Kh8", "Qc7", "Kh7", "Qd8", "Kh8", "Qg7#"])
-    # Verify the setup
+    # TWIN: same white line, different black king position
+    twin = _cand("8/7k/8/6Q1/8/8/8/K7 b - - 0 1",
+                 ["Kh8", "Kb2", "Kh7", "Kc3", "Kh8", "Kd4",
+                  "Kh7", "Ke5", "Kh8", "Kf6", "Kh7", "Qg7#"])
+    # NEAR: genuinely different white line with same distance as TWIN.
+    # White line: Kb2 Kc3 Kd4 Ke5 Ka6 Qb7# (differs in 2 of 6 moves -> 0.3333)
+    # Position distance: 1 man (queen moved) (1/3 = 0.3333)
+    near = _cand("8/7k/8/6Q1/8/8/8/K7 b - - 0 1",
+                 ["Kh8", "Kb2", "Kh7", "Kc3", "Kh8", "Kd4",
+                  "Kh7", "Ke5", "Kh8", "Ka6", "Kh7", "Qb7#"])
+    # Verify setup
     assert m.same_idea(a, twin), "TWIN should be same_idea as A"
     assert not m.same_idea(a, near), "NEAR should NOT be same_idea as A"
+    # Distances must be tied (the point of this test)
+    dist_a_twin = m.distance(a, twin)
+    dist_a_near = m.distance(a, near)
+    assert dist_a_twin == dist_a_near == 0.3333333333333333, \
+        f"distances must be tied: {dist_a_twin} vs {dist_a_near}"
     # Test both orderings
     chosen_twin_first, notes_twin_first = m.pick([a, twin, near], limit=3)
     chosen_near_first, notes_near_first = m.pick([a, near, twin], limit=3)
-    # Both should pick exactly 2 problems: A and NEAR
-    assert len(chosen_twin_first) == 2, "Should pick 2 distinct ideas"
-    assert len(chosen_near_first) == 2, "Should pick 2 distinct ideas"
-    # The chosen problems should be the same in both cases
-    chosen_fens_1 = {c["fen"] for c in chosen_twin_first}
-    chosen_fens_2 = {c["fen"] for c in chosen_near_first}
-    assert chosen_fens_1 == chosen_fens_2, "Order should not affect which problems are chosen"
-    # Both should include the near problem (not skip it due to order)
-    assert any(m.same_idea(c, near) or (c["fen"] == near["fen"]
-               and m.san_distance(m._white_line_of(c), m._white_line_of(near)) < 0.1)
-               for c in chosen_twin_first), "NEAR should be included"
-    assert any(m.same_idea(c, near) or (c["fen"] == near["fen"]
-               and m.san_distance(m._white_line_of(c), m._white_line_of(near)) < 0.1)
-               for c in chosen_near_first), "NEAR should be included"
+    # Both must pick exactly 2 problems (A and NEAR)
+    assert len(chosen_twin_first) == 2, \
+        f"[A,TWIN,NEAR] should pick 2, got {len(chosen_twin_first)}"
+    assert len(chosen_near_first) == 2, \
+        f"[A,NEAR,TWIN] should pick 2, got {len(chosen_near_first)}"
+    # Both must include NEAR
+    assert any(c["fen"] == near["fen"] and
+               m.san_distance(m._white_line_of(c), m._white_line_of(near)) < 0.01
+               for c in chosen_twin_first), "NEAR must be in [A,TWIN,NEAR] result"
+    assert any(c["fen"] == near["fen"] and
+               m.san_distance(m._white_line_of(c), m._white_line_of(near)) < 0.01
+               for c in chosen_near_first), "NEAR must be in [A,NEAR,TWIN] result"
+    # Notes must match (both should say "Only 2 distinct ideas exist")
+    assert notes_twin_first == notes_near_first, \
+        f"Notes differ by order: {notes_twin_first} vs {notes_near_first}"
