@@ -25,8 +25,11 @@ depths are recorded; the page states the difference.
 """
 from __future__ import annotations
 
+import json
+import subprocess
+import sys
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -50,3 +53,52 @@ def depths_with(stats: dict, count: int) -> List[int]:
 def deepest_depth(stats: dict, count: int) -> Optional[int]:
     depths = depths_with(stats, count)
     return depths[0] if depths else None
+
+
+def run_jsonl(binary: str, args: List[str], tables: str, retries: int = 3) -> List[Dict]:
+    """The position records from a `mine --jsonl` run.
+
+    The first line is the filter header and the last is the counts footer;
+    neither is a position. A run cut short before its footer is a truncated
+    scan, not an empty result, and raises rather than silently shipping fewer
+    problems.
+
+    Retried on the intermittent zstd checksum error the compressed read path
+    threw on 2026-08-21 -- the same guard tools/deepest_showcase.py carries,
+    and a recurrence is a reason to run tools/verify_corpus.py, not to suspect
+    this script."""
+    for attempt in range(retries):
+        p = subprocess.run([binary, *args, "--tables", tables],
+                           capture_output=True, text=True)
+        if p.returncode == 0:
+            lines = [ln for ln in p.stdout.splitlines() if ln.strip()]
+            if len(lines) < 2:
+                raise RuntimeError(f"{' '.join(args)}: no footer -- scan was cut short")
+            return [json.loads(ln) for ln in lines[1:-1]]
+        if "checksum" not in p.stderr:
+            raise RuntimeError(f"{' '.join(args)}: {p.stderr.strip()[:200]}")
+        print(f"    retry {attempt + 1} after checksum error", file=sys.stderr)
+    raise RuntimeError(f"{' '.join(args)}: failed after {retries} retries")
+
+
+def mine(binary: str, tables: str, material: str, dtm: int, count: int,
+         strict: bool = False, cap: int = CANDIDATE_CAP) -> List[Dict]:
+    """Candidates at one depth. `--max` is passed explicitly: it defaults to 10."""
+    args = ["mine", material, "--dtm", str(dtm), "--count", str(count),
+            "--max", str(cap), "--themes", "--solutions", "--jsonl"]
+    if strict:
+        args += ["--starts", "2", "--ends", "2"]
+    return run_jsonl(binary, args, tables)
+
+
+def strict_dual_depth(binary: str, tables: str, material: str, stats: dict):
+    """The deepest dtm holding a dual whose solutions differ in both their
+    first and their last move, and its candidates.
+
+    Walks downward because the deepest dual depth is almost always empty under
+    that filter -- the two solutions there share a first or a last move."""
+    for dtm in depths_with(stats, 2):
+        rows = mine(binary, tables, material, dtm, 2, strict=True)
+        if rows:
+            return dtm, rows
+    return None, []
