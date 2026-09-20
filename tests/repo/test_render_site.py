@@ -168,6 +168,17 @@ MARKER = {
     "candidates_considered": 0, "candidates_total": 0,
 }
 
+DOC_EQUAL_DUALS = {
+    "material": "KQvk", "pieces": 3,
+    "stats": {"max_dtm": 10, "deepest_unique_dtm": 8, "unique_at_depth": 2,
+              "deepest_dual_dtm": 10, "strict_dual_dtm": 10, "plane_size": 29568,
+              "solvable": 45723, "unique": 3064, "size_bytes": 71647,
+              "saturated_at_max": True, "dtm_histogram": {}},
+    "unique": [PROBLEM], "duals": [DUAL],
+    "notes": [],
+    "candidates_considered": 3, "candidates_total": 3,
+}
+
 
 def test_material_page_shows_both_problem_classes():
     m = _load()
@@ -187,8 +198,16 @@ def test_material_page_states_both_dual_depths_because_they_differ():
     """The strict dual is usually shallower than the deepest dual; say so."""
     m = _load()
     out = m.material_page(DOC)
-    assert "h#3.5" in out          # strict_dual_dtm 7
-    assert "h#5" in out            # deepest_dual_dtm 10
+    # Check that the explanatory note is present, explaining the distinction.
+    assert "where the two solutions share a first or a last move" in out
+
+
+def test_material_page_omits_dual_explanation_when_depths_are_equal():
+    """When strict and deepest dual depths match, no explanation is needed."""
+    m = _load()
+    out = m.material_page(DOC_EQUAL_DUALS)
+    # The explanatory note should NOT appear when the depths are equal.
+    assert "where the two solutions share a first or a last move" not in out
 
 
 def test_marker_material_gets_a_page_saying_no_helpmate_exists():
