@@ -225,6 +225,16 @@ docs-deepest:
 	python3 tools/render_deepest.py --data docs/DEEPEST.json --out docs/DEEPEST.md
 	python3 tools/deepest_booklet.py --data docs/DEEPEST.json --out docs/DEEPEST.tex
 
+# The per-material problem data behind the site's material pages. Needs a
+# corpus, like docs-deepest -- the output is committed because the Pages
+# workflow has no tables. TABLES defaults to ~/tb; a target-specific
+# assignment (not the global "?=" the stress target already uses at line
+# 195) so the two defaults don't fight over which one wins first.
+site-data: TABLES = $(HOME)/tb
+site-data: build
+	python3 tools/build_problems.py --tables $(TABLES) --binary $(BUILD)/helpmate \
+	  --out site/data
+
 # Typeset the booklet. Twice: the index carries page references, which are
 # only correct once the .aux from the first pass exists. Needs chessboard.sty
 # -- TeX Live ships it in texlive-games.
