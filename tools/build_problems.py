@@ -25,6 +25,7 @@ depths are recorded; the page states the difference.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import subprocess
 import sys
@@ -166,3 +167,138 @@ def problem_record(cand: Dict, attrib: Dict[str, Dict]) -> Dict:
         "quality": published.assess(cand["fen"], " ".join(cand["solutions"][0])),
         "alternative": row.get("alternative"),
     }
+
+
+def saturated_at_max(stats: dict) -> bool:
+    """True if every position at max_dtm has a saturated (255+) solution count.
+
+    Ported from tools/deepest_showcase.py rather than imported, so this tool
+    keeps no dependency on that one. Takes the SIDECAR stats dict, whose
+    max_dtm is 255 for a marker material -- not the materials.json row, whose
+    max_dtm is None for one. The `bool(keys) and` guard makes an empty
+    `uniqueness` (a marker) safely False, so this is fine to call before the
+    marker early-return in build_material."""
+    md = str(stats.get("max_dtm"))
+    keys = set()
+    for side in ("wtm", "btm"):
+        keys |= set(stats.get("uniqueness", {}).get(side, {}).get(md, {}))
+    return bool(keys) and keys == {"255"}
+
+
+def build_material(binary: str, tables: str, material: str, stats: dict,
+                   row: dict, attrib: Dict[str, Dict]) -> Dict:
+    """The document for one material: statistics, both problem classes, notes.
+
+    A marker material -- one provably holding no helpmate at all -- is not an
+    error and is not mined. 68 of the 302 tables are markers."""
+    picker = load_module(ROOT / "tools/problem_picker.py", "problem_picker")
+
+    unique_dtm = deepest_depth(stats, 1)
+    doc = {
+        "material": material,
+        "pieces": row["pieces"],
+        "stats": {
+            "max_dtm": row["max_dtm"],
+            "deepest_unique_dtm": unique_dtm,
+            "unique_at_depth": 0,
+            "deepest_dual_dtm": deepest_depth(stats, 2),
+            "strict_dual_dtm": None,
+            "plane_size": stats.get("plane_size"),
+            "solvable": row["solvable"],
+            "unique": row["unique"],
+            "size_bytes": row["size_bytes"],
+            "saturated_at_max": saturated_at_max(stats),
+            "dtm_histogram": stats.get("dtm_histogram", {}),
+        },
+        "unique": [], "duals": [], "notes": [],
+        "candidates_considered": 0, "candidates_total": 0,
+    }
+
+    if unique_dtm is None:
+        doc["notes"].append("No helpmate exists in this material.")
+        return doc
+
+    cands = mine(binary, tables, material, unique_dtm, 1)
+    doc["candidates_considered"] = len(cands)
+    doc["candidates_total"] = sum(
+        int(stats["uniqueness"][s].get(str(unique_dtm), {}).get("1", 0))
+        for s in ("wtm", "btm"))
+    doc["stats"]["unique_at_depth"] = doc["candidates_total"]
+
+    seed = next((f for f in attrib if any(c["fen"] == f for c in cands)), None)
+    chosen, notes = picker.pick(cands, limit=3, seed_fen=seed)
+    doc["unique"] = [problem_record(c, attrib) for c in chosen]
+    doc["notes"] += notes
+
+    dual_dtm, dual_cands = strict_dual_depth(binary, tables, material, stats)
+    doc["stats"]["strict_dual_dtm"] = dual_dtm
+    chosen, notes = picker.pick(dual_cands, limit=3)
+    doc["duals"] = [problem_record(c, attrib) for c in chosen]
+    doc["notes"] += notes
+    return doc
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    ap = argparse.ArgumentParser("build_problems")
+    ap.add_argument("--tables", required=True)
+    ap.add_argument("--binary", default="./build/helpmate")
+    ap.add_argument("--out", default="site/data")
+    ap.add_argument("--material", action="append", default=[],
+                    help="restrict to these materials (repeatable)")
+    a = ap.parse_args(argv)
+
+    out = Path(a.out)
+    (out / "material").mkdir(parents=True, exist_ok=True)
+
+    deepest_rows = json.loads((ROOT / "docs/DEEPEST.json").read_text())
+    attrib = attribution(deepest_rows)
+    rows = {r["material"]: r
+            for r in json.loads((out / "materials.json").read_text())}
+
+    index: List[Dict] = []
+    themes: Dict[str, List[Dict]] = {}
+    failures = 0
+    for sc in sorted(Path(a.tables).glob("*.stats.json")):
+        material = sc.name[: -len(".stats.json")]
+        if a.material and material not in a.material:
+            continue
+        if material not in rows:
+            print(f"  {material}: not in materials.json, skipped", file=sys.stderr)
+            continue
+        try:
+            doc = build_material(a.binary, a.tables, material,
+                                 json.loads(sc.read_text()), rows[material], attrib)
+        except Exception as exc:                        # reported per material, not hidden
+            print(f"  {material}: FAILED -- {exc}", file=sys.stderr)
+            failures += 1
+            continue
+
+        (out / "material" / f"{material}.json").write_text(json.dumps(doc, indent=1))
+        for kind in ("unique", "duals"):
+            for p in doc[kind]:
+                for t in p["themes"]:
+                    themes.setdefault(t, []).append({
+                        "material": material, "fen": p["fen"], "dtm": p["dtm"],
+                        "stipulation": p["stipulation"],
+                        "kind": "unique" if kind == "unique" else "dual"})
+        index.append({
+            "material": material, "pieces": doc["pieces"],
+            "stipulation": (stipulation(doc["stats"]["deepest_unique_dtm"])
+                            if doc["stats"]["deepest_unique_dtm"] else None),
+            "unique": len(doc["unique"]), "duals": len(doc["duals"]),
+            "has_table": doc["stats"]["deepest_unique_dtm"] is not None,
+        })
+        print(f"  {material}: {len(doc['unique'])} unique, {len(doc['duals'])} dual",
+              file=sys.stderr)
+
+    (out / "themes.json").write_text(json.dumps(
+        {t: {"count": len(ps), "problems": ps} for t, ps in sorted(themes.items())},
+        indent=1))
+    (out / "index.json").write_text(json.dumps(index, indent=1))
+    print(f"wrote {len(index)} materials, {len(themes)} themes, "
+          f"{failures} failure(s)", file=sys.stderr)
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

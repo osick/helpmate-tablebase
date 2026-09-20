@@ -240,3 +240,61 @@ def test_problem_record_rejects_a_line_that_does_not_mate():
             "starts": 1, "ends": 1, "themes": [], "solutions": [["Kh6", "Qg5"]]}
     with pytest.raises(ValueError, match="does not end in checkmate"):
         m.problem_record(cand, {})
+
+
+def test_saturated_at_max_is_false_for_a_marker():
+    m = _load()
+    assert m.saturated_at_max(MARKER_STATS) is False
+
+
+def test_saturated_at_max_is_true_when_the_max_bucket_is_only_255():
+    m = _load()
+    stats = {"max_dtm": 14, "uniqueness": {
+        "wtm": {"14": {"255": 2}}, "btm": {"14": {"255": 4}},
+    }}
+    assert m.saturated_at_max(stats) is True
+
+
+MARKER_STATS = {"material": "Kvk", "max_dtm": 255, "plane_size": 462, "uniqueness": {}}
+MATERIAL_ROW = {"material": "KQvk", "pieces": 3, "max_dtm": 14,
+                "solvable": 45723, "unique": 3064, "size_bytes": 71647}
+
+
+def test_build_material_on_a_marker_reports_no_helpmate_without_mining(monkeypatch):
+    m = _load()
+    def explode(*a, **k):
+        raise AssertionError("a marker material must not be mined")
+    monkeypatch.setattr(m, "mine", explode)
+    doc = m.build_material("./build/helpmate", "/tb", "Kvk", MARKER_STATS,
+                           {"material": "Kvk", "pieces": 2, "max_dtm": None,
+                            "solvable": 0, "unique": 0, "size_bytes": 466}, {})
+    assert doc["unique"] == [] and doc["duals"] == []
+    assert doc["notes"] == ["No helpmate exists in this material."]
+    assert doc["stats"]["deepest_unique_dtm"] is None
+
+
+def test_build_material_records_both_dual_depths(monkeypatch):
+    m = _load()
+    cand = {"fen": "8/8/7k/6Q1/8/8/8/K7 b - - 0 1", "dtm": 12, "count": 1,
+            "starts": 1, "ends": 1, "themes": [],
+            "solutions": [["Kh7", "Kb2", "Kh8", "Qg7#"]]}
+    dual = {"fen": "8/5Q2/8/8/8/6k1/8/K7 w - - 0 1", "dtm": 7, "count": 2,
+            "starts": 2, "ends": 2, "themes": [],
+            "solutions": [["Qf3", "Kh4", "Qh3#"], ["Qg7", "Kh4", "Qh6#"]]}
+    monkeypatch.setattr(m, "mine", lambda *a, **k: [cand])
+    monkeypatch.setattr(m, "strict_dual_depth", lambda *a, **k: (7, [dual]))
+    monkeypatch.setattr(m, "problem_record", lambda c, a: dict(c, stipulation="x"))
+    doc = m.build_material("./build/helpmate", "/tb", "KQvk", STATS, MATERIAL_ROW, {})
+    assert doc["stats"]["deepest_unique_dtm"] == 12
+    assert doc["stats"]["deepest_dual_dtm"] == 10      # from the sidecar
+    assert doc["stats"]["strict_dual_dtm"] == 7        # what the filter found
+    assert doc["stats"]["solvable"] == 45723
+    assert len(doc["unique"]) == 1 and len(doc["duals"]) == 1
+
+
+def test_build_material_carries_the_pickers_notes(monkeypatch):
+    m = _load()
+    monkeypatch.setattr(m, "mine", lambda *a, **k: [])
+    monkeypatch.setattr(m, "strict_dual_depth", lambda *a, **k: (None, []))
+    doc = m.build_material("./build/helpmate", "/tb", "KQvk", STATS, MATERIAL_ROW, {})
+    assert "No position at this depth satisfies the filter." in doc["notes"]
