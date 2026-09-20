@@ -119,8 +119,14 @@ jobs:
 
       # Slow tests (exhaustive KQvk cross-check, ~10 min) need --run-slow and
       # are skipped by default via src/packages/bindings/tests/conftest.py.
+      # test_site_browser.py is excluded deliberately: it needs Chromium and a
+      # rendered site, neither of which this job has, so here it would only
+      # ever skip. It runs in the `ui` job, which has both. Ignoring it keeps
+      # a real gate from hiding behind four silent skips.
       - name: Run Python tests
-        run: python -m pytest src/packages/bindings/tests src/packages/api/tests tests/repo -v
+        run: |
+          python -m pytest src/packages/bindings/tests src/packages/api/tests tests/repo -v \
+            --ignore=tests/repo/test_site_browser.py
 
   ui:
     name: Dashboard (browser tests)
@@ -166,6 +172,22 @@ jobs:
 
       - name: Browser tests
         run: python -m pytest src/packages/web/tests/ui -v
+
+      # The showcase's 302 material pages are git-ignored -- `make site`
+      # renders them from the committed JSON in 0.15s. These run here rather
+      # than alongside the other tests/repo tests because this is the only job
+      # with Chromium installed, and they need the pages to exist at all.
+      #
+      # HELPMATE_REQUIRE_SITE turns a missing site from a skip into a failure.
+      # Without it these four tests skip silently and the job still passes --
+      # which is the exact bug they guard against, because a page whose boards
+      # draw no pieces still renders and 404s nothing visible.
+      - name: Generated showcase pages (browser)
+        env:
+          HELPMATE_REQUIRE_SITE: "1"
+        run: |
+          make site
+          python -m pytest tests/repo/test_site_browser.py -v
 
   lint:
     name: Lint (ruff, node --check)

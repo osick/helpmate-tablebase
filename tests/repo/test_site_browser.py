@@ -10,6 +10,7 @@ on this machine, and chromium will not start without it.
 
 import http.server
 import json
+import os
 import socketserver
 import threading
 from pathlib import Path
@@ -20,11 +21,22 @@ playwright_api = pytest.importorskip("playwright.sync_api")
 ROOT = Path(__file__).resolve().parents[2]
 SITE = ROOT / "site"
 
+# Set in CI. These tests skip when the generated pages are absent, which is
+# right locally -- `site/material/` is git-ignored, so a fresh checkout has
+# none. In CI that same skip is a trap: the job runs, four tests quietly do
+# nothing, and pytest reports success. That is precisely the failure mode
+# these tests exist to catch, since a material page whose boards draw no
+# pieces still renders perfectly. With this set, a missing site is a failure.
+REQUIRE_SITE = os.environ.get("HELPMATE_REQUIRE_SITE") == "1"
+
 
 @pytest.fixture(scope="module")
 def server():
     if not (SITE / "themes.html").exists():
-        pytest.skip("site not built -- run `make site` first")
+        msg = "site not built -- run `make site` first"
+        if REQUIRE_SITE:
+            pytest.fail(f"HELPMATE_REQUIRE_SITE=1 but {msg}")
+        pytest.skip(msg)
 
     def handler(*a, **k):
         return http.server.SimpleHTTPRequestHandler(*a, directory=str(SITE), **k)
