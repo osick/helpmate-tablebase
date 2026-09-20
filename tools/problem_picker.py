@@ -118,10 +118,13 @@ def pick(
     notes = []
     if len(chosen) < limit:
         if len(chosen) == 1:
-            notes.append(
-                "Only one distinct idea exists at this depth: "
-                f"{len(candidates)} positions share a solution."
-            )
+            if len(candidates) == 1:
+                notes.append("Only one position exists at this depth.")
+            else:
+                notes.append(
+                    "Only one distinct idea exists at this depth: "
+                    f"{len(candidates)} positions share a solution."
+                )
         else:
             notes.append(f"Only {len(chosen)} distinct ideas exist at this depth.")
     return chosen, notes

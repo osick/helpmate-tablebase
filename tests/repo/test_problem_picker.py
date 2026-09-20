@@ -108,6 +108,14 @@ def test_pick_collapses_kqvk_to_one_problem_with_a_note():
     ]
 
 
+def test_pick_on_a_single_candidate_does_not_claim_it_shares_with_itself():
+    m = _load()
+    chosen, notes = m.pick([KQVK_CANDS[0]], limit=3)
+    assert len(chosen) == 1
+    assert notes == ["Only one position exists at this depth."]
+    assert "positions share" not in notes[0]
+
+
 def test_a_different_white_manoeuvre_is_a_different_problem():
     m = _load()
     other = _cand("8/8/7k/6Q1/8/8/8/K7 b - - 0 1",
