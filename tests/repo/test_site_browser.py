@@ -26,8 +26,9 @@ def server():
     if not (SITE / "themes.html").exists():
         pytest.skip("site not built -- run `make site` first")
 
-    handler = lambda *a, **k: http.server.SimpleHTTPRequestHandler(
-        *a, directory=str(SITE), **k)
+    def handler(*a, **k):
+        return http.server.SimpleHTTPRequestHandler(*a, directory=str(SITE), **k)
+
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
         thread = threading.Thread(target=httpd.serve_forever, daemon=True)
         thread.start()

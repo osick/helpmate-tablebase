@@ -1,9 +1,11 @@
 # Publish the static showcase (site/) to GitHub Pages.
 #
 # Nothing here needs the tablebases: site/data/*.json is committed, produced
-# by hand with tools/build_site_data.py. The only build step is copying the
-# dashboard's vendored cm-chessboard into site/vendor (make site), and the
-# only gate is the site's own node tests.
+# by hand with tools/build_site_data.py and tools/build_problems.py. The build
+# step (make site) copies the dashboard's vendored cm-chessboard into
+# site/vendor AND runs tools/render_site.py, which generates the 302 material
+# pages and the theme index from that committed JSON. The gate is make
+# test-site, which runs render_site.py then the site's node tests.
 name: Pages
 
 on:
@@ -11,6 +13,7 @@ on:
     branches: [main]
     paths:
       - "site/**"
+      - "tools/**"
       - "src/packages/web/helpmate_web/static/vendor/**"
       - ".github/workflows/pages.yml"
       - "Makefile"
