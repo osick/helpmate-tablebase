@@ -5,6 +5,7 @@ names still reach HTML as text, so escaping is tested rather than assumed.
 """
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -290,3 +291,47 @@ def test_themes_page_counts_the_materials_it_covers():
     m = _load()
     out = m.themes_page(THEMES, INDEX)
     assert "2 materials" in out
+
+
+def test_main_writes_a_page_per_material_and_the_theme_index(tmp_path):
+    m = _load()
+    data = tmp_path / "data"
+    (data / "material").mkdir(parents=True)
+    (data / "material" / "KQvk.json").write_text(json.dumps(DOC))
+    (data / "material" / "Kvk.json").write_text(json.dumps(MARKER))
+    (data / "themes.json").write_text(json.dumps(THEMES))
+    (data / "index.json").write_text(json.dumps(INDEX))
+    out = tmp_path / "site"
+    out.mkdir()
+
+    assert m.main(["--data", str(data), "--out", str(out)]) == 0
+    assert (out / "material" / "KQvk.html").exists()
+    assert (out / "material" / "Kvk.html").exists()
+    assert (out / "themes.html").exists()
+    assert "KQvk" in (out / "material" / "KQvk.html").read_text()
+    assert "No helpmate exists" in (out / "material" / "Kvk.html").read_text()
+
+
+def test_main_is_idempotent(tmp_path):
+    """make site runs this on every build; a rerun must not append or differ."""
+    m = _load()
+    data = tmp_path / "data"
+    (data / "material").mkdir(parents=True)
+    (data / "material" / "KQvk.json").write_text(json.dumps(DOC))
+    (data / "themes.json").write_text(json.dumps(THEMES))
+    (data / "index.json").write_text(json.dumps(INDEX))
+    out = tmp_path / "site"
+    out.mkdir()
+    m.main(["--data", str(data), "--out", str(out)])
+    first = (out / "material" / "KQvk.html").read_text()
+    m.main(["--data", str(data), "--out", str(out)])
+    assert (out / "material" / "KQvk.html").read_text() == first
+
+
+def test_main_reports_missing_data_instead_of_writing_half_a_site(tmp_path):
+    m = _load()
+    data = tmp_path / "data"
+    data.mkdir()
+    out = tmp_path / "site"
+    out.mkdir()
+    assert m.main(["--data", str(data), "--out", str(out)]) == 1

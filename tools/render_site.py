@@ -21,8 +21,11 @@ logic of their own -- the same contract the SPA relies on.
 """
 from __future__ import annotations
 
+import argparse
 import html
 import json
+import sys
+from pathlib import Path
 from typing import Dict, List, Optional
 
 
@@ -252,3 +255,34 @@ def themes_page(themes: Dict[str, Dict], index: List[Dict]) -> str:
     return page("Themes", body, depth=0,
                 description=("Every theme the helpmate tablebases detect, and "
                              "the deepest problems showing each one."))
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    ap = argparse.ArgumentParser("render_site")
+    ap.add_argument("--data", default="site/data")
+    ap.add_argument("--out", default="site")
+    a = ap.parse_args(argv)
+
+    data, out = Path(a.data), Path(a.out)
+    themes_file, index_file = data / "themes.json", data / "index.json"
+    if not themes_file.exists() or not index_file.exists():
+        print(f"error: {data} has no themes.json/index.json -- run "
+              f"tools/build_problems.py first", file=sys.stderr)
+        return 1
+
+    (out / "material").mkdir(parents=True, exist_ok=True)
+    written = 0
+    for doc_path in sorted((data / "material").glob("*.json")):
+        doc = json.loads(doc_path.read_text())
+        (out / "material" / f'{doc["material"]}.html').write_text(material_page(doc))
+        written += 1
+
+    (out / "themes.html").write_text(
+        themes_page(json.loads(themes_file.read_text()),
+                    json.loads(index_file.read_text())))
+    print(f"rendered {written} material pages and the theme index", file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

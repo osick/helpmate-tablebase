@@ -251,6 +251,7 @@ site:
 	rm -rf site/vendor && mkdir -p site/vendor
 	cp -r src/packages/web/helpmate_web/static/vendor/cm-chessboard site/vendor/cm-chessboard
 	cp src/packages/web/helpmate_web/static/vendor/README.md site/vendor/README.md
+	python3 tools/render_site.py --data site/data --out site
 
 test-site: site
 	node --test site/tests/*.test.js
