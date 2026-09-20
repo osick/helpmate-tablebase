@@ -29,9 +29,13 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# Sibling tools loaded through load_module, keyed by the name they were
+# registered under. Populated lazily; see load_module's docstring.
+_MODULES: Dict[str, Any] = {}
 
 # `mine` defaults to --max 10. Ask for enough candidates that the picker has
 # room to find three dissimilar ones, without scanning a plane into memory.
@@ -102,3 +106,63 @@ def strict_dual_depth(binary: str, tables: str, material: str, stats: dict):
         if rows:
             return dtm, rows
     return None, []
+
+
+def load_module(path: Path, name: str):
+    """Import a sibling tool. `tools/` is not a package, so this is the only way
+    to reuse code across these scripts -- the same trick tests/repo uses.
+
+    Cached by `name`: a full run calls this twice per problem, and a full
+    corpus produces roughly 1,500 problems, so an uncached loader would
+    re-execute these sibling modules that many times over for no reason."""
+    if name not in _MODULES:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[name] = mod
+        spec.loader.exec_module(mod)
+        _MODULES[name] = mod
+    return _MODULES[name]
+
+
+def attribution(deepest_rows: List[Dict]) -> Dict[str, Dict]:
+    """The published-problem fields from docs/DEEPEST.json, keyed by FEN.
+
+    Output of PRs #30-32. Only 26 of 234 entries are published and problems 2,
+    3 and every dual are positions that file has never seen, so most lookups
+    miss -- that is expected, not a failure."""
+    return {r["fen"]: r for r in deepest_rows}
+
+
+def stipulation(dtm: int) -> str:
+    """`h#n` from a ply distance. Odd dtm means White to move: the .5 case."""
+    return f"h#{dtm // 2}" if dtm % 2 == 0 else f"h#{dtm // 2}.5"
+
+
+def problem_record(cand: Dict, attrib: Dict[str, Dict]) -> Dict:
+    """One problem as the site reads it: solutions expanded ply by ply,
+    themes as mined, attribution carried over, quality recomputed.
+
+    Raises ValueError if a solution is illegal, ambiguous or does not mate --
+    never something to ship silently."""
+    site_data = load_module(ROOT / "tools/build_site_data.py", "build_site_data")
+    published = load_module(ROOT / "tools/published_problems.py", "published_problems")
+
+    solutions = [site_data.expand_solution(cand["fen"], " ".join(line))
+                 for line in cand["solutions"]]
+    row = attrib.get(cand["fen"], {})
+    return {
+        "fen": cand["fen"],
+        "dtm": cand["dtm"],
+        "stipulation": stipulation(cand["dtm"]),
+        "count": cand["count"],
+        "starts": cand["starts"],
+        "ends": cand["ends"],
+        "themes": cand["themes"],
+        "solutions": solutions,
+        "published": row.get("published"),
+        "published_by": row.get("published_by"),
+        "quality": published.assess(cand["fen"], " ".join(cand["solutions"][0])),
+        "alternative": row.get("alternative"),
+    }

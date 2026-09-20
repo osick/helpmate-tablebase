@@ -10,6 +10,8 @@ import sys
 import types
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[2]
 
 # The shape of a real sidecar, cut down to what this tool reads. `uniqueness`
@@ -186,3 +188,55 @@ def test_run_jsonl_retries_on_checksum_and_raises_after_limit(monkeypatch):
     with pytest.raises(RuntimeError, match="failed after 3 retries"):
         m.run_jsonl("./build/helpmate", ["mine", "KQvk"], "/tb")
     assert len(fake.calls) == 3
+
+
+pytest.importorskip("chess")
+
+DEEPEST_ROW = {
+    "material": "KPvk",
+    "fen": "6k1/8/8/8/8/8/4P3/2K5 w - - 0 1",
+    "published": [{"id": "P0530828", "author": "Niemann, John",
+                   "sources": ["Schachmatt, No. 427, 13/07/1947"]}],
+    "published_by": "Niemann (1947)",
+    "quality": {"capture_first": False, "check": False, "legal": True},
+    "alternative": None,
+}
+
+
+def test_attribution_is_keyed_by_fen():
+    m = _load()
+    a = m.attribution([DEEPEST_ROW])
+    assert a["6k1/8/8/8/8/8/4P3/2K5 w - - 0 1"]["published_by"] == "Niemann (1947)"
+
+
+def test_problem_record_carries_attribution_over_by_fen():
+    m = _load()
+    cand = {"fen": DEEPEST_ROW["fen"], "dtm": 13, "count": 1, "starts": 1, "ends": 1,
+            "themes": ["model"],
+            "solutions": [["e3", "Kf7", "e4", "Ke6", "e5", "Kd5", "e6", "Kc4",
+                           "e7", "Kb3", "e8=Q", "Ka2", "Qa4#"]]}
+    rec = m.problem_record(cand, m.attribution([DEEPEST_ROW]))
+    assert rec["published_by"] == "Niemann (1947)"
+    assert rec["stipulation"] == "h#6.5"
+    assert rec["solutions"][0][0] == {"san": "e3", "uci": "e2e3",
+                                      "fen": "6k1/8/8/8/8/4P3/8/2K5 b - - 0 1"}
+
+
+def test_problem_record_recomputes_quality_for_a_new_position():
+    """Most problems have no DEEPEST.json row to carry quality from."""
+    m = _load()
+    cand = {"fen": DEEPEST_ROW["fen"], "dtm": 13, "count": 1, "starts": 1, "ends": 1,
+            "themes": [],
+            "solutions": [["e3", "Kf7", "e4", "Ke6", "e5", "Kd5", "e6", "Kc4",
+                           "e7", "Kb3", "e8=Q", "Ka2", "Qa4#"]]}
+    rec = m.problem_record(cand, {})          # no attribution at all
+    assert rec["published"] is None and rec["published_by"] is None
+    assert rec["quality"] == {"capture_first": False, "check": False, "legal": True}
+
+
+def test_problem_record_rejects_a_line_that_does_not_mate():
+    m = _load()
+    cand = {"fen": "8/7k/5K2/8/8/8/8/6Q1 b - - 0 1", "dtm": 2, "count": 1,
+            "starts": 1, "ends": 1, "themes": [], "solutions": [["Kh6", "Qg5"]]}
+    with pytest.raises(ValueError, match="does not end in checkmate"):
+        m.problem_record(cand, {})
