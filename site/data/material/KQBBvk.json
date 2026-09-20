@@ -1,0 +1,231 @@
+{
+ "material": "KQBBvk",
+ "pieces": 5,
+ "stats": {
+  "max_dtm": 16,
+  "deepest_unique_dtm": 14,
+  "unique_at_depth": 1,
+  "deepest_dual_dtm": 12,
+  "strict_dual_dtm": 6,
+  "plane_size": 121110528,
+  "solvable": 75197106,
+  "unique": 12536596,
+  "size_bytes": 66555344,
+  "saturated_at_max": true,
+  "dtm_histogram": {
+   "btm": {
+    "0": 604142,
+    "10": 83112,
+    "12": 21300,
+    "14": 3679,
+    "16": 6,
+    "2": 9643600,
+    "4": 37236126,
+    "6": 2279686,
+    "8": 159572
+   },
+   "wtm": {
+    "1": 2722315,
+    "3": 16895216,
+    "5": 5547438,
+    "7": 914
+   }
+  }
+ },
+ "unique": [
+  {
+   "fen": "7Q/7k/7B/8/8/8/2B5/K7 b - - 0 1",
+   "dtm": 14,
+   "stipulation": "h#7",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "switchback",
+    "single-piece",
+    "single-piece:black"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kxh8",
+      "uci": "h7h8",
+      "fen": "7k/8/7B/8/8/8/2B5/K7 w - - 0 2"
+     },
+     {
+      "san": "Kb2",
+      "uci": "a1b2",
+      "fen": "7k/8/7B/8/8/8/1KB5/8 b - - 1 2"
+     },
+     {
+      "san": "Kg8",
+      "uci": "h8g8",
+      "fen": "6k1/8/7B/8/8/8/1KB5/8 w - - 2 3"
+     },
+     {
+      "san": "Kc3",
+      "uci": "b2c3",
+      "fen": "6k1/8/7B/8/8/2K5/2B5/8 b - - 3 3"
+     },
+     {
+      "san": "Kf7",
+      "uci": "g8f7",
+      "fen": "8/5k2/7B/8/8/2K5/2B5/8 w - - 4 4"
+     },
+     {
+      "san": "Kd3",
+      "uci": "c3d3",
+      "fen": "8/5k2/7B/8/8/3K4/2B5/8 b - - 5 4"
+     },
+     {
+      "san": "Kg6",
+      "uci": "f7g6",
+      "fen": "8/8/6kB/8/8/3K4/2B5/8 w - - 6 5"
+     },
+     {
+      "san": "Ke4",
+      "uci": "d3e4",
+      "fen": "8/8/6kB/8/4K3/8/2B5/8 b - - 7 5"
+     },
+     {
+      "san": "Kh5",
+      "uci": "g6h5",
+      "fen": "8/8/7B/7k/4K3/8/2B5/8 w - - 8 6"
+     },
+     {
+      "san": "Kf5",
+      "uci": "e4f5",
+      "fen": "8/8/7B/5K1k/8/8/2B5/8 b - - 9 6"
+     },
+     {
+      "san": "Kh4",
+      "uci": "h5h4",
+      "fen": "8/8/7B/5K2/7k/8/2B5/8 w - - 10 7"
+     },
+     {
+      "san": "Bg5+",
+      "uci": "h6g5",
+      "fen": "8/8/8/5KB1/7k/8/2B5/8 b - - 11 7"
+     },
+     {
+      "san": "Kh5",
+      "uci": "h4h5",
+      "fen": "8/8/8/5KBk/8/8/2B5/8 w - - 12 8"
+     },
+     {
+      "san": "Bd1#",
+      "uci": "c2d1",
+      "fen": "8/8/8/5KBk/8/8/8/3B4 b - - 13 8"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": true,
+    "check": true,
+    "legal": false
+   },
+   "alternative": null
+  }
+ ],
+ "duals": [
+  {
+   "fen": "8/8/8/3B4/3k4/2Q5/8/K1B5 b - - 0 1",
+   "dtm": 6,
+   "stipulation": "h#3",
+   "count": 2,
+   "starts": 2,
+   "ends": 2,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "mirror",
+    "single-piece",
+    "single-piece:black",
+    "zilahi"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kxc3",
+      "uci": "d4c3",
+      "fen": "8/8/8/3B4/8/2k5/8/K1B5 w - - 0 2"
+     },
+     {
+      "san": "Ka2",
+      "uci": "a1a2",
+      "fen": "8/8/8/3B4/8/2k5/K7/2B5 b - - 1 2"
+     },
+     {
+      "san": "Kb4",
+      "uci": "c3b4",
+      "fen": "8/8/8/3B4/1k6/8/K7/2B5 w - - 2 3"
+     },
+     {
+      "san": "Bd2+",
+      "uci": "c1d2",
+      "fen": "8/8/8/3B4/1k6/8/K2B4/8 b - - 3 3"
+     },
+     {
+      "san": "Ka4",
+      "uci": "b4a4",
+      "fen": "8/8/8/3B4/k7/8/K2B4/8 w - - 4 4"
+     },
+     {
+      "san": "Bc6#",
+      "uci": "d5c6",
+      "fen": "8/8/2B5/8/k7/8/K2B4/8 b - - 5 4"
+     }
+    ],
+    [
+     {
+      "san": "Kxd5",
+      "uci": "d4d5",
+      "fen": "8/8/8/3k4/8/2Q5/8/K1B5 w - - 0 2"
+     },
+     {
+      "san": "Qa5+",
+      "uci": "c3a5",
+      "fen": "8/8/8/Q2k4/8/8/8/K1B5 b - - 1 2"
+     },
+     {
+      "san": "Kc4",
+      "uci": "d5c4",
+      "fen": "8/8/8/Q7/2k5/8/8/K1B5 w - - 2 3"
+     },
+     {
+      "san": "Bd2",
+      "uci": "c1d2",
+      "fen": "8/8/8/Q7/2k5/8/3B4/K7 b - - 3 3"
+     },
+     {
+      "san": "Kb3",
+      "uci": "c4b3",
+      "fen": "8/8/8/Q7/8/1k6/3B4/K7 w - - 4 4"
+     },
+     {
+      "san": "Qa2#",
+      "uci": "a5a2",
+      "fen": "8/8/8/8/8/1k6/Q2B4/K7 b - - 5 4"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": true,
+    "check": true,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "notes": [
+  "Only one position exists at this depth.",
+  "Only one position exists at this depth."
+ ],
+ "candidates_considered": 1,
+ "candidates_total": 1
+}
