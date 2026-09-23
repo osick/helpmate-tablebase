@@ -46,10 +46,12 @@ sub-slices reachable by captures and promotions, and leaves any table that
 already exists alone. Every sub-slice of a 6-piece class is 5 pieces or
 fewer, and all of those are already published:
 
+**For more detailed setup instructions see [Setup](CONTRIBUTING-TABLES.md#Setup) at the bottom of the file**
+
 ```bash
 git clone https://github.com/osick/helpmate-tablebase
 cd helpmate-tablebase && make install       # builds the C++ core, installs the CLIs
-helpmate-tables pull --tables ./tables --repo osick/helpmate-tables   # ~24 GiB
+helpmate-tables pull --tables ./tables --repo osick/helpmate-tables   # ~55 GiB
 ```
 
 (There is no PyPI release yet, so it is a source build — see
@@ -172,3 +174,33 @@ real contribution** — it converts a trusted table into a verified one.
 
 Every merged table is credited by material and contributor in the dataset
 card. If you would rather not be named, say so in the claim issue.
+
+## Setup
+
+### Tablebase
+
+These instructions are examples using Ubuntu and should be easily applicable to other Linux distributions
+**Note** this assumes a minimal fresh installation (e.g. AWS EC2 instance)
+
+```bash
+# minimal requirements for building (add other packages as you please)
+sudo apt update && sudo apt install python3-venv python3-dev build-essential libzstd-dev -y
+git clone https://github.com/osick/helpmate-tablebase && cd helpmate-tablebase
+python3 -m venv --prompt tablebase .venv && source .venv/bin/activate && make install && mkdir -p tables
+export HF_TOKEN=<if you want to> && helpmate-tables pull --tables ./tables --repo osick/helpmate-tables  # ~55 GiB
+```
+
+### Huggingface
+
+Official documentation: https://huggingface.co/docs/huggingface_hub/guides/cli
+
+```bash
+# install "hf" cli
+curl -LsSf https://hf.co/cli/install.sh | bash
+# should prompt / already login if HF_TOKEN is set
+hf auth login
+hf auth whoami
+# example push for table
+helpmate-tables push --tables ./tables --repo osick/helpmate-tables \
+                     --material KBBBvkb --create-pr
+```
