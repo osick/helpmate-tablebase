@@ -22,7 +22,11 @@ bumps may change behavior).
   capturing the interferer. The catalogue had tiered both Indian and Maslar
   D ("critical square", "interference"); with these definitions they need
   only ply squares plus one attack test, so both move to A. Castling themes
-  remain impossible: no table holds a castling move.
+  remain impossible: no table holds a castling move. Real examples in
+  USAGE: the textbook Indian in `KRBvk` (1.Ra8 Kb4 2.Ba7 Ka3 3.Bc5#) and
+  a unique-solution Maslar in `KRvkb` (1.Rh1 Bg1 2.Ka2 Kc1 3.Kb3 Kb1
+  4.Rxg1#); `maslar:black-white` needs five units and is fixture-verified
+  only.
 - **A page per material on the static showcase, and a corpus-wide theme
   index.** `tools/build_problems.py` (run by hand against a corpus, output
   committed) finds, per material, up to three deepest positions with a

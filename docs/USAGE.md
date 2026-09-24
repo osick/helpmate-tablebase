@@ -1174,6 +1174,24 @@ a8. `mine KRBvk --dtm 5 --theme indian` finds 1201 positions (3324
 saturated positions skipped), `--dtm 6` finds 2235; none exists at `--dtm 4`,
 since an Indian needs three moves by one side.
 
+A Maslar with a unique solution, from a freshly generated `KRvkb` table:
+
+```
+$ helpmate probe "8/8/8/8/8/8/2k4b/KR6 w - - 0 1" --themes --tables ~/tb
+dtm=7 (h#3.5) count=1
+themes: pure model ideal mirror nocheck maslar
+$ helpmate line "8/8/8/8/8/8/2k4b/KR6 w - - 0 1" --tables ~/tb
+Rh1 Bg1 Ka2 Kc1 Kb3 Kb1 Rxg1#
+```
+
+1.Rh1 crosses g1 (the critical move), 1...Bg1 interferes on it, the black
+king walks c1-b1 onto the first rank beyond g1, and 4.Rxg1# captures the
+interfering bishop with mate. `KRvkn` shows the same picture with a knight
+(`8/8/8/8/8/8/2k1n3/KR6 w - - 0 1`: `Rh1 Ng1 Ka2 Kc1 Kb3 Kb1 Rxg1#`). In
+both classes `mine --theme maslar` first finds positions at `--dtm 7`; the
+`--dtm 5` and `--dtm 6` scans were stopped at a five-minute cap without a
+match, so shallower Maslars there are not ruled out, only not found.
+
 **`maslar:black-white` has no real example in this pass.** After Black
 captures the interfering white unit, White must still be able to mate, so
 the theme needs at least five units: a black line piece, a white
