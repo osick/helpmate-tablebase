@@ -25,8 +25,9 @@ bumps may change behavior).
   remain impossible: no table holds a castling move. Real examples in
   USAGE: the textbook Indian in `KRBvk` (1.Ra8 Kb4 2.Ba7 Ka3 3.Bc5#) and
   a unique-solution Maslar in `KRvkb` (1.Rh1 Bg1 2.Ka2 Kc1 3.Kb3 Kb1
-  4.Rxg1#); `maslar:black-white` needs five units and is fixture-verified
-  only.
+  4.Rxg1#), and a shallower one at h#2.5 in `KQvkr` (1.Qa8 Ra4 2.Kc1 Ka2
+  3.Qxa4#, one of 211 solutions); `maslar:black-white` needs five units
+  and is fixture-verified only.
 - **A page per material on the static showcase, and a corpus-wide theme
   index.** `tools/build_problems.py` (run by hand against a corpus, output
   committed) finds, per material, up to three deepest positions with a

@@ -1188,9 +1188,24 @@ Rh1 Bg1 Ka2 Kc1 Kb3 Kb1 Rxg1#
 king walks c1-b1 onto the first rank beyond g1, and 4.Rxg1# captures the
 interfering bishop with mate. `KRvkn` shows the same picture with a knight
 (`8/8/8/8/8/8/2k1n3/KR6 w - - 0 1`: `Rh1 Ng1 Ka2 Kc1 Kb3 Kb1 Rxg1#`). In
-both classes `mine --theme maslar` first finds positions at `--dtm 7`; the
-`--dtm 5` and `--dtm 6` scans were stopped at a five-minute cap without a
-match, so shallower Maslars there are not ruled out, only not found.
+those two classes `mine --theme maslar` first finds positions at `--dtm 7`;
+the `--dtm 5` and `--dtm 6` scans were stopped at a five-minute cap without
+a match, so shallower Maslars there are not ruled out, only not found.
+
+With a queen and a black rook it comes a move sooner. `KQvkr` has Maslars
+at `--dtm 5`:
+
+```
+$ helpmate probe "8/8/8/8/1r6/1k6/8/QK6 w - - 0 1" --themes --tables ~/tb
+dtm=5 (h#2.5) count=211
+themes: set-play pure model ideal mirror switchback self-block single-piece single-piece:white single-piece:black umnov maslar
+```
+
+One of its 211 solutions is `Qa8 Ra4 Kc1 Ka2 Qxa4#`: the queen crosses a4,
+the rook interferes there, the king steps onto the a-file beyond it, and
+the queen captures with mate. Not every solution shows the theme (`any`
+semantics), and no unique-solution `KQvkr` Maslar at `--dtm 5` turned up
+within the cap.
 
 **`maslar:black-white` has no real example in this pass.** After Black
 captures the interfering white unit, White must still be able to mate, so
