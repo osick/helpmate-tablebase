@@ -31,6 +31,13 @@ class VerifyOptions:
             self.seed = secrets.randbelow(2**31)
         return self.seed
 
+    def settings(self) -> dict:
+        """What a report records about how it sampled, and when."""
+        from datetime import datetime, timezone
+        return {"samples": self.samples, "oracle_samples": self.oracle_samples,
+                "oracle_plies": self.oracle_plies,
+                "date": datetime.now(timezone.utc).date().isoformat()}
+
 
 def verify_table(material: str, tables: Path, opts: VerifyOptions,
                  installed_version: str) -> TableReport:
@@ -203,7 +210,8 @@ def verify_prs(a, opts: VerifyOptions, version: str, tool: str, hub_factory, gh_
         seed = opts.resolved_seed()
         md = render_markdown(reports, heading=f"Verification of PR #{pr.num}", seed=seed,
                              tool=tool, pr_checks=[v1])
-        js = report_json(reports, seed=seed, tool=tool, head=pr.head, pr=pr.num, pr_checks=[v1])
+        js = report_json(reports, seed=seed, tool=tool, head=pr.head, pr=pr.num, pr_checks=[v1],
+                         settings=opts.settings())
         (d / "report.md").write_text(md)
         (d / "report.json").write_text(json.dumps(js, indent=2))
         print(md)

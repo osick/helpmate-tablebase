@@ -33,10 +33,12 @@ def render_markdown(reports: list[TableReport], *, heading: str, seed: int, tool
 
 
 def report_json(reports: list[TableReport], *, seed: int, tool: str, head: str | None,
-                pr: int | None, pr_checks: Iterable[Check] = ()) -> dict:
+                pr: int | None, pr_checks: Iterable[Check] = (),
+                settings: dict | None = None) -> dict:
+    """`settings`: what was sampled (samples, oracle_samples, oracle_plies) and the date."""
     pr_checks = list(pr_checks)
     ok = all(r.passed for r in reports) and all(c.status != "fail" for c in pr_checks)
     return {"result": "pass" if ok else "fail", "seed": seed, "tool": tool,
-            "head": head, "pr": pr, "pr_checks": [asdict(c) for c in pr_checks],
+            "head": head, "pr": pr, **(settings or {}), "pr_checks": [asdict(c) for c in pr_checks],
             "tables": {r.material: {"passed": r.passed, "checks": [asdict(c) for c in r.checks]}
                        for r in reports}}

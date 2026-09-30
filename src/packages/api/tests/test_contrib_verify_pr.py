@@ -113,6 +113,17 @@ def test_main_moving_on_does_not_add_files_to_the_pr(tmp_path, compressed_tables
     assert sorted(hub.downloads) == ["KQvk.hm", "KQvk.stats.json"]
 
 
+def test_report_records_the_sampling_settings_and_date(tmp_path, compressed_tables):
+    import datetime
+    hub = _hub_with_kqvk_pr(compressed_tables)
+    staging = tmp_path / "st"
+    assert _run_pr(hub, _tables_without_kqvk(tmp_path, compressed_tables), staging,
+                   "--oracle-plies", "2") == 0
+    rep = json.loads((staging / "pr-2" / "report.json").read_text())
+    assert (rep["samples"], rep["oracle_samples"], rep["oracle_plies"]) == (50, 2, 2)
+    assert rep["date"] == datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+
+
 def test_verify_pr_rerun_skips_downloaded_files(tmp_path, compressed_tables):
     hub = _hub_with_kqvk_pr(compressed_tables)
     tables = _tables_without_kqvk(tmp_path, compressed_tables)

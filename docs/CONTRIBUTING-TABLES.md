@@ -134,8 +134,10 @@ run V2 to V7 with `--material`; the maintainer runs V1 to V7 on your pull
 request with `--pr`. If V4 or V5 fails, V6 and V7 are skipped.
 
 - **V1 PR hygiene.** Only `<M>.hm` plus `<M>.stats.json` pairs with safe file
-  names; every material canonical; not already in the manifest; claim link
-  present.
+  names at the top level of the dataset, at least one of them; nothing deleted;
+  every material canonical; not already in the manifest; claim link present.
+  The files are the difference between the pull request and the commit it
+  branched from, so other changes landing on `main` meanwhile never count.
 - **V2 header.** Magic, block-compressed encoding, embedded material equals the
   file name, `plane_size` equals the index size, generator version not newer
   than the verifier.
@@ -151,7 +153,11 @@ request with `--pr`. If V4 or V5 fails, V6 and V7 are skipped.
   with captures and promotions read from the published sub-tables.
 - **V7 independent oracle.** Shallow positions are re-solved by a python-chess
   search that shares no code with the generator and must reproduce dtm and
-  count.
+  count. By default that is up to 20 positions for each DTM from 0 to 3 plies
+  plus up to 20 of V6's positions, so at most 100 positions, all at most 3
+  plies deep (`--oracle-samples`, `--oracle-plies`). The limit is runtime:
+  python-chess needs minutes per six-piece position at 5 plies. The report
+  records the settings used.
 
 **What is not checked is full correctness.** Proving a donated table right
 means regenerating it, which costs exactly what the donation saved. The

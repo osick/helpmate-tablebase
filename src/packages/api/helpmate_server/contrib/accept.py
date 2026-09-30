@@ -346,6 +346,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                         reg.record_table(m, contributor=p["key"], hf_pr=n, claim=p["claim"],
                                          merged=today, generator_version=sc.get("generator_version", ""),
                                          verification={"tool": rep.get("tool"), "head": rep.get("head"),
+                                                       "date": rep.get("date"),
+                                                       "samples": rep.get("samples"),
                                                        "seed": rep.get("seed"), "result": rep["result"]})
                 reg.save()
                 cl = checkout / "CHANGELOG.md"

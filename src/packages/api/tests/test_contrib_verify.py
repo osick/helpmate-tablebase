@@ -30,6 +30,7 @@ def test_cli_verify_material(compressed_tables, capsys, tmp_path):
     assert "KQvk" in text and "✅" in text and "seed 42" in text
     data = json.loads(out.read_text())
     assert data["result"] == "pass" and data["tables"]["KQvk"]["passed"]
+    assert (data["samples"], data["oracle_samples"], data["oracle_plies"]) == (100, 3, 3)
 
 
 def test_cli_verify_failure_exit_code(table_copy, capsys):

@@ -74,7 +74,9 @@ def _setup(tmp_path, head="abc", report_head="abc", result="pass"):
     (d / "files").mkdir(parents=True)
     (d / "files" / "KRRvkqq.hm").write_bytes(b"table")
     (d / "files" / "KRRvkqq.stats.json").write_text('{"generator_version": "0.20.0", "plane_size": 1, "max_dtm": 9}')
-    (d / "report.json").write_text(json.dumps({"result": result, "head": report_head, "pr": 2}))
+    (d / "report.json").write_text(json.dumps({"result": result, "head": report_head, "pr": 2,
+                                               "tool": "helpmate-tables 0.21.0", "seed": 7,
+                                               "date": "2026-09-30", "samples": 2000}))
     hub = FakeHub({"manifest.json": b'{"schema":1,"generator_version":"0.19.0","files":{}}'})
     hub.add_pr(2, {"KRRvkqq.hm": b"table", "KRRvkqq.stats.json": (d / "files" / "KRRvkqq.stats.json").read_bytes()},
                head=head, description="")
@@ -102,6 +104,9 @@ def test_accept_happy_path(tmp_path):
     reg = json.loads((checkout / "data" / "contributions.json").read_text())
     assert reg["tables"]["KRRvkqq"]["contributor"] == "popeye37"
     assert reg["tables"]["KRRvkqq"]["claim"] == 39                 # found via the claims index
+    assert reg["tables"]["KRRvkqq"]["verification"] == {
+        "tool": "helpmate-tables 0.21.0", "head": "abc", "date": "2026-09-30", "samples": 2000,
+        "seed": 7, "result": "pass"}
     assert "### Data" in (checkout / "CHANGELOG.md").read_text()
     commit_msg = next(c[1] for c in git.calls if c[0] == "commit_all")
     assert "Co-authored-by: popeye37 <1008+popeye37@users.noreply.github.com>" in commit_msg

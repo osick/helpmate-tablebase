@@ -177,9 +177,12 @@ maintainer's form:
      without regenerating anything, because a corrupt table has to be corrupt
      consistently with its neighbours *and* with independently published
      sub-tables to pass.
-   - **V7 independent oracle** — for up to 200 sampled positions with dtm ≤ 5
-     plies, a python-chess iterative-deepening helpmate search (shares no code
-     with the generator) must reproduce dtm and count.
+   - **V7 independent oracle** — for up to 20 sampled positions per DTM from 0
+     to 3 plies plus up to 20 of V6's positions (at most 100, all ≤ 3 plies;
+     `--oracle-samples`, `--oracle-plies`), a python-chess iterative-deepening
+     helpmate search (shares no code with the generator) must reproduce dtm and
+     count. Deeper searches cost minutes per six-piece position at 5 plies, so
+     the defaults stay shallow; the report records the settings used.
    V6 and V7 are skipped once V4 or V5 has failed: they would only re-report the
    same corruption.
 4. *Report* — markdown with a per-check table, the sample seed, the PR head sha,

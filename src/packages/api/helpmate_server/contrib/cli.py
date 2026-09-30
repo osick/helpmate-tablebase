@@ -27,7 +27,10 @@ def add_parsers(sub) -> None:
     v.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     v.add_argument("--github-repo", default=GITHUB_REPO)
     v.add_argument("--samples", type=int, default=2000)
-    v.add_argument("--oracle-samples", type=int, default=20)
+    v.add_argument("--oracle-samples", type=int, default=20,
+                   help="V7: positions re-solved by the python-chess search, per depth")
+    v.add_argument("--oracle-plies", type=int, default=3,
+                   help="V7: deepest DTM (plies) re-solved; each extra ply costs a lot more time")
     v.add_argument("--seed", type=int)
     v.add_argument("--report", metavar="FILE", help="also write the JSON report here")
     v.add_argument("--staging", type=Path, default=DEFAULT_STAGING)
@@ -143,7 +146,8 @@ def _verify(a, hub_factory, gh_factory) -> int:
 
     _require_verify_deps()
     version = _installed_version()
-    opts = VerifyOptions(samples=a.samples, oracle_samples=a.oracle_samples, seed=a.seed)
+    opts = VerifyOptions(samples=a.samples, oracle_samples=a.oracle_samples,
+                         oracle_plies=a.oracle_plies, seed=a.seed)
     if a.pr:
         from .verify import verify_prs
         return verify_prs(a, opts, version, _tool(), hub_factory, gh_factory)
@@ -161,5 +165,6 @@ def _verify(a, hub_factory, gh_factory) -> int:
     print(render_markdown(reports, heading="Verification", seed=seed, tool=_tool()))
     if a.report:
         Path(a.report).write_text(json.dumps(
-            report_json(reports, seed=seed, tool=_tool(), head=None, pr=None), indent=2))
+            report_json(reports, seed=seed, tool=_tool(), head=None, pr=None,
+                        settings=opts.settings()), indent=2))
     return 0 if all(r.passed for r in reports) else 1
