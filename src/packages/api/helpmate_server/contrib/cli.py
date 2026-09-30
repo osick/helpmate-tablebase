@@ -79,7 +79,7 @@ def _verify(a, hub_factory, gh_factory) -> int:
     version = _installed_version()
     opts = VerifyOptions(samples=a.samples, oracle_samples=a.oracle_samples, seed=a.seed)
     if a.pr:
-        from .verify import verify_prs  # type: ignore[attr-defined]
+        from .verify import verify_prs
         return verify_prs(a, opts, version, _tool(), hub_factory, gh_factory)
     tables = Path(a.tables).expanduser()
     for m in a.material:

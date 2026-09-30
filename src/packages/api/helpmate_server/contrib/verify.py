@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import secrets
+import shutil
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -10,7 +12,10 @@ from .checks import (
     Check, TableReport, check_block_integrity, check_deepest, check_header, check_sidecar,
 )
 from .consistency import check_consistency
+from .links import parse_links
+from .materials import canonical
 from .oracle import check_oracle
+from .report import render_markdown, report_json
 from .tablefile import read_header
 
 
@@ -64,3 +69,117 @@ def verify_table(material: str, tables: Path, opts: VerifyOptions,
     rep.checks.append(check_oracle(material, tables, samples=opts.oracle_samples,
                                    max_plies=opts.oracle_plies, seed=seed, others=fens))
     return rep
+
+
+def check_pr_hygiene(pr, manifest_files: dict) -> Check:
+    title = "only canonical table + sidecar pairs, nothing already published"
+    problems: list[str] = []
+    hms = {f[:-3] for f in pr.files if f.endswith(".hm")}
+    sidecars = {f[: -len(".stats.json")] for f in pr.files if f.endswith(".stats.json")}
+    for f in pr.files:
+        if not (f.endswith(".hm") or f.endswith(".stats.json")):
+            problems.append(f"unexpected file {f}")
+    for stem in sorted(hms | sidecars):
+        if canonical(stem) != stem:
+            problems.append(f"{stem} is not a canonical material name")
+    for stem in sorted(hms ^ sidecars):
+        problems.append(f"{stem}: table and sidecar must come together")
+    for f in pr.files:
+        if f in manifest_files:
+            problems.append(f"{f} is already published "
+                            f"(sha256 {manifest_files[f]['sha256'][:12]}…)")
+    if problems:
+        return Check("V1", title, "fail", "; ".join(problems))
+    if parse_links(pr.description)[0] is None:
+        return Check("V1", title, "warn", f"{len(hms)} table(s); no `Claim:` line in the "
+                     "description (push with --claim N next time)")
+    return Check("V1", title, "pass", f"{len(hms)} table(s)")
+
+
+def _build_overlay(tables: Path, files_dir: Path, overlay: Path) -> None:
+    if overlay.exists():
+        shutil.rmtree(overlay)
+    overlay.mkdir(parents=True)
+    for src in (tables, files_dir):
+        for p in src.iterdir():
+            if p.name.endswith((".hm", ".stats.json")):
+                link = overlay / p.name
+                if link.is_symlink():
+                    link.unlink()
+                link.symlink_to(p.resolve())
+
+
+def _gib(n: int) -> str:
+    return f"{n / 2**30:.2f} GiB"
+
+
+def verify_prs(a, opts: VerifyOptions, version: str, tool: str, hub_factory, gh_factory) -> int:
+    from .cli import UsageError
+    from .consistency import MissingSubtable
+    from .github import GitHub
+    from .hf import Hub
+
+    hub = (hub_factory or Hub)(a.repo)
+    tables = Path(a.tables).expanduser()
+    staging = Path(a.staging).expanduser()
+    staging.mkdir(parents=True, exist_ok=True)
+    prs, total = [], 0
+    for num in a.pr:
+        pr = hub.pull_request(num)
+        if pr.status != "open":
+            print(f"error: PR #{num} is {pr.status}", file=sys.stderr)
+            return 2
+        sizes = hub.file_sizes(pr.files, f"refs/pr/{num}")
+        have = staging / f"pr-{num}" / "files"
+        todo = {f: s for f, s in sizes.items()
+                if not ((have / f).exists() and (have / f).stat().st_size == s)}
+        total += sum(todo.values())
+        print(f"PR #{num} by {pr.author}: {', '.join(pr.materials) or '(no tables)'}")
+        for f, s in sorted(sizes.items()):
+            print(f"  {f:28} {_gib(s):>12}{'' if f in todo else '  (already downloaded)'}")
+        prs.append(pr)
+    free = shutil.disk_usage(staging).free
+    print(f"to download: {_gib(total)}; free in {staging}: {_gib(free)}")
+    if total > free * 0.95:
+        print("error: not enough disk space in the staging directory", file=sys.stderr)
+        return 2
+    if a.plan_only:
+        return 0
+    if total and not a.yes and input(f"download {_gib(total)}? [y/N] ").strip().lower() != "y":
+        return 2
+    manifest_files = hub.fetch_manifest().get("files", {})
+    gh = None if a.no_post else (gh_factory or GitHub)(a.github_repo)
+    rc = 0
+    for pr in prs:
+        d = staging / f"pr-{pr.num}"
+        files_dir = d / "files"
+        files_dir.mkdir(parents=True, exist_ok=True)
+        for f in pr.files:
+            p = files_dir / f
+            if not p.exists():
+                hub.download(f, f"refs/pr/{pr.num}", files_dir)
+        _build_overlay(tables, files_dir, d / "overlay")
+        v1 = check_pr_hygiene(pr, manifest_files)
+        try:
+            reports = [verify_table(m, d / "overlay", opts, version) for m in pr.materials]
+        except MissingSubtable as exc:
+            # Our corpus is incomplete, not the PR's fault: post nothing.
+            raise UsageError(str(exc)) from exc
+        seed = opts.resolved_seed()
+        md = render_markdown(reports, heading=f"Verification of PR #{pr.num}", seed=seed,
+                             tool=tool, pr_checks=[v1])
+        js = report_json(reports, seed=seed, tool=tool, head=pr.head, pr=pr.num, pr_checks=[v1])
+        (d / "report.md").write_text(md)
+        (d / "report.json").write_text(json.dumps(js, indent=2))
+        print(md)
+        if js["result"] != "pass":
+            rc = 1
+        if gh is not None:
+            hub.comment(pr.num, md)
+            claim, _ = parse_links(pr.description)
+            if claim is not None:
+                verdict = "passed ✅" if js["result"] == "pass" else "FAILED ❌"
+                gh.comment(claim, f"Verification of [HF PR #{pr.num}]({pr.url}) "
+                                  f"({', '.join(pr.materials)}): {verdict}. "
+                                  "Full report on the pull request.")
+    return rc
