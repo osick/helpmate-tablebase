@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import sys
 from dataclasses import dataclass, field
 from datetime import date, datetime
 
@@ -174,44 +175,55 @@ def run_claims(hub, gh, registry, today: date) -> int:
     in_review = {m: pr for pr in hub.open_pull_requests() for m in pr.materials}
     statuses = material_status(done, in_review, index, registry)
     hf_url = f"https://huggingface.co/datasets/{hub.repo}"
+    failed = []
     for c in index.claims:
-        conflicts = []
-        for m in c.materials:
-            first = index.claim_for(m)
-            if first and first.issue != c.issue:
-                conflicts.append(f"{m} is already claimed in #{first.issue}")
-            s = statuses[m]
-            if s.state == "done":
-                entry = registry.tables.get(m)
-                if entry is None:
-                    conflicts.append(f"{m} is already in the dataset")
-                else:
-                    person = registry.contributors.get(entry.get("contributor"))
-                    login = person.github if person else None
-                    if (login or "").lower() != c.author.lower():
-                        conflicts.append(f"{m} is already done")
-            elif s.state == "in review" and ownership_conflict(in_review[m], c, registry):
-                conflicts.append(f"{m} is in review by someone else (HF PR #{in_review[m].num})")
-        comments = gh.comments(c.issue)
-        mine = next((x for x in comments if x["user"].endswith("[bot]")
-                     and _MARKER.search(x["body"])), None)
-        body_sha = hashlib.sha256(c.body.encode()).hexdigest()[:12]
-        seen = today.isoformat()
-        marker = _MARKER.search(mine["body"]) if mine else None
-        if marker and marker.group(1) == body_sha:
-            seen = marker.group(2)
-        activity = max([_day(c.created_at), date.fromisoformat(seen)]
-                       + [_day(x["created_at"]) for x in comments if x["user"] == c.author])
-        stale = (today - activity).days >= STALE_DAYS
-        text = status_comment(c, statuses, conflicts, stale, body_sha, seen, hf_url)
-        if mine is None:
-            gh.comment(c.issue, text)
-        elif mine["body"] != text:
-            gh.edit_comment(mine["id"], text)
-        gh.add_labels(c.issue, ["claim"])
-        for label, on in (("claim-conflict", bool(conflicts)), ("claim-stale", stale)):
-            if on:
-                gh.add_labels(c.issue, [label])
+        try:
+            _update_claim(c, index, statuses, in_review, registry, gh, today, hf_url)
+        except (OSError, ValueError) as exc:  # urllib's HTTPError/URLError are OSErrors
+            print(f"claim #{c.issue}: {exc}", file=sys.stderr)
+            failed.append(c.issue)
+    return 1 if failed else 0
+
+
+def _update_claim(c: Claim, index: ClaimIndex, statuses: dict[str, Status], in_review: dict,
+                  registry, gh, today: date, hf_url: str) -> None:
+    """The status comment and labels of one claim issue."""
+    conflicts = []
+    for m in c.materials:
+        first = index.claim_for(m)
+        if first and first.issue != c.issue:
+            conflicts.append(f"{m} is already claimed in #{first.issue}")
+        s = statuses[m]
+        if s.state == "done":
+            entry = registry.tables.get(m)
+            if entry is None:
+                conflicts.append(f"{m} is already in the dataset")
             else:
-                gh.remove_label(c.issue, label)
-    return 0
+                person = registry.contributors.get(entry.get("contributor"))
+                login = person.github if person else None
+                if (login or "").lower() != c.author.lower():
+                    conflicts.append(f"{m} is already done")
+        elif s.state == "in review" and ownership_conflict(in_review[m], c, registry):
+            conflicts.append(f"{m} is in review by someone else (HF PR #{in_review[m].num})")
+    comments = gh.comments(c.issue)
+    mine = next((x for x in comments if x["user"].endswith("[bot]")
+                 and _MARKER.search(x["body"])), None)
+    body_sha = hashlib.sha256(c.body.encode()).hexdigest()[:12]
+    seen = today.isoformat()
+    marker = _MARKER.search(mine["body"]) if mine else None
+    if marker and marker.group(1) == body_sha:
+        seen = marker.group(2)
+    activity = max([_day(c.created_at), date.fromisoformat(seen)]
+                   + [_day(x["created_at"]) for x in comments if x["user"] == c.author])
+    stale = (today - activity).days >= STALE_DAYS
+    text = status_comment(c, statuses, conflicts, stale, body_sha, seen, hf_url)
+    if mine is None:
+        gh.comment(c.issue, text)
+    elif mine["body"] != text:
+        gh.edit_comment(mine["id"], text)
+    gh.add_labels(c.issue, ["claim"])
+    for label, on in (("claim-conflict", bool(conflicts)), ("claim-stale", stale)):
+        if on:
+            gh.add_labels(c.issue, [label])
+        else:
+            gh.remove_label(c.issue, label)

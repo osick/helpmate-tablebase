@@ -212,3 +212,20 @@ def _eval_actions_if(expr: str, event: str, issue: dict | None) -> bool:
 ])
 def test_claims_workflow_runs_only_for_claim_issues(event, issue, runs):
     assert _eval_actions_if(_workflow_if(), event, issue) is runs
+
+
+def test_an_http_error_on_one_issue_does_not_stop_the_others(tmp_path, capsys):
+    import urllib.error
+    hub = FakeHub()
+    gh = FakeGitHub([_gh_issue(39, "popeye37", ISSUE_39), _gh_issue(40, "popeye37", ISSUE_40)])
+    orig = gh.comments
+
+    def comments(issue):
+        if issue == 39:
+            raise urllib.error.HTTPError("u", 502, "Bad Gateway", {}, None)
+        return orig(issue)
+    gh.comments = comments
+    reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
+    assert run_claims(hub, gh, reg, date(2026, 9, 30)) == 1
+    assert [n for n, _ in gh.posted] == [40]
+    assert "#39" in capsys.readouterr().err
