@@ -187,3 +187,27 @@ def test_unsafe_file_name_downloads_nothing_and_fails(tmp_path, compressed_table
     assert hub.downloads == []
     rep = json.loads((tmp_path / "st" / "pr-2" / "report.json").read_text())
     assert rep["result"] == "fail"
+
+
+def test_interrupted_download_resumes_with_only_the_missing_file(tmp_path, compressed_tables):
+    import pytest
+
+    class Flaky(FakeHub):
+        fail = True
+
+        def download(self, filename, revision, dest):
+            if self.fail and len(self.downloads) == 1:
+                raise OSError("network dropped")
+            return super().download(filename, revision, dest)
+
+    base = _hub_with_kqvk_pr(compressed_tables)
+    hub = Flaky(base.main)
+    hub.prs = base.prs
+    tables, staging = _tables_without_kqvk(tmp_path, compressed_tables), tmp_path / "st"
+    with pytest.raises(OSError):
+        _run_pr(hub, tables, staging)
+    assert len(hub.downloads) == 1
+    hub.fail = False
+    assert _run_pr(hub, tables, staging) == 0
+    assert len(hub.downloads) == 2
+    assert json.loads((staging / "pr-2" / "report.json").read_text())["result"] == "pass"

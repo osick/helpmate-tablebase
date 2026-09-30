@@ -129,6 +129,8 @@ def _stage(hub, pr, files_dir: Path) -> None:
             not marker.exists() or marker.read_text() != pr.head):
         shutil.rmtree(files_dir)  # staged from another revision
     files_dir.mkdir(parents=True, exist_ok=True)
+    if pr.head is not None:
+        marker.write_text(pr.head)  # before downloading: an interrupted run resumes
     revision = pr.head or f"refs/pr/{pr.num}"
     sizes = hub.file_sizes(pr.files, revision)
     for f in pr.files:
@@ -136,8 +138,6 @@ def _stage(hub, pr, files_dir: Path) -> None:
         if not (p.exists() and p.stat().st_size == sizes[f]):
             p.unlink(missing_ok=True)
             hub.download(f, revision, files_dir)
-    if pr.head is not None:
-        marker.write_text(pr.head)
 
 
 def _gib(n: int) -> str:
