@@ -80,3 +80,25 @@ def test_v5_catches_a_wrong_deepest_list(table_copy):
     (table_copy / "KQvk.stats.json").write_text(json.dumps(sc))
     c = check_deepest(p, table_copy)
     assert c.status == "fail", c.detail
+
+
+def test_malformed_sidecar_fails_every_check_without_raising(table_copy):
+    p = table_copy / "KQvk.hm"
+    (table_copy / "KQvk.stats.json").write_text("{not json")
+    assert check_header(p, V).status == "fail"
+    assert check_sidecar(p).status == "fail"
+    assert check_deepest(p, table_copy).status == "fail"
+
+
+def test_missing_sidecar_fails_v4_and_v5_without_raising(table_copy):
+    p = table_copy / "KQvk.hm"
+    (table_copy / "KQvk.stats.json").unlink()
+    assert check_header(p, V).status == "fail"
+    for c in (check_sidecar(p), check_deepest(p, table_copy)):
+        assert c.status == "fail" and "no .stats.json" in c.detail
+
+
+def test_v4_reports_a_bad_header_as_fail(table_copy):
+    p = table_copy / "KQvk.hm"
+    p.write_bytes(b"XXXX" + p.read_bytes()[4:])
+    assert check_sidecar(p).status == "fail"

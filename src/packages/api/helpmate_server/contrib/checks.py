@@ -39,6 +39,20 @@ def _sidecar(path: Path) -> Path:
     return path.with_name(_stem(path) + ".stats.json")
 
 
+def _load_sidecar(path: Path) -> tuple[dict | None, str]:
+    """The sidecar as a dict, or (None, reason) when missing or malformed."""
+    sc_path = _sidecar(path)
+    if not sc_path.exists():
+        return None, "no .stats.json sidecar next to the table"
+    try:
+        sc = json.loads(sc_path.read_text())
+    except (ValueError, OSError) as exc:
+        return None, f"sidecar is not readable JSON: {exc}"
+    if not isinstance(sc, dict):
+        return None, "sidecar is not a JSON object"
+    return sc, ""
+
+
 def _version(v: str) -> tuple[int, ...] | None:
     try:
         return tuple(int(x) for x in v.split("."))
@@ -76,11 +90,10 @@ def check_header(path: Path, installed_version: str) -> Check:
         problems.append(f"format version {h.version}, encoding {h.encoding}: the dataset "
                         "serves only block-compressed tables (gen --compress, or "
                         "helpmate compact --compress)")
-    sc_path = _sidecar(path)
-    if not sc_path.exists():
-        problems.append("no .stats.json sidecar next to the table")
+    sc, why = _load_sidecar(path)
+    if sc is None:
+        problems.append(why)
     else:
-        sc = json.loads(sc_path.read_text())
         if sc != meta:
             problems.append("sidecar differs from the metadata embedded in the table")
         gv = str(sc.get("generator_version", ""))
@@ -137,10 +150,15 @@ def recompute_stats(reader: BlockReader) -> dict:
 
 def check_sidecar(path: Path) -> Check:
     title = "sidecar recomputed from the payload"
-    h = read_header(path)
+    try:
+        h = read_header(path)
+    except TableFormatError as exc:
+        return Check("V4", title, "fail", str(exc))
     if h.marker:
         return Check("V4", title, "skip", "marker table: no payload")
-    sc = json.loads(_sidecar(path).read_text())
+    sc, why = _load_sidecar(path)
+    if sc is None:
+        return Check("V4", title, "fail", why)
     try:
         with BlockReader(path) as r:
             got = recompute_stats(r)
@@ -162,7 +180,9 @@ def check_deepest(path: Path, tables: Path) -> Check:
     import helpmate
 
     title = "deepest positions probe as recorded"
-    sc = json.loads(_sidecar(path).read_text())
+    sc, why = _load_sidecar(path)
+    if sc is None:
+        return Check("V5", title, "fail", why)
     if sc.get("max_dtm") == DTM_UNSOLVABLE:
         return Check("V5", title, "skip", "no solvable cell")
     bad: list[str] = []
