@@ -1,6 +1,7 @@
 from __future__ import annotations
 import argparse, json, sys, tempfile
 from pathlib import Path
+from .contrib import cli as contrib_cli
 from .manifest import build_manifest, verify_file
 
 # Files per commit. The Hub caps repository commits at 128/hour.
@@ -52,7 +53,7 @@ def _default_hub(repo_id: str):
     hub.fetch_manifest = fetch_manifest  # type: ignore[method-assign]
     return hub
 
-def main(argv: list[str] | None = None, hub_factory=_default_hub) -> int:
+def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=None) -> int:
     p = argparse.ArgumentParser("helpmate-tables")
     sub = p.add_subparsers(dest="cmd")
     for name in ("push", "pull"):
@@ -64,10 +65,14 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub) -> int:
         "--create-pr", action="store_true",
         help="open a pull request on the dataset instead of writing to it "
              "directly (the route for contributors without write access)")
+    contrib_cli.add_parsers(sub)
     a = p.parse_args(argv)
     if a.cmd is None:
         p.print_usage()
         return 2
+    if a.cmd in contrib_cli.CONTRIB_COMMANDS:
+        return contrib_cli.run(a, hub_factory=None if hub_factory is _default_hub
+                               else hub_factory, gh_factory=gh_factory)
     tables = Path(a.tables)
     if not tables.is_dir():
         print(f"error: not a directory: {tables}", file=sys.stderr)
@@ -183,3 +188,7 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
