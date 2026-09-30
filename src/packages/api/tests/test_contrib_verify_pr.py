@@ -211,3 +211,15 @@ def test_interrupted_download_resumes_with_only_the_missing_file(tmp_path, compr
     assert _run_pr(hub, tables, staging) == 0
     assert len(hub.downloads) == 2
     assert json.loads((staging / "pr-2" / "report.json").read_text())["result"] == "pass"
+
+
+def test_plan_only_lists_several_prs_after_one_flag(tmp_path, compressed_tables, capsys):
+    hub = _hub_with_kqvk_pr(compressed_tables)
+    hub.add_pr(3, {n: (compressed_tables / n).read_bytes() for n in ("KPvk.hm", "KPvk.stats.json")},
+               head="def456")
+    tb = _tables_without_kqvk(tmp_path, compressed_tables)
+    rc = tables_cli.main(["verify", "--tables", str(tb), "--pr", "2", "3",
+                          "--staging", str(tmp_path / "st"), "--plan-only"],
+                         hub_factory=lambda r: hub, gh_factory=lambda r: FakeGitHub())
+    out = capsys.readouterr().out
+    assert rc == 0 and hub.downloads == [] and "KQvk.hm" in out and "KPvk.hm" in out

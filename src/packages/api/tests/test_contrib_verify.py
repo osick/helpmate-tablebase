@@ -80,3 +80,11 @@ def test_missing_sidecar_is_a_failed_report_not_a_crash(table_copy, capsys):
 def test_malformed_sidecar_is_a_failed_report_not_a_crash(table_copy, capsys):
     (table_copy / "KQvk.stats.json").write_text("{not json")
     _assert_sidecar_defect_reported(table_copy, capsys)
+
+
+def test_cli_verify_accepts_several_materials_after_one_flag(compressed_tables, capsys):
+    rc = tables_cli.main(["verify", "--tables", str(compressed_tables),
+                          "--material", "KQvk", "KPvk",
+                          "--samples", "50", "--oracle-samples", "2", "--seed", "1"])
+    text = capsys.readouterr().out
+    assert rc == 0 and "KQvk" in text and "KPvk" in text

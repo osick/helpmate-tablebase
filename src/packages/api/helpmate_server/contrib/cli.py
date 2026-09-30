@@ -21,8 +21,8 @@ def add_parsers(sub) -> None:
     v.add_argument("--tables", required=True, metavar="DIR",
                    help="directory holding the table and every published sub-table")
     what = v.add_mutually_exclusive_group(required=True)
-    what.add_argument("--material", action="append", metavar="M")
-    what.add_argument("--pr", action="append", type=int, metavar="N",
+    what.add_argument("--material", action="extend", nargs="+", metavar="M")
+    what.add_argument("--pr", action="extend", nargs="+", type=int, metavar="N",
                       help="maintainer: verify a pull request on the dataset")
     v.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     v.add_argument("--github-repo", default=GITHUB_REPO)

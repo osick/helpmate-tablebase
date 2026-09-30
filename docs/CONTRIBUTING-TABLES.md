@@ -184,7 +184,8 @@ real contribution** — it converts a trusted table into a verified one.
 ## Credit
 
 Every merged table is credited by material and contributor in
-[MATERIALS.md](MATERIALS.md), the README and the dataset card. If you would rather not be named, say so in the claim issue.
+[MATERIALS.md](MATERIALS.md), the README and the dataset card. If you would rather not be named, say so in
+the claim issue.
 
 The first outside contribution came from **T31M**: fifteen tables, KRBvkqq
 through KRBvkpp (issue #41, dataset PR #1), computed on a 192-thread,
@@ -214,7 +215,7 @@ helpmate-tables accept 2 3 4 --tables ~/tb              # merge, manifest, credi
   `--contributor LOGIN` when neither the PR description nor the claim issue
   names one.
 - `helpmate-tables sync --tables ~/tb` regenerates the counts, MATERIALS.md
-  (Kvk excluded) and closes finished claims (`--no-close` to skip); it refuses
+  (Kvk, two bare kings, is outside the three-to-six-men list) and closes finished claims (`--no-close` to skip); it refuses
   when `--tables` lacks sidecars the manifest lists. The Claims workflow only
   updates status comments and never closes issues.
 - When `status` reports enough new tables, refresh DEEPEST, the site and the
