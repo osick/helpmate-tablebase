@@ -22,7 +22,7 @@ adversarial tablebases never needed: the **number of distinct optimal
 solutions**. For every legal position in a material class the table stores
 distance to mate and how many shortest mating lines tie. `count = 1` is a
 sound problem; anything else is a dual. The corpus is currently complete
-through five pieces, with 31 of the 645 six-piece classes done.
+through five pieces, with <!-- contrib:six-done -->31<!-- /contrib --> of the 645 six-piece classes done.
 
 ```
 $ helpmate mine KQvk --dtm 2 --count 1 --max 3

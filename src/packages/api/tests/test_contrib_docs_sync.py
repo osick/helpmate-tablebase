@@ -60,7 +60,9 @@ def test_sync_rewrites_spans_writes_files_and_closes_finished_claims(tmp_path):
     (tmp_path / "data").mkdir()
     for f in SPAN_FILES:
         (tmp_path / f).write_text("n=<!-- contrib:tables -->0<!-- /contrib -->\n")
-    manifest = {"files": {"KQvk.hm": {"size": 2**30}, "KRvk.hm": {"size": 2**30}}}
+    manifest = {"files": {"KQvk.hm": {"size": 2**30}, "KRvk.hm": {"size": 2**30},
+                          "KQvk.stats.json": {"size": 1}}}
+    (tmp_path / "KQvk.stats.json").write_text('{"plane_size": 1000000000, "max_dtm": 34}')
     hub = FakeHub({"manifest.json": json.dumps(manifest).encode()})
     issue = {"number": 7, "title": "Claim: KQvk", "body": "", "user": {"login": "bob"},
              "created_at": "2026-09-01T00:00:00Z"}
@@ -85,3 +87,37 @@ def test_cli_sync_rejects_a_non_checkout(tmp_path, capsys):
                            github_repo="x/y", no_close=True)
     assert cli.run(a) != 0
     assert "not a helpmate-tablebase checkout" in capsys.readouterr().err
+
+
+def test_materials_header_explains_kvk():
+    st, reg = _statuses(set())
+    assert "Kvk (two men) is outside this list" in render_materials(st, reg)
+
+
+def test_sync_refuses_when_sidecars_are_missing(tmp_path, capsys):
+    import argparse
+
+    from fakes import FakeGitHub, FakeHub
+
+    from helpmate_server.contrib import cli
+    from helpmate_server.contrib.docs_sync import SPAN_FILES, SyncError, sync
+
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "data").mkdir()
+    (tmp_path / "data" / "contributions.json").write_text(
+        (REPO / "data" / "contributions.json").read_text())
+    for f in SPAN_FILES:
+        (tmp_path / f).write_text("n=<!-- contrib:tables -->0<!-- /contrib -->\n")
+    manifest = {"files": {"KQvk.hm": {"size": 1}, "KQvk.stats.json": {"size": 1}}}
+    hub = FakeHub({"manifest.json": json.dumps(manifest).encode()})
+    empty = tmp_path / "tb"
+    empty.mkdir()
+    reg = Registry.load(REPO / "data" / "contributions.json")
+    with pytest.raises(SyncError, match=r"1 of 1 sidecars.*KQvk.stats.json"):
+        sync(tmp_path, hub, FakeGitHub(), reg, empty)
+    assert not (tmp_path / "docs" / "MATERIALS.md").exists()
+    assert (tmp_path / "README.md").read_text() == "n=<!-- contrib:tables -->0<!-- /contrib -->\n"
+    a = argparse.Namespace(cmd="sync", tables=str(empty), checkout=tmp_path, repo="x/y",
+                           github_repo="x/y", no_close=True)
+    assert cli.run(a, lambda repo: hub, lambda repo: FakeGitHub()) == 2
+    assert "sidecars" in capsys.readouterr().err

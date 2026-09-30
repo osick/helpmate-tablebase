@@ -82,16 +82,20 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
             return run_claims((hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
                               Registry.load(a.registry), date.today())
         if a.cmd == "sync":
-            from .docs_sync import sync
+            from .docs_sync import SyncError, sync
             from .github import GitHub
             from .hf import Hub
             from .registry import Registry
             checkout = Path(a.checkout)
             if not (checkout / "data" / "contributions.json").exists():
                 raise UsageError(f"{checkout} is not a helpmate-tablebase checkout")
-            for p in sync(checkout, (hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
-                          Registry.load(checkout / "data" / "contributions.json"),
-                          Path(a.tables).expanduser(), close_claims=not a.no_close):
+            try:
+                written = sync(checkout, (hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
+                               Registry.load(checkout / "data" / "contributions.json"),
+                               Path(a.tables).expanduser(), close_claims=not a.no_close)
+            except SyncError as exc:
+                raise UsageError(str(exc)) from exc
+            for p in written:
                 print(f"wrote {p}")
             return 0
         raise UsageError(f"{a.cmd}: not implemented yet")
