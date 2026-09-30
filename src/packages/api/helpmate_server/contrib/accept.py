@@ -56,6 +56,10 @@ def add_changelog_data(text: str, line: str) -> str:
     return text[:m.end()] + "\n### Data\n" + line + "\n" + text[m.end():]
 
 
+class MergeConflict(Exception):
+    """The docs PR cannot be merged: main changed underneath it."""
+
+
 class Git:
     """git and gh as the maintainer runs them (see Global Constraints: pushes
     bypass the global config that rewrites HTTPS to SSH)."""
@@ -114,21 +118,48 @@ class Git:
             args += ["--head", branch]
         return self._out(*args)
 
+    def _view(self, url: str) -> dict:
+        """The PR's state and mergeability; GitHub computes the latter lazily (UNKNOWN)."""
+        for _ in range(6):
+            v = json.loads(self._out("gh", "pr", "view", url, "--json", "state,mergeable"))
+            if v.get("state") == "MERGED" or v.get("mergeable") != "UNKNOWN":
+                return v
+            self._sleep(5)
+        return v
+
+    def _conflicting(self, url: str) -> bool:
+        return self._view(url).get("mergeable") == "CONFLICTING"
+
     def wait_and_merge(self, url: str, branch: str) -> None:
         """Wait for the checks, squash-merge, then delete the branch on origin and here.
-        Run from the maintainer's own branch: never merge while the data branch is checked out."""
-        if json.loads(self._out("gh", "pr", "view", url, "--json", "state")).get("state") != "MERGED":
+        Run from the maintainer's own branch: never merge while the data branch is checked out.
+        Raises MergeConflict when the PR cannot be merged because main has moved on."""
+        v = self._view(url)
+        if v.get("state") != "MERGED":
+            if v.get("mergeable") == "CONFLICTING":
+                raise MergeConflict(url)
             for _ in range(12):  # right after `pr create`, GitHub has not registered the checks yet
                 r = self._run("gh", "pr", "checks", url, check=False)
                 if _NO_CHECKS not in (r.stdout + r.stderr).lower():
                     break
                 self._sleep(10)
             else:
+                if self._conflicting(url):  # CI does not run on a PR that conflicts
+                    raise MergeConflict(url)
                 raise RuntimeError(f"no checks were reported for {url} after 2 minutes")
             # not captured: the maintainer watches CI progress in the terminal
             self._runner(["gh", "pr", "checks", url, "--watch", "--fail-fast"], cwd=self.cwd, check=True)
-            self._run("gh", "pr", "merge", url, "--squash", env=_NO_GLOBAL)
+            try:
+                self._run("gh", "pr", "merge", url, "--squash", env=_NO_GLOBAL)
+            except subprocess.CalledProcessError as exc:
+                if self._conflicting(url):
+                    raise MergeConflict(url) from exc
+                raise
         self._delete_branch(branch)
+
+    def close_pr(self, url: str) -> None:
+        self._run("gh", "pr", "close", url, "--comment",
+                  "Conflicts with main; `helpmate-tables accept` is redoing this from the current main.")
 
     def _delete_branch(self, branch: str) -> None:
         for args, gone in ((("git", "-c", "credential.helper=", "-c", _GH_CREDENTIALS,
@@ -272,57 +303,83 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                          f"(dataset PR #{n}" + (f", claim #{p['claim']}" if p["claim"] else "") + ").")
         mats = [m for pr in pulls.values() for m in pr.materials]
         title = f"Data: {len(mats)} table(s) from dataset PR(s) {', '.join(f'#{n}' for n in prs)}"
-        if not sub("committed"):
-            outside = [d for d in git.dirty_paths() if d not in DOCS_PATHS]
-            if outside:
-                return _err(f"{checkout} has uncommitted changes outside what accept writes: "
-                            f"{', '.join(outside)}")
-            if not state.get("docs_started"):
-                if not git.clean():
-                    return _err(f"{checkout} has uncommitted changes; commit or stash them first")
-                state["docs_started"] = True  # from here on, leftovers in DOCS_PATHS are ours
+
+        def attempt() -> int | None:
+            if not sub("committed"):
+                outside = [d for d in git.dirty_paths() if d not in DOCS_PATHS]
+                if outside:
+                    return _err(f"{checkout} has uncommitted changes outside what accept writes: "
+                                f"{', '.join(outside)}")
+                if not state.get("docs_started"):
+                    if not git.clean():
+                        return _err(f"{checkout} has uncommitted changes; commit or stash them first")
+                    state["docs_started"] = True  # from here on, leftovers in DOCS_PATHS are ours
+                    save()
+                if "original" not in state:  # first attempt only: later ones may start on the data branch
+                    state["original"] = git.current()
+                    save()
+                git.reset_to_origin_main(branch, DOCS_PATHS)
+                reg = Registry.load(reg_path)
+                for n, pr in pulls.items():
+                    p = people[n]
+                    if p["key"] not in reg.contributors:
+                        reg.add_contributor(Contributor(p["key"], p["github"], p["hf"], p["display"],
+                                                        anonymous=p.get("anonymous", False)))
+                    rep = json.loads((staging / f"pr-{n}" / "report.json").read_text())
+                    for m in pr.materials:
+                        sc = json.loads((tables / f"{m}.stats.json").read_text())
+                        reg.record_table(m, contributor=p["key"], hf_pr=n, claim=p["claim"],
+                                         merged=today, generator_version=sc.get("generator_version", ""),
+                                         verification={"tool": rep.get("tool"), "head": rep.get("head"),
+                                                       "seed": rep.get("seed"), "result": rep["result"]})
+                reg.save()
+                cl = checkout / "CHANGELOG.md"
+                text = cl.read_text()
+                for line in lines:
+                    text = add_changelog_data(text, line)
+                cl.write_text(text)
+                sync(checkout, hub, gh, reg, tables, close_claims=False)
+                card_path.write_bytes((checkout / "docs" / "hf-dataset-card.md").read_bytes())
+                trailers = sorted({f"Co-authored-by: {p['github']} <{gh.user_id(p['github'])}+"
+                                   f"{p['github']}@users.noreply.github.com>"
+                                   for p in people.values()
+                                   if p["github"] and not reg.contributors[p["key"]].anonymous})
+                git.commit_all(title + "\n\n" + "\n".join(lines) + "\n\n" + "\n".join(trailers))
+                sub_done("committed")
+            if "docs_pr" not in state:
+                if not sub("pushed"):
+                    git.push(branch)
+                    sub_done("pushed")
+                state["docs_pr"] = git.open_pr(title, "\n".join(lines), branch)
                 save()
-            if "original" not in state:  # first attempt only: later ones may start on the data branch
-                state["original"] = git.current()
-                save()
-            git.reset_to_origin_main(branch, DOCS_PATHS)
-            reg = Registry.load(reg_path)
-            for n, pr in pulls.items():
-                p = people[n]
-                if p["key"] not in reg.contributors:
-                    reg.add_contributor(Contributor(p["key"], p["github"], p["hf"], p["display"],
-                                                    anonymous=p.get("anonymous", False)))
-                rep = json.loads((staging / f"pr-{n}" / "report.json").read_text())
-                for m in pr.materials:
-                    sc = json.loads((tables / f"{m}.stats.json").read_text())
-                    reg.record_table(m, contributor=p["key"], hf_pr=n, claim=p["claim"],
-                                     merged=today, generator_version=sc.get("generator_version", ""),
-                                     verification={"tool": rep.get("tool"), "head": rep.get("head"),
-                                                   "seed": rep.get("seed"), "result": rep["result"]})
-            reg.save()
-            cl = checkout / "CHANGELOG.md"
-            text = cl.read_text()
-            for line in lines:
-                text = add_changelog_data(text, line)
-            cl.write_text(text)
-            sync(checkout, hub, gh, reg, tables, close_claims=False)
-            card_path.write_bytes((checkout / "docs" / "hf-dataset-card.md").read_bytes())
-            trailers = sorted({f"Co-authored-by: {p['github']} <{gh.user_id(p['github'])}+"
-                               f"{p['github']}@users.noreply.github.com>"
-                               for p in people.values()
-                               if p["github"] and not reg.contributors[p["key"]].anonymous})
-            git.commit_all(title + "\n\n" + "\n".join(lines) + "\n\n" + "\n".join(trailers))
-            sub_done("committed")
-        if "docs_pr" not in state:
-            if not sub("pushed"):
-                git.push(branch)
-                sub_done("pushed")
-            state["docs_pr"] = git.open_pr(title, "\n".join(lines), branch)
+            git.back(state.get("original", "main"))  # before the merge deletes the data branch
+            if not sub("docs_merged"):
+                git.wait_and_merge(state["docs_pr"], branch)
+                sub_done("docs_merged")
+            return None
+
+        def conflicts_again(url: object) -> int:
+            return _err(f"the docs PR {url} conflicts with main again; resolve it by hand "
+                        "(or close it), then rerun accept")
+
+        try:
+            rc = attempt()
+        except MergeConflict as first:
+            if state.get("docs_retried"):
+                return conflicts_again(first)
+            print(f"the docs PR {first} conflicts with main; closing it and redoing the docs "
+                  "from the current main (once)", file=sys.stderr)
+            git.close_pr(state["docs_pr"])
+            state["docs_retried"] = True  # at most one retry, across reruns too
+            state["sub"] = []             # committed, pushed: all redone from origin/main
+            del state["docs_pr"]
             save()
-        git.back(state.get("original", "main"))  # before the merge deletes the data branch
-        if not sub("docs_merged"):
-            git.wait_and_merge(state["docs_pr"], branch)
-            sub_done("docs_merged")
+            try:
+                rc = attempt()
+            except MergeConflict as second:
+                return conflicts_again(second)
+        if rc is not None:
+            return rc
         mark("docs")
 
     if "card" not in state["done"]:  # only now: the public card must not credit a failed docs PR

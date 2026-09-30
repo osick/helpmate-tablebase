@@ -24,6 +24,39 @@ class FakeGit:
     def open_pr(self, title, body, branch=None): self._do("open_pr", title); return "https://gh/pr/1"
     def wait_and_merge(self, url, branch): self._do("wait_and_merge", url)
     def back(self, ref): self._do("back", ref)
+    def close_pr(self, url): self._do("close_pr", url)
+
+
+class ConflictingGit(FakeGit):
+    """The docs PR conflicts with main `conflicts` times; the reset restores the
+    generated files the way `reset_to_origin_main` does on a real checkout."""
+
+    def __init__(self, checkout, conflicts):
+        super().__init__()
+        self.checkout, self.conflicts, self.snap, self.prs = checkout, conflicts, None, 0
+
+    def reset_to_origin_main(self, branch, paths):
+        super().reset_to_origin_main(branch, paths)
+        files = [self.checkout / p for p in paths]
+        if self.snap is None:
+            self.snap = {f: f.read_bytes() for f in files if f.exists()}
+        for f in files:
+            if f in self.snap:
+                f.write_bytes(self.snap[f])
+            else:
+                f.unlink(missing_ok=True)
+
+    def open_pr(self, title, body, branch=None):
+        super().open_pr(title, body, branch)
+        self.prs += 1
+        return f"https://gh/pr/{self.prs}"
+
+    def wait_and_merge(self, url, branch):
+        from helpmate_server.contrib.accept import MergeConflict
+        self._do("wait_and_merge", url)
+        if self.conflicts:
+            self.conflicts -= 1
+            raise MergeConflict(url)
 
 
 def _setup(tmp_path, head="abc", report_head="abc", result="pass"):
@@ -396,6 +429,76 @@ def test_branch_cleanup_tolerates_branches_already_gone(tmp_path):
     r = Runner(["ci"], fail={tuple(PUSH_DELETE): "fatal: could not read from remote"})
     with pytest.raises(subprocess.CalledProcessError):
         Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+
+
+def test_docs_pr_conflict_is_redone_once_from_origin_main(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    git = ConflictingGit(checkout, conflicts=1)
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    names = [c[0] for c in git.calls]
+    assert ("close_pr", "https://gh/pr/1") in git.calls
+    assert names.count("reset_to_origin_main") == 2 and names.count("commit_all") == 2
+    assert names.count("push") == 2 and ("wait_and_merge", "https://gh/pr/2") in git.calls
+    assert (checkout / "CHANGELOG.md").read_text().count("KRRvkqq contributed by") == 1
+    assert sum("Dataset card" in m for m, _ in hub.commits) == 1
+
+
+def test_docs_pr_conflicting_twice_stops_and_never_retries_again(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    git = ConflictingGit(checkout, conflicts=5)
+    assert _run(checkout, staging, hub, gh, tables, git) == 2
+    assert "again" in capsys.readouterr().err
+    assert [c[0] for c in git.calls].count("close_pr") == 1
+    state = json.loads(next(staging.glob("accept-*.json")).read_text())
+    assert state["docs_retried"] is True and "docs" not in state["done"]
+    again = ConflictingGit(checkout, conflicts=5)
+    assert _run(checkout, staging, hub, gh, tables, again) == 2
+    assert "close_pr" not in [c[0] for c in again.calls]          # at most one retry, ever
+    assert not any("Dataset card" in m for m, _ in hub.commits)
+
+
+def test_git_reports_a_conflicting_pr(tmp_path):
+    import subprocess
+    from helpmate_server.contrib.accept import Git, MergeConflict
+
+    class Conflicting(Runner):
+        def __call__(self, args, **kw):
+            if args[:3] == ["gh", "pr", "view"]:
+                self.calls.append(args)
+                return subprocess.CompletedProcess(args, 0, '{"state": "OPEN", "mergeable": "CONFLICTING"}', "")
+            return super().__call__(args, **kw)
+    r = Conflicting(["ci"])
+    with pytest.raises(MergeConflict):
+        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+    assert not any(c[:3] == ["gh", "pr", "merge"] for c in r.calls)
+
+
+def test_git_turns_a_failed_merge_of_a_now_conflicting_pr_into_a_conflict(tmp_path):
+    import subprocess
+    from helpmate_server.contrib.accept import Git, MergeConflict
+
+    class Late(Runner):
+        views = 0
+
+        def __call__(self, args, **kw):
+            if args[:3] == ["gh", "pr", "view"]:
+                self.views += 1
+                m = "CONFLICTING" if self.views > 1 else "MERGEABLE"
+                return subprocess.CompletedProcess(args, 0, f'{{"state": "OPEN", "mergeable": "{m}"}}', "")
+            return super().__call__(args, **kw)
+    r = Late(["ci"], fail={("gh", "pr", "merge"): "Pull request is not mergeable"})
+    with pytest.raises(MergeConflict):
+        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+    r = Runner(["ci"], fail={("gh", "pr", "merge"): "HTTP 502"})
+    with pytest.raises(subprocess.CalledProcessError):
+        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+
+
+def test_close_pr_closes_with_a_comment(tmp_path):
+    from helpmate_server.contrib.accept import Git
+    r = Runner([])
+    Git(tmp_path, runner=r).close_pr("u")
+    assert r.calls[0][:4] == ["gh", "pr", "close", "u"]
 
 
 def test_accept_leaves_the_data_branch_before_merging_the_docs_pr(tmp_path):
