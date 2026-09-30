@@ -210,6 +210,34 @@ def test_pr_by_a_known_contributor_inside_someone_elses_claim_needs_contributor(
     assert reg["tables"]["KRRvkqq"]["contributor"] == "T31M"
 
 
+def test_head_is_checked_again_right_before_the_merge(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    hub.pr_head = lambda n: "pushed-meanwhile"
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2
+    err = capsys.readouterr().err
+    assert hub.merged == [] and "abc" in err and "pushed-meanwhile" in err
+
+
+def test_material_already_in_the_manifest_is_refused(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    hub.main["manifest.json"] = json.dumps({"schema": 1, "generator_version": "0.19.0", "files": {
+        "KRRvkqq.hm": {"sha256": "x", "size": 1}}}).encode()
+    (tables / "KRRvkqq.stats.json").write_text('{"plane_size": 1, "max_dtm": 1}')
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2
+    assert hub.merged == [] and "already in the dataset" in capsys.readouterr().err
+
+
+def test_same_material_in_two_prs_of_a_batch_is_refused(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _two_prs(tmp_path)
+    files = dict(hub.prs[2][1])
+    hub.healed = True
+    hub.add_pr(3, files, head="h3")
+    for k, v in files.items():
+        (staging / "pr-3" / "files" / k).write_bytes(v)
+    assert _run2(checkout, staging, hub, gh, tables, FakeGit()) == 2
+    assert hub.merged == [] and "KRRvkqq" in capsys.readouterr().err
+
+
 def test_unknown_contributor_stops_before_merging(tmp_path, capsys):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     gh.issues.clear()

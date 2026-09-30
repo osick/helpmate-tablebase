@@ -216,10 +216,12 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         if not git.clean():
             return _err(f"{checkout} has uncommitted changes")
         reg = Registry.load(reg_path)
+        manifest = hub.fetch_manifest()
         try:  # sync needs every published sidecar locally; find out before merging
-            CorpusFacts.from_manifest(hub.fetch_manifest(), tables)
+            CorpusFacts.from_manifest(manifest, tables)
         except SyncError as exc:
             return _err(str(exc))
+        published = manifest.get("files", {})
         people: dict[int, dict[str, Any]] = {int(k): v for k, v in state.get("people", {}).items()}
         seen_keys: dict[str, str | None] = {}
         merged = state.setdefault("merged", [])
@@ -239,6 +241,9 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             if rep.get("head") != pr.head:
                 return _err(f"PR #{n} changed after verification (verified {rep.get('head')}, "
                             f"now {pr.head}); run verify --pr {n} again")
+            already = [m for m in pr.materials if f"{m}.hm" in published]
+            if already:
+                return _err(f"PR #{n}: {', '.join(already)} already in the dataset")
             missing = _missing_staged(hub, pr, staging / f"pr-{n}" / "files")
             if missing:
                 return _err(f"PR #{n}: staged files missing or of the wrong size: {', '.join(missing)}; "
@@ -265,10 +270,20 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                          "display": who.display, "anonymous": who.anonymous,
                          "claim": claim.issue if claim else None}
             stored[str(n)] = {k: v for k, v in asdict(pr).items() if k != "num"}
+        owner: dict[str, int] = {}
+        for n in prs:
+            for m in PullRequest(n, **stored[str(n)]).materials:
+                if m in owner:
+                    return _err(f"{m} is in both PR #{owner[m]} and PR #{n}; accept one of them")
+                owner[m] = n
         state["people"] = {str(k): v for k, v in people.items()}
         save()
         for n in prs:
             if n not in merged:
+                now, verified = hub.pr_head(n), stored[str(n)]["head"]
+                if now != verified:  # a push between validation and this merge
+                    return _err(f"PR #{n} changed after verification (verified {verified}, "
+                                f"now {now}); run verify --pr {n} again")
                 hub.merge(n)
                 merged.append(n)
                 save()
