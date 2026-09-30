@@ -153,15 +153,19 @@ def _day(ts: str) -> date:
     return datetime.fromisoformat(ts.replace("Z", "+00:00")).date()
 
 
-def _other_person(pr, claim: Claim, registry) -> bool:
-    """True if the PR's identity clues point at someone other than the claimer."""
+def ownership_conflict(pr, claim: Claim, registry) -> str | None:
+    """Why the PR's identity clues point at someone other than the claim's author, or None.
+    The claims bot and accept both ask this, so they agree on who owns a PR."""
     num, login = parse_links(pr.description)
     if num is not None and num != claim.issue:
-        return True
+        return f"the PR names claim #{num}, but its material is claimed in #{claim.issue}"
     if login is not None and login.lower() != claim.author.lower():
-        return True
+        return f"the PR names GitHub user {login}, but #{claim.issue} is by {claim.author}"
     known = registry.by_hf(pr.author)
-    return bool(known and known.github and known.github.lower() != claim.author.lower())
+    if known and known.github and known.github.lower() != claim.author.lower():
+        return (f"HF user {pr.author} is {known.github} on GitHub, but #{claim.issue} "
+                f"is by {claim.author}")
+    return None
 
 
 def run_claims(hub, gh, registry, today: date) -> int:
@@ -186,7 +190,7 @@ def run_claims(hub, gh, registry, today: date) -> int:
                     login = person.github if person else None
                     if (login or "").lower() != c.author.lower():
                         conflicts.append(f"{m} is already done")
-            elif s.state == "in review" and _other_person(in_review[m], c, registry):
+            elif s.state == "in review" and ownership_conflict(in_review[m], c, registry):
                 conflicts.append(f"{m} is in review by someone else (HF PR #{in_review[m].num})")
         comments = gh.comments(c.issue)
         mine = next((x for x in comments if x["user"].endswith("[bot]")

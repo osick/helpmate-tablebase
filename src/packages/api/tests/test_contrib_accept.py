@@ -162,6 +162,21 @@ def test_resume_after_merge_records_the_prs_tables(tmp_path):
     assert msg.startswith("Data: 1 table(s)")
 
 
+def test_pr_by_a_known_contributor_inside_someone_elses_claim_needs_contributor(tmp_path, capsys):
+    """T31M (registered) pushes KRRvkpp-style work that #39 (popeye37) still claims:
+    the claims bot calls it 'in review by someone else', so accept must not credit popeye37."""
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    (checkout / "data" / "contributions.json").write_text(json.dumps({"schema": 1, "tables": {},
+        "contributors": {"T31M": {"github": "T31M", "hf": "T31M", "display": "T31M"}}}))
+    hub.prs[2][0].author = "T31M"
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2
+    err = capsys.readouterr().err
+    assert hub.merged == [] and "--contributor" in err and "#39" in err
+    assert _run(checkout, staging, hub, gh, tables, FakeGit(), contributor="T31M") == 0
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert reg["tables"]["KRRvkqq"]["contributor"] == "T31M"
+
+
 def test_unknown_contributor_stops_before_merging(tmp_path, capsys):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     gh.issues.clear()

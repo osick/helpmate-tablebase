@@ -17,7 +17,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from .claims import load_index, material_status
+from .claims import load_index, material_status, ownership_conflict
 from .docs_sync import CorpusFacts, SyncError, close_finished_claims, sync
 from .hf import PullRequest
 from .links import parse_links
@@ -205,6 +205,10 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             claim_no = parse_links(pr.description)[0]
             claim = next((c for c in index.claims if c.issue == claim_no), None) \
                 or (index.claim_for(pr.materials[0]) if pr.materials else None)
+            why = ownership_conflict(pr, claim, reg) if claim and not contributor else None
+            if why:
+                return _err(f"PR #{n}: {why} (the claims bot shows this as a conflict); "
+                            "pass --contributor LOGIN")
             who = resolve_contributor(reg, pr, claim, contributor)
             if who is None:
                 return _err(f"PR #{n} by HF user {pr.author}: no GitHub identity found; "
