@@ -43,9 +43,10 @@ things — reading a verification report and running one `accept` command.
 - **Material universe**: every material with 3–6 pieces including both kings,
   White and Black pieces each in canonical order Q R B N P
   (`KRBvkqq`, `KBBPvk`). Counts: 3 → 10, 4 → 55, 5 → 220, 6 → 715; **1000 in
-  total**. A material whose White side is a bare king is a **marker** (no
-  helpmate possible; the generator writes a v2 marker table): 70 of the 715
-  six-piece materials, so 645 need a real table.
+  total**. A material whose White side is a bare king is **not needed** (no
+  helpmate possible): 70 of the 715 six-piece materials, so 645 need a real
+  table. Other materials can also turn out to have no helpmate (the generator
+  then writes a marker table); that is only known after generation.
 - **Status** of a material, derived, never typed by hand, in precedence order:
   `done` (in the HF manifest) → `in review` (in an open HF PR) → `claimed`
   (named by an open GitHub claim issue) → `open`.
@@ -95,7 +96,7 @@ existed — shown as "reviewed" not "verified").
   the list of open PRs with their files). The workflow runs it from the checkout
   as `PYTHONPATH=src/packages/api python -m helpmate_server.tables_cli claims …`
   — `tables_cli` imports nothing from the C++ bindings, so the job needs no
-  build and no `pip install`. It runs on `issues: [opened, edited, reopened]`, `issue_comment`, a daily
+  C++ build; it does `pip install huggingface_hub` only. It runs on `issues: [opened, edited, reopened]`, `issue_comment`, a daily
   schedule, and `workflow_dispatch`. For each open `claim` issue:
   - parse every canonical material name or wildcard pattern anywhere in the body
     (so the existing free-text claims #39, #40, #45 parse unchanged); a name
@@ -179,6 +180,8 @@ maintainer's form:
    - **V7 independent oracle** — for up to 200 sampled positions with dtm ≤ 5
      plies, a python-chess iterative-deepening helpmate search (shares no code
      with the generator) must reproduce dtm and count.
+   V6 and V7 are skipped once V4 or V5 has failed: they would only re-report the
+   same corruption.
 4. *Report* — markdown with a per-check table, the sample seed, the PR head sha,
    and tool version, saved to `~/tb-staging/pr-N/report.md`. Unless `--no-post`,
    posted as a comment on the HF PR and on the linked claim issue. On failure the
@@ -198,19 +201,26 @@ idempotent so a rerun resumes after a failure:
 1. Resolve the contributor: `GitHub: @` line in the PR description → the claim
    issue's author → the `contributors` map by HF username → `--contributor`
    (required on first sight of an unknown HF user; recorded afterwards).
-2. Merge the HF PR(s) (`HfApi.merge_pull_request`).
-3. Regenerate `manifest.json` from the HF repository's metadata
+2. **merge**: merge the HF PR(s) (`HfApi.merge_pull_request`).
+3. **manifest**: regenerate `manifest.json` from the HF repository's metadata
    (`list_repo_tree(expand=True)` gives LFS sha256 and size; small non-LFS
-   sidecars are fetched and hashed), push it, and upload the regenerated
-   `docs/hf-dataset-card.md` as `README.md`.
-4. Move the verified files from staging into the local corpus.
-5. On a branch `data/accept-<materials>`: update `contributions.json`, run
-   `sync` (below), add the CHANGELOG `### Data` entry, commit with a
-   `Co-authored-by: <login> <id+login@users.noreply.github.com>` trailer (id from
-   `gh api users/<login>`; omitted for anonymous contributors), open the PR,
-   wait for the required checks, squash-merge, delete the branch.
-6. Comment on the claim issue (materials accepted, link to the merged commit);
-   close it when every material it claims is `done`. HF PRs close on merge.
+   sidecars are fetched and hashed) and push it.
+4. **local**: move the verified files from staging into the local corpus.
+5. **docs**: on a branch `data/accept-<materials>`: update
+   `contributions.json`, run `sync` (below), add the CHANGELOG `### Data`
+   entry, commit with a `Co-authored-by: <login> <id+login@users.noreply.github.com>`
+   trailer (id from `gh api users/<login>`; omitted for anonymous
+   contributors), open the PR, wait for the required checks, squash-merge,
+   delete the branch.
+6. **card**: upload the regenerated `docs/hf-dataset-card.md` as `README.md`
+   (only after the docs PR has merged, so the card never gets ahead of the repo).
+7. **claims**: comment on the claim issue (materials accepted, link to the
+   merged commit); close it when every material it claims is `done`. HF PRs
+   close on merge.
+
+The step order is merge, manifest, local, docs, card, claims. Each step is
+recorded in the state file and skipped on a rerun; a PR whose head changed since
+verification is refused, and the first run needs a clean checkout.
 
 A batch (`accept 2 3 … 15`) produces one HF merge per PR, one manifest push, and
 one GitHub PR.
