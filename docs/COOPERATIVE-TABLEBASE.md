@@ -98,7 +98,7 @@ plane scan about 2.3×.
 
 ## What the data says
 
-Across the 317 tables there are 713.9 billion plane cells. Just over half are
+Across the <!-- contrib:tables -->317<!-- /contrib --> tables there are <!-- contrib:cells-billion -->713.9<!-- /contrib --> billion plane cells. Just over half are
 illegal positions the dense index has to reserve room for, 10.0 % are legal
 but unsolvable, 39.3 % have a helpmate, and of those 6.4 % have a unique
 solution. The fifteen KRB six-piece tables are more than half of all cells,
@@ -144,8 +144,8 @@ checked cheaply.
 ## Limits, and the open call
 
 Seven pieces need about 2 TB resident and an out-of-core generator that does
-not exist. Six pieces need a machine, not a redesign: **614 six-piece classes
-have never been computed, and 269 of them fit in 32 GiB and take about a day
+not exist. Six pieces need a machine, not a redesign: **<!-- contrib:six-open -->614<!-- /contrib --> six-piece classes
+have never been computed, and <!-- contrib:six-open-p0 -->269<!-- /contrib --> of them fit in 32 GiB and take about a day
 each.** Contributions arrive as pull requests on the dataset
 (`helpmate-tables push --create-pr`), and every merged table is credited.
 Regenerating an existing class and reporting whether the sha256 matches is a

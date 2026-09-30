@@ -4,7 +4,7 @@ This project needs CPU and RAM more than it needs code.
 
 The corpus is **complete through five pieces** — all 220 five-piece classes,
 plus everything below them. At six pieces there are **645 material classes
-that need a real table**, and **31 are done**. The rest is roughly six hundred
+that need a real table**, and **<!-- contrib:six-done -->31<!-- /contrib --> are done**. The rest is roughly six hundred
 machine-days of work, and it is not going to come from one desk.
 
 If you have a machine with 32 GiB of RAM and a week where it would otherwise
@@ -15,16 +15,16 @@ idle, you can produce something nobody has ever computed.
 
 ## What is missing
 
-614 six-piece tables. Peak RAM equals the raw table size, because generation
+<!-- contrib:six-open -->614<!-- /contrib --> six-piece tables. Peak RAM equals the raw table size, because generation
 holds four bytes per cell resident:
 
 | pawns | tables missing | RAM needed | machine |
 | --- | --- | --- | --- |
-| **0** | **269** | **28.9 GiB** | **32 GiB — the accessible tier** |
-| 3 | 28 | 47.6 GiB | 64 GiB |
-| 4 | 4 | 35.7 GiB | 64 GiB |
-| 2 | 97 | 63.5 GiB | 96 GiB (64 is too tight) |
-| 1 | 216 | 84.7 GiB | 96 GiB |
+| **0** | **<!-- contrib:six-open-p0 -->269<!-- /contrib -->** | **28.9 GiB** | **32 GiB — the accessible tier** |
+| 3 | <!-- contrib:six-open-p3 -->28<!-- /contrib --> | 47.6 GiB | 64 GiB |
+| 4 | <!-- contrib:six-open-p4 -->4<!-- /contrib --> | 35.7 GiB | 64 GiB |
+| 2 | <!-- contrib:six-open-p2 -->97<!-- /contrib --> | 63.5 GiB | 96 GiB (64 is too tight) |
+| 1 | <!-- contrib:six-open-p1 -->216<!-- /contrib --> | 84.7 GiB | 96 GiB |
 
 Start with the pawnless tier. It is the largest single group, it fits on
 ordinary hardware, and every table in it is 28.9 GiB raw — about 1–3 GiB once

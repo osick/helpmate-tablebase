@@ -34,6 +34,12 @@ def add_parsers(sub) -> None:
     v.add_argument("--plan-only", action="store_true", help="--pr: list files and sizes, then stop")
     v.add_argument("--yes", action="store_true", help="--pr: download without asking")
     v.add_argument("--no-post", action="store_true", help="--pr: do not comment anywhere")
+    s = sub.add_parser("sync", help="(maintainer) regenerate MATERIALS.md, credits and counts")
+    s.add_argument("--tables", required=True, metavar="DIR")
+    s.add_argument("--checkout", type=Path, default=Path("."))
+    s.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
+    s.add_argument("--github-repo", default=GITHUB_REPO)
+    s.add_argument("--no-close", action="store_true", help="do not close finished claims")
     c = sub.add_parser("claims", help="(CI) update the status comment on every claim issue")
     c.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     c.add_argument("--github-repo", default=GITHUB_REPO)
@@ -75,6 +81,19 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
             from .registry import Registry
             return run_claims((hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
                               Registry.load(a.registry), date.today())
+        if a.cmd == "sync":
+            from .docs_sync import sync
+            from .github import GitHub
+            from .hf import Hub
+            from .registry import Registry
+            checkout = Path(a.checkout)
+            if not (checkout / "data" / "contributions.json").exists():
+                raise UsageError(f"{checkout} is not a helpmate-tablebase checkout")
+            for p in sync(checkout, (hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
+                          Registry.load(checkout / "data" / "contributions.json"),
+                          Path(a.tables).expanduser(), close_claims=not a.no_close):
+                print(f"wrote {p}")
+            return 0
         raise UsageError(f"{a.cmd}: not implemented yet")
     except UsageError as exc:
         print(f"error: {exc}", file=sys.stderr)
