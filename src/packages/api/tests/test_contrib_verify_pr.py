@@ -146,3 +146,44 @@ def test_pull_request_files_fall_back_to_tree_diff_when_diff_is_empty():
     assert pr.files == ["KRRvkqq.hm", "KRRvkqq.stats.json"]
     assert pr.materials == ["KRRvkqq"] and pr.head == "abc"
     assert Hub("o/d", api=_Api()).file_sizes([], "refs/pr/2") == {}
+
+
+def _run_pr(hub, tables, staging, *extra):
+    return tables_cli.main(["verify", "--tables", str(tables), "--pr", "2", "--staging",
+                            str(staging), "--yes", "--no-post", *ARGS, *extra],
+                           hub_factory=lambda r: hub, gh_factory=lambda r: FakeGitHub())
+
+
+def test_truncated_staged_file_is_redownloaded(tmp_path, compressed_tables):
+    hub = _hub_with_kqvk_pr(compressed_tables)
+    tables, staging = _tables_without_kqvk(tmp_path, compressed_tables), tmp_path / "st"
+    _run_pr(hub, tables, staging)
+    n = len(hub.downloads)
+    f = staging / "pr-2" / "files" / "KQvk.hm"
+    f.write_bytes(f.read_bytes()[:10])
+    assert _run_pr(hub, tables, staging) == 0
+    assert len(hub.downloads) > n
+    assert json.loads((staging / "pr-2" / "report.json").read_text())["result"] == "pass"
+
+
+def test_new_head_with_same_sizes_is_redownloaded(tmp_path, compressed_tables):
+    hub = _hub_with_kqvk_pr(compressed_tables)
+    tables, staging = _tables_without_kqvk(tmp_path, compressed_tables), tmp_path / "st"
+    _run_pr(hub, tables, staging)
+    n = len(hub.downloads)
+    pr, files = hub.prs[2]
+    pr.head = "h2"
+    hub.prs[2] = (pr, files)
+    _run_pr(hub, tables, staging)
+    assert len(hub.downloads) > n
+    assert json.loads((staging / "pr-2" / "report.json").read_text())["head"] == "h2"
+    assert (staging / "pr-2" / "files" / ".head").read_text() == "h2"
+
+
+def test_unsafe_file_name_downloads_nothing_and_fails(tmp_path, compressed_tables):
+    hub = FakeHub()
+    hub.add_pr(2, {"../evil.hm": b"x", "../evil.stats.json": b"y"}, description="Claim: #39")
+    assert _run_pr(hub, tmp_path / "tb", tmp_path / "st") == 1
+    assert hub.downloads == []
+    rep = json.loads((tmp_path / "st" / "pr-2" / "report.json").read_text())
+    assert rep["result"] == "fail"

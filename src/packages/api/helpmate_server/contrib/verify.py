@@ -77,7 +77,9 @@ def check_pr_hygiene(pr, manifest_files: dict) -> Check:
     hms = {f[:-3] for f in pr.files if f.endswith(".hm")}
     sidecars = {f[: -len(".stats.json")] for f in pr.files if f.endswith(".stats.json")}
     for f in pr.files:
-        if not (f.endswith(".hm") or f.endswith(".stats.json")):
+        if _unsafe(f):
+            problems.append(f"unsafe file name {f!r}")
+        elif not (f.endswith(".hm") or f.endswith(".stats.json")):
             problems.append(f"unexpected file {f}")
     for stem in sorted(hms | sidecars):
         if canonical(stem) != stem:
@@ -109,6 +111,35 @@ def _build_overlay(tables: Path, files_dir: Path, overlay: Path) -> None:
                 link.symlink_to(p.resolve())
 
 
+def _unsafe(name: str) -> bool:
+    return "/" in name or "\\" in name or name.startswith(".")
+
+
+def _staged_ok(have: Path, head: str | None, name: str, size: int) -> bool:
+    marker = have / ".head"
+    if head is not None and (not marker.exists() or marker.read_text() != head):
+        return False
+    return (have / name).exists() and (have / name).stat().st_size == size
+
+
+def _stage(hub, pr, files_dir: Path) -> None:
+    """Download what is missing or the wrong size, bound to the PR's head."""
+    marker = files_dir / ".head"
+    if pr.head is not None and files_dir.exists() and (
+            not marker.exists() or marker.read_text() != pr.head):
+        shutil.rmtree(files_dir)  # staged from another revision
+    files_dir.mkdir(parents=True, exist_ok=True)
+    revision = pr.head or f"refs/pr/{pr.num}"
+    sizes = hub.file_sizes(pr.files, revision)
+    for f in pr.files:
+        p = files_dir / f
+        if not (p.exists() and p.stat().st_size == sizes[f]):
+            p.unlink(missing_ok=True)
+            hub.download(f, revision, files_dir)
+    if pr.head is not None:
+        marker.write_text(pr.head)
+
+
 def _gib(n: int) -> str:
     return f"{n / 2**30:.2f} GiB"
 
@@ -129,10 +160,11 @@ def verify_prs(a, opts: VerifyOptions, version: str, tool: str, hub_factory, gh_
         if pr.status != "open":
             print(f"error: PR #{num} is {pr.status}", file=sys.stderr)
             return 2
-        sizes = hub.file_sizes(pr.files, f"refs/pr/{num}")
+        sizes = hub.file_sizes([f for f in pr.files if not _unsafe(f)], pr.head or f"refs/pr/{num}")
         have = staging / f"pr-{num}" / "files"
-        todo = {f: s for f, s in sizes.items()
-                if not ((have / f).exists() and (have / f).stat().st_size == s)}
+        todo = {f: s for f, s in sizes.items() if not _staged_ok(have, pr.head, f, s)}
+        if any(_unsafe(f) for f in pr.files):
+            print(f"  unsafe file names in PR #{num}: nothing will be downloaded")
         total += sum(todo.values())
         print(f"PR #{num} by {pr.author}: {', '.join(pr.materials) or '(no tables)'}")
         for f, s in sorted(sizes.items()):
@@ -153,15 +185,14 @@ def verify_prs(a, opts: VerifyOptions, version: str, tool: str, hub_factory, gh_
     for pr in prs:
         d = staging / f"pr-{pr.num}"
         files_dir = d / "files"
-        files_dir.mkdir(parents=True, exist_ok=True)
-        for f in pr.files:
-            p = files_dir / f
-            if not p.exists():
-                hub.download(f, f"refs/pr/{pr.num}", files_dir)
-        _build_overlay(tables, files_dir, d / "overlay")
+        d.mkdir(parents=True, exist_ok=True)
         v1 = check_pr_hygiene(pr, manifest_files)
+        reports: list = []
         try:
-            reports = [verify_table(m, d / "overlay", opts, version) for m in pr.materials]
+            if not any(_unsafe(f) for f in pr.files):
+                _stage(hub, pr, files_dir)
+                _build_overlay(tables, files_dir, d / "overlay")
+                reports = [verify_table(m, d / "overlay", opts, version) for m in pr.materials]
         except MissingSubtable as exc:
             # Our corpus is incomplete, not the PR's fault: post nothing.
             raise UsageError(str(exc)) from exc

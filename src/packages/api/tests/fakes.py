@@ -31,12 +31,17 @@ class FakeHub:
     def open_pull_requests(self):
         return [p for p, _ in self.prs.values() if p.status == "open"]
 
+    def _num(self, revision):
+        if revision.startswith("refs/pr/"):
+            return int(revision.rsplit("/", 1)[1])
+        return next(n for n, (p, _) in self.prs.items() if p.head == revision)
+
     def file_sizes(self, files, revision):
-        num = int(revision.rsplit("/", 1)[1])
+        num = self._num(revision)
         return {f: len(self.prs[num][1][f]) for f in files}
 
     def download(self, filename, revision, dest: Path) -> Path:
-        num = int(revision.rsplit("/", 1)[1])
+        num = self._num(revision)
         self.downloads.append(filename)
         dest.mkdir(parents=True, exist_ok=True)
         (dest / filename).write_bytes(self.prs[num][1][filename])
