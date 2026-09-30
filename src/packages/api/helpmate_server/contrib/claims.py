@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
 
+from .links import parse_links
 from .materials import canonical, expand, universe
 
 _NAME = re.compile(r"(?<![A-Za-z])K[QRBNP?]*vk[qrbnp?]*(?![A-Za-z?])")
@@ -114,6 +115,17 @@ def _day(ts: str) -> date:
     return datetime.fromisoformat(ts.replace("Z", "+00:00")).date()
 
 
+def _other_person(pr, claim: Claim, registry) -> bool:
+    """True if the PR's identity clues point at someone other than the claimer."""
+    num, login = parse_links(pr.description)
+    if num is not None and num != claim.issue:
+        return True
+    if login is not None and login.lower() != claim.author.lower():
+        return True
+    known = registry.by_hf(pr.author)
+    return bool(known and known.github and known.github.lower() != claim.author.lower())
+
+
 def run_claims(hub, gh, registry, today: date) -> int:
     issues = gh.claim_issues()
     claims = []
@@ -133,12 +145,20 @@ def run_claims(hub, gh, registry, today: date) -> int:
             if first and first.issue != c.issue:
                 conflicts.append(f"{m} is already claimed in #{first.issue}")
             s = statuses[m]
-            if s.state == "done" and s.contributor and s.contributor.lower() != c.author.lower():
-                conflicts.append(f"{m} is already done")
-            elif s.state == "done" and s.contributor is None and m not in registry.tables:
-                conflicts.append(f"{m} is already done")
+            if s.state == "done":
+                entry = registry.tables.get(m)
+                if entry is None:
+                    conflicts.append(f"{m} is already in the dataset")
+                else:
+                    person = registry.contributors.get(entry.get("contributor"))
+                    login = person.github if person else None
+                    if (login or "").lower() != c.author.lower():
+                        conflicts.append(f"{m} is already done")
+            elif s.state == "in review" and _other_person(in_review[m], c, registry):
+                conflicts.append(f"{m} is in review by someone else (HF PR #{in_review[m].num})")
         comments = gh.comments(c.issue)
-        mine = next((x for x in comments if _MARKER.search(x["body"])), None)
+        mine = next((x for x in comments if x["user"].endswith("[bot]")
+                     and _MARKER.search(x["body"])), None)
         body_sha = hashlib.sha256(c.body.encode()).hexdigest()[:12]
         seen = today.isoformat()
         marker = _MARKER.search(mine["body"]) if mine else None

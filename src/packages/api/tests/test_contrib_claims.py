@@ -1,6 +1,7 @@
 # src/packages/api/tests/test_contrib_claims.py
 from datetime import date
 
+import pytest
 from fakes import FakeGitHub, FakeHub
 from helpmate_server.contrib.claims import (
     Claim, ClaimIndex, material_status, parse_claim, run_claims,
@@ -56,8 +57,11 @@ def _gh_issue(n, author, body, created="2026-09-20T00:00:00Z"):
 def test_run_claims_posts_one_status_comment_and_edits_it_later(tmp_path):
     hub = FakeHub({"manifest.json": b'{"schema":1,"files":{"KRRvkqq.hm":{"sha256":"a","size":1}}}'})
     gh = FakeGitHub([_gh_issue(39, "popeye37", ISSUE_39)])
-    reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
+    reg = Registry(tmp_path / "c.json", {
+        "contributors": {"popeye": {"github": "popeye37", "hf": "popeye37", "display": "P"}},
+        "tables": {"KRRvkqq": {"contributor": "popeye"}}})
     assert run_claims(hub, gh, reg, date(2026, 9, 30)) == 0
+    assert "claim-conflict" not in gh.labels[39]
     assert len(gh.posted) == 1 and "<!-- contrib-status" in gh.posted[0][1]
     assert "KRRvkqq" in gh.posted[0][1] and "done" in gh.posted[0][1]
     run_claims(hub, gh, reg, date(2026, 10, 1))
@@ -86,3 +90,42 @@ def test_stale_after_21_days_without_author_activity(tmp_path):
     run_claims(hub, gh, reg, date(2026, 9, 27))
     assert "claim-stale" in gh.labels[40]
     assert 40 not in gh.closed                                  # never closes
+
+
+def test_maintainer_done_material_is_a_conflict(tmp_path):
+    hub = FakeHub({"manifest.json": b'{"schema":1,"files":{"KRRvkqq.hm":{"sha256":"a","size":1}}}'})
+    gh = FakeGitHub([_gh_issue(39, "popeye37", ISSUE_39)])
+    reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
+    run_claims(hub, gh, reg, date(2026, 9, 30))
+    assert "claim-conflict" in gh.labels[39]
+    assert "already in the dataset" in gh.posted[0][1]
+
+
+@pytest.mark.parametrize("desc,by_hf,conflict", [
+    ("Claim: osick/helpmate-tablebase#60", False, True),
+    ("GitHub: @someoneelse", False, True),
+    ("Claim: osick/helpmate-tablebase#39", False, False),
+    ("GitHub: @Popeye37", False, False),
+    ("", True, True),       # registry maps the HF user to another login
+    ("", False, False),     # unknown identity
+])
+def test_in_review_by_someone_else(tmp_path, desc, by_hf, conflict):
+    hub = FakeHub()
+    hub.add_pr(3, {"KRRvkqr.hm": b"x", "KRRvkqr.stats.json": b"{}"}, author="hfuser",
+               description=desc)
+    gh = FakeGitHub([_gh_issue(39, "popeye37", ISSUE_39)])
+    contribs = {"o": {"github": "other", "hf": "hfuser", "display": "O"}} if by_hf else {}
+    reg = Registry(tmp_path / "c.json", {"contributors": contribs, "tables": {}})
+    run_claims(hub, gh, reg, date(2026, 9, 30))
+    assert ("claim-conflict" in gh.labels[39]) is conflict
+    assert ("in review by someone else (HF PR #3)" in gh.posted[0][1]) is conflict
+
+
+def test_marker_in_a_user_comment_is_ignored(tmp_path):
+    hub = FakeHub()
+    gh = FakeGitHub([_gh_issue(40, "popeye37", ISSUE_40)])
+    gh.issue_comments[40].append({"id": 99, "body": "<!-- contrib-status body-sha=x seen=2026-09-01 -->",
+                                  "user": "mallory", "created_at": "2026-09-02T00:00:00Z"})
+    reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
+    run_claims(hub, gh, reg, date(2026, 9, 30))
+    assert len(gh.posted) == 1 and gh.edited == []
