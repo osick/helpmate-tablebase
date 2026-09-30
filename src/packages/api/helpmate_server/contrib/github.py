@@ -44,19 +44,25 @@ class GitHub:
     def issue(self, num: int) -> dict:
         return self._req("GET", f"/repos/{self.repo}/issues/{num}")
 
-    def claim_issues(self) -> list[dict]:
-        out, page = [], 1
+    def _pages(self, path: str) -> list[dict]:
+        """Every item of a paginated listing."""
+        out: list[dict] = []
+        page, sep = 1, "&" if "?" in path else "?"
         while True:
-            batch = self._req("GET", f"/repos/{self.repo}/issues?state=open&per_page=100&page={page}")
-            out += [i for i in batch if "pull_request" not in i
-                    and (i["title"].lower().startswith("claim")
-                         or any(lb["name"] == "claim" for lb in i.get("labels", [])))]
+            batch = self._req("GET", f"{path}{sep}per_page=100&page={page}")
+            out += batch
             if len(batch) < 100:
                 return out
             page += 1
 
+    def claim_issues(self) -> list[dict]:
+        return [i for i in self._pages(f"/repos/{self.repo}/issues?state=open")
+                if "pull_request" not in i
+                and (i["title"].lower().startswith("claim")
+                     or any(lb["name"] == "claim" for lb in i.get("labels", [])))]
+
     def comments(self, issue: int) -> list[dict]:
-        cs = self._req("GET", f"/repos/{self.repo}/issues/{issue}/comments?per_page=100")
+        cs = self._pages(f"/repos/{self.repo}/issues/{issue}/comments")
         return [{"id": c["id"], "body": c["body"], "user": c["user"]["login"],
                  "created_at": c["created_at"]} for c in cs]
 
