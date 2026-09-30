@@ -17,7 +17,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from .claims import Claim, ClaimIndex, material_status, parse_claim
+from .claims import load_index, material_status
 from .docs_sync import CorpusFacts, SyncError, close_finished_claims, sync
 from .hf import PullRequest
 from .links import parse_links
@@ -145,14 +145,6 @@ def _missing_staged(hub, pr, files_dir: Path) -> list[str]:
             if not (files_dir / f).exists() or (files_dir / f).stat().st_size != sizes.get(f)]
 
 
-def _claims(gh) -> ClaimIndex:
-    out = []
-    for i in gh.claim_issues():
-        mats, rel = parse_claim(f"{i['title']}\n{i.get('body') or ''}")
-        out.append(Claim(i["number"], i["user"]["login"], i["created_at"], mats, rel))
-    return ClaimIndex(out)
-
-
 def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, staging: Path,
            contributor: str | None, today: str) -> int:
     state_path = staging / f"accept-{'-'.join(map(str, sorted(prs)))}.json"
@@ -179,7 +171,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
     stored: dict[str, dict] = state.setdefault("pulls", {})
 
     if "merge" not in state["done"]:
-        index = _claims(gh)
+        index = load_index(gh)
         if not git.clean():
             return _err(f"{checkout} has uncommitted changes")
         reg = Registry.load(reg_path)
@@ -213,7 +205,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             claim_no = parse_links(pr.description)[0]
             claim = next((c for c in index.claims if c.issue == claim_no), None) \
                 or (index.claim_for(pr.materials[0]) if pr.materials else None)
-            who = resolve_contributor(reg, pr, claim.author if claim else None, contributor)
+            who = resolve_contributor(reg, pr, claim, contributor)
             if who is None:
                 return _err(f"PR #{n} by HF user {pr.author}: no GitHub identity found; "
                             "pass --contributor LOGIN")
@@ -225,7 +217,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                             "or fix data/contributions.json")
             seen_keys[who.key] = who.github
             people[n] = {"key": who.key, "github": who.github, "hf": who.hf,
-                         "display": who.display, "claim": claim.issue if claim else None}
+                         "display": who.display, "anonymous": who.anonymous,
+                         "claim": claim.issue if claim else None}
             stored[str(n)] = {k: v for k, v in asdict(pr).items() if k != "num"}
         state["people"] = {str(k): v for k, v in people.items()}
         save()
@@ -260,7 +253,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         lines = []
         for n, pr in pulls.items():
             p = people[n]
-            lines.append(f"- {', '.join(pr.materials)} contributed by {p['display']} "
+            credited = "an anonymous contributor" if p.get("anonymous") else p["display"]
+            lines.append(f"- {', '.join(pr.materials)} contributed by {credited} "
                          f"(dataset PR #{n}" + (f", claim #{p['claim']}" if p["claim"] else "") + ").")
         mats = [m for pr in pulls.values() for m in pr.materials]
         title = f"Data: {len(mats)} table(s) from dataset PR(s) {', '.join(f'#{n}' for n in prs)}"
@@ -282,7 +276,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             for n, pr in pulls.items():
                 p = people[n]
                 if p["key"] not in reg.contributors:
-                    reg.add_contributor(Contributor(p["key"], p["github"], p["hf"], p["display"]))
+                    reg.add_contributor(Contributor(p["key"], p["github"], p["hf"], p["display"],
+                                                    anonymous=p.get("anonymous", False)))
                 rep = json.loads((staging / f"pr-{n}" / "report.json").read_text())
                 for m in pr.materials:
                     sc = json.loads((tables / f"{m}.stats.json").read_text())
@@ -330,7 +325,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                 save()
         reg = Registry.load(reg_path)
         done = {f[:-3] for f in hub.fetch_manifest().get("files", {}) if f.endswith(".hm")}
-        idx = _claims(gh)
+        idx = load_index(gh)
         close_finished_claims(gh, idx, material_status(done, {}, idx, reg))
         mark("claims")
     state_path.unlink()
@@ -338,7 +333,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
     return 0
 
 def status(hub, gh, registry, staging: Path, checkout: Path) -> str:
-    index = _claims(gh)
+    index = load_index(gh)
     rows = ["| HF PR | author | materials | claim | verification | |", "|---|---|---|---|---|---|"]
     for pr in hub.open_pull_requests():
         rep_path = staging / f"pr-{pr.num}" / "report.json"

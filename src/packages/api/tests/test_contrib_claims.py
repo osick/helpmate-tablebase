@@ -14,6 +14,48 @@ ISSUE_40 = "I will generate all types of six-piece tablebases\nof the type KQvk?
 ISSUE_45 = "- KRNvkqq ✔️\n- KRNvkqr ✔️\n- KRNvkpp ✔️\nNeeds a verification pass"
 
 
+FORM_BODY = """### Materials
+
+KRRvkpp
+KRRvknp
+
+### Hugging Face username
+
+@T31M
+
+### Name to credit
+
+Tim M.
+
+### Credit
+
+- [X] Do not name me in the credits.
+
+### Hardware (optional)
+
+_No response_
+"""
+
+
+def test_load_index_reads_the_issue_form_fields():
+    from helpmate_server.contrib.claims import load_index
+    gh = FakeGitHub([_gh_issue(50, "t31m-gh", FORM_BODY),
+                     _gh_issue(39, "popeye37", ISSUE_39)])
+    idx = load_index(gh)
+    form, legacy = idx.claims[1], idx.claims[0]
+    assert form.issue == 50 and sorted(form.materials) == ["KRRvknp", "KRRvkpp"]
+    assert (form.hf, form.credit, form.anonymous) == ("T31M", "Tim M.", True)
+    assert (legacy.hf, legacy.credit, legacy.anonymous) == (None, None, False)
+    assert idx.claim_for("KRRvkqq").issue == 39
+
+
+def test_unticked_box_and_empty_fields():
+    from helpmate_server.contrib.claims import parse_form
+    body = FORM_BODY.replace("- [X]", "- [ ]").replace("Tim M.", "_No response_")
+    assert parse_form(body) == ("T31M", None, False)
+    assert parse_form("free text, no sections") == (None, None, False)
+
+
 def test_parse_the_live_claims():
     assert len(parse_claim(ISSUE_39)[0]) == 15
     assert len(parse_claim(ISSUE_40)[0]) == 35

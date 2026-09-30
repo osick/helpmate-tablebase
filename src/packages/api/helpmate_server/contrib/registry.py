@@ -5,8 +5,12 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from .links import parse_links
+
+if TYPE_CHECKING:
+    from .claims import Claim
 
 REGISTRY_PATH = Path("data/contributions.json")
 
@@ -59,13 +63,17 @@ class Registry:
         return sorted(m for m, t in self.tables.items() if t["contributor"] == key)
 
 
-def resolve_contributor(registry: Registry, pr, claim_author: str | None,
+def resolve_contributor(registry: Registry, pr, claim: Claim | None,
                         override: str | None) -> Contributor | None:
-    """override > 'GitHub: @' line > claim issue author > registry by HF user."""
-    login = override or parse_links(pr.description)[1] or claim_author
+    """override > 'GitHub: @' line > claim issue author > registry by HF user.
+    A new contributor who is the claim's author gets the claim form's fields."""
+    login = override or parse_links(pr.description)[1] or (claim.author if claim else None)
     if login:
         known = registry.by_github(login)
         if known:
             return known
-        return Contributor(login, login, pr.author, login)
+        form = claim if claim and claim.author.lower() == login.lower() else None
+        return Contributor(login, login, (form.hf if form else None) or pr.author,
+                           (form.credit if form else None) or login,
+                           anonymous=bool(form and form.anonymous))
     return registry.by_hf(pr.author)

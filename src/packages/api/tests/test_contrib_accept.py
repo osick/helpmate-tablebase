@@ -76,6 +76,35 @@ def test_accept_happy_path(tmp_path):
     assert any(n == 39 and "KRRvkqq" in body for n, body in gh.posted)
 
 
+ANON_FORM = ("### Materials\n\nKRRvk??\n\n### Hugging Face username\n\npopeye37\n\n"
+             "### Name to credit\n\nPop Eye\n\n### Credit\n\n- [X] Do not name me in the credits.\n")
+
+
+def test_anonymous_claim_form_keeps_the_name_out_of_every_credit(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    gh.issues[39]["body"] = ANON_FORM
+    git = FakeGit()
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert reg["contributors"]["popeye37"]["anonymous"] is True
+    assert reg["contributors"]["popeye37"]["display"] == "Pop Eye"
+    msg = next(c[1] for c in git.calls if c[0] == "commit_all")
+    assert "Co-authored-by" not in msg and "Pop Eye" not in msg and "popeye37" not in msg
+    assert "Pop Eye" not in (checkout / "CHANGELOG.md").read_text()
+    assert "Pop Eye" not in (checkout / "docs" / "MATERIALS.md").read_text()
+    assert json.loads((checkout / ".all-contributorsrc").read_text())["contributors"] == []
+
+
+def test_claim_form_credit_name_is_used(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    gh.issues[39]["body"] = ANON_FORM.replace("- [X]", "- [ ]")
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 0
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert reg["contributors"]["popeye37"]["display"] == "Pop Eye"
+    assert reg["contributors"]["popeye37"]["anonymous"] is False
+    assert "contributed by Pop Eye" in (checkout / "CHANGELOG.md").read_text()
+
+
 def test_accept_refuses_a_pr_changed_after_verification(tmp_path, capsys):
     checkout, staging, hub, gh, tables = _setup(tmp_path, head="new", report_head="old")
     assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2

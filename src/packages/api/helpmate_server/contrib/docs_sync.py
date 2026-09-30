@@ -153,15 +153,10 @@ def close_finished_claims(gh, index, statuses: dict) -> list[int]:
 
 
 def sync(checkout: Path, hub, gh, reg, tables: Path, *, close_claims: bool = True) -> list[Path]:
-    from .claims import Claim, ClaimIndex, material_status, parse_claim
+    from .claims import load_index, material_status
 
     facts = CorpusFacts.from_manifest(hub.fetch_manifest(), tables)
-    claims = []
-    for i in gh.claim_issues():
-        mats, rel = parse_claim(f"{i['title']}\n{i.get('body') or ''}")
-        claims.append(Claim(i["number"], i["user"]["login"], i["created_at"], mats, rel,
-                            i.get("body") or ""))
-    index = ClaimIndex(claims)
+    index = load_index(gh)
     in_review = {m: pr for pr in hub.open_pull_requests() for m in pr.materials}
     statuses = material_status(facts.done(), in_review, index, reg)
     values = facts.values()

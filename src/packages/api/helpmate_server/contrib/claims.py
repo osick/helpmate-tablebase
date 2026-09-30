@@ -13,6 +13,9 @@ from .materials import canonical, expand, universe
 _NAME = re.compile(r"(?<![A-Za-z])K[QRBNP?]*vk[qrbnp?]*(?![A-Za-z?])")
 _STRUCK = re.compile(r"~~(.*?)~~", re.S)
 _MARKER = re.compile(r"<!-- contrib-status body-sha=(\w+) seen=(\d{4}-\d{2}-\d{2}) -->")
+_SECTION = re.compile(r"^###[ \t]+(.+?)[ \t]*$", re.M)
+_ANON = re.compile(r"^\s*-\s*\[[xX]\]\s*Do not name me", re.M)
+_NO_RESPONSE = "_No response_"
 STALE_DAYS = 21
 BOT_NOTE = ("*Updated automatically from the dataset and the other claims — "
             "you no longer need to keep a status list in the issue by hand.*")
@@ -36,6 +39,27 @@ def parse_claim(text: str) -> tuple[list[str], list[str]]:
     return _ordered(claimed), _ordered(released)
 
 
+def _sections(body: str) -> dict[str, str]:
+    """`### Label` sections of a GitHub issue-form body -> their text."""
+    parts = _SECTION.split(body or "")
+    return {parts[i].strip(): parts[i + 1].strip() for i in range(1, len(parts) - 1, 2)}
+
+
+def parse_form(body: str) -> tuple[str | None, str | None, bool]:
+    """(Hugging Face username, name to credit, anonymous) from the claim form.
+    A free-text claim has no sections and yields the defaults."""
+    sec = _sections(body)
+
+    def value(label: str) -> str | None:
+        v = sec.get(label, "")
+        return None if not v or v == _NO_RESPONSE else v
+
+    hf = value("Hugging Face username")
+    hf = (hf.split()[0].lstrip("@") or None) if hf else None
+    anonymous = bool(_ANON.search(sec.get("Credit", "")))
+    return hf, value("Name to credit"), anonymous
+
+
 @dataclass
 class Claim:
     issue: int
@@ -44,6 +68,9 @@ class Claim:
     materials: list[str]
     released: list[str] = field(default_factory=list)
     body: str = ""
+    hf: str | None = None          # the claim form's fields; None / False on a free-text claim
+    credit: str | None = None
+    anonymous: bool = False
 
 
 class ClaimIndex:
@@ -56,6 +83,17 @@ class ClaimIndex:
 
     def claim_for(self, material: str) -> Claim | None:
         return self._first.get(material)
+
+
+def load_index(gh) -> ClaimIndex:
+    """Every open claim issue, parsed: materials, releases and the form's fields."""
+    out = []
+    for i in gh.claim_issues():
+        body = i.get("body") or ""
+        mats, rel = parse_claim(f"{i['title']}\n{body}")
+        out.append(Claim(i["number"], i["user"]["login"], i["created_at"], mats, rel, body,
+                         *parse_form(body)))
+    return ClaimIndex(out)
 
 
 @dataclass
@@ -127,13 +165,7 @@ def _other_person(pr, claim: Claim, registry) -> bool:
 
 
 def run_claims(hub, gh, registry, today: date) -> int:
-    issues = gh.claim_issues()
-    claims = []
-    for i in issues:
-        mats, rel = parse_claim(f"{i['title']}\n{i.get('body') or ''}")
-        claims.append(Claim(i["number"], i["user"]["login"], i["created_at"], mats, rel,
-                            i.get("body") or ""))
-    index = ClaimIndex(claims)
+    index = load_index(gh)
     done = {f[:-3] for f in hub.fetch_manifest().get("files", {}) if f.endswith(".hm")}
     in_review = {m: pr for pr in hub.open_pull_requests() for m in pr.materials}
     statuses = material_status(done, in_review, index, registry)

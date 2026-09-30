@@ -21,16 +21,36 @@ def _pr(author="popeye37", description=""):
 def test_resolution_order(tmp_path):
     reg = _reg(tmp_path)
     # 1. explicit override wins
-    assert resolve_contributor(reg, _pr(), "x", "someone").github == "someone"
+    assert resolve_contributor(reg, _pr(), _claim("x"), "someone").github == "someone"
     # 2. GitHub: line in the description
-    assert resolve_contributor(reg, _pr(description="GitHub: @pop"), "x", None).github == "pop"
+    assert resolve_contributor(reg, _pr(description="GitHub: @pop"), _claim("x"), None).github == "pop"
     # 3. claim issue author
-    c = resolve_contributor(reg, _pr(), "popeye37", None)
+    c = resolve_contributor(reg, _pr(), _claim("popeye37"), None)
     assert (c.github, c.hf) == ("popeye37", "popeye37")
     # 4. registry by HF user
     assert resolve_contributor(reg, _pr(author="T31M"), None, None).key == "T31M"
     # 5. nothing
     assert resolve_contributor(reg, _pr(author="stranger"), None, None) is None
+
+
+def _claim(author, hf=None, credit=None, anonymous=False):
+    from helpmate_server.contrib.claims import Claim
+    return Claim(50, author, "2026-09-20T00:00:00Z", ["KRRvkqq"], hf=hf, credit=credit,
+                 anonymous=anonymous)
+
+
+def test_new_contributor_takes_the_claim_form_fields(tmp_path):
+    reg = _reg(tmp_path)
+    c = resolve_contributor(reg, _pr(author="hf-name"),
+                            _claim("gh-login", hf="form-hf", credit="Credit Name", anonymous=True), None)
+    assert (c.key, c.github, c.hf, c.display, c.anonymous) == \
+        ("gh-login", "gh-login", "form-hf", "Credit Name", True)
+    c = resolve_contributor(reg, _pr(author="hf-name"), _claim("gh-login"), None)   # legacy claim
+    assert (c.hf, c.display, c.anonymous) == ("hf-name", "gh-login", False)
+    # the form speaks for the claim's author only, not for someone named by --contributor
+    c = resolve_contributor(reg, _pr(author="hf-name"), _claim("gh-login", credit="X", anonymous=True),
+                            "other")
+    assert (c.display, c.anonymous) == ("other", False)
 
 
 def test_record_and_save_roundtrip(tmp_path):
