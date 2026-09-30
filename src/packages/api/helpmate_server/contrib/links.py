@@ -6,7 +6,7 @@ import re
 
 from . import GITHUB_REPO
 
-_CLAIM = re.compile(r"(?im)^\s*claim:\s*(?:[\w.-]+/[\w.-]+)?#(\d+)")
+_CLAIM = re.compile(r"(?im)^\s*claim:\s*(?:" + re.escape(GITHUB_REPO) + r")?#(\d+)")
 _ISSUE_URL = re.compile(r"github\.com/" + re.escape(GITHUB_REPO) + r"/issues/(\d+)")
 _GITHUB = re.compile(r"(?im)^\s*github:\s*@?([A-Za-z0-9-]+)")
 

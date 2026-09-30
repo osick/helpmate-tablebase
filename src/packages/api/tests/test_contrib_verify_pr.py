@@ -15,6 +15,13 @@ def test_links_roundtrip_and_legacy_forms():
     assert parse_links("nothing here") == (None, None)
 
 
+def test_claim_line_must_point_at_this_repository():
+    assert parse_links("Claim: someone/else#12") == (None, None)
+    assert parse_links("Claim: someone/helpmate-tablebase#12") == (None, None)
+    assert parse_links("Claim: Osick/Helpmate-Tablebase#12") == (12, None)   # GitHub ignores case
+    assert parse_links("claim: #7") == (7, None)
+
+
 def _pr(files, description="Claim: #39", deleted=()):
     return PullRequest(2, "Add", "popeye37", "open", description, files, "h", "u", list(deleted))
 
