@@ -87,15 +87,50 @@ def test_accept_refuses_a_failed_report(tmp_path):
     assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2 and hub.merged == []
 
 
+def _forget_merged_prs(hub):
+    """After a merge the resume must not depend on the Hub's view of the PR."""
+    def gone(num):
+        raise AssertionError(f"PR #{num} fetched again after the merge")
+    hub.pull_request = gone
+
+
 def test_accept_resumes_after_ci_failure_without_merging_twice(tmp_path):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     with pytest.raises(RuntimeError):
         _run(checkout, staging, hub, gh, tables, FakeGit(fail_at="wait_and_merge"))
     assert hub.merged == [2]
+    hub.commit({"manifest.json": hub.main["manifest.json"], "README.md": b"moved"}, "main moves on")
+    _forget_merged_prs(hub)
     git = FakeGit()
     assert _run(checkout, staging, hub, gh, tables, git) == 0
     assert hub.merged == [2]                                     # not merged again
     assert [c[0] for c in git.calls] == ["wait_and_merge", "back"]   # resumes at the docs PR
+
+
+class ManifestFails(FakeHub):
+    def commit(self, files, message):
+        if "manifest.json" in files and not getattr(self, "healed", False):
+            raise RuntimeError("network")
+        super().commit(files, message)
+
+
+def test_resume_after_merge_records_the_prs_tables(tmp_path):
+    checkout, staging, hub0, gh, tables = _setup(tmp_path)
+    hub = ManifestFails(dict(hub0.main))
+    hub.prs, hub.bases, hub.deletes = hub0.prs, hub0.bases, hub0.deletes
+    with pytest.raises(RuntimeError):
+        _run(checkout, staging, hub, gh, tables, FakeGit())
+    assert hub.merged == [2]
+    hub.healed = True
+    hub.commit({"README.md": b"moved"}, "main moves on after the merge")
+    _forget_merged_prs(hub)
+    git = FakeGit()
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert list(reg["tables"]) == ["KRRvkqq"]
+    assert (tables / "KRRvkqq.hm").exists()
+    msg = next(c[1] for c in git.calls if c[0] == "commit_all")
+    assert msg.startswith("Data: 1 table(s)")
 
 
 def test_unknown_contributor_stops_before_merging(tmp_path, capsys):
@@ -178,7 +213,7 @@ def _two_prs(tmp_path):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     flaky = FlakyHub(dict(hub.main))
     files = {"KRRvkqr.hm": b"t2", "KRRvkqr.stats.json": b'{"generator_version": "0.20.0", "plane_size": 1, "max_dtm": 9}'}
-    flaky.prs = hub.prs
+    flaky.prs, flaky.bases, flaky.deletes = hub.prs, hub.bases, hub.deletes
     flaky.add_pr(3, files, head="h3")
     d = staging / "pr-3"
     (d / "files").mkdir(parents=True)

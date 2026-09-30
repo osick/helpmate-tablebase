@@ -13,11 +13,13 @@ import shutil
 import subprocess
 import sys
 import time
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
 from .claims import Claim, ClaimIndex, material_status, parse_claim
 from .docs_sync import CorpusFacts, SyncError, close_finished_claims, sync
+from .hf import PullRequest
 from .links import parse_links
 from .registry import Contributor, Registry, resolve_contributor
 
@@ -173,10 +175,11 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         save()
 
     reg_path = checkout / "data" / "contributions.json"
-    pulls = {n: hub.pull_request(n) for n in prs}
-    index = _claims(gh)
+    # What each PR contained, as validated: after the merge the Hub is never asked again.
+    stored: dict[str, dict] = state.setdefault("pulls", {})
 
     if "merge" not in state["done"]:
+        index = _claims(gh)
         if not git.clean():
             return _err(f"{checkout} has uncommitted changes")
         reg = Registry.load(reg_path)
@@ -187,10 +190,11 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         people: dict[int, dict[str, Any]] = {int(k): v for k, v in state.get("people", {}).items()}
         seen_keys: dict[str, str | None] = {}
         merged = state.setdefault("merged", [])
-        for n, pr in pulls.items():
+        for n in prs:
             if n in merged:  # merged by an earlier, interrupted run; already validated then
                 seen_keys[people[n]["key"]] = people[n]["github"]
                 continue
+            pr = hub.pull_request(n)
             rep_path = staging / f"pr-{n}" / "report.json"
             if not rep_path.exists():
                 return _err(f"PR #{n} has no verification report; run verify --pr {n}")
@@ -222,6 +226,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             seen_keys[who.key] = who.github
             people[n] = {"key": who.key, "github": who.github, "hf": who.hf,
                          "display": who.display, "claim": claim.issue if claim else None}
+            stored[str(n)] = {k: v for k, v in asdict(pr).items() if k != "num"}
         state["people"] = {str(k): v for k, v in people.items()}
         save()
         for n in prs:
@@ -232,6 +237,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         mark("merge")
 
     people = {int(k): v for k, v in state["people"].items()}
+    pulls = {n: PullRequest(n, **stored[str(n)]) for n in prs}
 
     if "manifest" not in state["done"]:
         old = hub.fetch_manifest()

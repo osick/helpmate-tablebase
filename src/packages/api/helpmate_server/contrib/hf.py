@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-_DIFF_FILE = re.compile(r"^diff --git a/(\S+) b/\S+$", re.M)
+_SHA = re.compile(r"[0-9a-f]{40}")
 
 
 @dataclass
@@ -18,6 +18,7 @@ class PullRequest:
     files: list[str] = field(default_factory=list)
     head: str | None = None
     url: str = ""
+    deleted: list[str] = field(default_factory=list)
 
     @property
     def materials(self) -> list[str]:
@@ -37,9 +38,22 @@ class Hub:
 
         self.repo = repo_id
         self.api = api or HfApi()
+        self._trees: dict[str, dict[str, tuple]] = {}   # commit sha -> {path: (size, identity)}
+        self._refs: dict[str, str] | None = None
 
     def _url(self, num: int) -> str:
         return f"https://huggingface.co/datasets/{self.repo}/discussions/{num}"
+
+    def _pr_refs(self, fresh: bool = False) -> dict[str, str]:
+        refs = self._refs
+        if fresh or refs is None:
+            listing = self.api.list_repo_refs(self.repo, repo_type="dataset", include_pull_requests=True)
+            refs = self._refs = {r.ref: r.target_commit for r in listing.pull_requests or []}
+        return refs
+
+    def pr_head(self, num: int) -> str | None:
+        """The PR's head commit as the Hub has it now (never cached)."""
+        return self._pr_refs(fresh=True).get(f"refs/pr/{num}")
 
     def pull_request(self, num: int) -> PullRequest:
         d = self.api.get_discussion_details(self.repo, num, repo_type="dataset")
@@ -47,29 +61,50 @@ class Hub:
             raise ValueError(f"#{num} on {self.repo} is a discussion, not a pull request")
         desc = next((getattr(e, "content", "") for e in d.events
                      if getattr(e, "type", "") == "comment"), "")
-        head = None
-        refs = self.api.list_repo_refs(self.repo, repo_type="dataset", include_pull_requests=True)
-        for r in refs.pull_requests or []:
-            if r.ref == f"refs/pr/{num}":
-                head = r.target_commit
-        files = sorted(set(_DIFF_FILE.findall(d.diff or "")))
-        if not files:  # the API leaves `diff` empty for LFS-only changes
-            files = self._changed_files(f"refs/pr/{num}")
-        return PullRequest(num, d.title, d.author, d.status, desc, files, head, self._url(num))
+        oids = [e.oid for e in d.events if getattr(e, "type", "") == "commit"]
+        head = self._pr_refs().get(f"refs/pr/{num}") or (oids[-1] if oids else None)
+        files, deleted = self._changed_files(num, head, set(oids))
+        return PullRequest(num, d.title, d.author, d.status, desc, files, head, self._url(num), deleted)
+
+    def _base(self, num: int, head: str | None, pr_commits: set[str]) -> str:
+        """The commit the PR branched from: the first commit behind its head that is not
+        one of the PR's own. Works after a merge too (refs/pr/N and its commits stay)."""
+        if head is None or not pr_commits:
+            raise ValueError(f"PR #{num}: cannot determine its base commit (no commits listed)")
+        history = [c.commit_id for c in self.api.list_repo_commits(self.repo, repo_type="dataset",
+                                                                   revision=head)]
+        if not history or history[0] not in pr_commits:
+            raise ValueError(f"PR #{num}: cannot determine its base commit "
+                             f"(head {head} is not one of the PR's commits)")
+        base = next((c for c in history if c not in pr_commits), None)
+        if base is None:
+            raise ValueError(f"PR #{num}: cannot determine its base commit (no parent outside the PR)")
+        return base
 
     def _tree(self, revision: str) -> dict[str, tuple]:
+        """{path: (size, lfs sha256 or blob id)} for every file, subdirectories included.
+        The plain listing already carries LFS sha256 and size: no `expand`."""
         from huggingface_hub.hf_api import RepoFile
 
-        return {f.path: (f.size, f.lfs.sha256 if f.lfs else f.blob_id)
+        if revision in self._trees:
+            return self._trees[revision]
+        tree = {f.path: (f.size, f.lfs.sha256 if f.lfs else f.blob_id)
                 for f in self.api.list_repo_tree(self.repo, repo_type="dataset",
-                                                 revision=revision, expand=True)
+                                                 revision=revision, recursive=True)
                 if isinstance(f, RepoFile)}
+        if _SHA.fullmatch(revision):          # a commit never changes; a branch name does
+            self._trees[revision] = tree
+        return tree
 
-    def _changed_files(self, revision: str) -> list[str]:
-        """Files added or changed on the PR branch relative to main.
+    def _changed_files(self, num: int, head: str | None, pr_commits: set[str]
+                       ) -> tuple[list[str], list[str]]:
+        """(added or changed, deleted) between the PR's base and its head.
         `.gitattributes` is maintained by the Hub itself, not contributed."""
-        main, pr = self._tree("main"), self._tree(revision)
-        return sorted(p for p, ident in pr.items() if p != ".gitattributes" and main.get(p) != ident)
+        base = self._tree(self._base(num, head, pr_commits))
+        tip = self._tree(head)  # type: ignore[arg-type]  # _base raised if head is None
+        changed = sorted(p for p, ident in tip.items() if p != ".gitattributes" and base.get(p) != ident)
+        deleted = sorted(p for p in base if p != ".gitattributes" and p not in tip)
+        return changed, deleted
 
     def open_pull_requests(self) -> list[PullRequest]:
         ds = self.api.get_repo_discussions(self.repo, repo_type="dataset",
@@ -80,6 +115,9 @@ class Hub:
     def file_sizes(self, files: list[str], revision: str) -> dict[str, int]:
         if not files:
             return {}
+        if revision in self._trees:
+            tree = self._trees[revision]
+            return {f: tree[f][0] for f in files if f in tree}
         infos = self.api.get_paths_info(self.repo, files, revision=revision, repo_type="dataset")
         return {i.path: i.size for i in infos}
 
@@ -99,7 +137,7 @@ class Hub:
         from huggingface_hub.hf_api import RepoFile
 
         out = {}
-        for f in self.api.list_repo_tree(self.repo, repo_type="dataset", expand=True):
+        for f in self.api.list_repo_tree(self.repo, repo_type="dataset", recursive=True):
             if isinstance(f, RepoFile):
                 out[f.path] = FileMeta(f.path, f.size, f.lfs.sha256 if f.lfs else None)
         return out

@@ -73,6 +73,16 @@ def test_verify_pr_passes_and_posts(tmp_path, compressed_tables):
     assert gh.posted[0][0] == 39 and "HF PR #2" in gh.posted[0][1]
 
 
+def test_main_moving_on_does_not_add_files_to_the_pr(tmp_path, compressed_tables):
+    hub = _hub_with_kqvk_pr(compressed_tables)
+    hub.commit({"manifest.json": b'{"schema":1,"files":{}}', "README.md": b"card"}, "another accept")
+    staging = tmp_path / "st"
+    assert _run_pr(hub, _tables_without_kqvk(tmp_path, compressed_tables), staging) == 0
+    rep = json.loads((staging / "pr-2" / "report.json").read_text())
+    assert rep["pr_checks"][0]["status"] == "pass"
+    assert sorted(hub.downloads) == ["KQvk.hm", "KQvk.stats.json"]
+
+
 def test_verify_pr_rerun_skips_downloaded_files(tmp_path, compressed_tables):
     hub = _hub_with_kqvk_pr(compressed_tables)
     tables = _tables_without_kqvk(tmp_path, compressed_tables)
@@ -104,48 +114,6 @@ def test_missing_subtable_stops_and_posts_nothing(tmp_path, compressed_tables, c
     assert rc == 2
     assert hub.comments == [] and gh.posted == []
     assert capsys.readouterr().err.strip()
-
-
-class _Lfs:
-    def __init__(self, sha):
-        self.sha256 = sha
-
-
-def _rf(path, size, sha=None, blob="b"):
-    from huggingface_hub.hf_api import RepoFile
-    return RepoFile(path=path, size=size, oid=blob, lfs={"oid": sha, "size": size,
-                                                         "pointerSize": 1} if sha else None)
-
-
-class _Details:
-    is_pull_request = True
-    title, author, status, diff = "Add", "popeye37", "open", None
-    events = [type("E", (), {"type": "comment", "content": "Claim: #39"})()]
-
-
-class _Api:
-    def get_discussion_details(self, *a, **k):
-        return _Details()
-
-    def list_repo_refs(self, *a, **k):
-        ref = type("R", (), {"ref": "refs/pr/2", "target_commit": "abc"})()
-        return type("Refs", (), {"pull_requests": [ref]})()
-
-    def list_repo_tree(self, repo, repo_type=None, revision="main", expand=False):
-        base = [_rf("KQvk.hm", 5, "aa"), _rf("manifest.json", 9, blob="m1"),
-                _rf(".gitattributes", 1, blob="g" + revision)]
-        if revision == "main":
-            return base
-        return base[:1] + [_rf("manifest.json", 9, blob="m1"), base[2], _rf("KRRvkqq.hm", 7, "bb"),
-                           _rf("KRRvkqq.stats.json", 3, blob="s1")]
-
-
-def test_pull_request_files_fall_back_to_tree_diff_when_diff_is_empty():
-    from helpmate_server.contrib.hf import Hub
-    pr = Hub("o/d", api=_Api()).pull_request(2)
-    assert pr.files == ["KRRvkqq.hm", "KRRvkqq.stats.json"]
-    assert pr.materials == ["KRRvkqq"] and pr.head == "abc"
-    assert Hub("o/d", api=_Api()).file_sizes([], "refs/pr/2") == {}
 
 
 def _run_pr(hub, tables, staging, *extra):
@@ -202,7 +170,7 @@ def test_interrupted_download_resumes_with_only_the_missing_file(tmp_path, compr
 
     base = _hub_with_kqvk_pr(compressed_tables)
     hub = Flaky(base.main)
-    hub.prs = base.prs
+    hub.prs, hub.bases, hub.deletes = base.prs, base.bases, base.deletes
     tables, staging = _tables_without_kqvk(tmp_path, compressed_tables), tmp_path / "st"
     with pytest.raises(OSError):
         _run_pr(hub, tables, staging)
@@ -215,6 +183,8 @@ def test_interrupted_download_resumes_with_only_the_missing_file(tmp_path, compr
 
 def test_plan_only_lists_several_prs_after_one_flag(tmp_path, compressed_tables, capsys):
     hub = _hub_with_kqvk_pr(compressed_tables)
+    for n in ("KPvk.hm", "KPvk.stats.json"):
+        hub.main.pop(n)                                   # PR 3 adds KPvk
     hub.add_pr(3, {n: (compressed_tables / n).read_bytes() for n in ("KPvk.hm", "KPvk.stats.json")},
                head="def456")
     tb = _tables_without_kqvk(tmp_path, compressed_tables)

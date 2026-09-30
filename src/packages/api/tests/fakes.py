@@ -3,6 +3,7 @@
 write so tests can assert what would have been posted, merged or pushed."""
 from __future__ import annotations
 
+import dataclasses
 import json
 from pathlib import Path
 
@@ -10,26 +11,49 @@ from helpmate_server.contrib.hf import FileMeta, PullRequest
 
 
 class FakeHub:
+    """Like the real Hub, a PR's files are the diff between the main it branched
+    from (a snapshot taken by add_pr) and its own tree, so main moving on or the
+    PR being merged does not change them."""
+
     def __init__(self, main: dict[str, bytes] | None = None):
         self.repo = "osick/helpmate-tables"
         self.main: dict[str, bytes] = dict(main or {})
         self.prs: dict[int, tuple[PullRequest, dict[str, bytes]]] = {}
+        self.bases: dict[int, dict[str, bytes]] = {}
+        self.deletes: dict[int, list[str]] = {}
         self.comments: list[tuple[int, str]] = []
         self.merged: list[int] = []
         self.commits: list[tuple[str, dict[str, bytes]]] = []
         self.downloads: list[str] = []
+        self.pr_fetches: list[int] = []
 
     def add_pr(self, num, files: dict[str, bytes], *, author="popeye37", description="",
-               head="h1", status="open"):
-        pr = PullRequest(num, f"Add {num}", author, status, description, sorted(files), head,
+               head="h1", status="open", delete=()):
+        pr = PullRequest(num, f"Add {num}", author, status, description, [], head,
                          f"https://hf.example/discussions/{num}")
         self.prs[num] = (pr, dict(files))
+        self.bases[num] = dict(self.main)
+        self.deletes[num] = list(delete)
+
+    def _pr_tree(self, num) -> dict[str, bytes]:
+        tree = {**self.bases[num], **self.prs[num][1]}
+        for p in self.deletes[num]:
+            tree.pop(p, None)
+        return tree
 
     def pull_request(self, num):
-        return self.prs[num][0]
+        self.pr_fetches.append(num)
+        meta, _ = self.prs[num]
+        base, tip = self.bases[num], self._pr_tree(num)
+        files = sorted(p for p, v in tip.items() if p != ".gitattributes" and base.get(p) != v)
+        deleted = sorted(p for p in base if p != ".gitattributes" and p not in tip)
+        return dataclasses.replace(meta, files=files, deleted=deleted)
+
+    def pr_head(self, num):
+        return self.prs[num][0].head
 
     def open_pull_requests(self):
-        return [p for p, _ in self.prs.values() if p.status == "open"]
+        return [self.pull_request(n) for n, (p, _) in self.prs.items() if p.status == "open"]
 
     def _num(self, revision):
         if revision.startswith("refs/pr/"):
@@ -37,14 +61,14 @@ class FakeHub:
         return next(n for n, (p, _) in self.prs.items() if p.head == revision)
 
     def file_sizes(self, files, revision):
-        num = self._num(revision)
-        return {f: len(self.prs[num][1][f]) for f in files}
+        tree = self._pr_tree(self._num(revision))
+        return {f: len(tree[f]) for f in files if f in tree}
 
     def download(self, filename, revision, dest: Path) -> Path:
         num = self._num(revision)
         self.downloads.append(filename)
         dest.mkdir(parents=True, exist_ok=True)
-        (dest / filename).write_bytes(self.prs[num][1][filename])
+        (dest / filename).write_bytes(self._pr_tree(num)[filename])
         return dest / filename
 
     def comment(self, num, text):
@@ -53,6 +77,8 @@ class FakeHub:
     def merge(self, num):
         pr, files = self.prs[num]
         self.main.update(files)
+        for p in self.deletes[num]:
+            self.main.pop(p, None)
         pr.status = "merged"
         self.merged.append(num)
 
