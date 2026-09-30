@@ -15,8 +15,8 @@ def test_links_roundtrip_and_legacy_forms():
     assert parse_links("nothing here") == (None, None)
 
 
-def _pr(files, description="Claim: #39"):
-    return PullRequest(2, "Add", "popeye37", "open", description, files, "h", "u")
+def _pr(files, description="Claim: #39", deleted=()):
+    return PullRequest(2, "Add", "popeye37", "open", description, files, "h", "u", list(deleted))
 
 
 def test_v1_hygiene():
@@ -28,6 +28,29 @@ def test_v1_hygiene():
     assert check_pr_hygiene(_pr(["KRRvkqq.hm", "KRRvkqq.stats.json"]),
                             {"KRRvkqq.hm": {"sha256": "ab", "size": 1}}).status == "fail"
     assert check_pr_hygiene(_pr(["KRRvkqq.hm", "KRRvkqq.stats.json"], ""), {}).status == "warn"
+
+
+def test_v1_fails_deletions_subdirectories_and_prs_without_tables():
+    pair = ["KRRvkqq.hm", "KRRvkqq.stats.json"]
+    c = check_pr_hygiene(_pr(pair, deleted=["KQvk.hm"]), {})
+    assert c.status == "fail" and "PR deletes KQvk.hm" in c.detail
+    c = check_pr_hygiene(_pr(pair + ["sub/KRRvkqr.hm", "sub/KRRvkqr.stats.json"]), {})
+    assert c.status == "fail" and "sub/KRRvkqr.hm" in c.detail
+    c = check_pr_hygiene(_pr([]), {})
+    assert c.status == "fail" and "no tables in this PR" in c.detail
+    c = check_pr_hygiene(_pr([], deleted=["README.md"]), {})
+    assert c.status == "fail" and "PR deletes README.md" in c.detail
+
+
+def test_verify_pr_fails_a_pr_that_deletes_a_published_file(tmp_path, compressed_tables):
+    main = {p.name: p.read_bytes() for p in compressed_tables.iterdir() if not p.name.startswith("KQvk.")}
+    hub = FakeHub(main)
+    hub.add_pr(2, {n: (compressed_tables / n).read_bytes() for n in ("KQvk.hm", "KQvk.stats.json")},
+               description="Claim: #39", head="abc123", delete=["KPvk.stats.json"])
+    staging = tmp_path / "st"
+    assert _run_pr(hub, _tables_without_kqvk(tmp_path, compressed_tables), staging) == 1
+    rep = json.loads((staging / "pr-2" / "report.json").read_text())
+    assert rep["result"] == "fail" and "PR deletes KPvk.stats.json" in rep["pr_checks"][0]["detail"]
 
 
 def _hub_with_kqvk_pr(corpus, description="Claim: osick/helpmate-tablebase#39"):

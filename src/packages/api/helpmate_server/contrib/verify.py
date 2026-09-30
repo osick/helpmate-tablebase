@@ -86,6 +86,10 @@ def check_pr_hygiene(pr, manifest_files: dict) -> Check:
             problems.append(f"{stem} is not a canonical material name")
     for stem in sorted(hms ^ sidecars):
         problems.append(f"{stem}: table and sidecar must come together")
+    if not hms:
+        problems.append("no tables in this PR")
+    for f in pr.deleted:
+        problems.append(f"PR deletes {f}")
     for f in pr.files:
         if f in manifest_files:
             problems.append(f"{f} is already published "
