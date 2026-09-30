@@ -17,10 +17,11 @@ class FakeGit:
 
     def clean(self): return True
     def current(self): return "main"
-    def start_branch(self, name): self._do("start_branch", name)
+    def dirty_paths(self): return []
+    def reset_to_origin_main(self, branch, paths): self._do("reset_to_origin_main", branch)
     def commit_all(self, message): self._do("commit_all", message)
     def push(self, branch): self._do("push", branch)
-    def open_pr(self, title, body): self._do("open_pr", title); return "https://gh/pr/1"
+    def open_pr(self, title, body, branch=None): self._do("open_pr", title); return "https://gh/pr/1"
     def wait_and_merge(self, url): self._do("wait_and_merge", url)
     def back(self, ref): self._do("back", ref)
 
@@ -164,3 +165,162 @@ def test_status_lists_open_prs(tmp_path):
     assert "stale" in out and "since the last DEEPEST refresh" in out
     assert "not verified" in status(hub, gh, Registry.load(checkout / "data" / "contributions.json"),
                                     tmp_path / "empty", checkout)
+
+
+class FlakyHub(FakeHub):
+    def merge(self, num):
+        if num == 3 and not getattr(self, "healed", False):
+            raise RuntimeError("network")
+        super().merge(num)
+
+
+def _two_prs(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    flaky = FlakyHub(dict(hub.main))
+    files = {"KRRvkqr.hm": b"t2", "KRRvkqr.stats.json": b'{"generator_version": "0.20.0", "plane_size": 1, "max_dtm": 9}'}
+    flaky.prs = hub.prs
+    flaky.add_pr(3, files, head="h3")
+    d = staging / "pr-3"
+    (d / "files").mkdir(parents=True)
+    for k, v in files.items():
+        (d / "files" / k).write_bytes(v)
+    (d / "report.json").write_text(json.dumps({"result": "pass", "head": "h3", "pr": 3}))
+    return checkout, staging, flaky, gh, tables
+
+
+def _run2(checkout, staging, hub, gh, tables, git):
+    return accept([2, 3], hub=hub, gh=gh, git=git, checkout=checkout, tables=tables,
+                  staging=staging, contributor=None, today="2026-10-01")
+
+
+def test_partial_batch_merge_resumes(tmp_path):
+    checkout, staging, hub, gh, tables = _two_prs(tmp_path)
+    with pytest.raises(RuntimeError):
+        _run2(checkout, staging, hub, gh, tables, FakeGit())
+    assert hub.merged == [2]
+    hub.healed = True
+    assert _run2(checkout, staging, hub, gh, tables, FakeGit()) == 0
+    assert hub.merged == [2, 3]
+    assert (tables / "KRRvkqr.hm").exists()
+
+
+@pytest.mark.parametrize("fail_at", ["push", "open_pr"])
+def test_docs_failure_before_pr_resumes_without_duplicate_changelog(tmp_path, fail_at):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    with pytest.raises(RuntimeError):
+        _run(checkout, staging, hub, gh, tables, FakeGit(fail_at=fail_at))
+    git = FakeGit()
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    assert (checkout / "CHANGELOG.md").read_text().count("KRRvkqq contributed by") == 1
+    assert ("back", "main") in git.calls and hub.merged == [2]
+    names = [c[0] for c in git.calls]
+    assert "commit_all" not in names if fail_at == "open_pr" else "push" in names
+
+
+def test_dirty_unrelated_path_stops_docs_step(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    git = FakeGit()
+    git.dirty_paths = lambda: ["src/other.py"]
+    assert _run(checkout, staging, hub, gh, tables, git) == 2
+    assert "src/other.py" in capsys.readouterr().err
+
+
+def test_original_branch_survives_a_resume_from_the_data_branch(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    with pytest.raises(RuntimeError):
+        _run(checkout, staging, hub, gh, tables, FakeGit(fail_at="push"))
+    git = FakeGit()
+    git.current = lambda: "data/accept-2"
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    assert ("back", "main") in git.calls
+
+
+def test_card_uploaded_only_after_docs_pr_merged(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    with pytest.raises(RuntimeError):
+        _run(checkout, staging, hub, gh, tables, FakeGit(fail_at="wait_and_merge"))
+    assert not any("Dataset card" in m for m, _ in hub.commits)
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 0
+    assert sum("Dataset card" in m for m, _ in hub.commits) == 1
+
+
+def test_claim_comment_not_posted_twice_after_rerun(tmp_path):
+    checkout, staging, hub, gh, tables = _two_prs(tmp_path)
+    (staging / "pr-3" / "files" / "KRRvkqr.hm").write_bytes(b"t2")
+    calls = {"n": 0}
+    orig = gh.comment
+
+    def flaky(issue, body):
+        calls["n"] += 1
+        if calls["n"] == 2:
+            raise RuntimeError("api")
+        orig(issue, body)
+    gh.comment = flaky
+    hub.healed = True
+    with pytest.raises(RuntimeError):
+        _run2(checkout, staging, hub, gh, tables, FakeGit())
+    gh.comment = orig
+    assert _run2(checkout, staging, hub, gh, tables, FakeGit()) == 0
+    assert sum("KRRvkqq" in b and b.startswith("Accepted") for _, b in gh.posted) == 1
+    assert sum("KRRvkqr" in b and b.startswith("Accepted") for _, b in gh.posted) == 1
+
+
+def test_missing_or_short_staged_file_stops_before_merging(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    (staging / "pr-2" / "files" / "KRRvkqq.hm").write_bytes(b"tab")
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2
+    assert hub.merged == [] and "KRRvkqq.hm" in capsys.readouterr().err
+
+
+class Runner:
+    def __init__(self, checks):
+        self.checks, self.calls, self.slept = list(checks), [], 0
+
+    def __call__(self, args, **kw):
+        import subprocess
+        self.calls.append(args)
+        out = ""
+        if args[:3] == ["gh", "pr", "view"]:
+            out = '{"state": "OPEN"}'
+        elif args[:3] == ["gh", "pr", "checks"] and "--watch" not in args:
+            out = self.checks.pop(0)
+        return subprocess.CompletedProcess(args, 0, out, "")
+
+
+def test_wait_and_merge_polls_until_checks_are_reported(tmp_path):
+    from helpmate_server.contrib.accept import Git
+    r = Runner(["no checks reported on the 'x' branch", "no checks reported", "ci pending"])
+    g = Git(tmp_path, runner=r, sleep=lambda s: setattr(r, "slept", r.slept + 1))
+    g.wait_and_merge("u")
+    assert r.slept == 2
+    assert r.calls[-2][:4] == ["gh", "pr", "checks", "u"] and "--watch" in r.calls[-2]
+    assert r.calls[-1][:3] == ["gh", "pr", "merge"]
+
+
+def test_wait_and_merge_skips_an_already_merged_pr(tmp_path):
+    import subprocess
+    from helpmate_server.contrib.accept import Git
+    calls = []
+
+    def run(args, **kw):
+        calls.append(args)
+        return subprocess.CompletedProcess(args, 0, '{"state": "MERGED"}', "")
+    Git(tmp_path, runner=run).wait_and_merge("u")
+    assert len(calls) == 1
+
+
+def test_wait_and_merge_gives_up_without_checks(tmp_path):
+    from helpmate_server.contrib.accept import Git
+    r = Runner(["no checks reported"] * 12)
+    with pytest.raises(RuntimeError, match="no checks"):
+        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u")
+
+
+def test_open_pr_reuses_an_existing_one(tmp_path):
+    import subprocess
+    from helpmate_server.contrib.accept import Git
+
+    def run(args, **kw):
+        assert "create" not in args
+        return subprocess.CompletedProcess(args, 0, '[{"url": "https://gh/pr/9"}]', "")
+    assert Git(tmp_path, runner=run).open_pr("t", "b", "br") == "https://gh/pr/9"
