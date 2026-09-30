@@ -19,6 +19,10 @@ things — reading a verification report and running one `accept` command.
 ## Agreed decisions
 
 - Claims live on GitHub, data PRs on Hugging Face (as today).
+- **All tooling is subcommands of `helpmate-tables`** — no separate `tools/`
+  script and no separate CI tool (user decision, 2026-09-30). Contributors get
+  the same `verify` the maintainer runs, so they can check a table before
+  opening the PR.
 - Verification is run by the maintainer on the local box (it needs the 55+ GiB
   corpus as sub-tables; a free CI runner cannot hold it). It posts its report
   automatically.
@@ -31,7 +35,7 @@ things — reading a verification report and running one `accept` command.
 - Data additions do **not** bump VERSION. They get a `### Data` entry under
   `## [Unreleased]` in CHANGELOG.md and ride along with the next code release.
 - DEEPEST / site data / booklet regeneration stays a separate, batched manual
-  step (it takes ~80 minutes of mining); `contrib status` reports how many tables
+  step (it takes ~80 minutes of mining); `helpmate-tables status` reports how many tables
   arrived since the last refresh.
 
 ## Terms
@@ -48,7 +52,7 @@ things — reading a verification report and running one `accept` command.
 
 ## Components
 
-### 1. `tools/materials.py` — the universe (stdlib only)
+### 1. `helpmate_server.contrib.materials` — the universe (stdlib only)
 
 `universe() -> list[Material]` with `name`, `pieces`, `pawns`, `marker`;
 `canonical(name) -> str | None` (normalises order, rejects non-materials);
@@ -59,7 +63,7 @@ material" for every other component.
 
 ### 2. `data/contributions.json` — the one hand-owned record
 
-Committed; written only by `contrib accept` (and by hand for corrections).
+Committed; written only by `helpmate-tables accept` (and by hand for corrections).
 
 ```json
 {
@@ -71,7 +75,7 @@ Committed; written only by `contrib accept` (and by hand for corrections).
   "tables": {
     "KRBvkqq": {"contributor": "T31M", "hf_pr": 1, "claim": 41, "merged": "2026-09-26",
                 "generator_version": "0.19.0",
-                "verification": {"tool": "contrib 1", "head": "<hf pr head sha>",
+                "verification": {"tool": "helpmate-tables 0.21.0", "head": "<hf pr head sha>",
                                  "date": "...", "samples": 4000, "result": "pass"}}
   }
 }
@@ -86,9 +90,12 @@ existed — shown as "reviewed" not "verified").
 - `.github/ISSUE_TEMPLATE/claim.yml`: title `claim: <summary>`; fields:
   materials (one name or wildcard pattern per line), Hugging Face username,
   credit name, "do not name me" checkbox, hardware (optional). Adds label `claim`.
-- `tools/contrib_claims.py` (stdlib + `urllib`; reads the public HF API
-  anonymously: `manifest.json` at `main` and the list of open PRs with their
-  files) runs on `issues: [opened, edited, reopened]`, `issue_comment`, a daily
+- `helpmate-tables claims --github-repo osick/helpmate-tablebase` (stdlib +
+  `urllib`; reads the public HF API anonymously: `manifest.json` at `main` and
+  the list of open PRs with their files). The workflow runs it from the checkout
+  as `PYTHONPATH=src/packages/api python -m helpmate_server.tables_cli claims …`
+  — `tables_cli` imports nothing from the C++ bindings, so the job needs no
+  build and no `pip install`. It runs on `issues: [opened, edited, reopened]`, `issue_comment`, a daily
   schedule, and `workflow_dispatch`. For each open `claim` issue:
   - parse every canonical material name or wildcard pattern anywhere in the body
     (so the existing free-text claims #39, #40, #45 parse unchanged); a name
@@ -115,16 +122,25 @@ identity gap from the contributor's side; `open_pr` gains a `description`
 argument. Without `--claim` the behaviour is unchanged (PRs from older clients
 still work — see identity resolution in `accept`).
 
-### 5. `tools/contrib.py` — the maintainer's CLI
+### 5. The new `helpmate-tables` subcommands
 
-All HF and GitHub calls go through an injectable client (the `hub_factory`
+`verify` is for everyone; `status`, `accept` and `sync` are maintainer
+commands (listed under their own heading in `--help`; they need an HF write
+token and `gh` auth and a checkout of this repository, `--checkout DIR`,
+default the current directory, recognised by `data/contributions.json`), and
+`claims` is what the workflow runs. All HF and GitHub calls go through an
+injectable client (the `hub_factory`
 pattern of `tables_cli.py`) so the command logic is tested against fakes.
 
-**`contrib status`** — one table joining open HF PRs ↔ claim issues ↔
+**`helpmate-tables status`** — one table joining open HF PRs ↔ claim issues ↔
 last verification result ↔ accepted, plus "N tables since the last DEEPEST
 refresh". Read-only.
 
-**`contrib verify PR [PR ...] [--samples N] [--no-post] [--yes]`**
+**`helpmate-tables verify (--pr N [N ...] | --material M [M ...]) [--tables DIR] [--samples N] [--no-post] [--yes]`**
+
+`--material` verifies tables already in `--tables` (a contributor, before
+pushing; nothing is downloaded or posted, V1 is skipped). `--pr` is the
+maintainer's form:
 
 1. *Plan*: list the PR's files and sizes at `refs/pr/N`, check free disk space,
    print the download size and ask for confirmation unless `--yes`
@@ -173,7 +189,7 @@ Cost on a pawnless six-piece table (~2 GiB compressed, 29 GiB raw): download at
 the box's rate, V3+V4 a few minutes, V6/V7 minutes. Pawn tables scale with raw
 size (up to 85 GiB decoded, streamed — memory stays at one block).
 
-**`contrib accept PR [PR ...] [--contributor LOGIN]`**
+**`helpmate-tables accept PR [PR ...] [--contributor LOGIN]`**
 
 Preconditions: each PR has a passing report whose head sha equals the PR's
 current head (a push after verification forces re-verification). Steps, each
@@ -189,7 +205,7 @@ idempotent so a rerun resumes after a failure:
    `docs/hf-dataset-card.md` as `README.md`.
 4. Move the verified files from staging into the local corpus.
 5. On a branch `data/accept-<materials>`: update `contributions.json`, run
-   `contrib sync` (below), add the CHANGELOG `### Data` entry, commit with a
+   `sync` (below), add the CHANGELOG `### Data` entry, commit with a
    `Co-authored-by: <login> <id+login@users.noreply.github.com>` trailer (id from
    `gh api users/<login>`; omitted for anonymous contributors), open the PR,
    wait for the required checks, squash-merge, delete the branch.
@@ -199,7 +215,7 @@ idempotent so a rerun resumes after a failure:
 A batch (`accept 2 3 … 15`) produces one HF merge per PR, one manifest push, and
 one GitHub PR.
 
-**`contrib sync`** — regenerate every derived text from `materials.universe()`,
+**`helpmate-tables sync`** — regenerate every derived text from `materials.universe()`,
 the HF manifest, open HF PRs, open claim issues, and `contributions.json`:
 
 - `docs/MATERIALS.md` — all 1000 materials. 3–5 pieces as compact grids per
@@ -215,13 +231,30 @@ the HF manifest, open HF PRs, open claim issues, and `contributions.json`:
   `<!-- contrib:six-done -->31<!-- /contrib -->`. `sync` rewrites the span
   contents only; prose stays hand-written.
 
-### 6. Documentation changes
+### 6. Package layout and dependencies
+
+New code lives in `src/packages/api/helpmate_server/contrib/`:
+`materials.py`, `claims.py`, `verify.py` (V1–V7), `blocks.py` (the block check
+moved out of `tools/verify_corpus.py`, which becomes a thin wrapper so existing
+docs keep working), `oracle.py` (V7 search), `docs_sync.py`, `accept.py`,
+`clients.py` (HF/GitHub, injectable). `tables_cli.py` only parses arguments
+and dispatches.
+
+`verify`'s heavy dependencies (`zstandard`, `numpy`, `chess`) become an optional
+extra, `helpmate-api[verify]`; `make install` installs it, and `verify` fails
+with the exact `pip install` line if it is missing. Every import is lazy so
+`push`, `pull` and `claims` keep their current footprint.
+
+### 7. Documentation changes
 
 - CONTRIBUTING-TABLES.md: steps become "open a claim with the form → generate →
   `push --create-pr --claim N --github LOGIN` → you get a verification report on
   the PR". The "What gets checked" section is rewritten to describe V1–V7 and
   to state plainly what is still not proven (full correctness without
   regeneration; the C++ oracle is still future work).
+- `pip install './src/packages/api[verify]'` (or `make install`) and
+  `helpmate-tables verify --material M --tables ./tables` become step 4,
+  replacing the manual stats/probe/line sanity check.
 - A short maintainer section (in docs/CONTRIBUTING-TABLES.md, at the end):
   `status` → `verify` → read the report → `accept`, and when to run the DEEPEST
   refresh.
@@ -250,15 +283,15 @@ the HF manifest, open HF PRs, open claim issues, and `contributions.json`:
   Each mutation must fail exactly the checks meant to catch it.
 - Commands against fake HF / GitHub clients: verify posts on pass and fail;
   accept resumes after a failure at each step; batch accept makes one GitHub PR.
-- Workflow: `contrib_claims.py` tested with recorded GitHub/HF JSON; the YAML
+- Workflow: `claims` tested with recorded GitHub/HF JSON; the YAML
   checked with actionlint.
 - Coverage ≥ 80 % on the new Python modules; ruff and mypy as in CI.
 
 ## Rollout
 
-1. Land components 1–6 (verify first: it is useful immediately).
+1. Land components 1–7 (verify first: it is useful immediately).
 2. First live run: `verify 2 … 15` on popeye37's KRR tables → `accept`.
-3. `contrib sync` also closes any open claim issue whose materials are all
+3. `helpmate-tables sync` also closes any open claim issue whose materials are all
    `done`, with a comment — that closes #41 (T31M's KRB set, seeded record).
 4. The open claims (#39, #40, #45) need no conversion — the parser reads them;
    the bot comment appears on the next run. The maintainer strikes KRRvkpp in
