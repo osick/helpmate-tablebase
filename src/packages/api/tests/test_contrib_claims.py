@@ -171,3 +171,44 @@ def test_marker_in_a_user_comment_is_ignored(tmp_path):
     reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
     run_claims(hub, gh, reg, date(2026, 9, 30))
     assert len(gh.posted) == 1 and gh.edited == []
+
+
+def _workflow_if() -> str:
+    from pathlib import Path
+
+    import yaml
+    wf = Path(__file__).resolve().parents[4] / ".github" / "workflows" / "claims.yml"
+    return yaml.safe_load(wf.read_text())["jobs"]["claims"]["if"]
+
+
+def _eval_actions_if(expr: str, event: str, issue: dict | None) -> bool:
+    """Evaluate the job condition the way Actions does for the few constructs it uses
+    (startsWith and contains are case-insensitive; a missing property is null)."""
+    import re
+    issue = issue or {}
+    ctx = {"event_name": event, "title": issue.get("title"), "pr": issue.get("pull_request"),
+           "labels": [lb["name"] for lb in issue.get("labels", [])],
+           "startsWith": lambda s, p: (s or "").lower().startswith(p.lower()),
+           "contains": lambda seq, x: any((v or "").lower() == x.lower() for v in seq)}
+    py = (expr.replace("github.event_name", "event_name")
+              .replace("github.event.issue.labels.*.name", "labels")
+              .replace("github.event.issue.pull_request", "pr")
+              .replace("github.event.issue.title", "title")
+              .replace("||", " or ").replace("&&", " and "))
+    py = re.sub(r"!(?!=)", " not ", py)
+    return bool(eval(py, {"__builtins__": {}}, ctx))  # noqa: S307 - our own workflow file
+
+
+@pytest.mark.parametrize("event,issue,runs", [
+    ("schedule", None, True),
+    ("workflow_dispatch", None, True),
+    ("issues", {"title": "claim: KQvk???"}, True),
+    ("issues", {"title": "Claim KRNvk??"}, True),
+    ("issues", {"title": "CLAIM"}, True),
+    ("issue_comment", {"title": "Something", "labels": [{"name": "claim"}]}, True),
+    ("issues", {"title": "Bug in the viewer"}, False),
+    ("issue_comment", {"title": "claim: docs", "pull_request": {"url": "x"}}, False),
+    ("issue_comment", {"title": "Fix", "pull_request": {"url": "x"}, "labels": [{"name": "claim"}]}, False),
+])
+def test_claims_workflow_runs_only_for_claim_issues(event, issue, runs):
+    assert _eval_actions_if(_workflow_if(), event, issue) is runs

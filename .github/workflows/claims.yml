@@ -24,6 +24,13 @@ concurrency:
 
 jobs:
   claims:
+    # Issue events fire for every issue and every PR comment: run only for claim
+    # issues (startsWith is case-insensitive in Actions expressions).
+    if: >-
+      github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+      (!github.event.issue.pull_request &&
+       (startsWith(github.event.issue.title, 'claim') ||
+        contains(github.event.issue.labels.*.name, 'claim')))
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
