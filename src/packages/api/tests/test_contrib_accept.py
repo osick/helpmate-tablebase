@@ -22,7 +22,7 @@ class FakeGit:
     def commit_all(self, message): self._do("commit_all", message)
     def push(self, branch): self._do("push", branch)
     def open_pr(self, title, body, branch=None): self._do("open_pr", title); return "https://gh/pr/1"
-    def wait_and_merge(self, url): self._do("wait_and_merge", url)
+    def wait_and_merge(self, url, branch): self._do("wait_and_merge", url)
     def back(self, ref): self._do("back", ref)
 
 
@@ -133,7 +133,7 @@ def test_accept_resumes_after_ci_failure_without_merging_twice(tmp_path):
     git = FakeGit()
     assert _run(checkout, staging, hub, gh, tables, git) == 0
     assert hub.merged == [2]                                     # not merged again
-    assert [c[0] for c in git.calls] == ["wait_and_merge", "back"]   # resumes at the docs PR
+    assert [c[0] for c in git.calls] == ["back", "wait_and_merge"]   # resumes at the docs PR
 
 
 class ManifestFails(FakeHub):
@@ -352,28 +352,69 @@ def test_missing_or_short_staged_file_stops_before_merging(tmp_path, capsys):
 
 
 class Runner:
-    def __init__(self, checks):
-        self.checks, self.calls, self.slept = list(checks), [], 0
+    def __init__(self, checks, fail=None):
+        self.checks, self.calls, self.envs, self.slept = list(checks), [], [], 0
+        self.fail = fail or {}          # command prefix (tuple) -> stderr of a failing run
 
     def __call__(self, args, **kw):
         import subprocess
         self.calls.append(args)
+        self.envs.append(kw.get("env") or {})
         out = ""
+        for prefix, err in self.fail.items():
+            if tuple(args[:len(prefix)]) == prefix:
+                if kw.get("check"):
+                    raise subprocess.CalledProcessError(1, args, "", err)
+                return subprocess.CompletedProcess(args, 1, "", err)
         if args[:3] == ["gh", "pr", "view"]:
-            out = '{"state": "OPEN"}'
+            out = '{"state": "OPEN", "mergeable": "MERGEABLE"}'
         elif args[:3] == ["gh", "pr", "checks"] and "--watch" not in args:
             out = self.checks.pop(0)
         return subprocess.CompletedProcess(args, 0, out, "")
+
+
+PUSH_DELETE = ["git", "-c", "credential.helper=", "-c", "credential.helper=!gh auth git-credential",
+               "push", "origin", "--delete", "br"]
+
+
+def test_wait_and_merge_squashes_then_deletes_the_branch_without_the_global_config(tmp_path):
+    from helpmate_server.contrib.accept import Git
+    r = Runner(["ci pending"])
+    Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+    merge = r.calls.index(["gh", "pr", "merge", "u", "--squash"])
+    assert r.envs[merge]["GIT_CONFIG_GLOBAL"] == "/dev/null"
+    assert r.calls[merge + 1:] == [PUSH_DELETE, ["git", "branch", "-D", "br"]]
+    assert r.envs[merge + 1]["GIT_CONFIG_GLOBAL"] == "/dev/null"
+
+
+def test_branch_cleanup_tolerates_branches_already_gone(tmp_path):
+    import subprocess
+    from helpmate_server.contrib.accept import Git
+    r = Runner(["ci"], fail={tuple(PUSH_DELETE): "error: unable to delete 'br': remote ref does not exist",
+                             ("git", "branch", "-D"): "error: branch 'br' not found."})
+    Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+    r = Runner(["ci"], fail={tuple(PUSH_DELETE): "fatal: could not read from remote"})
+    with pytest.raises(subprocess.CalledProcessError):
+        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
+
+
+def test_accept_leaves_the_data_branch_before_merging_the_docs_pr(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    git = FakeGit()
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    names = [c[0] for c in git.calls]
+    assert names.index("back") < names.index("wait_and_merge")
 
 
 def test_wait_and_merge_polls_until_checks_are_reported(tmp_path):
     from helpmate_server.contrib.accept import Git
     r = Runner(["no checks reported on the 'x' branch", "no checks reported", "ci pending"])
     g = Git(tmp_path, runner=r, sleep=lambda s: setattr(r, "slept", r.slept + 1))
-    g.wait_and_merge("u")
+    g.wait_and_merge("u", "br")
     assert r.slept == 2
-    assert r.calls[-2][:4] == ["gh", "pr", "checks", "u"] and "--watch" in r.calls[-2]
-    assert r.calls[-1][:3] == ["gh", "pr", "merge"]
+    watch = next(c for c in r.calls if "--watch" in c)
+    assert watch[:4] == ["gh", "pr", "checks", "u"]
+    assert r.calls.index(watch) < r.calls.index(["gh", "pr", "merge", "u", "--squash"])
 
 
 def test_wait_and_merge_skips_an_already_merged_pr(tmp_path):
@@ -384,15 +425,15 @@ def test_wait_and_merge_skips_an_already_merged_pr(tmp_path):
     def run(args, **kw):
         calls.append(args)
         return subprocess.CompletedProcess(args, 0, '{"state": "MERGED"}', "")
-    Git(tmp_path, runner=run).wait_and_merge("u")
-    assert len(calls) == 1
+    Git(tmp_path, runner=run).wait_and_merge("u", "br")
+    assert not any(c[:3] == ["gh", "pr", "merge"] or "--watch" in c for c in calls)
 
 
 def test_wait_and_merge_gives_up_without_checks(tmp_path):
     from helpmate_server.contrib.accept import Git
     r = Runner(["no checks reported"] * 12)
     with pytest.raises(RuntimeError, match="no checks"):
-        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u")
+        Git(tmp_path, runner=r, sleep=lambda s: None).wait_and_merge("u", "br")
 
 
 def test_open_pr_reuses_an_existing_one(tmp_path):

@@ -29,6 +29,8 @@ DOCS_PATHS = ("CHANGELOG.md", "data/contributions.json", "README.md", "docs/CONT
               "docs/COOPERATIVE-TABLEBASE.md", "docs/hf-dataset-card.md", "docs/MATERIALS.md",
               ".all-contributorsrc")
 _NO_CHECKS = "no checks reported"
+_NO_GLOBAL = {"GIT_CONFIG_GLOBAL": "/dev/null"}   # the global config rewrites HTTPS to SSH
+_GH_CREDENTIALS = "credential.helper=!gh auth git-credential"
 
 
 def manifest_from_hub(hub, generator_version: str) -> dict:
@@ -90,7 +92,7 @@ class Git:
             if p not in in_head:
                 self._run("git", "rm", "-rf", "--ignore-unmatch", "-q", "--", p)
         self._run("git", "clean", "-fd", "--", *paths)
-        self._run("git", "fetch", "origin", "main", env={"GIT_CONFIG_GLOBAL": "/dev/null"})
+        self._run("git", "fetch", "origin", "main", env=_NO_GLOBAL)
         self._run("git", "switch", "-C", branch, "origin/main")
 
     def commit_all(self, message: str) -> None:
@@ -98,10 +100,8 @@ class Git:
         self._run("git", "commit", "-m", message)
 
     def push(self, branch: str) -> None:
-        self._run("git", "-c", "credential.helper=",
-                  "-c", "credential.helper=!gh auth git-credential",
-                  "push", "--force-with-lease", "-u", "origin", branch,
-                  env={"GIT_CONFIG_GLOBAL": "/dev/null"})
+        self._run("git", "-c", "credential.helper=", "-c", _GH_CREDENTIALS,
+                  "push", "--force-with-lease", "-u", "origin", branch, env=_NO_GLOBAL)
 
     def open_pr(self, title: str, body: str, branch: str | None = None) -> str:
         if branch:
@@ -114,19 +114,29 @@ class Git:
             args += ["--head", branch]
         return self._out(*args)
 
-    def wait_and_merge(self, url: str) -> None:
-        if json.loads(self._out("gh", "pr", "view", url, "--json", "state")).get("state") == "MERGED":
-            return
-        for _ in range(12):  # right after `pr create`, GitHub has not registered the checks yet
-            r = self._run("gh", "pr", "checks", url, check=False)
-            if _NO_CHECKS not in (r.stdout + r.stderr).lower():
-                break
-            self._sleep(10)
-        else:
-            raise RuntimeError(f"no checks were reported for {url} after 2 minutes")
-        # not captured: the maintainer watches CI progress in the terminal
-        self._runner(["gh", "pr", "checks", url, "--watch", "--fail-fast"], cwd=self.cwd, check=True)
-        self._run("gh", "pr", "merge", url, "--squash", "--delete-branch")
+    def wait_and_merge(self, url: str, branch: str) -> None:
+        """Wait for the checks, squash-merge, then delete the branch on origin and here.
+        Run from the maintainer's own branch: never merge while the data branch is checked out."""
+        if json.loads(self._out("gh", "pr", "view", url, "--json", "state")).get("state") != "MERGED":
+            for _ in range(12):  # right after `pr create`, GitHub has not registered the checks yet
+                r = self._run("gh", "pr", "checks", url, check=False)
+                if _NO_CHECKS not in (r.stdout + r.stderr).lower():
+                    break
+                self._sleep(10)
+            else:
+                raise RuntimeError(f"no checks were reported for {url} after 2 minutes")
+            # not captured: the maintainer watches CI progress in the terminal
+            self._runner(["gh", "pr", "checks", url, "--watch", "--fail-fast"], cwd=self.cwd, check=True)
+            self._run("gh", "pr", "merge", url, "--squash", env=_NO_GLOBAL)
+        self._delete_branch(branch)
+
+    def _delete_branch(self, branch: str) -> None:
+        for args, gone in ((("git", "-c", "credential.helper=", "-c", _GH_CREDENTIALS,
+                             "push", "origin", "--delete", branch), "remote ref does not exist"),
+                           (("git", "branch", "-D", branch), "not found")):
+            r = self._run(*args, env=_NO_GLOBAL, check=False)
+            if r.returncode != 0 and gone not in r.stderr:
+                raise subprocess.CalledProcessError(r.returncode, list(args), r.stdout, r.stderr)
 
     def back(self, ref: str) -> None:
         self._run("git", "switch", ref)
@@ -309,10 +319,10 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                 sub_done("pushed")
             state["docs_pr"] = git.open_pr(title, "\n".join(lines), branch)
             save()
+        git.back(state.get("original", "main"))  # before the merge deletes the data branch
         if not sub("docs_merged"):
-            git.wait_and_merge(state["docs_pr"])
+            git.wait_and_merge(state["docs_pr"], branch)
             sub_done("docs_merged")
-        git.back(state.get("original", "main"))
         mark("docs")
 
     if "card" not in state["done"]:  # only now: the public card must not credit a failed docs PR
