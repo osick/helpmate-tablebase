@@ -43,3 +43,41 @@ class GitHub:
 
     def issue(self, num: int) -> dict:
         return self._req("GET", f"/repos/{self.repo}/issues/{num}")
+
+    def claim_issues(self) -> list[dict]:
+        out, page = [], 1
+        while True:
+            batch = self._req("GET", f"/repos/{self.repo}/issues?state=open&per_page=100&page={page}")
+            out += [i for i in batch if "pull_request" not in i
+                    and (i["title"].lower().startswith("claim")
+                         or any(lb["name"] == "claim" for lb in i.get("labels", [])))]
+            if len(batch) < 100:
+                return out
+            page += 1
+
+    def comments(self, issue: int) -> list[dict]:
+        cs = self._req("GET", f"/repos/{self.repo}/issues/{issue}/comments?per_page=100")
+        return [{"id": c["id"], "body": c["body"], "user": c["user"]["login"],
+                 "created_at": c["created_at"]} for c in cs]
+
+    def edit_comment(self, comment_id: int, body: str) -> None:
+        self._req("PATCH", f"/repos/{self.repo}/issues/comments/{comment_id}", {"body": body})
+
+    def add_labels(self, issue: int, labels: list[str]) -> None:
+        self._req("POST", f"/repos/{self.repo}/issues/{issue}/labels", {"labels": labels})
+
+    def remove_label(self, issue: int, label: str) -> None:
+        import urllib.error
+        try:
+            self._req("DELETE", f"/repos/{self.repo}/issues/{issue}/labels/{label}")
+        except urllib.error.HTTPError as exc:
+            if exc.code != 404:
+                raise
+
+    def close(self, issue: int, comment: str) -> None:
+        self.comment(issue, comment)
+        self._req("PATCH", f"/repos/{self.repo}/issues/{issue}",
+                  {"state": "closed", "state_reason": "completed"})
+
+    def user_id(self, login: str) -> int:
+        return int(self._req("GET", f"/users/{login}")["id"])

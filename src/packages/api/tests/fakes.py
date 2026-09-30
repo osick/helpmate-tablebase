@@ -88,3 +88,31 @@ class FakeGitHub:
 
     def issue(self, num):
         return self.issues[num]
+
+    def claim_issues(self):
+        return [i for i in self.issues.values()
+                if i.get("state", "open") == "open" and i["title"].lower().startswith("claim")]
+
+    def comments(self, issue):
+        return list(self.issue_comments.get(issue, []))
+
+    def edit_comment(self, comment_id, body):
+        self.edited.append((comment_id, body))
+        for cs in self.issue_comments.values():
+            for c in cs:
+                if c["id"] == comment_id:
+                    c["body"] = body
+
+    def add_labels(self, issue, labels):
+        self.labels.setdefault(issue, set()).update(labels)
+
+    def remove_label(self, issue, label):
+        self.labels.setdefault(issue, set()).discard(label)
+
+    def close(self, issue, comment):
+        self.comment(issue, comment)
+        self.closed.append(issue)
+        self.issues[issue]["state"] = "closed"
+
+    def user_id(self, login):
+        return 1000 + len(login)

@@ -34,6 +34,10 @@ def add_parsers(sub) -> None:
     v.add_argument("--plan-only", action="store_true", help="--pr: list files and sizes, then stop")
     v.add_argument("--yes", action="store_true", help="--pr: download without asking")
     v.add_argument("--no-post", action="store_true", help="--pr: do not comment anywhere")
+    c = sub.add_parser("claims", help="(CI) update the status comment on every claim issue")
+    c.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
+    c.add_argument("--github-repo", default=GITHUB_REPO)
+    c.add_argument("--registry", type=Path, default=Path("data/contributions.json"))
 
 
 def _installed_version() -> str:
@@ -63,6 +67,14 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
     try:
         if a.cmd == "verify":
             return _verify(a, hub_factory, gh_factory)
+        if a.cmd == "claims":
+            from datetime import date
+            from .claims import run_claims
+            from .github import GitHub
+            from .hf import Hub
+            from .registry import Registry
+            return run_claims((hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
+                              Registry.load(a.registry), date.today())
         raise UsageError(f"{a.cmd}: not implemented yet")
     except UsageError as exc:
         print(f"error: {exc}", file=sys.stderr)
