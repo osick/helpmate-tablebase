@@ -73,7 +73,7 @@ class Git:
 
     def dirty_paths(self) -> list[str]:
         return [line[3:].strip().strip('"') for line in
-                self._run("git", "status", "--porcelain").stdout.splitlines() if line.strip()]
+                self._run("git", "status", "--porcelain", "--no-renames").stdout.splitlines() if line.strip()]
 
     def current(self) -> str:
         return self._out("git", "rev-parse", "--abbrev-ref", "HEAD")

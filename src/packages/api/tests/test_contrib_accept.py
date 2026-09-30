@@ -329,11 +329,14 @@ def test_open_pr_reuses_an_existing_one(tmp_path):
 def test_first_docs_attempt_with_dirty_listed_path_stops_and_discards_nothing(tmp_path, capsys):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     git = FakeGit()
-    git.clean = lambda: False
+    answers = iter([True])                          # clean for the merge step, dirty from then on
+    git.clean = lambda: next(answers, False)
     git.dirty_paths = lambda: ["CHANGELOG.md"]
     assert _run(checkout, staging, hub, gh, tables, git) == 2
-    assert not any(c[0] == "reset_to_origin_main" for c in git.calls)
-    assert "uncommitted" in capsys.readouterr().err
+    assert hub.merged == [2]                        # got past the merge step, into docs
+    assert "commit or stash" in capsys.readouterr().err
+    assert not any(c[0] in ("reset_to_origin_main", "commit_all") for c in git.calls)
+    assert "docs_started" not in json.loads(next(staging.glob("accept-*.json")).read_text())
 
 
 def test_redo_after_docs_started_resets_even_when_listed_paths_are_dirty(tmp_path):
