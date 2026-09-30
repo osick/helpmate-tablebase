@@ -324,3 +324,80 @@ def test_open_pr_reuses_an_existing_one(tmp_path):
         assert "create" not in args
         return subprocess.CompletedProcess(args, 0, '[{"url": "https://gh/pr/9"}]', "")
     assert Git(tmp_path, runner=run).open_pr("t", "b", "br") == "https://gh/pr/9"
+
+
+def test_first_docs_attempt_with_dirty_listed_path_stops_and_discards_nothing(tmp_path, capsys):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    git = FakeGit()
+    git.clean = lambda: False
+    git.dirty_paths = lambda: ["CHANGELOG.md"]
+    assert _run(checkout, staging, hub, gh, tables, git) == 2
+    assert not any(c[0] == "reset_to_origin_main" for c in git.calls)
+    assert "uncommitted" in capsys.readouterr().err
+
+
+def test_redo_after_docs_started_resets_even_when_listed_paths_are_dirty(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    with pytest.raises(RuntimeError):
+        _run(checkout, staging, hub, gh, tables, FakeGit(fail_at="commit_all"))
+    git = FakeGit()
+    git.clean = lambda: False                       # leftovers of the failed attempt
+    git.dirty_paths = lambda: ["CHANGELOG.md", "docs/MATERIALS.md"]
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    assert any(c[0] == "reset_to_origin_main" for c in git.calls)
+
+
+def _git_env():
+    import os
+    return {**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null"}
+
+
+def _sh(cwd, *args):
+    import subprocess
+    return subprocess.run(args, cwd=cwd, check=True, capture_output=True, text=True,
+                          env=_git_env()).stdout
+
+
+@pytest.fixture
+def clone(tmp_path):
+    origin = tmp_path / "origin.git"
+    _sh(tmp_path, "git", "init", "-q", "--bare", "-b", "main", str(origin))
+    work = tmp_path / "clone"
+    _sh(tmp_path, "git", "clone", "-q", str(origin), str(work))
+    _sh(work, "git", "config", "user.name", "t")
+    _sh(work, "git", "config", "user.email", "t@example.com")
+    _sh(work, "git", "config", "commit.gpgsign", "false")
+    (work / "docs").mkdir()
+    (work / "CHANGELOG.md").write_text("# C\n\n## [Unreleased]\n")
+    (work / "docs" / "other.md").write_text("keep\n")
+    _sh(work, "git", "add", "-A")
+    _sh(work, "git", "commit", "-q", "-m", "init")
+    _sh(work, "git", "push", "-q", "-u", "origin", "main")
+    return work
+
+
+def test_real_git_reset_discards_staged_and_untracked_generated_files(clone, monkeypatch):
+    from helpmate_server.contrib.accept import Git
+    monkeypatch.setenv("GIT_CONFIG_GLOBAL", "/dev/null")
+    monkeypatch.setenv("GIT_CONFIG_SYSTEM", "/dev/null")
+    (clone / "CHANGELOG.md").write_text("# C\n\n## [Unreleased]\n### Data\n- dup\n")
+    _sh(clone, "git", "add", "CHANGELOG.md")                 # staged, as after a failed commit
+    (clone / "docs" / "MATERIALS.md").write_text("generated\n")
+    (clone / ".all-contributorsrc").write_text("{}")
+    _sh(clone, "git", "add", ".all-contributorsrc")           # staged new file
+    (clone / "docs" / "other.md").write_text("mine\n")         # unlisted, unstaged edit
+    Git(clone).reset_to_origin_main("data/accept-2")
+    assert _sh(clone, "git", "rev-parse", "--abbrev-ref", "HEAD").strip() == "data/accept-2"
+    assert (clone / "CHANGELOG.md").read_text() == _sh(clone, "git", "show", "origin/main:CHANGELOG.md")
+    assert _sh(clone, "git", "diff", "--cached", "--name-only") == ""
+    assert not (clone / "docs" / "MATERIALS.md").exists() and not (clone / ".all-contributorsrc").exists()
+    assert (clone / "docs" / "other.md").read_text() == "mine\n"   # unrelated edit untouched
+
+
+def test_real_git_dirty_paths_lets_accept_refuse_unlisted_edits(clone, tmp_path, capsys):
+    from helpmate_server.contrib.accept import DOCS_PATHS, Git
+    (clone / "docs" / "other.md").write_text("mine\n")
+    (clone / "CHANGELOG.md").write_text("changed\n")
+    dirty = Git(clone).dirty_paths()
+    assert sorted(dirty) == ["CHANGELOG.md", "docs/other.md"]
+    assert [d for d in dirty if d not in DOCS_PATHS] == ["docs/other.md"]

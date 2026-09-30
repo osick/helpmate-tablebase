@@ -78,10 +78,15 @@ class Git:
     def current(self) -> str:
         return self._out("git", "rev-parse", "--abbrev-ref", "HEAD")
 
-    def reset_to_origin_main(self, branch: str, paths: tuple[str, ...]) -> None:
-        """A fresh branch from origin/main; the caller has checked that only `paths` are dirty,
-        so a half-finished earlier attempt is discarded here."""
-        self._run("git", "checkout", "--", ".")
+    def reset_to_origin_main(self, branch: str, paths: tuple[str, ...] = DOCS_PATHS) -> None:
+        """A fresh branch from origin/main. Only `paths` (what accept generates) are restored
+        to HEAD, in index and worktree, or removed if untracked: nothing else is touched."""
+        in_head = set(self._out("git", "ls-tree", "-r", "--name-only", "HEAD", "--", *paths).splitlines())
+        if in_head:
+            self._run("git", "restore", "--staged", "--worktree", "--source=HEAD", "--", *sorted(in_head))
+        for p in paths:
+            if p not in in_head:
+                self._run("git", "rm", "-rf", "--ignore-unmatch", "-q", "--", p)
         self._run("git", "clean", "-fd", "--", *paths)
         self._run("git", "fetch", "origin", "main", env={"GIT_CONFIG_GLOBAL": "/dev/null"})
         self._run("git", "switch", "-C", branch, "origin/main")
@@ -117,7 +122,8 @@ class Git:
             self._sleep(10)
         else:
             raise RuntimeError(f"no checks were reported for {url} after 2 minutes")
-        self._run("gh", "pr", "checks", url, "--watch", "--fail-fast")
+        # not captured: the maintainer watches CI progress in the terminal
+        self._runner(["gh", "pr", "checks", url, "--watch", "--fail-fast"], cwd=self.cwd, check=True)
         self._run("gh", "pr", "merge", url, "--squash", "--delete-branch")
 
     def back(self, ref: str) -> None:
@@ -257,6 +263,11 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             if outside:
                 return _err(f"{checkout} has uncommitted changes outside what accept writes: "
                             f"{', '.join(outside)}")
+            if not state.get("docs_started"):
+                if not git.clean():
+                    return _err(f"{checkout} has uncommitted changes; commit or stash them first")
+                state["docs_started"] = True  # from here on, leftovers in DOCS_PATHS are ours
+                save()
             if "original" not in state:  # first attempt only: later ones may start on the data branch
                 state["original"] = git.current()
                 save()
