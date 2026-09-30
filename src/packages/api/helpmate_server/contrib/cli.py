@@ -40,6 +40,19 @@ def add_parsers(sub) -> None:
     s.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     s.add_argument("--github-repo", default=GITHUB_REPO)
     s.add_argument("--no-close", action="store_true", help="do not close finished claims")
+    ac = sub.add_parser("accept", help="(maintainer) merge verified dataset PRs and credit them")
+    ac.add_argument("pr", type=int, nargs="+")
+    ac.add_argument("--tables", required=True, metavar="DIR")
+    ac.add_argument("--contributor", metavar="GITHUB_LOGIN")
+    ac.add_argument("--checkout", type=Path, default=Path("."))
+    ac.add_argument("--staging", type=Path, default=DEFAULT_STAGING)
+    ac.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
+    ac.add_argument("--github-repo", default=GITHUB_REPO)
+    st = sub.add_parser("status", help="(maintainer) open dataset PRs, claims, verification")
+    st.add_argument("--checkout", type=Path, default=Path("."))
+    st.add_argument("--staging", type=Path, default=DEFAULT_STAGING)
+    st.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
+    st.add_argument("--github-repo", default=GITHUB_REPO)
     c = sub.add_parser("claims", help="(CI) update the status comment on every claim issue")
     c.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     c.add_argument("--github-repo", default=GITHUB_REPO)
@@ -98,6 +111,24 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
             for p in written:
                 print(f"wrote {p}")
             return 0
+        if a.cmd in ("accept", "status"):
+            from datetime import date
+            from .accept import Git, accept, status
+            from .github import GitHub
+            from .hf import Hub
+            from .registry import Registry
+            checkout = Path(a.checkout).resolve()
+            if not (checkout / "data" / "contributions.json").exists():
+                raise UsageError(f"{checkout} is not a helpmate-tablebase checkout")
+            hub = (hub_factory or Hub)(a.repo)
+            gh = (gh_factory or GitHub)(a.github_repo)
+            if a.cmd == "status":
+                print(status(hub, gh, Registry.load(checkout / "data" / "contributions.json"),
+                             Path(a.staging).expanduser(), checkout))
+                return 0
+            return accept(a.pr, hub=hub, gh=gh, git=Git(checkout), checkout=checkout,
+                          tables=Path(a.tables).expanduser(), staging=Path(a.staging).expanduser(),
+                          contributor=a.contributor, today=date.today().isoformat())
         raise UsageError(f"{a.cmd}: not implemented yet")
     except UsageError as exc:
         print(f"error: {exc}", file=sys.stderr)
