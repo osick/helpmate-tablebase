@@ -45,9 +45,20 @@ def verify_table(material: str, tables: Path, opts: VerifyOptions,
         rep.checks.append(Check("V6", "local consistency", "skip", "marker table"))
         rep.checks.append(Check("V7", "independent solver", "skip", "marker table"))
         return rep
+    if not rep.passed:
+        why = "an earlier check failed"
+        rep.checks.append(Check("V6", "local consistency", "skip", why))
+        rep.checks.append(Check("V7", "independent solver", "skip", why))
+        return rep
     seed = opts.resolved_seed()
-    sc = json.loads(path.with_name(f"{material}.stats.json").read_text())
-    extra = list(sc.get("deepest", [])) + list(sc.get("deepest_unique", []))
+    try:
+        sc = json.loads(path.with_name(f"{material}.stats.json").read_text())
+        extra = list(sc.get("deepest", [])) + list(sc.get("deepest_unique", []))
+    except (OSError, ValueError, AttributeError, TypeError) as exc:
+        why = f"sidecar unreadable: {exc}"
+        rep.checks.append(Check("V6", "local consistency", "skip", why))
+        rep.checks.append(Check("V7", "independent solver", "skip", why))
+        return rep
     v6, fens = check_consistency(material, tables, opts.samples, seed, extra)
     rep.checks.append(v6)
     rep.checks.append(check_oracle(material, tables, samples=opts.oracle_samples,

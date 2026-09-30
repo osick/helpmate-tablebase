@@ -62,3 +62,21 @@ def test_tables_cli_imports_nothing_heavy():
             "bad = [m for m in ('helpmate', 'numpy', 'zstandard', 'chess', 'huggingface_hub') "
             "if m in sys.modules]; print(bad); sys.exit(1 if bad else 0)")
     assert subprocess.run([sys.executable, "-c", code]).returncode == 0
+
+
+def _assert_sidecar_defect_reported(table_copy, capsys):
+    r = verify_table("KQvk", table_copy, FAST, "99.0.0")
+    assert not r.passed
+    rc = tables_cli.main(["verify", "--tables", str(table_copy), "--material", "KQvk"])
+    assert rc == 1
+    assert "❌" in capsys.readouterr().out
+
+
+def test_missing_sidecar_is_a_failed_report_not_a_crash(table_copy, capsys):
+    (table_copy / "KQvk.stats.json").unlink()
+    _assert_sidecar_defect_reported(table_copy, capsys)
+
+
+def test_malformed_sidecar_is_a_failed_report_not_a_crash(table_copy, capsys):
+    (table_copy / "KQvk.stats.json").write_text("{not json")
+    _assert_sidecar_defect_reported(table_copy, capsys)
