@@ -18,7 +18,7 @@ def _default_hub(repo_id: str):
     hub.upload = lambda path, repo=repo_id: upload(path, repo)  # type: ignore[attr-defined]
 
     def commit_files(paths: list[Path], message: str, create_pr: bool = False,
-                     repo: str = repo_id) -> str | None:
+                     description: str = "", repo: str = repo_id) -> str | None:
         """Upload every path in ONE commit.
 
         One commit per file is what the obvious implementation does, and it is
@@ -34,11 +34,12 @@ def _default_hub(repo_id: str):
                for p in paths]
         info = HfApi().create_commit(repo_id=repo, repo_type="dataset",
                                      operations=ops, commit_message=message,
+                                     commit_description=description or None,
                                      create_pr=create_pr)
         return getattr(info, "pr_url", None) if create_pr else None
     hub.commit_files = commit_files  # type: ignore[attr-defined]
-    hub.open_pr = (lambda paths, message:  # type: ignore[attr-defined]
-                   commit_files(paths, message, create_pr=True))
+    hub.open_pr = (lambda paths, message, description="":  # type: ignore[attr-defined]
+                   commit_files(paths, message, create_pr=True, description=description))
 
     real_fetch_manifest = hub.fetch_manifest
 
@@ -65,6 +66,12 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=Non
         "--create-pr", action="store_true",
         help="open a pull request on the dataset instead of writing to it "
              "directly (the route for contributors without write access)")
+    sub.choices["push"].add_argument(
+        "--claim", type=int, metavar="N",
+        help="with --create-pr: the GitHub claim issue number this table belongs to")
+    sub.choices["push"].add_argument(
+        "--github", metavar="LOGIN",
+        help="with --create-pr: your GitHub login, so the maintainer can credit you")
     contrib_cli.add_parsers(sub)
     a = p.parse_args(argv)
     if a.cmd is None:
@@ -76,6 +83,10 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=Non
     tables = Path(a.tables)
     if not tables.is_dir():
         print(f"error: not a directory: {tables}", file=sys.stderr)
+        return 2
+    if a.cmd == "push" and (getattr(a, "claim", None) or getattr(a, "github", None)) \
+            and not a.create_pr:
+        print("error: --claim and --github only apply with --create-pr", file=sys.stderr)
         return 2
     hub = hub_factory(a.repo)
 
@@ -94,7 +105,9 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=Non
             print(f"error: no tables to propose in {tables}", file=sys.stderr)
             return 2
         try:
-            url = hub.open_pr(paths, "Add " + ", ".join(names))
+            from .contrib.links import format_links
+            url = hub.open_pr(paths, "Add " + ", ".join(names),
+                              description=format_links(a.claim, a.github))
         except Exception as exc:
             print(f"error: {exc}", file=sys.stderr)
             return 1
