@@ -1,4 +1,6 @@
 // Pure logic for the Materials page and the front page's contributor block.
+import { sortRows } from "./solution.js";
+
 export const STATES = ["open", "claimed", "in review", "done", "not needed"];
 const KEYS = ["pieces", "state", "prio", "pawns", "contributor", "q"];
 
@@ -48,11 +50,30 @@ export function filterRows(rows, f) {
     wildcardMatch(r.material, f.q));
 }
 
+// Unknown states rank after every known one.
+const stateRank = (r) => { const i = STATES.indexOf(r.state); return i < 0 ? 99 : i; };
+
 export function defaultOrder(rows) {
-  const rank = (r) => STATES.indexOf(r.state);
+  const rank = stateRank;
   const pr = (r) => (r.priority === null || r.priority === undefined ? 99 : r.priority);
   return [...rows].sort((a, b) => rank(a) - rank(b) || pr(a) - pr(b) || a.pawns - b.pawns ||
     (a.material < b.material ? -1 : a.material > b.material ? 1 : 0));
+}
+
+// Column sort for the Materials table: state sorts in STATES order, the rest by value.
+export function sortMaterials(rows, key, dir) {
+  if (key !== "state") return sortRows(rows, key, dir);
+  const s = dir === "desc" ? -1 : 1;
+  return [...rows].sort((a, b) => (stateRank(a) - stateRank(b)) * s ||
+    (a.material < b.material ? -1 : a.material > b.material ? 1 : 0));
+}
+
+// status.json is built at deploy time; a malformed one is treated as missing.
+export function validStatus(s) {
+  const obj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+  if (!obj(s) || typeof s.generated_at !== "string" || !obj(s.materials) ||
+      !Array.isArray(s.contributors) || !obj(s.counts) || !obj(s.counts.six)) return false;
+  return STATES.every((k) => typeof s.counts.six[k] === "number" && Number.isFinite(s.counts.six[k]));
 }
 
 export function parseQuery(hash) {
@@ -82,7 +103,7 @@ export function contributorCards(status) {
        c.github ? `<a href="https://github.com/${encodeURIComponent(c.github)}">GitHub</a>` : ""]
         .filter(Boolean).join(" · ");
     return `<div class="card"><strong>${esc(c.display)}</strong>
-      <span>${c.tables} table${c.tables === 1 ? "" : "s"}${c.six ? `, ${c.six} with six men` : ""}</span>
+      <span>${Number(c.tables)} table${Number(c.tables) === 1 ? "" : "s"}${Number(c.six) ? `, ${Number(c.six)} with six men` : ""}</span>
       ${links ? `<span>${links}</span>` : ""}
       <a href="#/materials?contributor=${encodeURIComponent(c.display)}">their tables →</a></div>`;
   }).join("");
@@ -92,5 +113,6 @@ export function sixProgress(status, corpus) {
   const s = status && status.counts ? status.counts.six : null;
   const complete = s && STATES.every((k) => Number.isFinite(s[k]));
   if (!complete) return `Six men: ${(corpus.by_pieces || {})[6] || 0} of 645 done.`;
-  return `Six men: ${s.done} done, ${s["in review"]} in review, ${s.claimed} claimed, ${s.open} open of 645.`;
+  return `Six men: ${Number(s.done)} done, ${Number(s["in review"])} in review, ` +
+    `${Number(s.claimed)} claimed, ${Number(s.open)} open of 645.`;
 }

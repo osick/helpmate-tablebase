@@ -5,6 +5,7 @@ import { initFront } from "./front.js";
 import { initDeepest, showDeepest } from "./deepest.js";
 import { initPuzzles } from "./puzzles.js";
 import { initMaterials, showMaterials } from "./materials.js";
+import { validStatus } from "./lib/materials.js";
 
 const screens = {
   front: { init: initFront, data: ["corpus", "deepest", "status"] },
@@ -15,8 +16,9 @@ const screens = {
 const loaded = {};
 const cache = {};
 
-// status.json is never committed and may be missing; it is optional.
-const OPTIONAL = new Set(["status"]);
+// status.json is never committed and may be missing or malformed; it is
+// optional, and an invalid one counts as missing.
+const OPTIONAL = { status: validStatus };
 
 async function data(name) {
   if (!cache[name]) {
@@ -24,8 +26,12 @@ async function data(name) {
       if (!r.ok) throw new Error(`${name}.json: HTTP ${r.status}`);
       return r.json();
     });
-    cache[name] = OPTIONAL.has(name)
-      ? req.catch((e) => { console.warn(`${name}.json unavailable: ${e.message}`); return null; })
+    const valid = OPTIONAL[name];
+    cache[name] = valid
+      ? req.then((v) => {
+        if (!valid(v)) throw new Error("malformed");
+        return v;
+      }).catch((e) => { console.warn(`${name}.json unavailable: ${e.message}`); return null; })
       : req;
   }
   return cache[name];

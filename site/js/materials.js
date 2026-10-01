@@ -1,5 +1,6 @@
-import { stipulation, sortRows, humanBytes } from "./lib/solution.js";
-import { mergeStatus, filterRows, defaultOrder, parseQuery, toQuery, priorityLabel, esc } from "./lib/materials.js";
+import { stipulation, humanBytes } from "./lib/solution.js";
+import { mergeStatus, filterRows, defaultOrder, sortMaterials, parseQuery, toQuery, priorityLabel, esc }
+  from "./lib/materials.js";
 
 const fmt = (n) => Number(n).toLocaleString("en-US");
 let rows = [], key = null, dir = "asc", initialised = false;
@@ -10,8 +11,8 @@ export function initMaterials({ materials, corpus, status }) {
   rows = mergeStatus(materials, status);
   const six = status && status.counts ? status.counts.six : null;
   document.getElementById("materials-lede").textContent = six
-    ? `${corpus.tables} tables published. Six men: ${six.done} done, ${six["in review"]} in review, ` +
-      `${six.claimed} claimed, ${six.open} open. Priority P1 has one White piece besides the king — ` +
+    ? `${corpus.tables} tables published. Six men: ${Number(six.done)} done, ` +
+      `${Number(six["in review"])} in review, ${Number(six.claimed)} claimed, ${Number(six.open)} open. Priority P1 has one White piece besides the king — ` +
       `typically the longest, deepest helpmates — so start there.`
     : `${corpus.tables} tables published. Priority P1 has one White piece besides the king — start there.`;
   document.getElementById("materials-asof").textContent = status
@@ -32,7 +33,14 @@ export function initMaterials({ materials, corpus, status }) {
 export function showMaterials() {
   if (!initialised) return;   // app.js calls this even when init failed
   const q = parseQuery(location.hash);
-  for (const el of controls()) el.value = q[el.dataset.f] ?? (el.tagName === "INPUT" ? "" : "all");
+  for (const el of controls()) {
+    const v = q[el.dataset.f] ?? (el.tagName === "INPUT" ? "" : "all");
+    // a contributor from the hash with no rows here: offer it, so the view honestly shows 0 rows
+    if (el.tagName === "SELECT" && el.dataset.f === "contributor" && ![...el.options].some((o) => o.value === v)) {
+      el.insertAdjacentHTML("beforeend", `<option value="${esc(v)}">${esc(v)}</option>`);
+    }
+    el.value = v;
+  }
   render();
 }
 
@@ -50,7 +58,7 @@ function onChange() {
 
 function render() {
   const shown0 = filterRows(rows, current());
-  const shown = key ? sortRows(shown0, key, dir) : defaultOrder(shown0);
+  const shown = key ? sortMaterials(shown0, key, dir) : defaultOrder(shown0);
   document.getElementById("materials-count").textContent = `${shown.length} of ${rows.length}`;
   document.querySelectorAll("#materials-table th").forEach((th) => {
     th.classList.toggle("sorted", th.dataset.key === key);
@@ -58,12 +66,12 @@ function render() {
     th.classList.toggle("num", !TEXT_COLUMNS.has(th.dataset.key));
   });
   document.querySelector("#materials-table tbody").innerHTML = shown.map((r) => {
-    const cls = r.state.replace(" ", "-");
+    const cls = esc(String(r.state).replace(/ /g, "-"));
     const name = r.page ? `<a href="material/${esc(r.material)}.html">${esc(r.material)}</a>` : esc(r.material);
     const state = r.state === "in review" && r.hf_pr
-      ? `<a href="https://huggingface.co/datasets/osick/helpmate-tables/discussions/${r.hf_pr}">in review</a>`
+      ? `<a href="https://huggingface.co/datasets/osick/helpmate-tables/discussions/${Number(r.hf_pr)}">in review</a>`
       : r.state === "claimed" && r.claim
-        ? `<a href="https://github.com/osick/helpmate-tablebase/issues/${r.claim}">claimed</a>` : r.state;
+        ? `<a href="https://github.com/osick/helpmate-tablebase/issues/${Number(r.claim)}">claimed</a>` : esc(r.state);
     const marker = r.done && r.max_dtm === null;
     const stat = (v, f) => (r.done ? f(v) : "");
     return `<tr class="state-${cls}">
