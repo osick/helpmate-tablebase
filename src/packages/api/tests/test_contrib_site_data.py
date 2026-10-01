@@ -34,13 +34,20 @@ def test_rows_cover_the_universe_plus_kvk(compressed_tables, tmp_path):
 
 def test_done_rows_and_summary_equal_the_old_tool(compressed_tables):
     """The reference was produced by the original tools/build_site_data.py
-    (material_row / corpus_summary) on this fixture, before it became a re-export."""
+    (material_row / corpus_summary) on this fixture, before it became a re-export.
+
+    It holds no file sizes: the generator compresses with the system libzstd,
+    and different zstd versions write different bytes for the same planes
+    (CI and this box differ by ~0.05 %). Sizes are checked against the files."""
     ref = json.loads(REFERENCE.read_text())
     new = {r["material"]: r for r in material_rows(compressed_tables, None) if r["done"]}
     assert set(new) == {r["material"] for r in ref["rows"]}
     for r in ref["rows"]:
         assert {k: new[r["material"]][k] for k in r} == r
-    assert corpus_summary(list(new.values())) == ref["summary"]
+        assert new[r["material"]]["size_bytes"] == (compressed_tables / f'{r["material"]}.hm').stat().st_size
+    summary = corpus_summary(list(new.values()))
+    assert summary.pop("size_bytes") == sum(r["size_bytes"] for r in new.values())
+    assert summary == ref["summary"]
 
 
 def test_write_site_data_only_rewrites_on_change(compressed_tables, tmp_path):
