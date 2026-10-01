@@ -237,7 +237,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         seen_keys: dict[str, str | None] = {}
         merged = state.setdefault("merged", [])
         # PR -> {"ref": copy commit URL or main's sha, "already": no commit was needed} (merge_by_copy)
-        copied: dict[str, dict] = state.setdefault("copied", {})
+        copied: dict[str, dict | str] = state.setdefault("copied", {})
         for n in prs:
             if n in merged or str(n) in copied:  # merged by an earlier, interrupted run; validated then
                 seen_keys[people[n]["key"]] = people[n]["github"]
@@ -302,6 +302,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             if str(n) in copied:  # copied by an interrupted run: only the close may be missing
                 if hub.pr_status(n) == "open":
                     c = copied[str(n)]
+                    if isinstance(c, str):  # state written before {ref, already}: a commit URL
+                        c = {"ref": c, "already": False}
                     hub.close_pr(n, _copy_comment(c["ref"], verified, c["already"]))
             else:
                 now = hub.pr_head(n)

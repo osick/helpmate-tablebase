@@ -822,3 +822,17 @@ def test_a_pr_closed_by_the_copy_is_done_not_in_review(tmp_path):
     assert s["materials"]["KRRvkqq"]["state"] == "done" and s["materials"]["KRRvkqq"]["hf_pr"] == 2
     done = {f[:-3] for f in hub.fetch_manifest()["files"] if f.endswith(".hm")}
     assert material_status(done, {}, load_index(gh), reg)["KRRvkqq"].state == "done"
+
+
+def test_resume_reads_a_copy_recorded_in_the_earlier_bare_string_format(tmp_path):
+    """State files written before {ref, already} hold the commit URL as a plain string."""
+    checkout, staging, hub, gh, tables = _close_fails(tmp_path, applied=False)
+    path = staging / "accept-2.json"
+    state = json.loads(path.read_text())
+    state["copied"] = {"2": "https://hf.example/commit/abc"}
+    path.write_text(json.dumps(state))
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 0
+    assert len(hub.copies) == 1                                   # only the first run's copy
+    ((num, comment),) = hub.closed
+    assert num == 2 and comment.startswith("Merged as https://hf.example/commit/abc:")
+    assert not path.exists()
