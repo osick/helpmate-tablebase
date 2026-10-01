@@ -216,3 +216,6 @@ footer .disclaimer { margin: 0; border-left: 0; padding-left: 0; max-width: 60re
 table.data td.state-open { color: var(--ink); font-weight: 600; }
 table.data td.state-claimed, table.data td.state-in-review { color: var(--ink-soft); }
 table.data tr.state-not-needed td { color: var(--ink-faint); }
+.contributors { margin-top: 2rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem; margin: .75rem 0; }
+.card { display: flex; flex-direction: column; gap: .25rem; padding: .75rem 1rem; background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; font-size: var(--f1); }

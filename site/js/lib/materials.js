@@ -73,3 +73,24 @@ export function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 }
+
+export function contributorCards(status) {
+  if (!status || !status.contributors || !status.contributors.length) return "";
+  return status.contributors.map((c) => {
+    const links = c.anonymous ? "" :
+      [c.hf ? `<a href="https://huggingface.co/${encodeURIComponent(c.hf)}">Hugging Face</a>` : "",
+       c.github ? `<a href="https://github.com/${encodeURIComponent(c.github)}">GitHub</a>` : ""]
+        .filter(Boolean).join(" · ");
+    return `<div class="card"><strong>${esc(c.display)}</strong>
+      <span>${c.tables} table${c.tables === 1 ? "" : "s"}${c.six ? `, ${c.six} with six men` : ""}</span>
+      ${links ? `<span>${links}</span>` : ""}
+      <a href="#/materials?contributor=${encodeURIComponent(c.display)}">their tables →</a></div>`;
+  }).join("");
+}
+
+export function sixProgress(status, corpus) {
+  const s = status && status.counts ? status.counts.six : null;
+  const complete = s && STATES.every((k) => Number.isFinite(s[k]));
+  if (!complete) return `Six men: ${(corpus.by_pieces || {})[6] || 0} of 645 done.`;
+  return `Six men: ${s.done} done, ${s["in review"]} in review, ${s.claimed} claimed, ${s.open} open of 645.`;
+}

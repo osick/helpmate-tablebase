@@ -68,3 +68,32 @@ test("esc escapes markup", () => {
   assert.equal(esc(`<b>"x" & 'y'</b>`), "&lt;b&gt;&quot;x&quot; &amp; &#39;y&#39;&lt;/b&gt;");
   assert.equal(esc(null), "");
 });
+
+import { contributorCards, sixProgress } from "../js/lib/materials.js";
+
+test("contributor cards escape names and link profiles unless anonymous", () => {
+  const status = { contributors: [
+    { display: "<b>T</b>", hf: "T31M", github: "T31M", anonymous: false, tables: 30, six: 30, materials: [] },
+    { display: "anonymous", hf: null, github: null, anonymous: true, tables: 2, six: 2, materials: [] }] };
+  const html = contributorCards(status);
+  assert.ok(html.includes("&lt;b&gt;T&lt;/b&gt;") && !html.includes("<b>T</b>"));
+  assert.ok(html.includes("https://huggingface.co/T31M") && html.includes("https://github.com/T31M"));
+  assert.ok(html.includes(`#/materials?contributor=${encodeURIComponent("<b>T</b>")}`));
+  assert.equal((html.match(/huggingface\.co/g) || []).length, 1);            // none for anonymous
+  assert.equal(contributorCards(null), "");
+});
+
+test("six-piece progress with and without status", () => {
+  const status = { counts: { six: { done: 46, "in review": 30, claimed: 50, open: 519, "not needed": 70 } } };
+  assert.equal(sixProgress(status, { by_pieces: { 6: 46 } }),
+    "Six men: 46 done, 30 in review, 50 claimed, 519 open of 645.");
+  assert.equal(sixProgress(null, { by_pieces: { 6: 31 } }), "Six men: 31 of 645 done.");
+});
+
+test("six-piece progress falls back on a malformed status", () => {
+  const corpus = { by_pieces: { 6: 31 } };
+  const fallback = "Six men: 31 of 645 done.";
+  assert.equal(sixProgress({ counts: {} }, corpus), fallback);
+  assert.equal(sixProgress({ counts: { six: { done: 1, open: 2 } } }, corpus), fallback);
+  assert.ok(!sixProgress({ counts: { six: { done: 1 } } }, corpus).includes("undefined"));
+});
