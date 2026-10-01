@@ -8,3 +8,4 @@ from pathlib import Path
 DATASET_REPO = "osick/helpmate-tables"
 GITHUB_REPO = "osick/helpmate-tablebase"
 DEFAULT_STAGING = Path("~/tb-staging").expanduser()
+SITE_MATERIALS_URL = "https://osick.github.io/helpmate-tablebase/#/materials"

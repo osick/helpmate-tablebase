@@ -40,8 +40,9 @@ out-of-core generator that does not exist yet.
 CPU wasted on a duplicate helps nobody. List one material per line; patterns
 such as `KQvk???` are allowed. A bot keeps the status of every claim in one
 comment on your issue. To hand a material over, strike its name through
-(`~~KRRvkpp~~`). [MATERIALS.md](MATERIALS.md) lists what is open, claimed, in
-review and done. Claims lapse after three weeks of silence.
+(`~~KRRvkpp~~`). The [materials list](https://osick.github.io/helpmate-tablebase/#/materials) on the site, filterable, shows priority, state and contributor of every
+material. Priority P1 means one White piece besides the king: the longest, deepest
+problems, so start there. Claims lapse after three weeks of silence.
 
 **2. Pull the existing corpus first.** This is not optional — it is the
 difference between a day and a week. `gen` builds the full closure of
@@ -190,7 +191,7 @@ real contribution** — it converts a trusted table into a verified one.
 ## Credit
 
 Every merged table is credited by material and contributor in
-[MATERIALS.md](MATERIALS.md), the README and the dataset card. If you would rather not be named, say so in
+the [materials list](https://osick.github.io/helpmate-tablebase/#/materials), the README and the dataset card. If you would rather not be named, say so in
 the claim issue.
 
 The first outside contribution came from **T31M**: fifteen tables, KRBvkqq
@@ -214,14 +215,14 @@ helpmate-tables accept 2 3 4 --tables ~/tb              # merge, manifest, credi
 - `accept` refuses a PR that changed since its passing verification, and needs
   a clean checkout on its first run. Steps: merge the HF PR, regenerate and
   push the manifest, move the files into `--tables`, open a docs PR
-  (`contributions.json`, MATERIALS.md, README and card figures, CHANGELOG,
+  (`contributions.json`, the site's materials data, README and card figures, CHANGELOG,
   all-contributors) and wait for CI before squash-merging it, upload the dataset
   card once that PR is merged, then comment on and close the finished claims. It
   is resumable: rerun the same command after a failure. Use
   `--contributor LOGIN` when neither the PR description nor the claim issue
   names one.
-- `helpmate-tables sync --tables ~/tb` regenerates the counts, MATERIALS.md
-  (Kvk, two bare kings, is outside the three-to-six-men list) and closes finished claims (`--no-close` to skip); it refuses
+- `helpmate-tables sync --tables ~/tb` regenerates the counts and the site's materials data
+  (`site/data/materials.json`, `corpus.json`; Kvk, two bare kings, is outside the three-to-six-men list) and closes finished claims (`--no-close` to skip); it refuses
   when `--tables` lacks sidecars the manifest lists. The Claims workflow only
   updates status comments and never closes issues.
 - When `status` reports enough new tables, refresh DEEPEST, the site and the

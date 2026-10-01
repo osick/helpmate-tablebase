@@ -2,7 +2,7 @@
 
 Names are White then 'v' then Black, each side in Q R B N P order
 ("KRBvkqq"). Kvk (two men) is outside the universe on purpose: the claim
-list and MATERIALS.md start at three.
+list and the site's Materials page start at three.
 """
 from __future__ import annotations
 

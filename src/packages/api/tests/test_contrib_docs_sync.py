@@ -6,7 +6,7 @@ import pytest
 
 from helpmate_server.contrib.claims import ClaimIndex, material_status
 from helpmate_server.contrib.docs_sync import (
-    CorpusFacts, render_contributors, render_materials, replace_spans,
+    CorpusFacts, render_contributors, replace_spans,
 )
 from helpmate_server.contrib.registry import Registry
 
@@ -35,14 +35,6 @@ def _statuses(done):
     return material_status(set(done), {}, ClaimIndex([]), reg), reg
 
 
-def test_materials_page_lists_all_1000():
-    st, reg = _statuses({"KRBvkqq", "KQvk"})
-    page = render_materials(st, reg)
-    assert page.count("| K") >= 715          # every six-piece row
-    assert "KRBvkqq" in page and "T31M" in page
-    assert "## Six pieces" in page and "Kvkqqqq" in page
-
-
 def test_contributor_table_lists_t31m():
     reg = Registry.load(REPO / "data" / "contributions.json")
     st, reg = _statuses(set(reg.tables))
@@ -58,11 +50,13 @@ def test_sync_rewrites_spans_writes_files_and_closes_finished_claims(tmp_path):
 
     (tmp_path / "docs").mkdir()
     (tmp_path / "data").mkdir()
+    (tmp_path / "site" / "data").mkdir(parents=True)
     for f in SPAN_FILES:
         (tmp_path / f).write_text("n=<!-- contrib:tables -->0<!-- /contrib -->\n")
     manifest = {"files": {"KQvk.hm": {"size": 2**30}, "KRvk.hm": {"size": 2**30},
                           "KQvk.stats.json": {"size": 1}}}
-    (tmp_path / "KQvk.stats.json").write_text('{"plane_size": 1000000000, "max_dtm": 34}')
+    (tmp_path / "KQvk.stats.json").write_text('{"material": "KQvk", "plane_size": 1000000000, "max_dtm": 34}')
+    (tmp_path / "KQvk.hm").write_bytes(b"hm")
     hub = FakeHub({"manifest.json": json.dumps(manifest).encode()})
     issue = {"number": 7, "title": "Claim: KQvk", "body": "", "user": {"login": "bob"},
              "created_at": "2026-09-01T00:00:00Z"}
@@ -70,7 +64,11 @@ def test_sync_rewrites_spans_writes_files_and_closes_finished_claims(tmp_path):
     reg = Registry.load(REPO / "data" / "contributions.json")
     written = sync(tmp_path, hub, gh, reg, tmp_path)
     assert (tmp_path / "README.md").read_text() == "n=<!-- contrib:tables -->2<!-- /contrib -->\n"
-    assert {p.name for p in written} >= {"MATERIALS.md", ".all-contributorsrc", "README.md"}
+    assert {p.name for p in written} >= {"materials.json", "corpus.json", ".all-contributorsrc",
+                                         "README.md"}
+    assert not list((tmp_path / "docs").glob("[Mm]aterials*"))
+    rows = json.loads((tmp_path / "site" / "data" / "materials.json").read_text())
+    assert any(r["material"] == "KQvk" and r["done"] for r in rows)
     rc = json.loads((tmp_path / ".all-contributorsrc").read_text())
     assert [c["login"] for c in rc["contributors"]] == ["T31M"]
     assert rc["contributors"][0]["contributions"] == ["data"]
@@ -89,11 +87,6 @@ def test_cli_sync_rejects_a_non_checkout(tmp_path, capsys):
     assert "not a helpmate-tablebase checkout" in capsys.readouterr().err
 
 
-def test_materials_header_explains_kvk():
-    st, reg = _statuses(set())
-    assert "Kvk (two men) is outside this list" in render_materials(st, reg)
-
-
 def test_sync_refuses_when_sidecars_are_missing(tmp_path, capsys):
     import argparse
 
@@ -104,6 +97,7 @@ def test_sync_refuses_when_sidecars_are_missing(tmp_path, capsys):
 
     (tmp_path / "docs").mkdir()
     (tmp_path / "data").mkdir()
+    (tmp_path / "site" / "data").mkdir(parents=True)
     (tmp_path / "data" / "contributions.json").write_text(
         (REPO / "data" / "contributions.json").read_text())
     for f in SPAN_FILES:
@@ -115,7 +109,8 @@ def test_sync_refuses_when_sidecars_are_missing(tmp_path, capsys):
     reg = Registry.load(REPO / "data" / "contributions.json")
     with pytest.raises(SyncError, match=r"1 of 1 sidecars.*KQvk.stats.json"):
         sync(tmp_path, hub, FakeGitHub(), reg, empty)
-    assert not (tmp_path / "docs" / "MATERIALS.md").exists()
+    assert not list((tmp_path / "docs").glob("[Mm]aterials*"))
+    assert list((tmp_path / "site" / "data").iterdir()) == []
     assert (tmp_path / "README.md").read_text() == "n=<!-- contrib:tables -->0<!-- /contrib -->\n"
     a = argparse.Namespace(cmd="sync", tables=str(empty), checkout=tmp_path, repo="x/y",
                            github_repo="x/y", no_close=True)

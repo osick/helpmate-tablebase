@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         See [docs/CONTRIBUTING-TABLES.md](../blob/main/docs/CONTRIBUTING-TABLES.md) and
-        [docs/MATERIALS.md](../blob/main/docs/MATERIALS.md) for what is still open.
+        [the materials list](https://osick.github.io/helpmate-tablebase/#/materials) for what is still open.
         A bot will comment with the status of every material you claim.
   - type: textarea
     id: materials

@@ -17,6 +17,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from . import SITE_MATERIALS_URL
 from .claims import load_index, material_status, ownership_conflict
 from .docs_sync import CorpusFacts, SyncError, close_finished_claims, sync
 from .hf import PullRequest
@@ -26,8 +27,8 @@ from .registry import Contributor, Registry, resolve_contributor
 STEPS = ("merge", "manifest", "local", "docs", "card", "claims")
 # Every file the docs step writes; anything else dirty in the checkout is not ours to touch.
 DOCS_PATHS = ("CHANGELOG.md", "data/contributions.json", "README.md", "docs/CONTRIBUTING-TABLES.md",
-              "docs/COOPERATIVE-TABLEBASE.md", "docs/hf-dataset-card.md", "docs/MATERIALS.md",
-              ".all-contributorsrc")
+              "docs/COOPERATIVE-TABLEBASE.md", "docs/hf-dataset-card.md", "site/data/materials.json",
+              "site/data/corpus.json", ".all-contributorsrc")
 _NO_CHECKS = "no checks reported"
 _NO_GLOBAL = {"GIT_CONFIG_GLOBAL": "/dev/null"}   # the global config rewrites HTTPS to SSH
 _GH_CREDENTIALS = "credential.helper=!gh auth git-credential"
@@ -408,7 +409,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             c = people[n]["claim"]
             if c is not None and n not in state.setdefault("commented", []):
                 gh.comment(c, f"Accepted: {', '.join(pr.materials)} ([HF PR #{n}]({pr.url})) — "
-                              f"now in the dataset and credited in docs/MATERIALS.md. Thank you!")
+                              f"now in the dataset and credited on {SITE_MATERIALS_URL}. Thank you!")
                 state["commented"].append(n)
                 save()
         reg = Registry.load(reg_path)

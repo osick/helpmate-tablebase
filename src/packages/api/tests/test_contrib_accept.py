@@ -2,6 +2,7 @@ import json
 
 import pytest
 
+from helpmate_server.contrib import SITE_MATERIALS_URL
 from fakes import FakeGitHub, FakeHub
 from helpmate_server.contrib.accept import accept, add_changelog_data, manifest_from_hub
 
@@ -63,6 +64,7 @@ def _setup(tmp_path, head="abc", report_head="abc", result="pass"):
     checkout = tmp_path / "repo"
     (checkout / "data").mkdir(parents=True)
     (checkout / "docs").mkdir()
+    (checkout / "site" / "data").mkdir(parents=True)
     (checkout / "data" / "contributions.json").write_text(
         '{"schema":1,"contributors":{},"tables":{}}')
     (checkout / "CHANGELOG.md").write_text("# Changelog\n\n## [Unreleased]\n\n## [0.20.0] - x\n")
@@ -73,7 +75,7 @@ def _setup(tmp_path, head="abc", report_head="abc", result="pass"):
     d = staging / "pr-2"
     (d / "files").mkdir(parents=True)
     (d / "files" / "KRRvkqq.hm").write_bytes(b"table")
-    (d / "files" / "KRRvkqq.stats.json").write_text('{"generator_version": "0.20.0", "plane_size": 1, "max_dtm": 9}')
+    (d / "files" / "KRRvkqq.stats.json").write_text('{"generator_version": "0.20.0", "material": "KRRvkqq", "plane_size": 1, "max_dtm": 9}')
     (d / "report.json").write_text(json.dumps({"result": result, "head": report_head, "pr": 2,
                                                "tool": "helpmate-tables 0.21.0", "seed": 7,
                                                "date": "2026-09-30", "samples": 2000}))
@@ -112,6 +114,7 @@ def test_accept_happy_path(tmp_path):
     assert "Co-authored-by: popeye37 <1008+popeye37@users.noreply.github.com>" in commit_msg
     assert ("wait_and_merge", "https://gh/pr/1") in git.calls
     assert any(n == 39 and "KRRvkqq" in body for n, body in gh.posted)
+    assert any(n == 39 and SITE_MATERIALS_URL in body for n, body in gh.posted)
 
 
 ANON_FORM = ("### Materials\n\nKRRvk??\n\n### Hugging Face username\n\npopeye37\n\n"
@@ -129,7 +132,6 @@ def test_anonymous_claim_form_keeps_the_name_out_of_every_credit(tmp_path):
     msg = next(c[1] for c in git.calls if c[0] == "commit_all")
     assert "Co-authored-by" not in msg and "Pop Eye" not in msg and "popeye37" not in msg
     assert "Pop Eye" not in (checkout / "CHANGELOG.md").read_text()
-    assert "Pop Eye" not in (checkout / "docs" / "MATERIALS.md").read_text()
     assert json.loads((checkout / ".all-contributorsrc").read_text())["contributors"] == []
 
 
@@ -227,7 +229,7 @@ def test_material_already_in_the_manifest_is_refused(tmp_path, capsys):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     hub.main["manifest.json"] = json.dumps({"schema": 1, "generator_version": "0.19.0", "files": {
         "KRRvkqq.hm": {"sha256": "x", "size": 1}}}).encode()
-    (tables / "KRRvkqq.stats.json").write_text('{"plane_size": 1, "max_dtm": 1}')
+    (tables / "KRRvkqq.stats.json").write_text('{"material": "KRRvkqq", "plane_size": 1, "max_dtm": 1}')
     assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 2
     assert hub.merged == [] and "already in the dataset" in capsys.readouterr().err
 
@@ -322,7 +324,7 @@ class FlakyHub(FakeHub):
 def _two_prs(tmp_path):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     flaky = FlakyHub(dict(hub.main))
-    files = {"KRRvkqr.hm": b"t2", "KRRvkqr.stats.json": b'{"generator_version": "0.20.0", "plane_size": 1, "max_dtm": 9}'}
+    files = {"KRRvkqr.hm": b"t2", "KRRvkqr.stats.json": b'{"generator_version": "0.20.0", "material": "KRRvkqr", "plane_size": 1, "max_dtm": 9}'}
     flaky.prs, flaky.bases, flaky.deletes = hub.prs, hub.bases, hub.deletes
     flaky.add_pr(3, files, head="h3")
     d = staging / "pr-3"
@@ -601,7 +603,7 @@ def test_redo_after_docs_started_resets_even_when_listed_paths_are_dirty(tmp_pat
         _run(checkout, staging, hub, gh, tables, FakeGit(fail_at="commit_all"))
     git = FakeGit()
     git.clean = lambda: False                       # leftovers of the failed attempt
-    git.dirty_paths = lambda: ["CHANGELOG.md", "docs/MATERIALS.md"]
+    git.dirty_paths = lambda: ["CHANGELOG.md", "site/data/materials.json"]
     assert _run(checkout, staging, hub, gh, tables, git) == 0
     assert any(c[0] == "reset_to_origin_main" for c in git.calls)
 
@@ -641,7 +643,9 @@ def test_real_git_reset_discards_staged_and_untracked_generated_files(clone, mon
     monkeypatch.setenv("GIT_CONFIG_SYSTEM", "/dev/null")
     (clone / "CHANGELOG.md").write_text("# C\n\n## [Unreleased]\n### Data\n- dup\n")
     _sh(clone, "git", "add", "CHANGELOG.md")                 # staged, as after a failed commit
-    (clone / "docs" / "MATERIALS.md").write_text("generated\n")
+    (clone / "site" / "data").mkdir(parents=True)
+    (clone / "site" / "data" / "materials.json").write_text("[]\n")
+    _sh(clone, "git", "add", "site/data/materials.json")      # staged new generated file
     (clone / ".all-contributorsrc").write_text("{}")
     _sh(clone, "git", "add", ".all-contributorsrc")           # staged new file
     (clone / "docs" / "other.md").write_text("mine\n")         # unlisted, unstaged edit
@@ -649,7 +653,7 @@ def test_real_git_reset_discards_staged_and_untracked_generated_files(clone, mon
     assert _sh(clone, "git", "rev-parse", "--abbrev-ref", "HEAD").strip() == "data/accept-2"
     assert (clone / "CHANGELOG.md").read_text() == _sh(clone, "git", "show", "origin/main:CHANGELOG.md")
     assert _sh(clone, "git", "diff", "--cached", "--name-only") == ""
-    assert not (clone / "docs" / "MATERIALS.md").exists() and not (clone / ".all-contributorsrc").exists()
+    assert not (clone / "site" / "data" / "materials.json").exists() and not (clone / ".all-contributorsrc").exists()
     assert (clone / "docs" / "other.md").read_text() == "mine\n"   # unrelated edit untouched
 
 

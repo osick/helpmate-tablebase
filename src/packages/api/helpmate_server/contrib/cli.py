@@ -37,7 +37,7 @@ def add_parsers(sub) -> None:
     v.add_argument("--plan-only", action="store_true", help="--pr: list files and sizes, then stop")
     v.add_argument("--yes", action="store_true", help="--pr: download without asking")
     v.add_argument("--no-post", action="store_true", help="--pr: do not comment anywhere")
-    s = sub.add_parser("sync", help="(maintainer) regenerate MATERIALS.md, credits and counts")
+    s = sub.add_parser("sync", help="(maintainer) regenerate the site's materials data, credits and counts")
     s.add_argument("--tables", required=True, metavar="DIR")
     s.add_argument("--checkout", type=Path, default=Path("."))
     s.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")

@@ -17,8 +17,10 @@ bumps may change behavior).
   dataset PR (after confirming its size) and posts the report.
 - `helpmate-tables accept`, `status`, `sync`, `claims`; `push --claim --github`.
 - Claim issue form and a Claims workflow that keeps one status comment per claim.
-- `docs/MATERIALS.md`: all 1000 materials from three to six men, with status
-  and contributor; `data/contributions.json` as the record behind it.
+- Site Materials page: all 1000 materials from three to six men with priority,
+  state, contributor and filters (state refreshed daily at deploy), and a
+  contributor section on the front page; `data/contributions.json` is the
+  record behind it.
 
 ### Changed
 - Corpus counts in README, CONTRIBUTING-TABLES, COOPERATIVE-TABLEBASE and the
