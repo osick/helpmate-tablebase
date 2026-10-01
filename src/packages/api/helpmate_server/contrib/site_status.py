@@ -67,7 +67,7 @@ def build_status(hub, gh, registry, now: datetime) -> dict:
             entry = {"state": s.state, "contributor": None, "hf_pr": None, "claim": None}
         materials[m.name] = entry
     people = []
-    hidden = {"display": "anonymous", "hf": None, "github": None, "anonymous": True,
+    hidden: dict = {"display": "anonymous", "hf": None, "github": None, "anonymous": True,
               "tables": 0, "six": 0, "materials": []}
     for key, c in registry.contributors.items():
         mats = [m.name for m in universe()
