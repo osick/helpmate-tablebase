@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import secrets
 import shutil
 import sys
@@ -13,7 +14,7 @@ from .checks import (
 )
 from .consistency import check_consistency
 from .links import parse_links
-from .materials import canonical
+from .materials import Material, canonical
 from .oracle import check_oracle
 from .report import render_markdown, report_json
 from .tablefile import read_header
@@ -109,17 +110,68 @@ def check_pr_hygiene(pr, manifest_files: dict) -> Check:
     return Check("V1", title, "pass", f"{len(hms)} table(s)")
 
 
-def _build_overlay(tables: Path, files_dir: Path, overlay: Path) -> None:
+def _build_overlay(tables: Path, files_dir: Path, overlay: Path, others: tuple[Path, ...] = ()) -> None:
+    """Link `others` (staged files of other verified PRs), then `tables` (published data wins
+    over staged), then the PR's own files into `overlay`; a later source wins a name clash."""
     if overlay.exists():
         shutil.rmtree(overlay)
     overlay.mkdir(parents=True)
-    for src in (tables, files_dir):
+    for src in (*others, tables, files_dir):
         for p in src.iterdir():
             if p.name.endswith((".hm", ".stats.json")):
                 link = overlay / p.name
                 if link.is_symlink():
                     link.unlink()
                 link.symlink_to(p.resolve())
+
+
+def _passed_report(d: Path) -> dict | None:
+    """`d/report.json` if it says pass, else None."""
+    try:
+        rep = json.loads((d / "report.json").read_text())
+    except (OSError, ValueError):
+        return None
+    return rep if isinstance(rep, dict) and rep.get("result") == "pass" else None
+
+
+def _verified_files(staging: Path, exclude: int) -> tuple[Path, ...]:
+    """Files dirs of staged PRs that passed verification at the head now staged there."""
+    out = []
+    for d in sorted(staging.glob("pr-*")):
+        if d.name == f"pr-{exclude}":
+            continue
+        rep, marker = _passed_report(d), d / "files" / ".head"
+        if rep is not None and marker.exists() and marker.read_text() == rep.get("head"):
+            out.append(d / "files")
+    return tuple(out)
+
+
+def _flip(material: str) -> str:
+    m = Material(material)
+    return f"K{m.black.upper()}vk{m.white.lower()}"
+
+
+def _who_has(exc: Exception, hub, staging: Path) -> str:
+    """The MissingSubtable message, plus which open PR provides the missing table if one does."""
+    m = re.search(r"no table for (\w+) nor its color flip", str(exc))
+    if not m:
+        return str(exc)
+    names = {m.group(1)} | ({_flip(m.group(1))} if "v" in m.group(1) else set())
+    for pr in hub.open_pull_requests():
+        found = names & set(pr.materials)
+        if found:
+            rep = _passed_report(staging / f"pr-{pr.num}")
+            state = ("verified, not yet accepted" if rep is not None and rep.get("head") == pr.head
+                     else "not verified yet — verify it first")
+            return f"{exc}; {found.pop()} is in PR #{pr.num} ({state})"
+    return str(exc)
+
+
+def _batch_order(pr) -> tuple[int, int, int]:
+    """Sub-tables before the tables that need them: a promotion has one pawn fewer, a capture
+    one man fewer and no more pawns."""
+    mats = [Material(m) for m in pr.materials if canonical(m) == m]
+    return (max((m.pawns for m in mats), default=0), max((m.pieces for m in mats), default=0), pr.num)
 
 
 def _unsafe(name: str) -> bool:
@@ -193,7 +245,7 @@ def verify_prs(a, opts: VerifyOptions, version: str, tool: str, hub_factory, gh_
     manifest_files = hub.fetch_manifest().get("files", {})
     gh = None if a.no_post else (gh_factory or GitHub)(a.github_repo)
     rc = 0
-    for pr in prs:
+    for pr in sorted(prs, key=_batch_order):
         d = staging / f"pr-{pr.num}"
         files_dir = d / "files"
         d.mkdir(parents=True, exist_ok=True)
@@ -202,11 +254,11 @@ def verify_prs(a, opts: VerifyOptions, version: str, tool: str, hub_factory, gh_
         try:
             if not any(_unsafe(f) for f in pr.files):
                 _stage(hub, pr, files_dir)
-                _build_overlay(tables, files_dir, d / "overlay")
+                _build_overlay(tables, files_dir, d / "overlay", _verified_files(staging, pr.num))
                 reports = [verify_table(m, d / "overlay", opts, version) for m in pr.materials]
         except MissingSubtable as exc:
             # Our corpus is incomplete, not the PR's fault: post nothing.
-            raise UsageError(str(exc)) from exc
+            raise UsageError(_who_has(exc, hub, staging)) from exc
         seed = opts.resolved_seed()
         md = render_markdown(reports, heading=f"Verification of PR #{pr.num}", seed=seed,
                              tool=tool, pr_checks=[v1])
