@@ -261,8 +261,12 @@ def _verify(hub, tables, staging, *prs):
                            hub_factory=lambda r: hub, gh_factory=lambda r: FakeGitHub())
 
 
+def _report(staging, num):
+    return json.loads((staging / f"pr-{num}" / "report.json").read_text())
+
+
 def _result(staging, num):
-    return json.loads((staging / f"pr-{num}" / "report.json").read_text())["result"]
+    return _report(staging, num)["result"]
 
 
 def test_batch_is_verified_in_dependency_order_with_earlier_prs_as_sub_tables(
@@ -275,6 +279,10 @@ def test_batch_is_verified_in_dependency_order_with_earlier_prs_as_sub_tables(
     assert _result(staging, 5) == _result(staging, 6) == "pass"
     assert (staging / "pr-6" / "overlay" / "KQvk.hm").resolve() == \
         (staging / "pr-5" / "files" / "KQvk.hm").resolve()
+    assert _report(staging, 6)["subtables_from"] == [5] and _report(staging, 5)["subtables_from"] == []
+    line = "sub-tables from verified, not yet accepted PRs: #5"
+    assert line in (staging / "pr-6" / "report.md").read_text()
+    assert line not in (staging / "pr-5" / "report.md").read_text()
 
 
 def test_a_pr_verified_in_an_earlier_run_provides_sub_tables(tmp_path, compressed_tables):
@@ -282,6 +290,27 @@ def test_a_pr_verified_in_an_earlier_run_provides_sub_tables(tmp_path, compresse
     staging = tmp_path / "st"
     assert _verify(hub, tb, staging, 5) == 0
     assert _verify(hub, tb, staging, 6) == 0 and _result(staging, 6) == "pass"
+    assert _report(staging, 6)["subtables_from"] == [5]
+
+
+def test_a_verified_pr_closed_since_provides_nothing(tmp_path, compressed_tables, capsys):
+    hub, tb = _dependent_prs(tmp_path, compressed_tables)
+    staging = tmp_path / "st"
+    assert _verify(hub, tb, staging, 5) == 0
+    hub.prs[5][0].status = "closed"                                # rejected, or accepted meanwhile
+    assert _verify(hub, tb, staging, 6) == 2
+    err = capsys.readouterr().err
+    assert "KQvk is staged from PR #5, which is no longer open" in err
+    assert not (staging / "pr-6" / "report.json").exists()
+
+
+def test_a_verified_pr_whose_head_moved_provides_nothing(tmp_path, compressed_tables, capsys):
+    hub, tb = _dependent_prs(tmp_path, compressed_tables)
+    staging = tmp_path / "st"
+    assert _verify(hub, tb, staging, 5) == 0
+    hub.prs[5][0].head = "hA2"                                     # pushed after verification
+    assert _verify(hub, tb, staging, 6) == 2
+    assert "KQvk is in PR #5 (not verified yet — verify it first)" in capsys.readouterr().err
 
 
 def test_a_staged_pr_that_failed_or_moved_on_provides_nothing(tmp_path, compressed_tables, capsys):
@@ -305,6 +334,7 @@ def test_published_tables_win_over_staged_ones(tmp_path, compressed_tables):
         (tb / n).write_bytes((compressed_tables / n).read_bytes())  # KQvk got published meanwhile
     assert _verify(hub, tb, staging, 6) == 0
     assert (staging / "pr-6" / "overlay" / "KQvk.hm").resolve() == (tb / "KQvk.hm").resolve()
+    assert _report(staging, 6)["subtables_from"] == []
 
 
 def test_missing_sub_table_names_the_open_pr_that_has_it(tmp_path, compressed_tables, capsys):

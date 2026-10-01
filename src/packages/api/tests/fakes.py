@@ -96,17 +96,19 @@ class FakeHub:
         self.prs[num][0].status = "closed"
 
     def merge_by_copy(self, num, head, files, message, comment, on_commit=None):
-        """Copies `files` from the PR's tree into main, then closes the PR."""
+        """Copies `files` from the PR's tree into main, then closes the PR. If main already
+        has them all, no commit is made and the ref is main's head ("main-sha")."""
         assert head == self.prs[num][0].head, "copy from a head that is not the PR's"
         tree = self._pr_tree(num)
+        already = all(self.main.get(f) == tree[f] for f in files)
         self.main.update({f: tree[f] for f in files})
-        url = f"https://hf.example/commit/copy-{len(self.copies) + 1}"
+        ref = "main-sha" if already else f"https://hf.example/commit/copy-{len(self.copies) + 1}"
         self.copies.append({"num": num, "head": head, "files": list(files), "message": message,
-                            "comment": comment})
+                            "already": already})
         if on_commit is not None:
-            on_commit(url)
-        self.close_pr(num, comment.replace("{commit}", url))
-        return url
+            on_commit(ref, already)
+        self.close_pr(num, comment(ref, already))
+        return ref
 
     def main_files(self):
         import hashlib

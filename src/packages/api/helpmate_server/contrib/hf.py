@@ -5,6 +5,7 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Callable
 
 _SHA = re.compile(r"[0-9a-f]{40}")
 
@@ -170,28 +171,34 @@ class Hub:
     def close_pr(self, num: int, comment: str) -> None:
         self.api.change_discussion_status(self.repo, num, "closed", comment=comment, repo_type="dataset")
 
-    def merge_by_copy(self, num: int, head: str, files: list[str], message: str, comment: str,
-                      on_commit=None) -> str:
+    def merge_by_copy(self, num: int, head: str, files: list[str], message: str,
+                      comment: Callable[[str, bool], str],
+                      on_commit: Callable[[str, bool], None] | None = None) -> str:
         """Land `files` from the PR's `head` on main with one server-side copy commit (LFS
         files never leave the Hub), check main now has exactly the head's files, then close
-        the PR with `comment` (`{commit}` is replaced by the commit URL). `on_commit(url)`
-        runs between the verified commit and the close, so a caller can record it.
-        Returns the commit URL."""
+        the PR with `comment(ref, already)`.
+
+        `ref` is the copy commit's URL, or, when every file was already on main (huggingface_hub
+        then drops all copies and makes no commit), main's head sha with `already` True.
+        `on_commit(ref, already)` runs between the check and the close, so a caller can record
+        it. Returns `ref`."""
         from huggingface_hub import CommitOperationCopy
 
+        before = self.api.repo_info(self.repo, repo_type="dataset", revision="main").sha
         ops = [CommitOperationCopy(src_path_in_repo=f, path_in_repo=f, src_revision=head) for f in files]
         info = self.api.create_commit(repo_id=self.repo, repo_type="dataset", operations=ops,
                                       commit_message=message)
-        url = info.commit_url
+        already = info.oid == before
+        ref = info.oid if already else info.commit_url
         landed, wanted = self._tree(info.oid), self._tree(head)
         wrong = [f for f in files if f not in wanted or landed.get(f) != wanted[f]]
         if wrong:
-            raise RuntimeError(f"copy commit {url} for PR #{num} does not match its head {head} "
+            raise RuntimeError(f"main at {ref} does not match PR #{num}'s head {head} "
                                f"in {', '.join(wrong)}; the PR stays open, check main by hand")
         if on_commit is not None:
-            on_commit(url)
-        self.close_pr(num, comment.replace("{commit}", url))
-        return url
+            on_commit(ref, already)
+        self.close_pr(num, comment(ref, already))
+        return ref
 
     def main_files(self) -> dict[str, FileMeta]:
         from huggingface_hub.hf_api import RepoFile

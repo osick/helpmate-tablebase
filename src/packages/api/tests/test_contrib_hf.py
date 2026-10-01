@@ -250,12 +250,19 @@ class ConflictApi(FakeApi):
         ops = list(operations)
         self.commit_ops.append((commit_message, ops))
         tree = dict(self.commits[self.main][1])
+        changed = False
         for op in ops:
             assert isinstance(op, CommitOperationCopy)
-            tree[op.path_in_repo] = self.commits[self._rev(op.src_revision)][1][op.src_path_in_repo]
-        self.main = self._new(self.main, tree)
+            src = self.commits[self._rev(op.src_revision)][1][op.src_path_in_repo]
+            changed |= tree.get(op.path_in_repo) != src   # huggingface_hub drops no-op copies
+            tree[op.path_in_repo] = src
+        if changed:                                     # all dropped: no commit, main's head returned
+            self.main = self._new(self.main, tree)
         return type("CI", (), {"oid": self.main,
                                "commit_url": f"https://hf.example/commit/{self.main}"})()
+
+    def repo_info(self, repo_id, repo_type=None, revision=None, **kw):
+        return type("Info", (), {"sha": self._rev(revision)})()
 
     def change_discussion_status(self, repo_id, discussion_num, new_status, *, comment=None,
                                  repo_type=None, token=None):
@@ -306,7 +313,7 @@ def test_merge_by_copy_copies_server_side_verifies_and_closes():
     seen = []
     url = Hub("o/d", api=api).merge_by_copy(
         2, head, ["KRRvkqq.hm", "KRRvkqq.stats.json"], message="Add KRRvkqq",
-        comment="Merged as {commit}. Thank you!", on_commit=seen.append)
+        comment=_comment, on_commit=lambda ref, already: seen.append((ref, already)))
     (msg, ops), = api.commit_ops
     assert msg == "Add KRRvkqq"
     assert [(o.src_path_in_repo, o.path_in_repo, o.src_revision) for o in ops] == [
@@ -314,8 +321,27 @@ def test_merge_by_copy_copies_server_side_verifies_and_closes():
     assert all(isinstance(o, CommitOperationCopy) for o in ops)
     main = api.commits[api.main][1]
     assert main["KRRvkqq.hm"] == KRR["KRRvkqq.hm"] and main[".gitattributes"] == (12, None, "g-main")
-    assert url == f"https://hf.example/commit/{api.main}" and seen == [url]
+    assert url == f"https://hf.example/commit/{api.main}" and seen == [(url, False)]
     assert api.status_changes == [(2, "closed", f"Merged as {url}. Thank you!", "dataset")]
+
+
+def _comment(ref, already):
+    return f"Already on main as of {ref}." if already else f"Merged as {ref}. Thank you!"
+
+
+def test_merge_by_copy_of_files_already_on_main_makes_no_commit_and_says_so():
+    """huggingface_hub drops copies whose destination already equals the source; with all of
+    them dropped it makes no commit and returns main's head: never claim "Merged as"."""
+    api = _conflicting()
+    head = api.prs[2]["oids"][-1]
+    api.commit_main(add=KRR)                       # e.g. landed by hand meanwhile
+    before, seen = api.main, []
+    ref = Hub("o/d", api=api).merge_by_copy(2, head, ["KRRvkqq.hm", "KRRvkqq.stats.json"],
+                                            message="m", comment=_comment,
+                                            on_commit=lambda r, a: seen.append((r, a)))
+    assert api.main == before and ref == before and seen == [(before, True)]
+    ((num, status, text, _),) = api.status_changes
+    assert status == "closed" and text == f"Already on main as of {before}." and "Merged as" not in text
 
 
 def test_merge_by_copy_refuses_to_close_when_main_does_not_match_the_head():
@@ -331,7 +357,8 @@ def test_merge_by_copy_refuses_to_close_when_main_does_not_match_the_head():
     seen = []
     with pytest.raises(RuntimeError, match="KRRvkqq.hm"):
         Hub("o/d", api=api).merge_by_copy(2, head, ["KRRvkqq.hm", "KRRvkqq.stats.json"],
-                                          message="m", comment="c {commit}", on_commit=seen.append)
+                                          message="m", comment=_comment,
+                                          on_commit=lambda r, a: seen.append(r))
     assert api.status_changes == [] and seen == []
 
 

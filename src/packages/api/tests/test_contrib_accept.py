@@ -723,6 +723,18 @@ def test_gitattributes_only_conflict_is_merged_by_copy_and_closed(tmp_path):
     assert not (staging / "accept-2.json").exists()
 
 
+def test_files_already_on_main_close_the_pr_without_claiming_a_merge(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    hub.conflicts[2] = [".gitattributes"]
+    hub.main.update(hub.prs[2][1])                 # the PR's files reached main some other way
+    assert _run(checkout, staging, hub, gh, tables, FakeGit()) == 0
+    ((num, comment),) = hub.closed
+    assert comment.startswith("Already on main as of main-sha (copied from this PR's verified head abc")
+    assert "Merged as" not in comment
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert reg["tables"]["KRRvkqq"]["contributor"] == "popeye37"
+
+
 def test_copy_message_keeps_an_anonymous_contributor_anonymous(tmp_path):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     gh.issues[39]["body"] = ANON_FORM
@@ -772,7 +784,8 @@ def _close_fails(tmp_path, applied):
     with pytest.raises(RuntimeError):
         _run(checkout, staging, hub, gh, tables, FakeGit())
     state = json.loads((staging / "accept-2.json").read_text())
-    assert state["copied"] == {"2": "https://hf.example/commit/copy-1"} and state["merged"] == []
+    assert state["copied"] == {"2": {"ref": "https://hf.example/commit/copy-1", "already": False}}
+    assert state["merged"] == []
     hub.healed = True
     _forget_merged_prs(hub)
     return checkout, staging, hub, gh, tables

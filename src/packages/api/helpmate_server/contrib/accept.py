@@ -180,8 +180,11 @@ def _err(msg: str) -> int:
     return 2
 
 
-def _copy_comment(commit: str, head: str) -> str:
-    return (f"Merged as {commit}: the only conflict was `.gitattributes` (Hub bookkeeping, one LFS "
+def _copy_comment(ref: str, head: str, already: bool) -> str:
+    if already:  # every file was on main already: huggingface_hub made no commit
+        return (f"Already on main as of {ref} (copied from this PR's verified head {head}, byte for "
+                "byte; the only conflict was `.gitattributes`, Hub bookkeeping). Thank you!")
+    return (f"Merged as {ref}: the only conflict was `.gitattributes` (Hub bookkeeping, one LFS "
             f"line per table). The files are copied server-side from this PR's verified head {head}, "
             "byte for byte. Thank you!")
 
@@ -233,7 +236,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
         people: dict[int, dict[str, Any]] = {int(k): v for k, v in state.get("people", {}).items()}
         seen_keys: dict[str, str | None] = {}
         merged = state.setdefault("merged", [])
-        copied: dict[str, str] = state.setdefault("copied", {})  # PR -> copy commit (merge_by_copy)
+        # PR -> {"ref": copy commit URL or main's sha, "already": no commit was needed} (merge_by_copy)
+        copied: dict[str, dict] = state.setdefault("copied", {})
         for n in prs:
             if n in merged or str(n) in copied:  # merged by an earlier, interrupted run; validated then
                 seen_keys[people[n]["key"]] = people[n]["github"]
@@ -297,7 +301,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
             verified = stored[str(n)]["head"]
             if str(n) in copied:  # copied by an interrupted run: only the close may be missing
                 if hub.pr_status(n) == "open":
-                    hub.close_pr(n, _copy_comment(copied[str(n)], verified))
+                    c = copied[str(n)]
+                    hub.close_pr(n, _copy_comment(c["ref"], verified, c["already"]))
             else:
                 now = hub.pr_head(n)
                 if now != verified:  # a push between validation and this merge
@@ -313,12 +318,14 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                     p = people[n]
                     credit = "an anonymous contributor" if p.get("anonymous") else p["display"]
 
-                    def record(commit: str, n: int = n) -> None:
-                        copied[str(n)] = commit
+                    def record(ref: str, already: bool, n: int = n) -> None:
+                        copied[str(n)] = {"ref": ref, "already": already}
                         save()
                     hub.merge_by_copy(n, verified, pr.files,
                                       message=f"Add {', '.join(pr.materials)} from dataset PR #{n} by {credit}",
-                                      comment=_copy_comment("{commit}", verified), on_commit=record)
+                                      comment=lambda ref, already, head=verified:
+                                          _copy_comment(ref, head, already),
+                                      on_commit=record)
             merged.append(n)
             save()
         mark("merge")
