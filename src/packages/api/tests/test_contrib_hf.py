@@ -197,3 +197,27 @@ def test_main_files_carry_lfs_sha_without_expand():
     files = Hub("o/d", api=api).main_files()
     assert files["KQvk.hm"].sha256 == "aa" and files["KQvk.stats.json"].sha256 is None
     assert all(c[3] is False for c in api.calls if c[0] == "tree")
+
+
+def test_open_pull_requests_skips_a_pr_without_a_base_and_warns(capsys):
+    api = FakeApi(MAIN)
+    api.open_pr(2, KRR)
+    api.open_pr(3, KRR)
+    api.prs[3]["oids"] = []                                   # an empty PR: no commit events
+    hub = Hub("o/d", api=api)
+    assert [p.num for p in hub.open_pull_requests()] == [2]
+    err = capsys.readouterr().err
+    assert "#3" in err and "skipping" in err and len(err.strip().splitlines()) == 1
+    with pytest.raises(ValueError, match="base"):             # the direct path still refuses
+        hub.pull_request(3)
+
+
+def test_open_pull_requests_still_propagates_other_errors():
+    api = FakeApi(MAIN)
+    api.open_pr(2, KRR)
+
+    def boom(*a, **k):
+        raise ConnectionError("network down")
+    api.list_repo_commits = boom
+    with pytest.raises(ConnectionError):
+        Hub("o/d", api=api).open_pull_requests()

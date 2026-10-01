@@ -2,10 +2,15 @@
 from __future__ import annotations
 
 import re
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
 _SHA = re.compile(r"[0-9a-f]{40}")
+
+
+class BaseUnknown(ValueError):
+    """A PR's base commit (hence its files) cannot be determined."""
 
 
 @dataclass
@@ -70,15 +75,15 @@ class Hub:
         """The commit the PR branched from: the first commit behind its head that is not
         one of the PR's own. Works after a merge too (refs/pr/N and its commits stay)."""
         if head is None or not pr_commits:
-            raise ValueError(f"PR #{num}: cannot determine its base commit (no commits listed)")
+            raise BaseUnknown(f"PR #{num}: cannot determine its base commit (no commits listed)")
         history = [c.commit_id for c in self.api.list_repo_commits(self.repo, repo_type="dataset",
                                                                    revision=head)]
         if not history or history[0] not in pr_commits:
-            raise ValueError(f"PR #{num}: cannot determine its base commit "
+            raise BaseUnknown(f"PR #{num}: cannot determine its base commit "
                              f"(head {head} is not one of the PR's commits)")
         base = next((c for c in history if c not in pr_commits), None)
         if base is None:
-            raise ValueError(f"PR #{num}: cannot determine its base commit (no parent outside the PR)")
+            raise BaseUnknown(f"PR #{num}: cannot determine its base commit (no parent outside the PR)")
         return base
 
     def _tree(self, revision: str) -> dict[str, tuple]:
@@ -110,7 +115,13 @@ class Hub:
         ds = self.api.get_repo_discussions(self.repo, repo_type="dataset",
                                            discussion_type="pull_request",
                                            discussion_status="open")
-        return [self.pull_request(d.num) for d in ds]
+        out = []
+        for d in ds:
+            try:
+                out.append(self.pull_request(d.num))
+            except BaseUnknown as e:  # one broken PR must not stop the bot, status or docs sync
+                print(f"warning: skipping open PR #{d.num}: {e}", file=sys.stderr)
+        return out
 
     def file_sizes(self, files: list[str], revision: str) -> dict[str, int]:
         if not files:
