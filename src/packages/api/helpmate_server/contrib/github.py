@@ -34,7 +34,7 @@ class GitHub:
         req.add_header("Accept", "application/vnd.github+json")
         if self.token:
             req.add_header("Authorization", f"Bearer {self.token}")
-        with self._open(req) as resp:
+        with self._open(req, timeout=30) as resp:
             raw = resp.read()
         return json.loads(raw) if raw else None
 

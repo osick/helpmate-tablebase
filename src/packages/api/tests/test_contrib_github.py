@@ -13,9 +13,10 @@ class Opener:
     """Answers by (method, path without the API host); records every request."""
 
     def __init__(self, answers):
-        self.answers, self.requests = answers, []
+        self.answers, self.requests, self.timeouts = answers, [], []
 
-    def __call__(self, req):
+    def __call__(self, req, timeout=None):
+        self.timeouts.append(timeout)
         path = req.full_url.replace("https://api.github.com", "")
         self.requests.append((req.get_method(), path, dict(req.header_items()),
                               json.loads(req.data) if req.data else None))
@@ -23,6 +24,13 @@ class Opener:
         if isinstance(ans, Exception):
             raise ans
         return io.BytesIO(ans if isinstance(ans, bytes) else json.dumps(ans).encode())
+
+
+def test_every_request_has_a_timeout():
+    """The Pages workflow's state step must not hang on a stalled connection."""
+    op = Opener({("GET", "/repos/o/r/issues/5"): {"number": 5}})
+    GitHub("o/r", token="t", opener=op).issue(5)
+    assert op.timeouts == [30]
 
 
 def _issue(n, title="claim: x", labels=(), pr=False):

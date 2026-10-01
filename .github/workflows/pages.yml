@@ -22,6 +22,8 @@ on:
       - "src/packages/web/helpmate_web/static/vendor/**"
       - ".github/workflows/pages.yml"
       - "Makefile"
+      - "data/contributions.json"
+      - "src/packages/api/helpmate_server/contrib/**"
   schedule:
     - cron: "23 4 * * *"
   workflow_dispatch:
@@ -52,6 +54,7 @@ jobs:
       # fails the site still deploys and says the state is unavailable.
       - name: Build the materials state
         continue-on-error: true
+        timeout-minutes: 10
         run: |
           python -m pip install "huggingface_hub>=0.23"
           python -m helpmate_server.tables_cli site-status --out site/data/status.json
