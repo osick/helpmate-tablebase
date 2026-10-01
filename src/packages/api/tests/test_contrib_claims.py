@@ -105,7 +105,8 @@ def test_run_claims_posts_one_status_comment_and_edits_it_later(tmp_path):
     assert run_claims(hub, gh, reg, date(2026, 9, 30)) == 0
     assert "claim-conflict" not in gh.labels[39]
     assert len(gh.posted) == 1 and "<!-- contrib-status" in gh.posted[0][1]
-    assert "KRRvkqq" in gh.posted[0][1] and "done" in gh.posted[0][1]
+    row = next(x for x in gh.posted[0][1].splitlines() if "KRRvkqq" in x)
+    assert "done" in row
     run_claims(hub, gh, reg, date(2026, 10, 1))
     assert gh.edited == []                                    # nothing changed: no edit
     hub.add_pr(3, {"KRRvkqr.hm": b"x", "KRRvkqr.stats.json": b"{}"})
@@ -154,7 +155,8 @@ def test_wildcard_over_a_done_material_is_just_done(tmp_path):
     assert "claim-conflict" not in gh.labels[39]
     assert "already in the dataset" not in gh.posted[0][1]
     assert "already done" not in gh.posted[0][1]
-    assert "KRRvkqq" in gh.posted[0][1] and "done" in gh.posted[0][1]
+    row = next(x for x in gh.posted[0][1].splitlines() if "KRRvkqq" in x)
+    assert "done" in row
 
 
 def test_wildcard_overlapping_an_earlier_open_claim_is_still_a_conflict(tmp_path):

@@ -17,3 +17,11 @@ def test_pages_runs_after_every_claims_run():
     trigger = pages.get("on", pages.get(True))["workflow_run"]
     assert trigger["workflows"] == ["Claims"] == [claims["name"]]
     assert trigger["types"] == ["completed"]
+
+
+def test_build_skips_only_a_skipped_claims_run():
+    jobs = _load("pages.yml")["jobs"]
+    expr = jobs["build"]["if"]
+    assert expr == ("github.event_name != 'workflow_run' || "
+                    "github.event.workflow_run.conclusion != 'skipped'")
+    assert "if" not in jobs["deploy"] and jobs["deploy"]["needs"] == "build"

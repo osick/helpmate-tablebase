@@ -45,6 +45,9 @@ concurrency:
 
 jobs:
   build:
+    # A Claims run skipped for an unrelated issue/comment still completes:
+    # do not rebuild for it. Success and failure runs rebuild.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'skipped'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
