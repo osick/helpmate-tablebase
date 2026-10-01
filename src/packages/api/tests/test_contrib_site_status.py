@@ -99,3 +99,33 @@ def test_anonymous_contributors_merge_into_one_row(tmp_path):
     assert s["contributors"][1:] == [{"display": "anonymous", "hf": None, "github": None,
                                       "anonymous": True, "tables": 2, "six": 2, "materials": []}]
     assert [c["display"] for c in s["contributors"]] == ["T31M", "anonymous"]
+
+
+def _pop(reg, anonymous, hf="pop-hf"):
+    reg.add_contributor(type(reg.contributors["T31M"])("pop", "popeye37", hf, "Pop", anonymous=anonymous))
+
+
+def test_registry_anonymity_hides_an_unticked_claim(tmp_path):
+    hub, gh, reg = _setup(tmp_path)
+    _pop(reg, True)
+    gh.issues[39]["body"] = FORM.replace("KRRvk??", "KQvkqbb")      # box NOT ticked
+    s = build_status(hub, gh, reg, NOW)
+    assert s["materials"]["KQvkqbb"]["state"] == "claimed"
+    assert s["materials"]["KQvkqbb"]["contributor"] == "anonymous"
+
+
+def test_registry_anonymity_hides_an_unticked_claim_in_review(tmp_path):
+    hub, gh, reg = _setup(tmp_path)
+    _pop(reg, True)      # the PR author "popeye37" is not this person's registered HF name
+    s = build_status(hub, gh, reg, NOW)
+    assert s["materials"]["KRRvkqr"]["state"] == "in review"
+    assert s["materials"]["KRRvkqr"]["contributor"] == "anonymous"
+
+
+def test_non_anonymous_unticked_claim_is_still_named(tmp_path):
+    hub, gh, reg = _setup(tmp_path)
+    _pop(reg, False)
+    s = build_status(hub, gh, reg, NOW)
+    assert s["materials"]["KRRvkqr"]["contributor"] == "<b>Pop</b>"
+    gh.issues[39]["body"] = FORM.replace("KRRvk??", "KQvkqbb")
+    assert build_status(hub, gh, reg, NOW)["materials"]["KQvkqbb"]["contributor"] == "<b>Pop</b>"

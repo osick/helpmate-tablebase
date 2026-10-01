@@ -17,6 +17,15 @@ def _claimant(c: Claim | None) -> str | None:
     return "anonymous" if c.anonymous else (c.credit or c.author)
 
 
+def _claim_who(claim: Claim | None, registry) -> str | None:
+    """A claimant's name; anonymous when the claim's box is ticked or the registry says the
+    claim's author is anonymous (anonymity is per person, permanent)."""
+    if claim is None:
+        return None
+    person = registry.by_github(claim.author)
+    return "anonymous" if claim.anonymous or (person and person.anonymous) else _claimant(claim)
+
+
 def _hidden_by_claim(person, claim: Claim | None) -> bool:
     """The open claim's form asks for anonymity and its author is this (possibly unregistered)
     person; used while a table is claimed or in review, before accept records it."""
@@ -59,11 +68,11 @@ def build_status(hub, gh, registry, now: datetime) -> dict:
             if known:
                 who = "anonymous" if known.anonymous or _hidden_by_claim(known, claim) else known.display
             else:
-                who = _claimant(claim) or pr.author
+                who = _claim_who(claim, registry) or pr.author
             entry = {"state": "in review", "contributor": who, "hf_pr": pr.num,
                      "claim": claim.issue if claim else None}
         elif s.state == "claimed":
-            entry = {"state": "claimed", "contributor": _claimant(claim), "hf_pr": None,
+            entry = {"state": "claimed", "contributor": _claim_who(claim, registry), "hf_pr": None,
                      "claim": claim.issue if claim else None}
         else:
             entry = {"state": s.state, "contributor": None, "hf_pr": None, "claim": None}
