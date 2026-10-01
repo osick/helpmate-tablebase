@@ -1,6 +1,6 @@
 # Materials and contributors on the site — design
 
-Date: 2026-10-01. Status: awaiting review. Builds on
+Date: 2026-10-01. Status: implemented. Builds on
 `2026-09-30-contribution-pipeline-design.md` (PR #47, same branch).
 
 ## Why

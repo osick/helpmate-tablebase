@@ -68,7 +68,8 @@ def _new_page_failing_on_error_responses(browser):
     bad_responses = []
 
     def on_response(response):
-        if response.status >= 400:
+        # status.json is optional (built at deploy time, never committed)
+        if response.status >= 400 and not response.url.endswith("/data/status.json"):
             bad_responses.append(f"{response.status} {response.url}")
 
     page.on("response", on_response)
