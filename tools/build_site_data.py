@@ -8,7 +8,8 @@ committed, because the GitHub Pages workflow has no tables. Four files:
   deepest.json    docs/DEEPEST.json with every solution expanded ply by ply
   puzzles.json    the dashboard's puzzles.epd, each with its one solution and
                   the themes it shows (`helpmate probe --themes`, one call per puzzle)
-  materials.json  one row per table from the stats sidecars and file sizes
+  materials.json  one row per material (1000 + corpus extras such as Kvk), see
+                  helpmate_server/contrib/site_data.py
   corpus.json     the totals the front page states
 
 Every solution ply carries its SAN, its from/to squares (UCI, promotion piece
@@ -200,8 +201,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"puzzles.json: {len(puzzles)} puzzles, {dropped} dropped", file=sys.stderr)
 
     # materials + corpus: the same rows `helpmate-tables sync` writes
-    for p in write_site_data(out, tables):
+    written = write_site_data(out, tables)
+    for p in written:
         print(f"wrote {p.name}", file=sys.stderr)
+    if not written:
+        print("materials.json, corpus.json unchanged", file=sys.stderr)
     return 0
 
 

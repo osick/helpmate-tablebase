@@ -69,6 +69,9 @@ def test_sync_rewrites_spans_writes_files_and_closes_finished_claims(tmp_path):
     assert not list((tmp_path / "docs").glob("[Mm]aterials*"))
     rows = json.loads((tmp_path / "site" / "data" / "materials.json").read_text())
     assert any(r["material"] == "KQvk" and r["done"] for r in rows)
+    corpus = json.loads((tmp_path / "site" / "data" / "corpus.json").read_text())
+    assert corpus["tables"] == sum(r["done"] for r in rows) == 1
+    assert corpus["by_pieces"] == {"3": 1}
     rc = json.loads((tmp_path / ".all-contributorsrc").read_text())
     assert [c["login"] for c in rc["contributors"]] == ["T31M"]
     assert rc["contributors"][0]["contributions"] == ["data"]
