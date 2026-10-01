@@ -13,6 +13,15 @@ class BaseUnknown(ValueError):
     """A PR's base commit (hence its files) cannot be determined."""
 
 
+class MergeConflict(Exception):
+    """The Hub refused a merge because of conflicts; `files` are the conflicting paths."""
+
+    def __init__(self, num: int, files: list[str]):
+        super().__init__(f"PR #{num} conflicts with main in {', '.join(files)}")
+        self.num = num
+        self.files = files
+
+
 @dataclass
 class PullRequest:
     num: int
@@ -142,7 +151,47 @@ class Hub:
         self.api.comment_discussion(self.repo, num, text, repo_type="dataset")
 
     def merge(self, num: int) -> None:
-        self.api.merge_pull_request(self.repo, num, repo_type="dataset")
+        """Raises MergeConflict when the Hub refuses because of conflicts."""
+        try:
+            self.api.merge_pull_request(self.repo, num, repo_type="dataset")
+        except Exception as exc:
+            if "conflict" not in str(exc).lower():
+                raise
+            found = self.api.get_discussion_details(self.repo, num, repo_type="dataset").conflicting_files
+            if not found:
+                raise
+            # `True`: conflicts, but the Hub cannot list them. Never an empty list.
+            files = list(found) if isinstance(found, list) and found else ["(files not listed by the Hub)"]
+            raise MergeConflict(num, files) from exc
+
+    def pr_status(self, num: int) -> str:
+        return self.api.get_discussion_details(self.repo, num, repo_type="dataset").status
+
+    def close_pr(self, num: int, comment: str) -> None:
+        self.api.change_discussion_status(self.repo, num, "closed", comment=comment, repo_type="dataset")
+
+    def merge_by_copy(self, num: int, head: str, files: list[str], message: str, comment: str,
+                      on_commit=None) -> str:
+        """Land `files` from the PR's `head` on main with one server-side copy commit (LFS
+        files never leave the Hub), check main now has exactly the head's files, then close
+        the PR with `comment` (`{commit}` is replaced by the commit URL). `on_commit(url)`
+        runs between the verified commit and the close, so a caller can record it.
+        Returns the commit URL."""
+        from huggingface_hub import CommitOperationCopy
+
+        ops = [CommitOperationCopy(src_path_in_repo=f, path_in_repo=f, src_revision=head) for f in files]
+        info = self.api.create_commit(repo_id=self.repo, repo_type="dataset", operations=ops,
+                                      commit_message=message)
+        url = info.commit_url
+        landed, wanted = self._tree(info.oid), self._tree(head)
+        wrong = [f for f in files if f not in wanted or landed.get(f) != wanted[f]]
+        if wrong:
+            raise RuntimeError(f"copy commit {url} for PR #{num} does not match its head {head} "
+                               f"in {', '.join(wrong)}; the PR stays open, check main by hand")
+        if on_commit is not None:
+            on_commit(url)
+        self.close_pr(num, comment.replace("{commit}", url))
+        return url
 
     def main_files(self) -> dict[str, FileMeta]:
         from huggingface_hub.hf_api import RepoFile
