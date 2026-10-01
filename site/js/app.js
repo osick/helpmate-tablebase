@@ -4,29 +4,35 @@
 import { initFront } from "./front.js";
 import { initDeepest, showDeepest } from "./deepest.js";
 import { initPuzzles } from "./puzzles.js";
-import { initMaterials } from "./materials.js";
+import { initMaterials, showMaterials } from "./materials.js";
 
 const screens = {
-  front: { init: initFront, data: ["corpus", "deepest"] },
+  front: { init: initFront, data: ["corpus", "deepest", "status"] },
   deepest: { init: initDeepest, data: ["deepest"] },
   puzzles: { init: initPuzzles, data: ["puzzles"] },
-  materials: { init: initMaterials, data: ["materials", "corpus"] },
+  materials: { init: initMaterials, data: ["materials", "corpus", "status"] },
 };
 const loaded = {};
 const cache = {};
 
+// status.json is never committed and may be missing; it is optional.
+const OPTIONAL = new Set(["status"]);
+
 async function data(name) {
   if (!cache[name]) {
-    cache[name] = fetch(`data/${name}.json`).then((r) => {
+    const req = fetch(`data/${name}.json`).then((r) => {
       if (!r.ok) throw new Error(`${name}.json: HTTP ${r.status}`);
       return r.json();
     });
+    cache[name] = OPTIONAL.has(name)
+      ? req.catch((e) => { console.warn(`${name}.json unavailable: ${e.message}`); return null; })
+      : req;
   }
   return cache[name];
 }
 
 function route() {
-  const hash = location.hash.replace(/^#\/?/, "");
+  const hash = location.hash.replace(/^#\/?/, "").split("?")[0];
   const [name, ...rest] = hash.split("/");
   return { name: screens[name] ? name : "front", arg: rest.join("/") };
 }
@@ -48,6 +54,7 @@ async function show() {
     });
   }
   await loaded[name];
+  if (name === "materials") showMaterials();
   if (name === "deepest" && arg) showDeepest(arg);
 }
 

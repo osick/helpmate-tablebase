@@ -39,3 +39,6 @@ function render() {
       <td class="num">${humanBytes(r.size_bytes)}</td></tr>`;
   }).join("");
 }
+
+// Task 5 replaces this: called on every show of the Materials screen.
+export function showMaterials() {}
