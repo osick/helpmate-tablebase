@@ -35,7 +35,7 @@ def replace_spans(text: str, values: dict[str, str]) -> str:
 class CorpusFacts:
     files: dict[str, dict]
     max_dtm: int
-    cells: int
+    cells: int  # plane cells of the tables that hold data (markers excluded)
     markers: frozenset[str] = frozenset()  # tables proving no helpmate exists
 
     @classmethod
@@ -51,10 +51,10 @@ class CorpusFacts:
                             "point --tables at a complete corpus")
         for name in sidecars:
             sc = json.loads((tables / name).read_text())
-            cells += 2 * int(sc["plane_size"])
             if sc.get("all_unsolvable") or sc["max_dtm"] >= 253:
                 markers.add(name[:-len(".stats.json")])
             else:
+                cells += 2 * int(sc["plane_size"])  # a marker stores a verdict, not cells
                 max_dtm = max(max_dtm, int(sc["max_dtm"]))
         return cls(files, max_dtm, cells, frozenset(markers))
 
@@ -66,6 +66,7 @@ class CorpusFacts:
         six = [m for m in universe() if m.pieces == 6]
         missing = [m for m in six if m.name not in done]
         v = {"tables": str(len(done)),
+             "tables-real": str(len(done - self.markers)),
              "gib": f"{sum(x['size'] for x in self.files.values()) / 2**30:.1f}",
              "cells-billion": f"{self.cells / 1e9:.1f}",
              # 34 plies = h#17 (Black starts); 33 plies = h#16.5 (White starts)

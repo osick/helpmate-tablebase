@@ -99,14 +99,12 @@ plane scan about 2.3×.
 
 ## What the data says
 
-Across the <!-- contrib:tables -->389<!-- /contrib --> tables there are <!-- contrib:cells-billion -->2658.7<!-- /contrib --> billion plane cells. Just over half are
-illegal positions the dense index has to reserve room for, 10.0 % are legal
-but unsolvable, 39.3 % have a helpmate, and of those 6.4 % have a unique
-solution. The fifteen KRB six-piece tables are more than half of all cells,
+Across the <!-- contrib:tables-real -->249<!-- /contrib --> tables that hold data there are <!-- contrib:cells-billion -->651.8<!-- /contrib --> billion plane cells (marker tables are left out: they store a verdict, not cells). Just over half, 55.5 %, are illegal positions the dense index has to reserve room for, 1.4 % are legal but unsolvable, 43.1 % have a helpmate, and of those 6.4 % have a unique solution.
+The fifteen KRB six-piece tables are more than half of all cells,
 so they pull these shares their way: with the extra white pieces far more
 positions can be mated. Across the first 302 tables the figures were
 343.0 billion cells, 20.7 % unsolvable, 27.7 % with a helpmate, and 2.9 %
-of those unique.
+of those unique (markers then still counted as unsolvable cells).
 
 The deepest mate is h#17, shared by KBvkqp, KRBvkqp and KRBvkrp. In KBvkqp:
 

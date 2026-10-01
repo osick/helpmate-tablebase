@@ -53,6 +53,10 @@ def test_six_piece_counts_use_the_715_frame(tmp_path):
     by_p = [sum(m.pieces == 6 and m.pawns == p for m in universe()) for p in range(5)]
     assert [int(v[f"six-open-p{p}"]) for p in range(5)] == [by_p[0] - 4, *by_p[1:]]
     assert v["tables"] == "6"
+    # markers store a verdict, not cells: only the three real tables count
+    assert v["tables-real"] == "3"
+    assert v["cells-billion"] == f"{2 * (10 + 10 + 5) / 1e9:.1f}"
+    assert f.cells == 50
     # the deepest ignores markers
     assert v["deepest"] == "h#15"
 
@@ -73,6 +77,8 @@ def test_real_corpus_six_piece_invariants():
     assert done + opened == 715
     assert sum(int(v[f"six-open-p{p}"]) for p in range(5)) == opened
     assert 0 <= empty <= done
+    assert 0 < int(v["tables-real"]) <= int(v["tables"])
+    assert int(v["tables-real"]) == int(v["tables"]) - len(f.markers & f.done())
     assert re.fullmatch(r"h#\d+(\.5)?", v["deepest"])
 
 
