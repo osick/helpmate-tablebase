@@ -38,7 +38,7 @@ reads them.
 | --- | --- | --- |
 | 2–4 | 66 | complete |
 | 5 | 220 | complete |
-| 6 | 645 | <!-- contrib:six-done -->31<!-- /contrib --> published, <!-- contrib:six-open -->614<!-- /contrib --> outstanding |
+| 6 | <!-- contrib:six-total -->715<!-- /contrib --> | <!-- contrib:six-done -->31<!-- /contrib --> published (<!-- contrib:six-empty -->3<!-- /contrib --> proven empty), <!-- contrib:six-open -->614<!-- /contrib --> outstanding |
 | 7+ | — | not attempted |
 
 **<!-- contrib:tables -->317<!-- /contrib --> files, <!-- contrib:gib -->172.5<!-- /contrib --> GiB.** Deepest mate in the corpus: <!-- contrib:deepest -->h#17<!-- /contrib -->.

@@ -3,8 +3,10 @@
 This project needs CPU and RAM more than it needs code.
 
 The corpus is **complete through five pieces** — all 220 five-piece classes,
-plus everything below them. At six pieces there are **645 material classes
-that need a real table**, and **<!-- contrib:six-done -->31<!-- /contrib --> are done**. The rest is roughly six hundred
+plus everything below them. At six pieces there are **<!-- contrib:six-total -->715<!-- /contrib --> material classes**, and
+**<!-- contrib:six-done -->31<!-- /contrib --> are done**, of which <!-- contrib:six-empty -->3<!-- /contrib --> are proven empty (marker
+tables: no helpmate exists in that class, so there is nothing to compute). The
+<!-- contrib:six-open -->614<!-- /contrib --> still to go are roughly six hundred
 machine-days of work, and it is not going to come from one desk.
 
 If you have a machine with 32 GiB of RAM and a week where it would otherwise

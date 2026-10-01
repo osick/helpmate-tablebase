@@ -73,7 +73,7 @@ Generation is a one-off cost. Every query afterwards is a table lookup.
 | --- | --- | --- |
 | 2–4 | 66 | **complete** |
 | 5 | 220 | **complete** |
-| 6 | 645 | <!-- contrib:six-done -->31<!-- /contrib --> done, <!-- contrib:six-open -->614<!-- /contrib --> to go |
+| 6 | <!-- contrib:six-total -->715<!-- /contrib --> | <!-- contrib:six-done -->31<!-- /contrib --> done (<!-- contrib:six-empty -->3<!-- /contrib --> proven empty), <!-- contrib:six-open -->614<!-- /contrib --> to go |
 | 7+ | — | needs an out-of-core generator that does not exist |
 
 **<!-- contrib:tables -->317<!-- /contrib --> tables, <!-- contrib:gib -->172.5<!-- /contrib --> GiB** block-compressed, published as a Hugging Face
