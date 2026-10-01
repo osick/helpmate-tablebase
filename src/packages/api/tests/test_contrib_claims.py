@@ -4,7 +4,7 @@ from datetime import date
 import pytest
 from fakes import FakeGitHub, FakeHub
 from helpmate_server.contrib.claims import (
-    Claim, ClaimIndex, material_status, parse_claim, run_claims,
+    Claim, ClaimIndex, load_index, material_status, parse_claim, run_claims,
 )
 from helpmate_server.contrib.registry import Registry
 
@@ -134,13 +134,43 @@ def test_stale_after_21_days_without_author_activity(tmp_path):
     assert 40 not in gh.closed                                  # never closes
 
 
-def test_maintainer_done_material_is_a_conflict(tmp_path):
-    hub = FakeHub({"manifest.json": b'{"schema":1,"files":{"KRRvkqq.hm":{"sha256":"a","size":1}}}'})
-    gh = FakeGitHub([_gh_issue(39, "popeye37", ISSUE_39)])
+_DONE_KRRVKQQ = b'{"schema":1,"files":{"KRRvkqq.hm":{"sha256":"a","size":1}}}'
+
+
+def test_maintainer_done_material_named_explicitly_is_a_conflict(tmp_path):
+    hub = FakeHub({"manifest.json": _DONE_KRRVKQQ})
+    gh = FakeGitHub([_gh_issue(39, "popeye37", "KRRvkqq KRRvkqr")])
     reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
     run_claims(hub, gh, reg, date(2026, 9, 30))
     assert "claim-conflict" in gh.labels[39]
     assert "already in the dataset" in gh.posted[0][1]
+
+
+def test_wildcard_over_a_done_material_is_just_done(tmp_path):
+    hub = FakeHub({"manifest.json": _DONE_KRRVKQQ})
+    gh = FakeGitHub([_gh_issue(39, "popeye37", ISSUE_39)])
+    reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
+    run_claims(hub, gh, reg, date(2026, 9, 30))
+    assert "claim-conflict" not in gh.labels[39]
+    assert "already in the dataset" not in gh.posted[0][1]
+    assert "already done" not in gh.posted[0][1]
+    assert "KRRvkqq" in gh.posted[0][1] and "done" in gh.posted[0][1]
+
+
+def test_wildcard_overlapping_an_earlier_open_claim_is_still_a_conflict(tmp_path):
+    hub = FakeHub()
+    gh = FakeGitHub([_gh_issue(30, "early", "KRRvkpp"), _gh_issue(39, "popeye37", ISSUE_39)])
+    reg = Registry(tmp_path / "c.json", {"contributors": {}, "tables": {}})
+    run_claims(hub, gh, reg, date(2026, 9, 30))
+    assert "claim-conflict" in gh.labels[39] and "claim-conflict" not in gh.labels[30]
+    assert "KRRvkpp is already claimed in #30" in gh.posted[-1][1]
+
+
+def test_explicit_names_are_recorded_on_the_claim():
+    gh = FakeGitHub([_gh_issue(7, "a", "KRRvkqq and KRRvk?? ~~KRRvkpp~~")])
+    c = load_index(gh).claims[0]
+    assert c.explicit == {"KRRvkqq"}
+    assert "KRRvkqr" in c.materials and "KRRvkqr" not in c.explicit
 
 
 @pytest.mark.parametrize("desc,by_hf,conflict", [
