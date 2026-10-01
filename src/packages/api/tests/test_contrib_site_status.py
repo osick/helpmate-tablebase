@@ -21,9 +21,8 @@ def _reg(tmp_path):
                                "generator_version": "0.19.0", "verification": None}}})
 
 
-def _setup(tmp_path):
-    manifest = {"schema": 1, "files": {f"{m}.hm": {"sha256": "a", "size": 1}
-                                       for m in ("KRBvkqq", "KRBvkqr", "KQvk")}}
+def _setup(tmp_path, done=("KRBvkqq", "KRBvkqr", "KQvk")):
+    manifest = {"schema": 1, "files": {f"{m}.hm": {"sha256": "a", "size": 1} for m in done}}
     hub = FakeHub({"manifest.json": json.dumps(manifest).encode()})
     hub.add_pr(3, {"KRRvkqr.hm": b"x", "KRRvkqr.stats.json": b"{}"}, author="popeye37")
     gh = FakeGitHub([{"number": 39, "title": "claim: KRR", "body": FORM,
@@ -70,3 +69,26 @@ def test_cli_writes_the_file(tmp_path):
     rc = tables_cli.main(["site-status", "--out", str(out), "--registry", str(reg.path)],
                          hub_factory=lambda r: hub, gh_factory=lambda r: gh)
     assert rc == 0 and json.loads(out.read_text())["materials"]["KRBvkqq"]["state"] == "done"
+
+
+def test_anonymous_claim_hides_a_registered_contributor(tmp_path):
+    hub, gh, reg = _setup(tmp_path, ("KRBvkqq", "KRBvkqr", "KQvk", "KRRvkrr"))
+    reg.add_contributor(type(reg.contributors["T31M"])("pop", "popeye37", "popeye37", "Pop"))
+    gh.issues[39]["body"] = FORM.replace("- [ ] Do not", "- [X] Do not")
+    reg.tables["KRRvkrr"] = {"contributor": "pop", "hf_pr": 5, "claim": 39, "merged": "x",
+                             "generator_version": "0.19.0", "verification": None}
+    s = build_status(hub, gh, reg, NOW)
+    assert s["materials"]["KRRvkqr"]["contributor"] == "anonymous"      # in review
+    assert s["materials"]["KRRvkrr"] == {"state": "done", "contributor": "anonymous",
+                                         "hf_pr": 5, "claim": None}
+
+
+def test_anonymous_contributors_merge_into_one_row(tmp_path):
+    hub, gh, reg = _setup(tmp_path, ("KRBvkqq", "KRBvkqr", "KRBvkrr"))
+    reg.add_contributor(type(reg.contributors["T31M"])("shy2", "shy2", "shy2", "Shy2", anonymous=True))
+    reg.tables["KRBvkrr"] = {"contributor": "shy2", "hf_pr": 8, "claim": None, "merged": "x",
+                             "generator_version": "0.19.0", "verification": None}
+    s = build_status(hub, gh, reg, NOW)
+    assert s["contributors"][1:] == [{"display": "anonymous", "hf": None, "github": None,
+                                      "anonymous": True, "tables": 2, "six": 2, "materials": []}]
+    assert [c["display"] for c in s["contributors"]] == ["T31M", "anonymous"]

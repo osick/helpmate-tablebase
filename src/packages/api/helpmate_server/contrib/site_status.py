@@ -17,11 +17,18 @@ def _claimant(c: Claim | None) -> str | None:
     return "anonymous" if c.anonymous else (c.credit or c.author)
 
 
-def _registered(registry, key: str | None) -> str | None:
+def _hidden_by_claim(person, claim: Claim | None) -> bool:
+    """The claim form asks for anonymity and its author is this (possibly unregistered) person."""
+    if claim is None or not claim.anonymous:
+        return False
+    return person is None or bool(person.github and person.github.lower() == claim.author.lower())
+
+
+def _registered(registry, key: str | None, claim: Claim | None) -> str | None:
     c = registry.contributors.get(key) if key else None
     if c is None:
         return None
-    return "anonymous" if c.anonymous else c.display
+    return "anonymous" if c.anonymous or _hidden_by_claim(c, claim) else c.display
 
 
 def build_status(hub, gh, registry, now: datetime) -> dict:
@@ -42,13 +49,15 @@ def build_status(hub, gh, registry, now: datetime) -> dict:
         entry: dict
         if s.state == "done":
             table = registry.tables.get(m.name, {})
-            entry = {"state": "done", "contributor": _registered(registry, table.get("contributor")),
+            entry = {"state": "done", "contributor": _registered(registry, table.get("contributor"), claim),
                      "hf_pr": table.get("hf_pr"), "claim": None}
         elif s.state == "in review":
             pr = in_review[m.name]
             known = registry.by_hf(pr.author)
-            who = (("anonymous" if known.anonymous else known.display) if known
-                   else _claimant(claim) or pr.author)
+            if known:
+                who = "anonymous" if known.anonymous or _hidden_by_claim(known, claim) else known.display
+            else:
+                who = _claimant(claim) or pr.author
             entry = {"state": "in review", "contributor": who, "hf_pr": pr.num,
                      "claim": claim.issue if claim else None}
         elif s.state == "claimed":
@@ -58,16 +67,22 @@ def build_status(hub, gh, registry, now: datetime) -> dict:
             entry = {"state": s.state, "contributor": None, "hf_pr": None, "claim": None}
         materials[m.name] = entry
     people = []
+    hidden = {"display": "anonymous", "hf": None, "github": None, "anonymous": True,
+              "tables": 0, "six": 0, "materials": []}
     for key, c in registry.contributors.items():
         mats = [m.name for m in universe()
                 if registry.tables.get(m.name, {}).get("contributor") == key and m.name in done]
         if not mats:
             continue
-        people.append({"display": "anonymous" if c.anonymous else c.display,
-                       "hf": None if c.anonymous else c.hf,
-                       "github": None if c.anonymous else c.github,
-                       "anonymous": c.anonymous, "tables": len(mats),
-                       "six": sum(Material(x).pieces == 6 for x in mats), "materials": mats})
-    people.sort(key=lambda p: (-p["tables"], p["anonymous"], p["display"].lower()))
+        six = sum(Material(x).pieces == 6 for x in mats)
+        if c.anonymous:
+            hidden["tables"] += len(mats)
+            hidden["six"] += six
+            continue
+        people.append({"display": c.display, "hf": c.hf, "github": c.github, "anonymous": False,
+                       "tables": len(mats), "six": six, "materials": mats})
+    people.sort(key=lambda p: (-p["tables"], p["display"].lower()))
+    if hidden["tables"]:
+        people.append(hidden)
     return {"generated_at": now.strftime("%Y-%m-%dT%H:%MZ"), "materials": materials,
             "contributors": people, "counts": counts}
