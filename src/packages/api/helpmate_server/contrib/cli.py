@@ -9,7 +9,7 @@ from pathlib import Path
 
 from . import DATASET_REPO, DEFAULT_STAGING, GITHUB_REPO
 
-CONTRIB_COMMANDS = {"verify", "status", "accept", "sync", "claims"}
+CONTRIB_COMMANDS = {"verify", "status", "accept", "sync", "claims", "site-status"}
 
 
 class UsageError(Exception):
@@ -60,6 +60,11 @@ def add_parsers(sub) -> None:
     c.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     c.add_argument("--github-repo", default=GITHUB_REPO)
     c.add_argument("--registry", type=Path, default=Path("data/contributions.json"))
+    ss = sub.add_parser("site-status", help="(CI) write the site's status.json: state and contributors")
+    ss.add_argument("--out", required=True, type=Path)
+    ss.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
+    ss.add_argument("--github-repo", default=GITHUB_REPO)
+    ss.add_argument("--registry", type=Path, default=Path("data/contributions.json"))
 
 
 def _installed_version() -> str:
@@ -97,6 +102,18 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
             from .registry import Registry
             return run_claims((hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
                               Registry.load(a.registry), date.today())
+        if a.cmd == "site-status":
+            from datetime import datetime, timezone
+            from .github import GitHub
+            from .hf import Hub
+            from .registry import Registry
+            from .site_status import build_status
+            payload = build_status((hub_factory or Hub)(a.repo), (gh_factory or GitHub)(a.github_repo),
+                                  Registry.load(a.registry), datetime.now(timezone.utc))
+            a.out.parent.mkdir(parents=True, exist_ok=True)
+            a.out.write_text(json.dumps(payload, separators=(",", ":")))
+            print(f"wrote {a.out}: {len(payload['materials'])} non-open materials")
+            return 0
         if a.cmd == "sync":
             from .docs_sync import SyncError, sync
             from .github import GitHub
