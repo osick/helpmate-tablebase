@@ -267,8 +267,12 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                             f"{other!r}, not {who.github!r}; pass --contributor with the right login "
                             "or fix data/contributions.json")
             seen_keys[who.key] = who.github
+            # Anonymity is per person and permanent: an anonymous claim form by this person
+            # hides them from now on, even if they were registered under their name before.
+            asks_anonymity = bool(claim and claim.anonymous and who.github
+                                  and claim.author.lower() == who.github.lower())
             people[n] = {"key": who.key, "github": who.github, "hf": who.hf,
-                         "display": who.display, "anonymous": who.anonymous,
+                         "display": who.display, "anonymous": who.anonymous or asks_anonymity,
                          "claim": claim.issue if claim else None}
             stored[str(n)] = {k: v for k, v in asdict(pr).items() if k != "num"}
         owner: dict[str, int] = {}
@@ -341,6 +345,8 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                     if p["key"] not in reg.contributors:
                         reg.add_contributor(Contributor(p["key"], p["github"], p["hf"], p["display"],
                                                         anonymous=p.get("anonymous", False)))
+                    elif p.get("anonymous"):  # never set back to False automatically
+                        reg.contributors[p["key"]].anonymous = True
                     rep = json.loads((staging / f"pr-{n}" / "report.json").read_text())
                     for m in pr.materials:
                         sc = json.loads((tables / f"{m}.stats.json").read_text())

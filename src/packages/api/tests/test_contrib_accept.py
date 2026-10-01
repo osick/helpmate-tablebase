@@ -135,6 +135,40 @@ def test_anonymous_claim_form_keeps_the_name_out_of_every_credit(tmp_path):
     assert json.loads((checkout / ".all-contributorsrc").read_text())["contributors"] == []
 
 
+def test_anonymous_claim_form_makes_an_existing_contributor_anonymous_for_good(tmp_path):
+    """Anonymity is per person and permanent: a registered, named contributor who ticks
+    the box on a later claim form becomes anonymous in the registry and in every credit."""
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    (checkout / "data" / "contributions.json").write_text(json.dumps({"schema": 1, "tables": {},
+        "contributors": {"popeye37": {"github": "popeye37", "hf": "popeye37", "display": "Pop Eye"}}}))
+    gh.issues[39]["body"] = ANON_FORM
+    (checkout / "README.md").write_text("<!-- contrib:contributors-table --><!-- /contrib -->\n")
+    git = FakeGit()
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert reg["contributors"]["popeye37"]["anonymous"] is True
+    msg = next(c[1] for c in git.calls if c[0] == "commit_all")
+    assert "Co-authored-by" not in msg and "Pop Eye" not in msg and "popeye37" not in msg
+    changelog = (checkout / "CHANGELOG.md").read_text()
+    assert "Pop Eye" not in changelog and "an anonymous contributor" in changelog
+    readme = (checkout / "README.md").read_text()
+    assert "Pop Eye" not in readme and "| anonymous |" in readme
+    assert json.loads((checkout / ".all-contributorsrc").read_text())["contributors"] == []
+
+
+def test_a_later_named_claim_never_makes_an_anonymous_contributor_named_again(tmp_path):
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    (checkout / "data" / "contributions.json").write_text(json.dumps({"schema": 1, "tables": {},
+        "contributors": {"popeye37": {"github": "popeye37", "hf": "popeye37", "display": "Pop Eye",
+                                      "anonymous": True}}}))
+    gh.issues[39]["body"] = ANON_FORM.replace("- [X]", "- [ ]")
+    git = FakeGit()
+    assert _run(checkout, staging, hub, gh, tables, git) == 0
+    reg = json.loads((checkout / "data" / "contributions.json").read_text())
+    assert reg["contributors"]["popeye37"]["anonymous"] is True
+    assert "Pop Eye" not in (checkout / "CHANGELOG.md").read_text()
+
+
 def test_claim_form_credit_name_is_used(tmp_path):
     checkout, staging, hub, gh, tables = _setup(tmp_path)
     gh.issues[39]["body"] = ANON_FORM.replace("- [X]", "- [ ]")

@@ -78,9 +78,16 @@ def test_anonymous_claim_hides_a_registered_contributor(tmp_path):
     reg.tables["KRRvkrr"] = {"contributor": "pop", "hf_pr": 5, "claim": 39, "merged": "x",
                              "generator_version": "0.19.0", "verification": None}
     s = build_status(hub, gh, reg, NOW)
-    assert s["materials"]["KRRvkqr"]["contributor"] == "anonymous"      # in review
-    assert s["materials"]["KRRvkrr"] == {"state": "done", "contributor": "anonymous",
+    assert s["materials"]["KRRvkqr"]["contributor"] == "anonymous"      # in review: the open claim
+    # done rows follow the registry only (accept makes the person anonymous there for good)
+    assert s["materials"]["KRRvkrr"] == {"state": "done", "contributor": "Pop",
                                          "hf_pr": 5, "claim": None}
+    assert [(c["display"], c["materials"]) for c in s["contributors"]] == [
+        ("Pop", ["KRRvkrr"]), ("T31M", ["KRBvkqq"]), ("anonymous", [])]
+    reg.contributors["pop"].anonymous = True
+    s = build_status(hub, gh, reg, NOW)
+    assert s["materials"]["KRRvkrr"]["contributor"] == "anonymous"
+    assert [(c["display"], c["tables"]) for c in s["contributors"]] == [("T31M", 1), ("anonymous", 2)]
 
 
 def test_anonymous_contributors_merge_into_one_row(tmp_path):

@@ -18,17 +18,19 @@ def _claimant(c: Claim | None) -> str | None:
 
 
 def _hidden_by_claim(person, claim: Claim | None) -> bool:
-    """The claim form asks for anonymity and its author is this (possibly unregistered) person."""
+    """The open claim's form asks for anonymity and its author is this (possibly unregistered)
+    person; used while a table is claimed or in review, before accept records it."""
     if claim is None or not claim.anonymous:
         return False
     return person is None or bool(person.github and person.github.lower() == claim.author.lower())
 
 
-def _registered(registry, key: str | None, claim: Claim | None) -> str | None:
+def _registered(registry, key: str | None) -> str | None:
+    """A done table's credit: the registry alone decides (anonymity is per person, permanent)."""
     c = registry.contributors.get(key) if key else None
     if c is None:
         return None
-    return "anonymous" if c.anonymous or _hidden_by_claim(c, claim) else c.display
+    return "anonymous" if c.anonymous else c.display
 
 
 def build_status(hub, gh, registry, now: datetime) -> dict:
@@ -49,7 +51,7 @@ def build_status(hub, gh, registry, now: datetime) -> dict:
         entry: dict
         if s.state == "done":
             table = registry.tables.get(m.name, {})
-            entry = {"state": "done", "contributor": _registered(registry, table.get("contributor"), claim),
+            entry = {"state": "done", "contributor": _registered(registry, table.get("contributor")),
                      "hf_pr": table.get("hf_pr"), "claim": None}
         elif s.state == "in review":
             pr = in_review[m.name]
@@ -68,7 +70,7 @@ def build_status(hub, gh, registry, now: datetime) -> dict:
         materials[m.name] = entry
     people = []
     hidden: dict = {"display": "anonymous", "hf": None, "github": None, "anonymous": True,
-              "tables": 0, "six": 0, "materials": []}
+                    "tables": 0, "six": 0, "materials": []}
     for key, c in registry.contributors.items():
         mats = [m.name for m in universe()
                 if registry.tables.get(m.name, {}).get("contributor") == key and m.name in done]
