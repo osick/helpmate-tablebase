@@ -19,15 +19,26 @@ SCRIPT = ROOT / "tools" / "stamp_site.py"
 SITE = ROOT / "site"
 
 
+VENDOR = ROOT / "src" / "packages" / "web" / "helpmate_web" / "static" / "vendor"
+
+
 @pytest.fixture
 def site(tmp_path):
-    """A copy of the site: one generated material page, without the other 300."""
+    """The site as `make site` builds it, from committed files only: CI runs on a
+    fresh checkout, where the generated vendor copy, themes.html and material
+    pages (all git-ignored) do not exist."""
     dst = tmp_path / "site"
-    shutil.copytree(SITE, dst, ignore=shutil.ignore_patterns("material", "tests", "__pycache__"))
-    (dst / "material").mkdir()
-    pages = sorted((SITE / "material").glob("*.html"))[:1]
-    for p in pages:
-        shutil.copy(p, dst / "material" / p.name)
+    generated = {"material", "vendor", "themes.html", "tests"}   # top level only: data/material/ is committed
+
+    def ignore(d, names):
+        top = Path(d) == SITE
+        return [n for n in names if (top and n in generated) or n in ("__pycache__", "status.json")]
+
+    shutil.copytree(SITE, dst, ignore=ignore)
+    shutil.copytree(VENDOR / "cm-chessboard", dst / "vendor" / "cm-chessboard")
+    subprocess.run([sys.executable, str(ROOT / "tools" / "render_site.py"),
+                    "--data", str(dst / "data"), "--out", str(dst)],
+                   check=True, capture_output=True, text=True)
     return dst
 
 
