@@ -7,6 +7,19 @@ import pytest
 from helpmate_server.contrib.hf import Hub
 
 
+class _Response:
+    """Just enough of an HTTP response for HfHubHTTPError: huggingface_hub 0.34 (requests)
+    takes it optionally, 2.x (httpx) requires it and reads .headers and .request."""
+    status_code = 400
+    headers: dict = {}
+    request = None
+
+
+def _bad_request(message):
+    from huggingface_hub.errors import BadRequestError
+    return BadRequestError(message, response=_Response())
+
+
 class _Event:
     def __init__(self, type_, **kw):
         self.type = type_
@@ -236,9 +249,8 @@ class ConflictApi(FakeApi):
         self.commit_ops = []
 
     def merge_pull_request(self, repo, num, repo_type=None, comment=None):
-        from huggingface_hub.errors import BadRequestError
         self.calls.append(("merge", num))
-        raise BadRequestError("Bad request for merge endpoint: There are merge conflicts, cannot proceed")
+        raise _bad_request("Bad request for merge endpoint: There are merge conflicts, cannot proceed")
 
     def get_discussion_details(self, repo, num, repo_type=None):
         d = super().get_discussion_details(repo, num, repo_type=repo_type)
@@ -300,7 +312,7 @@ def test_other_merge_errors_propagate_unchanged():
     api = _conflicting()
 
     def refuse(*a, **k):
-        raise BadRequestError("Bad request: you are not allowed to merge")
+        raise _bad_request("Bad request: you are not allowed to merge")
     api.merge_pull_request = refuse
     with pytest.raises(BadRequestError, match="not allowed"):
         Hub("o/d", api=api).merge(2)
