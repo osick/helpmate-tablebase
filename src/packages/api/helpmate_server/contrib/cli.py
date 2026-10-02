@@ -70,6 +70,12 @@ def add_parsers(sub) -> None:
     ss.add_argument("--registry", type=Path, default=Path("data/contributions.json"))
 
 
+def _absolute_binary(given: str | None) -> str | None:
+    """--binary, else helpmate on PATH; absolute, since build_problems runs with cwd=checkout."""
+    found = given or shutil.which("helpmate")
+    return str(Path(found).expanduser().resolve()) if found else None
+
+
 def _installed_version() -> str:
     try:
         import helpmate
@@ -152,9 +158,7 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
             return accept(a.pr, hub=hub, gh=gh, git=Git(checkout), checkout=checkout,
                           tables=Path(a.tables).expanduser(), staging=Path(a.staging).expanduser(),
                           contributor=a.contributor, today=date.today().isoformat(),
-                          # absolute: build_problems runs with cwd=checkout
-                          binary=str(Path(a.binary).expanduser().resolve()) if a.binary
-                          else shutil.which("helpmate"))
+                          binary=_absolute_binary(a.binary))
         raise UsageError(f"{a.cmd}: not implemented yet")
     except UsageError as exc:
         print(f"error: {exc}", file=sys.stderr)

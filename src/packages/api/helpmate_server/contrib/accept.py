@@ -52,6 +52,10 @@ def build_material_pages(materials: list[str], *, checkout: Path, tables: Path, 
     for m in materials:
         cmd += ["--material", m]
     runner(cmd, cwd=checkout, check=True)
+    missing = [m for m in materials if not (checkout / "site" / "data" / "material" / f"{m}.json").exists()]
+    if missing:  # build_problems exits 0 when it skips a material
+        raise RuntimeError(f"no page built for {', '.join(missing)}; build_problems skipped it — check "
+                           "that the table and sidecar are in --tables and done in materials.json")
 
 
 def manifest_from_hub(hub, generator_version: str) -> dict:
@@ -434,6 +438,7 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
                 cl.write_text(text)
                 sync(checkout, hub, gh, reg, tables, close_claims=False)
                 # After sync: build_problems skips a material materials.json does not list as done.
+                # A docs-PR conflict retry runs this again (minutes per six-piece table).
                 build_material_pages(mats, checkout=checkout, tables=tables, binary=binary,
                                      runner=build_pages)
                 write_site_data(checkout / "site" / "data", tables)  # the page flags, now true

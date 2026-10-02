@@ -104,8 +104,8 @@ class PageBuilder:
     """Stands in for tools/build_problems.py: records each call and, like the real
     tool, writes a page only for a material that materials.json lists as done."""
 
-    def __init__(self, fail=False):
-        self.calls, self.fail = [], fail
+    def __init__(self, fail=False, skip=()):
+        self.calls, self.fail, self.skip = [], fail, set(skip)
 
     def __call__(self, args, *, cwd, check):
         self.calls.append((list(args), cwd, check))
@@ -115,7 +115,7 @@ class PageBuilder:
         rows = {r["material"]: r for r in json.loads((out / "materials.json").read_text())}
         (out / "material").mkdir(exist_ok=True)
         for i, a in enumerate(args):
-            if a == "--material" and rows.get(args[i + 1], {}).get("done"):
+            if a == "--material" and rows.get(args[i + 1], {}).get("done") and args[i + 1] not in self.skip:
                 (out / "material" / f"{args[i + 1]}.json").write_text(json.dumps({"material": args[i + 1]}))
         return subprocess.CompletedProcess(args, 0)
 
@@ -1050,3 +1050,34 @@ def test_cli_resolves_a_relative_binary_before_handing_it_on(tmp_path, monkeypat
                             "--binary", "build/helpmate"],
                            hub_factory=lambda r: hub, gh_factory=lambda r: gh) == 0
     assert seen["binary"] == str(tmp_path.resolve() / "build" / "helpmate")
+
+
+def test_a_material_the_builder_skipped_stops_the_docs_step_and_a_rerun_completes(tmp_path):
+    checkout, staging, hub, gh, tables = _two_prs(tmp_path)
+    hub.healed = True
+    git = ConflictingGit(checkout, conflicts=0)
+    with pytest.raises(RuntimeError, match="no page built for KRRvkqr"):
+        _run2(checkout, staging, hub, gh, tables, git, pages=PageBuilder(skip={"KRRvkqr"}))
+    assert hub.merged == [2, 3] and not any(c[0] == "commit_all" for c in git.calls)
+    _forget_merged_prs(hub)
+    snap, git, pages = git.snap, ConflictingGit(checkout, conflicts=0), PageBuilder()
+    git.snap = snap
+    assert _run2(checkout, staging, hub, gh, tables, git, pages=pages) == 0
+    assert hub.merged == [2, 3] and len(pages.calls) == 1
+    assert [c[0] for c in git.calls].count("commit_all") == 1
+
+
+def test_cli_resolves_the_helpmate_found_on_path(tmp_path, monkeypatch):
+    from helpmate_server import tables_cli
+    from helpmate_server.contrib import accept as accept_mod
+    from helpmate_server.contrib import cli
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    (tmp_path / "bin").mkdir()
+    (tmp_path / "bin" / "helpmate").write_text("")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(cli.shutil, "which", lambda name: "bin/helpmate")   # a relative PATH entry
+    seen = {}
+    monkeypatch.setattr(accept_mod, "accept", lambda prs, **kw: seen.update(kw) or 0)
+    assert tables_cli.main(["accept", "2", "--tables", str(tables), "--checkout", str(checkout)],
+                           hub_factory=lambda r: hub, gh_factory=lambda r: gh) == 0
+    assert seen["binary"] == str(tmp_path.resolve() / "bin" / "helpmate")
