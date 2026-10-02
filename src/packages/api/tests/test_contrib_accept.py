@@ -1035,3 +1035,18 @@ def test_real_git_dirty_paths_lists_new_files_inside_an_untracked_directory(clon
     (clone / "site" / "data" / "material").mkdir(parents=True)
     (clone / "site" / "data" / "material" / "B.json").write_text("{}\n")
     assert Git(clone).dirty_paths() == ["site/data/material/B.json"]
+
+
+def test_cli_resolves_a_relative_binary_before_handing_it_on(tmp_path, monkeypatch):
+    from helpmate_server import tables_cli
+    from helpmate_server.contrib import accept as accept_mod
+    checkout, staging, hub, gh, tables = _setup(tmp_path)
+    (tmp_path / "build").mkdir()
+    (tmp_path / "build" / "helpmate").write_text("")
+    monkeypatch.chdir(tmp_path)
+    seen = {}
+    monkeypatch.setattr(accept_mod, "accept", lambda prs, **kw: seen.update(kw) or 0)
+    assert tables_cli.main(["accept", "2", "--tables", str(tables), "--checkout", str(checkout),
+                            "--binary", "build/helpmate"],
+                           hub_factory=lambda r: hub, gh_factory=lambda r: gh) == 0
+    assert seen["binary"] == str(tmp_path.resolve() / "build" / "helpmate")

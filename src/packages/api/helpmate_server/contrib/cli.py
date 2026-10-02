@@ -152,7 +152,9 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
             return accept(a.pr, hub=hub, gh=gh, git=Git(checkout), checkout=checkout,
                           tables=Path(a.tables).expanduser(), staging=Path(a.staging).expanduser(),
                           contributor=a.contributor, today=date.today().isoformat(),
-                          binary=a.binary or shutil.which("helpmate"))
+                          # absolute: build_problems runs with cwd=checkout
+                          binary=str(Path(a.binary).expanduser().resolve()) if a.binary
+                          else shutil.which("helpmate"))
         raise UsageError(f"{a.cmd}: not implemented yet")
     except UsageError as exc:
         print(f"error: {exc}", file=sys.stderr)
