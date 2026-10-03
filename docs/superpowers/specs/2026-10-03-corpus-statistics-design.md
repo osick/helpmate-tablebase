@@ -35,7 +35,7 @@ Pure functions over a tables directory, no Hugging Face or GitHub access:
   |---|---|---|
   | material | string | canonical name |
   | pieces, pawns | int8 | |
-  | white, black | string | piece letters, e.g. `KRB`, `kqp` |
+  | white, black | string | pieces besides the kings, e.g. `RB`, `qp` (empty for a bare king) |
   | marker | bool | marker table (provably no helpmate) |
   | max_dtm | int16, null for markers | |
   | plane_size | int64 | cells per side to move |
