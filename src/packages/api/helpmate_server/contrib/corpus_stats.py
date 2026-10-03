@@ -3,8 +3,10 @@ lossless DTM x solution-count histogram, Parquet for Hugging Face and a compact 
 for the site's Statistics screen. Nothing here reads a table's payload."""
 from __future__ import annotations
 
+import io
 import json
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -116,3 +118,67 @@ def site_stats(ts: list[TableStats]) -> dict:
     return {"materials": materials,
             "total": {stm: [total[stm][d] for d in sorted(total[stm])] for stm in STMS},
             "by_pieces": by_pieces}
+
+
+MATERIALS_PATH = "stats/materials.parquet"
+HISTOGRAM_PATH = "stats/histogram.parquet"
+
+
+def require_pyarrow() -> None:
+    try:
+        import pyarrow  # noqa: F401
+    except ImportError as exc:
+        raise ImportError("statistics need pyarrow: pip install './src/packages/api[verify]'") from exc
+
+
+def _schemas():
+    import pyarrow as pa
+    materials = pa.schema([
+        ("material", pa.string()), ("pieces", pa.int8()), ("pawns", pa.int8()),
+        ("white", pa.string()), ("black", pa.string()), ("marker", pa.bool_()),
+        ("max_dtm", pa.int16()), ("plane_size", pa.int64()),
+        ("invalid_wtm", pa.int64()), ("invalid_btm", pa.int64()),
+        ("unsolvable_wtm", pa.int64()), ("unsolvable_btm", pa.int64()),
+        ("solvable", pa.int64()), ("unique", pa.int64()), ("size_bytes", pa.int64()),
+        ("generator_version", pa.string()), ("contributor", pa.string()),
+        ("hf_pr", pa.int32()), ("merged", pa.date32())])
+    histogram = pa.schema([
+        ("material", pa.string()), ("pieces", pa.int8()), ("stm", pa.string()),
+        ("dtm", pa.int16()), ("count", pa.int16()), ("cells", pa.int64())])
+    return materials, histogram
+
+
+def _to_parquet(rows: list[dict], schema) -> bytes:
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    table = pa.Table.from_pylist(rows, schema=schema)
+    buf = io.BytesIO()
+    pq.write_table(table, buf, compression="zstd")
+    return buf.getvalue()
+
+
+def parquet_files(ts: list[TableStats], registry: Registry | None) -> dict[str, bytes]:
+    require_pyarrow()
+    ms, hs = _schemas()
+    mrows = [dict(r, merged=date.fromisoformat(r["merged"]) if r["merged"] else None)
+             for r in materials_rows(ts, registry)]
+    return {MATERIALS_PATH: _to_parquet(mrows, ms), HISTOGRAM_PATH: _to_parquet(histogram_rows(ts), hs)}
+
+
+def _read(data: bytes):
+    import pyarrow.parquet as pq
+    return pq.read_table(io.BytesIO(data))
+
+
+def same_content(a: bytes | None, b: bytes) -> bool:
+    return a is not None and _read(a).equals(_read(b))
+
+
+def parquet_materials(data: bytes) -> list[str]:
+    return [str(m) for m in _read(data).column("material").to_pylist()]
+
+
+def completeness(ts: list[TableStats], manifest: dict) -> tuple[list[str], list[str]]:
+    published = {f[: -len(".hm")] for f in manifest.get("files", {}) if f.endswith(".hm")}
+    local = {t.material for t in ts}
+    return sorted(published - local), sorted(local - published)

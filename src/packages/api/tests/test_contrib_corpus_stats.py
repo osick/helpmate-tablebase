@@ -1,5 +1,8 @@
+import io
 import json
 from pathlib import Path
+
+import pytest
 
 from helpmate_server.contrib.corpus_stats import (
     collect, contributor_of, histogram_rows, is_marker, materials_rows, site_stats)
@@ -105,3 +108,52 @@ def test_site_stats_shape(tmp_path):
     assert s["materials"]["Kvkq"] == {"pieces": 3, "max_dtm": None, "wtm": [], "btm": []}
     assert s["total"]["wtm"] == [[1, 4, 3], [3, 6, 0]]
     assert s["by_pieces"] == {"3": {"tables": 2, "solvable": 1965, "unique": 10}}
+
+
+def test_parquet_round_trip_with_fixed_schema(tmp_path):
+    pa = pytest.importorskip("pyarrow")  # noqa: F841
+    import pyarrow.parquet as pq
+
+    from helpmate_server.contrib.corpus_stats import (
+        HISTOGRAM_PATH, MATERIALS_PATH, parquet_files, parquet_materials)
+
+    _put(tmp_path, KQVK)
+    _put(tmp_path, MARKER)
+    files = parquet_files(collect(tmp_path), _registry(tmp_path))
+    assert set(files) == {MATERIALS_PATH, HISTOGRAM_PATH}
+    mat = pq.read_table(io.BytesIO(files[MATERIALS_PATH]))
+    assert mat.column("material").to_pylist() == ["KQvk", "Kvkq"]
+    assert str(mat.schema.field("max_dtm").type) == "int16"
+    assert str(mat.schema.field("merged").type) == "date32[day]"
+    assert mat.column("max_dtm").to_pylist() == [3, None]
+    hist = pq.read_table(io.BytesIO(files[HISTOGRAM_PATH]))
+    assert hist.num_rows == 6
+    assert [str(f.type) for f in hist.schema] == ["string", "int8", "string", "int16", "int16", "int64"]
+    assert parquet_materials(files[MATERIALS_PATH]) == ["KQvk", "Kvkq"]
+
+
+def test_same_content_ignores_bytes_compares_tables(tmp_path):
+    pa = pytest.importorskip("pyarrow")  # noqa: F841
+
+    from helpmate_server.contrib.corpus_stats import (
+        MATERIALS_PATH, parquet_files, same_content)
+
+    _put(tmp_path, KQVK)
+    a = parquet_files(collect(tmp_path), None)[MATERIALS_PATH]
+    b = parquet_files(collect(tmp_path), None)[MATERIALS_PATH]
+    assert same_content(a, b) and not same_content(None, b)
+    _put(tmp_path, MARKER)
+    c = parquet_files(collect(tmp_path), None)[MATERIALS_PATH]
+    assert not same_content(a, c)
+
+
+def test_completeness_against_the_manifest(tmp_path):
+    pa = pytest.importorskip("pyarrow")  # noqa: F841
+
+    from helpmate_server.contrib.corpus_stats import completeness
+
+    _put(tmp_path, KQVK)
+    _put(tmp_path, KPVK)
+    manifest = {"files": {"KQvk.hm": {}, "KQvk.stats.json": {}, "KRvk.hm": {}}}
+    assert completeness(collect(tmp_path), manifest) == (["KRvk"], ["KPvk"])
+    assert completeness(collect(tmp_path), {"files": {"KQvk.hm": {}, "KPvk.hm": {}}}) == ([], [])
