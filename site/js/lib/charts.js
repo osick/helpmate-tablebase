@@ -19,7 +19,7 @@ const fmt = (v) => (v >= 1e9 ? `${+(v / 1e9).toFixed(1)}G` : v >= 1e6 ? `${+(v /
 
 export function barChart({ bars, width = 640, height = 240, log = false, xLabel = "", yLabel = "" }) {
   const open = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(yLabel || "chart")}">`;
-  if (!bars.length) return `${open}<text class="empty">no data</text></svg>`;
+  if (!bars.length) return `${open}<text x="${width / 2}" y="${height / 2}" text-anchor="middle" class="empty">no data</text></svg>`;
   const left = 48, bottom = 28, top = 8, plotW = width - left - 8, plotH = height - top - bottom;
   const max = log ? Math.max(...bars.map((b) => b.value), 1) : niceMax(Math.max(...bars.map((b) => b.value)));
   const step = plotW / bars.length, bw = Math.max(1, step * 0.8);

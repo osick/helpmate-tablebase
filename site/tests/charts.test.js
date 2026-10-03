@@ -31,5 +31,8 @@ test("log axis with gaps stays finite", () => {
 });
 
 test("empty data", () => {
-  assert.match(barChart({ bars: [] }), /class="empty">no data</);
+  const svg = barChart({ bars: [] });
+  assert.match(svg, /class="empty">no data</);
+  assert.match(svg, /x="320"/);
+  assert.match(svg, /y="120"/);
 });
