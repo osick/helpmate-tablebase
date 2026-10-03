@@ -128,6 +128,27 @@ Statistics must never describe a partial corpus. Both paths compare the set of l
 `site/data/stats.json` follows the same local rule as `materials.json` today (it is built from
 whatever `--tables` holds); `sync` already prints when local tables are missing.
 
+## Freshness guarantee: every delivery updates both, and staleness is caught
+
+Requirement: after every PR that adds tables, the statistics on GitHub (site) and on Hugging
+Face (Parquet) describe the new corpus. Every table delivery goes through `accept`, which updates
+both (docs step: `stats.json`; card step: Parquet). Two guards make a missed update visible
+instead of silent:
+
+- **GitHub, at PR time (blocking).** A repo test (`tests/repo/test_site_stats_fresh.py`, runs in
+  CI on every PR) requires `site/data/stats.json` to cover exactly the done materials of
+  `site/data/materials.json`, with the same `max_dtm`, `solvable` and `unique` per material. A docs
+  PR that updates the materials list but not the statistics cannot be merged.
+- **Hugging Face, after merge (alerting).**
+  - `accept` checks after the card step that the uploaded `materials.parquet` lists exactly the
+    manifest's tables and prints the result. On a mismatch it fails the step, so a rerun
+    resumes there.
+  - A scheduled workflow (`.github/workflows/stats-check.yml`, daily and after each Pages run) reads
+    the public manifest and `stats/materials.parquet` without a token. It fails, which notifies the
+    maintainer, when they differ, naming the missing materials and the fix
+    (`helpmate-tables stats-push --tables ~/tb`). The same check is available locally as
+    `helpmate-tables stats-push --check`.
+
 ## Dependencies
 
 pyarrow (≥ 14) is added to the optional `verify` extra of `helpmate-api`, which `accept` and the
@@ -144,6 +165,10 @@ CI tests already install. No new browser dependencies.
 - **`accept`:** the card commit contains README plus both Parquet files; an incomplete local corpus
   skips the statistics with the message and still uploads the card.
 - **Card:** front matter parses, has both configs, no `viewer: false`.
+- **Freshness:** the repo test fails when `stats.json` lacks a done material or disagrees with
+  `materials.json` (checked by breaking it on purpose); the HF check (`stats-push --check`, used by
+  `stats-check.yml`) fails against a fake manifest with an extra table and passes when they match;
+  the accept post-check fails the card step on a mismatch.
 - **Site:** `node --test` for `charts.js` (SVG structure, log scale, empty data) and the stats
   data transforms; `node --check`; a Playwright check (`--no-sandbox`) that `#/stats` and
   `#/stats/KRvkrb` render charts without console errors.
@@ -154,7 +179,7 @@ CI tests already install. No new browser dependencies.
 1. Merge the PR (CI green). Pages deploys the Statistics screen from the committed `stats.json`.
 2. The maintainer runs `helpmate-tables stats-push --tables ~/tb` once: first Parquet upload and the
    card with the viewer configuration.
-3. From then on every `accept` updates both.
+3. From then on every `accept` updates both; the PR test and the daily check catch a missed update.
 
 ## Out of scope
 
