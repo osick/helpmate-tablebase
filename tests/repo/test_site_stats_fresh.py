@@ -12,10 +12,13 @@ def test_stats_json_matches_the_materials_list():
     stats = json.loads((DATA / "stats.json").read_text())["materials"]
     done = {r["material"]: r for r in materials if r["done"]}
     assert sorted(stats) == sorted(done), (
-        "site/data/stats.json is stale: run helpmate-tables sync --tables DIR")
+        "site/data/stats.json is stale (missing %s, extra %s): run helpmate-tables sync --tables DIR"
+        % (sorted(set(done) - set(stats)), sorted(set(stats) - set(done))))
     for name, r in done.items():
         assert stats[name]["max_dtm"] == r["max_dtm"], name
-        unique = sum(u for stm in ("wtm", "btm") for _, _, u in stats[name][stm])
+        rows = [t for stm in ("wtm", "btm") for t in stats[name][stm]]
+        assert sum(c for _, c, _ in rows) == r["solvable"], name
+        unique = sum(u for _, _, u in rows)
         assert unique == r["unique"], name
 
 
