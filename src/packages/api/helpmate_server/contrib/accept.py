@@ -31,7 +31,7 @@ STEPS = ("merge", "manifest", "local", "docs", "card", "claims")
 # anything else dirty in the checkout is not ours to touch.
 DOCS_PATHS = ("CHANGELOG.md", "data/contributions.json", "README.md", "docs/CONTRIBUTING-TABLES.md",
               "docs/COOPERATIVE-TABLEBASE.md", "docs/hf-dataset-card.md", "site/data/materials.json",
-              "site/data/corpus.json", ".all-contributorsrc", "site/data/material",
+              "site/data/corpus.json", "site/data/stats.json", ".all-contributorsrc", "site/data/material",
               "site/data/index.json", "site/data/themes.json")
 _NO_CHECKS = "no checks reported"
 _NO_GLOBAL = {"GIT_CONFIG_GLOBAL": "/dev/null"}   # the global config rewrites HTTPS to SSH

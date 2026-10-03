@@ -1097,3 +1097,8 @@ def test_git_runs_with_english_messages(tmp_path, monkeypatch):
 
     Git(tmp_path, runner=runner).commit_all("m")
     assert seen and all(e.get("LC_ALL") == "C" and e.get("LANGUAGE") == "C" for e in seen)
+
+
+def test_docs_step_commits_the_statistics():
+    from helpmate_server.contrib.accept import DOCS_PATHS
+    assert "site/data/stats.json" in DOCS_PATHS

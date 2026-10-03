@@ -157,3 +157,15 @@ def test_completeness_against_the_manifest(tmp_path):
     manifest = {"files": {"KQvk.hm": {}, "KQvk.stats.json": {}, "KRvk.hm": {}}}
     assert completeness(collect(tmp_path), manifest) == (["KRvk"], ["KPvk"])
     assert completeness(collect(tmp_path), {"files": {"KQvk.hm": {}, "KPvk.hm": {}}}) == ([], [])
+
+
+def test_write_site_data_writes_stats_json(tmp_path):
+    from helpmate_server.contrib.site_data import write_site_data
+    tables, out = tmp_path / "tb", tmp_path / "out"
+    tables.mkdir()
+    out.mkdir()
+    _put(tables, KQVK)
+    written = write_site_data(out, tables)
+    assert out / "stats.json" in written
+    assert json.loads((out / "stats.json").read_text())["materials"]["KQvk"]["max_dtm"] == 3
+    assert out / "stats.json" not in write_site_data(out, tables)   # unchanged → not rewritten
