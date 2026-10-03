@@ -241,7 +241,8 @@ def test_accept_resumes_after_ci_failure_without_merging_twice(tmp_path):
     git = FakeGit()
     assert _run(checkout, staging, hub, gh, tables, git) == 0
     assert hub.merged == [2]                                     # not merged again
-    assert [c[0] for c in git.calls] == ["back", "wait_and_merge", "main_file", "main_file"]   # resumes at the docs PR, then the card and the registry for the statistics
+    assert [c[0] for c in git.calls][:3] == ["back", "wait_and_merge", "main_file"]   # resumes at the docs PR, then main's card
+    assert ("main_file", "docs/hf-dataset-card.md") in git.calls
 
 
 class ManifestFails(FakeHub):

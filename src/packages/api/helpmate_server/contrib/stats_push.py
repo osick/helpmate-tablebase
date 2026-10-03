@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from .corpus_stats import (
-    MATERIALS_PATH, collect, completeness, parquet_files, parquet_materials,
+    MATERIALS_PATH, collect, completeness, histogram_rows, parquet_files, parquet_materials,
     same_content)
 
 if TYPE_CHECKING:
@@ -60,7 +60,8 @@ def push(hub, tables: Path, registry: Registry | None, card: bytes | None, dry_r
     if not changed:
         return f"statistics unchanged ({len(ts)} tables)"
     if dry_run:
-        return f"would upload {', '.join(sorted(changed))} ({len(ts)} tables)"
+        return (f"would upload {', '.join(sorted(changed))} ({len(ts)} tables; "
+                f"{len(ts)} materials rows, {len(histogram_rows(ts))} histogram rows)")
     upload = dict(files)
     if card is not None:
         upload["README.md"] = card

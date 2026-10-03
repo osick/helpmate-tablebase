@@ -106,7 +106,7 @@ def _tool() -> str:
     return f"helpmate-tables {__version__}"
 
 
-def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
+def run(a: argparse.Namespace, hub_factory=None, gh_factory=None, git_factory=None) -> int:
     try:
         if a.cmd == "verify":
             return _verify(a, hub_factory, gh_factory)
@@ -187,14 +187,20 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
                 return 0
             if not a.tables:
                 raise UsageError("stats-push needs --tables DIR (or --check)")
+            import subprocess
+            from .accept import Git
             from .registry import Registry
-            checkout = Path(a.checkout)
-            reg_file = checkout / "data" / "contributions.json"
-            card_file = checkout / "docs" / "hf-dataset-card.md"
+            git = (git_factory or Git)(Path(a.checkout).resolve())
+            try:  # the card and the registry as main has them, like accept (fetches origin first)
+                card = git.main_file("docs/hf-dataset-card.md")
+                registry = Registry(Path("data/contributions.json"),
+                                    json.loads(git.main_file("data/contributions.json")))
+            except (subprocess.CalledProcessError, OSError, ValueError) as exc:
+                raise UsageError(f"cannot read the card and registry from origin/main in "
+                                 f"{Path(a.checkout).resolve()} (needs a git checkout of "
+                                 f"helpmate-tablebase with an origin remote): {exc}") from exc
             try:
-                print(push(hub, Path(a.tables).expanduser(),
-                           Registry.load(reg_file) if reg_file.exists() else None,
-                           card_file.read_bytes() if card_file.exists() else None, a.dry_run))
+                print(push(hub, Path(a.tables).expanduser(), registry, card, a.dry_run))
             except StatsError as exc:
                 raise UsageError(str(exc)) from exc
             return 0

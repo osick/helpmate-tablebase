@@ -237,11 +237,15 @@ helpmate-tables accept 2 3 4 --tables ~/tb              # merge, manifest, credi
   manifest lists. The Claims workflow only
   updates status comments and never closes issues.
 - `helpmate-tables stats-push --tables ~/tb [--dry-run]` computes the per-table
-  statistics and uploads the two Parquet files; `--dry-run` only says what it would
-  upload. `helpmate-tables stats-push --check` compares the published
-  `stats/materials.parquet` with the manifest (read-only, no token); the Stats
-  check workflow runs it daily. After this feature is merged, run `stats-push`
-  once by hand (after reinstalling the CLI), then open the dataset page and check
+  statistics and uploads the two Parquet files plus main's dataset card, only when
+  their content changed; it refuses an incomplete local corpus (`--tables` must hold
+  every table the manifest lists). `--dry-run` only prints the row counts and what
+  it would upload. `helpmate-tables stats-push --check` compares the published
+  `stats/materials.parquet` with the manifest (read-only, no token) and exits 1 when
+  it is stale; the Stats check workflow runs it daily, so it fails until the first
+  `stats-push` after the release that introduced statistics: run
+  `stats-push --tables ~/tb` right after merging it (after reinstalling the CLI).
+  Once, after the first release with statistics, open the dataset page and check
   that the viewer shows `materials` and `histogram`; `accept` keeps them current
   from then on. The site's `site/data/stats.json` is committed data, refreshed by
   `sync` and `accept`'s docs step.

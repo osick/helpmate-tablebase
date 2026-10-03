@@ -9,6 +9,7 @@ const decode = (s) => { try { return decodeURIComponent(s); } catch { return s; 
 const $ = (id) => document.getElementById(id);
 
 function drawCorpus() {
+  if (!S || !S.materials) return;
   $("stats-total").innerHTML = barChart({ bars: depthBars(S.total[state.stm]), log: state.log,
     xLabel: `depth (plies)${state.log ? " · log scale" : ""}`, yLabel: "positions per depth" });
   $("stats-share").innerHTML = barChart({ bars: uniqueShareBars(S.by_pieces), height: 200,
@@ -20,6 +21,7 @@ function drawCorpus() {
 }
 
 function drawMaterial(name) {
+  if (!S || !S.materials) return;
   const box = $("stats-material");
   const r = lookup(S, name);
   if (!name) { box.innerHTML = ""; return; }
@@ -48,6 +50,7 @@ export function initStats({ stats }) {
 }
 
 export function showStats(arg) {
+  if (!S || !S.materials) return;
   const name = decode(arg || "");
   $("stats-pick").value = name;
   drawMaterial(name);

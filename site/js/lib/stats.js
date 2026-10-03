@@ -6,9 +6,9 @@ export function depthBars(rows) {
 }
 
 export function uniqueShareBars(byPieces) {
-  return Object.keys(byPieces).sort((a, b) => a - b).map((k) => {
+  return Object.keys(byPieces).filter((k) => byPieces[k].solvable > 0).sort((a, b) => a - b).map((k) => {
     const { solvable, unique } = byPieces[k];
-    const value = solvable ? Math.round((unique / solvable) * 10000) / 100 : 0;
+    const value = Math.round((unique / solvable) * 10000) / 100;
     return { x: k, value, title: `${k} pieces: ${value}% of solvable positions have one solution` };
   });
 }

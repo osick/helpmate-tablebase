@@ -21,6 +21,11 @@ test("unique share per piece count, ordered", () => {
   assert.deepEqual(uniqueShareBars(stats.by_pieces).map((b) => [b.x, b.value]), [["3", 25], ["4", 10]]);
 });
 
+test("unique share drops piece counts without solvable positions", () => {
+  const bars = uniqueShareBars({ 2: { tables: 1, solvable: 0, unique: 0 }, 3: { tables: 2, solvable: 8, unique: 2 } });
+  assert.deepEqual(bars.map((b) => [b.x, b.value]), [["3", 25]]);
+});
+
 test("materials per max DTM, markers excluded, gaps filled", () => {
   assert.deepEqual(maxDtmBars(stats.materials, "all").map((b) => b.value), [0, 0, 0, 1, 0, 2]);
   assert.deepEqual(maxDtmBars(stats.materials, "4").map((b) => b.value), [0, 0, 0, 0, 0, 1]);
