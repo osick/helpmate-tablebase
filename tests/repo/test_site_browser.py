@@ -202,5 +202,7 @@ def test_statistics_screen_renders(server, browser):
     page.wait_for_selector("#stats-material svg rect.bar")
     page.goto(f"{server}/index.html#/stats/Nonsense")
     page.wait_for_selector("#stats-material :text('unknown material')")
+    page.goto(f"{server}/index.html#/stats/%E0%A4%A")
+    page.wait_for_selector("#stats-material :text('unknown material')")
     page.close()
     assert errors == []

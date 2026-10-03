@@ -230,3 +230,4 @@ svg .part { fill: var(--ink); }
 svg .axis { fill: var(--ink-soft); stroke: var(--ink-soft); font-size: 13px; stroke-width: 0.5; }
 svg text.axis { stroke: none; }
 svg .empty { fill: var(--ink-faint); }
+@media (max-width: 600px) { svg .axis { font-size: 22px; } }

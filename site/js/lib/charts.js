@@ -20,7 +20,7 @@ const fmt = (v) => (v >= 1e9 ? `${+(v / 1e9).toFixed(1)}G` : v >= 1e6 ? `${+(v /
 export function barChart({ bars, width = 640, height = 240, log = false, xLabel = "", yLabel = "" }) {
   const open = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(yLabel || "chart")}">`;
   if (!bars.length) return `${open}<text x="${width / 2}" y="${height / 2}" text-anchor="middle" class="empty">no data</text></svg>`;
-  const left = 48, bottom = 40, top = 8, plotW = width - left - 8, plotH = height - top - bottom;
+  const left = 48, bottom = 52, top = 8, plotW = width - left - 8, plotH = height - top - bottom;
   const max = log ? Math.max(...bars.map((b) => b.value), 1) : niceMax(Math.max(...bars.map((b) => b.value)));
   const step = plotW / bars.length, bw = Math.max(1, step * 0.8);
   const y = (v) => top + plotH * (1 - scale(v, max, log));
@@ -35,11 +35,11 @@ export function barChart({ bars, width = 640, height = 240, log = false, xLabel 
     out += `<g><title>${esc(b.title ?? `${b.x}: ${b.value}`)}</title>`;
     out += `<rect class="bar" x="${x.toFixed(1)}" y="${y(b.value).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}"/>`;
     if (b.part > 0) {
-      const ph = top + plotH - y(b.part);
-      out += `<rect class="part" x="${x.toFixed(1)}" y="${y(b.part).toFixed(1)}" width="${bw.toFixed(1)}" height="${ph.toFixed(1)}"/>`;
+      const ph = b.value > 0 ? h * Math.min(b.part / b.value, 1) : 0;   // true share on both axes
+      out += `<rect class="part" x="${x.toFixed(1)}" y="${(top + plotH - ph).toFixed(1)}" width="${bw.toFixed(1)}" height="${ph.toFixed(1)}"/>`;
     }
     out += "</g>";
-    if (i % every === 0) out += `<text class="axis" x="${(x + bw / 2).toFixed(1)}" y="${height - 24}" text-anchor="middle">${esc(b.x)}</text>`;
+    if (i % every === 0) out += `<text class="axis" x="${(x + bw / 2).toFixed(1)}" y="${height - 34}" text-anchor="middle">${esc(b.x)}</text>`;
   });
   if (xLabel) out += `<text class="axis" x="${left + plotW / 2}" y="${height - 4}" text-anchor="middle">${esc(xLabel)}</text>`;
   return `${out}</svg>`;

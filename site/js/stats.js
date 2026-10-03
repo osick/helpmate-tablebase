@@ -5,13 +5,14 @@ import { esc } from "./lib/materials.js";
 
 let S = null;
 const state = { stm: "btm", log: true, pieces: "all" };
+const decode = (s) => { try { return decodeURIComponent(s); } catch { return s; } };
 const $ = (id) => document.getElementById(id);
 
 function drawCorpus() {
   $("stats-total").innerHTML = barChart({ bars: depthBars(S.total[state.stm]), log: state.log,
-    xLabel: "depth (plies)", yLabel: "positions per depth" });
+    xLabel: `depth (plies)${state.log ? " · log scale" : ""}`, yLabel: "positions per depth" });
   $("stats-share").innerHTML = barChart({ bars: uniqueShareBars(S.by_pieces), height: 200,
-    xLabel: "pieces", yLabel: "unique share (%)" });
+    xLabel: "pieces · unique share in %", yLabel: "unique share (%)" });
   $("stats-maxdtm").innerHTML = barChart({ bars: maxDtmBars(S.materials, state.pieces),
     xLabel: "maximum DTM (plies)", yLabel: "materials" });
   $("stats-deepest").innerHTML = deepest(S.materials).map((d) =>
@@ -26,7 +27,7 @@ function drawMaterial(name) {
   const e = r.entry;
   box.innerHTML = `<h3>${esc(name)} — max DTM ${e.max_dtm}</h3>`
     + `<p><a href="material/${esc(name)}.html">material page</a></p>`
-    + barChart({ bars: depthBars(e[state.stm]), log: state.log, xLabel: "depth (plies)",
+    + barChart({ bars: depthBars(e[state.stm]), log: state.log, xLabel: `depth (plies)${state.log ? " · log scale" : ""}`,
       yLabel: `${name} positions per depth` });
 }
 
@@ -39,7 +40,7 @@ export function initStats({ stats }) {
     $(id).addEventListener("change", (ev) => {
       state[key] = key === "log" ? ev.target.checked : (ev.target.checked ? on : "btm");
       drawCorpus();
-      drawMaterial(decodeURIComponent(location.hash.split("/")[2] || ""));
+      drawMaterial(decode(location.hash.split("/")[2] || ""));
     });
   }
   $("stats-pieces").addEventListener("change", (ev) => { state.pieces = ev.target.value; drawCorpus(); });
@@ -47,7 +48,7 @@ export function initStats({ stats }) {
 }
 
 export function showStats(arg) {
-  const name = decodeURIComponent(arg || "");
+  const name = decode(arg || "");
   $("stats-pick").value = name;
   drawMaterial(name);
 }

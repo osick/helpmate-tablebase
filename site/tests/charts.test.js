@@ -36,3 +36,9 @@ test("empty data", () => {
   assert.match(svg, /x="320"/);
   assert.match(svg, /y="120"/);
 });
+
+test("on a log axis the part keeps its true share of the bar", () => {
+  const svg = barChart({ bars: [{ x: 1, value: 1000, part: 10 }], log: true });
+  const h = (cls) => Number(svg.match(new RegExp(`class="${cls}"[^>]*height="([\\d.]+)"`))[1]);
+  assert.ok(Math.abs(h("part") / h("bar") - 0.01) < 0.001);
+});
