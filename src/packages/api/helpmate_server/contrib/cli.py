@@ -10,7 +10,7 @@ from pathlib import Path
 
 from . import DATASET_REPO, DEFAULT_STAGING, GITHUB_REPO
 
-CONTRIB_COMMANDS = {"verify", "status", "accept", "sync", "claims", "site-status"}
+CONTRIB_COMMANDS = {"verify", "status", "accept", "sync", "claims", "site-status", "stats-push"}
 
 
 class UsageError(Exception):
@@ -68,6 +68,13 @@ def add_parsers(sub) -> None:
     ss.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
     ss.add_argument("--github-repo", default=GITHUB_REPO)
     ss.add_argument("--registry", type=Path, default=Path("data/contributions.json"))
+    sp = sub.add_parser("stats-push", help="(maintainer) upload or check the corpus statistics on the dataset")
+    sp.add_argument("--tables", metavar="DIR", help="the complete local corpus (not needed with --check)")
+    sp.add_argument("--check", action="store_true",
+                    help="only compare the published statistics with the manifest; exit 1 if stale")
+    sp.add_argument("--dry-run", action="store_true")
+    sp.add_argument("--checkout", type=Path, default=Path("."))
+    sp.add_argument("--repo", default=DATASET_REPO, metavar="USER/DATASET")
 
 
 def _absolute_binary(given: str | None) -> str | None:
@@ -159,6 +166,38 @@ def run(a: argparse.Namespace, hub_factory=None, gh_factory=None) -> int:
                           tables=Path(a.tables).expanduser(), staging=Path(a.staging).expanduser(),
                           contributor=a.contributor, today=date.today().isoformat(),
                           binary=_absolute_binary(a.binary))
+        if a.cmd == "stats-push":
+            from .hf import Hub
+            from .stats_push import StatsError, check, push
+            hub = (hub_factory or Hub)(a.repo)
+            try:
+                from .corpus_stats import require_pyarrow
+                require_pyarrow()
+            except ImportError as exc:
+                raise UsageError(str(exc)) from exc
+            if a.check:
+                problems = check(hub)
+                for problem in problems:
+                    print(f"stale: {problem}", file=sys.stderr)
+                if problems:
+                    print("fix: helpmate-tables stats-push --tables DIR (with the complete corpus)",
+                          file=sys.stderr)
+                    return 1
+                print("statistics match the manifest")
+                return 0
+            if not a.tables:
+                raise UsageError("stats-push needs --tables DIR (or --check)")
+            from .registry import Registry
+            checkout = Path(a.checkout)
+            reg_file = checkout / "data" / "contributions.json"
+            card_file = checkout / "docs" / "hf-dataset-card.md"
+            try:
+                print(push(hub, Path(a.tables).expanduser(),
+                           Registry.load(reg_file) if reg_file.exists() else None,
+                           card_file.read_bytes() if card_file.exists() else None, a.dry_run))
+            except StatsError as exc:
+                raise UsageError(str(exc)) from exc
+            return 0
         raise UsageError(f"{a.cmd}: not implemented yet")
     except UsageError as exc:
         print(f"error: {exc}", file=sys.stderr)
