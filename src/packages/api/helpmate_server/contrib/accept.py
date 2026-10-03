@@ -208,6 +208,23 @@ class Git:
         self._run("git", "switch", ref)
 
 
+def _statistics(hub, git, tables: Path) -> dict[str, bytes] | str:
+    """The Parquet statistics for the card commit, or why they are skipped. Never raises
+    for an incomplete corpus or a missing pyarrow: statistics must not fail an accept."""
+    from .corpus_stats import collect, completeness, parquet_files, require_pyarrow
+    try:
+        require_pyarrow()
+    except ImportError as exc:
+        return str(exc)
+    ts = collect(tables)
+    missing, extra = completeness(ts, hub.fetch_manifest())
+    if missing or extra:
+        return (f"{len(missing)} tables missing locally, {len(extra)} not published "
+                f"({', '.join((missing + extra)[:5])})")
+    reg = Registry(Path("data/contributions.json"), json.loads(git.main_file("data/contributions.json")))
+    return parquet_files(ts, reg)
+
+
 def _err(msg: str) -> int:
     print(f"error: {msg}", file=sys.stderr)
     return 2
@@ -488,7 +505,21 @@ def accept(prs: list[int], *, hub, gh, git, checkout: Path, tables: Path, stagin
 
     if "card" not in state["done"]:  # only now: the public card must not credit a failed docs PR
         # main's card, not a copy from this run's docs step: a later accept run may have published a newer one
-        hub.commit({"README.md": git.main_file("docs/hf-dataset-card.md")}, "Dataset card: contributors and counts")
+        card = git.main_file("docs/hf-dataset-card.md")
+        files, note = {"README.md": card}, _statistics(hub, git, tables)
+        if isinstance(note, dict):
+            files.update(note)
+            hub.commit(files, "Dataset card and statistics")
+            from .stats_push import check
+            problems = check(hub)
+            if problems:
+                return _err("statistics on the dataset do not match the manifest after the upload: "
+                            + "; ".join(problems) + " — rerun this accept to retry")
+            print(f"statistics uploaded: {len(note)} files", file=sys.stderr)
+        else:
+            hub.commit(files, "Dataset card: contributors and counts")
+            print(f"statistics not uploaded: {note}; run helpmate-tables stats-push --tables DIR "
+                  "after syncing", file=sys.stderr)
         mark("card")
 
     if "claims" not in state["done"]:
