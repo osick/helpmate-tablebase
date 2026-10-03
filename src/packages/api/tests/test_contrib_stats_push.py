@@ -71,7 +71,7 @@ def test_cli_push_uploads_mains_card_and_registry_not_the_working_tree(tmp_path)
     _put(tmp_path / "tb", KQVK)
     (tmp_path / "docs").mkdir()
     (tmp_path / "docs" / "hf-dataset-card.md").write_bytes(b"working tree card")
-    reg = {"contributors": {"u": {"key": "u", "github": None, "hf": None, "display": "Main Person"}},
+    reg = {"contributors": {"u": {"github": None, "hf": None, "display": "Main Person"}},
            "tables": {"KQvk": {"contributor": "u", "hf_pr": 7, "merged": "2026-01-02"}}}
 
     class FakeGit:
