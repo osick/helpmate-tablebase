@@ -49,8 +49,19 @@ std::shared_ptr<const BlockCache::Block> BlockCache::block(
 
 std::shared_ptr<const BlockCache::Block> BlockCache::acquire(
     uint64_t index, size_t len, const std::function<void(uint8_t*, size_t)>& fill) {
-    Shard& shard = shards_[index % shard_count_];
+    // The shard comes from a multiplicative hash of the index, not from
+    // index % shard_count_: block indices that a lookup pattern visits
+    // together often differ by multiples of the shard count (mine's solution
+    // search steps through a six-piece index in strides of 64^k cells), and
+    // with the modulus they all fell into one shard of capacity / 32 blocks.
+    // On `mine KBvkqrn --dtm 14 --count 2 --starts 2 --ends 2 --threads 16`
+    // that cost 15% more CPU and decompression (31.3 s against 24.4 s).
+    // The top bits of the product are the well-mixed ones; scaling them into
+    // [0, shard_count_) also works when the count is not a power of two.
+    const uint64_t mixed = index * 0x9E3779B97F4A7C15ull;
+    Shard& shard = shards_[static_cast<size_t>((static_cast<unsigned __int128>(mixed) * shard_count_) >> 64)];
 
+    std::shared_ptr<Block> local;
     {
         std::lock_guard<std::mutex> lock(shard.mu);
         auto it = shard.map.find(index);
@@ -59,13 +70,19 @@ std::shared_ptr<const BlockCache::Block> BlockCache::acquire(
             ++shard.hits;
             return shard.lru.front().data;
         }
+        if (!shard.spare.empty()) {
+            local = std::move(shard.spare.back());
+            shard.spare.pop_back();
+        }
     }
 
     // Miss: decompress into a local buffer with no lock held, so a slow fill
     // (up to a 64 KB decompression) never blocks another thread's probe.
     // Another thread may race us and decompress the same block too -- that
-    // is fine.
-    auto local = std::make_shared<Block>(len);
+    // is fine. A reused buffer is only resized: fill() writes all `len`
+    // bytes or throws.
+    if (local) local->resize(len);
+    else local = std::make_shared<Block>(len);
     fill(local->data(), len);
 
     std::lock_guard<std::mutex> lock(shard.mu);
@@ -79,6 +96,12 @@ std::shared_ptr<const BlockCache::Block> BlockCache::acquire(
     }
     if (shard.lru.size() >= shard.cap) {
         shard.map.erase(shard.lru.back().index);
+        // Reusable only if the cache holds the last reference: a thread's
+        // block slot or a block() caller may still read it. Every new
+        // reference is taken under this lock, so the count cannot grow here.
+        auto& victim = shard.lru.back().data;
+        if (victim.use_count() == 1 && shard.spare.size() < kMaxSpare)
+            shard.spare.push_back(std::const_pointer_cast<Block>(std::move(victim)));
         shard.lru.pop_back();
     }
     shard.lru.push_front(Entry{index, std::move(local)});
