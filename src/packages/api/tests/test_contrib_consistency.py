@@ -60,6 +60,38 @@ def test_missing_subtable_is_an_environment_error(tmp_path, compressed_tables):
         check_consistency("KPvk", tmp_path, samples=50, seed=1, extra_fens=[])
 
 
+class _FlippedSuccessors:
+    """Every successor is found only with colours flipped (probe's third field)."""
+    def moves(self, fen):
+        return [{"uci": m.uci(), "fen": fen, "solvable": True, "dtm": 3, "count": 1}
+                for m in chess.Board(fen).legal_moves]
+
+    def probe(self, fen):
+        return (3, 1, True)
+
+
+def test_a_colour_flipped_successor_is_a_missing_subtable():
+    with pytest.raises(MissingSubtable, match="colours flipped"):
+        check_position(_FlippedSuccessors(), "8/8/8/8/8/8/8/K6k w - - 0 1")
+
+
+def test_a_recorded_impossible_position_is_skipped_with_a_warning(compressed_tables):
+    impossible = "k7/1Q6/8/8/8/8/8/K7 w - - 0 1"   # Black in check with White to move
+    assert not chess.Board(impossible).is_valid()
+    c, _ = check_consistency("KQvk", compressed_tables, samples=50, seed=7,
+                             extra_fens=[impossible])
+    assert c.status == "warn", c.detail
+    assert "skipped 1 recorded position(s) no game can reach" in c.detail
+    assert impossible in c.detail
+
+
+def test_a_recorded_legal_position_is_still_checked(compressed_tables):
+    fen = "8/8/8/8/8/2k5/8/K1Q5 b - - 0 1"
+    c, _ = check_consistency("KQvk", compressed_tables, samples=50, seed=7, extra_fens=[fen])
+    assert c.status == "pass", c.detail
+    assert c.detail.startswith("101 positions"), c.detail
+
+
 CORPUS = Path(os.path.expanduser("~/tb"))
 
 
