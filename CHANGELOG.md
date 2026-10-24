@@ -8,6 +8,16 @@ bumps may change behavior).
 
 ## [Unreleased]
 
+### Fixed
+- `helpmate-tables verify` V6 treats a successor that is only in the tables with colours
+  flipped as a missing sub-table (verify stops and names it) instead of comparing against
+  that table: it answers the helpmate with the other side mating. A dataset PR verified with
+  another `--staging` root than the PRs it depends on got false inconsistencies this way.
+- V6 skips a position the sidecar records (its deepest samples) when no game can reach it,
+  such as a triple check, and says so in a warning; the random sample already skipped them.
+  The move generators need not agree on such positions, so one recorded triple check failed
+  a correct table.
+
 ## [0.21.0] - 2026-10-21
 
 ### Added

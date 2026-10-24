@@ -46,9 +46,16 @@ def check_position(tb, fen: str) -> str | None:
         want = (0, 1) if board.turn == chess.BLACK and board.is_check() else None
     else:
         # moves() reports a successor whose sub-table is absent as merely
-        # unsolvable; probe() raises MissingTableError, so probe those.
+        # unsolvable; probe() raises MissingTableError, so probe every one.
         for m in moves:
-            if not m["solvable"] and tb.probe(m["fen"]) is not None:
+            p = tb.probe(m["fen"])
+            if p is not None and p[2]:
+                # Only the colour-flipped table is present: that answers the helpmate with
+                # the other side mating, not this successor's (24 Oct: #66's KNNPvkq, its
+                # knight promotions found KQvknnn while KNNNvkq sat in another staged PR).
+                raise MissingSubtable(f"{fen}: successor {m['uci']} is only in the tables with "
+                                      "colours flipped; its own table is missing")
+            if not m["solvable"] and p is not None:
                 return f"{fen}: {m['uci']} listed unsolvable but its successor probes solvable"
         solvable = [m for m in moves if m["solvable"]]
         if not solvable:
@@ -63,6 +70,7 @@ def check_position(tb, fen: str) -> str | None:
 
 def check_consistency(material: str, tables: Path, samples: int, seed: int,
                       extra_fens: list[str]) -> tuple[Check, list[str]]:
+    import chess
     import helpmate
 
     title = "local consistency with successors and sub-tables"
@@ -81,9 +89,14 @@ def check_consistency(material: str, tables: Path, samples: int, seed: int,
             continue
         per[side] += 1
         fens.append(fen)
+    # A position the sidecar records (deepest samples) can be one no game reaches, such as a
+    # triple check: the generator values every indexed cell, but the move generators need not
+    # agree there. The random sample already skips them; skip the recorded ones too.
+    impossible = [f for f in extra_fens if not chess.Board(f).is_valid()]
+    extra = [f for f in extra_fens if f not in impossible]
     tb = helpmate.Tablebase(str(tables))
     bad: list[str] = []
-    for fen in list(extra_fens) + fens:
+    for fen in extra + fens:
         try:
             msg = check_position(tb, fen)
         except helpmate.MissingTableError as exc:
@@ -91,10 +104,14 @@ def check_consistency(material: str, tables: Path, samples: int, seed: int,
                                   "directory first") from exc
         if msg:
             bad.append(msg)
-    n = len(extra_fens) + len(fens)
+    n = len(extra) + len(fens)
     detail = f"{n:,} positions (seed {seed}), {len(bad)} inconsistent"
     if bad:
         return Check("V6", title, "fail", detail + ": " + "; ".join(bad[:MAX_LISTED])), fens
+    if impossible:
+        return Check("V6", title, "warn",
+                     detail + f"; skipped {len(impossible)} recorded position(s) no game can reach: "
+                     + "; ".join(impossible[:MAX_LISTED])), fens
     if min(per.values()) < samples:
         return Check("V6", title, "warn",
                      detail + f"; only {min(per.values())} legal positions found per side"), fens
