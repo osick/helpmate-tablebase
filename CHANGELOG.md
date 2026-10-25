@@ -8,6 +8,8 @@ bumps may change behavior).
 
 ## [Unreleased]
 
+## [0.21.1] - 2026-10-25
+
 ### Data
 - **Six pieces are complete: all 1,001 classes from two to six men are solved
   and published** (3,940.5 GiB). The last 409 six-piece classes came from
