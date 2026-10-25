@@ -42,6 +42,13 @@ bumps may change behavior).
   The move generators need not agree on such positions, so one recorded triple check failed
   a correct table.
 
+
+### Added
+- `helpmate-tables diff --tables DIR --repo USER/DATASET`: which materials are new or changed
+  compared with the dataset, and how many GiB a pull would fetch; `pull --missing` downloads
+  only those. Checksums are cached in `.sha256-cache.json` (filled by `pull`), so neither
+  rehashes a multi-terabyte corpus; `diff --verify` hashes what the cache does not cover.
+
 ## [0.21.0] - 2026-10-21
 
 ### Added

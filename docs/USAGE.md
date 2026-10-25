@@ -2534,8 +2534,20 @@ pip install . ./src/packages/api   # same install as the API server
 
 ```
 helpmate-tables push --tables DIR --repo USER/DATASET [--material NAME ...] [--create-pr] [--claim N] [--github LOGIN]
-helpmate-tables pull --tables DIR --repo USER/DATASET [--material NAME ...]
+helpmate-tables pull --tables DIR --repo USER/DATASET [--material NAME ...] [--missing]
+helpmate-tables diff --tables DIR --repo USER/DATASET [--verify]
 ```
+
+`diff` compares the directory with the dataset's manifest and lists every
+material that is **new** (not here) or **changed** (different size or
+checksum), with the GiB a pull would download, plus tables the dataset does
+not have; it downloads nothing. `pull --missing` downloads exactly those
+materials. Neither hashes the whole corpus: a size that differs is a change,
+and a matching size is checked against `.sha256-cache.json` in the directory,
+which `pull` fills with the checksum it computes for every file it downloads
+(entries count only while size and modification time are unchanged). Files
+that arrived another way, copied from a disk, say, count as up to date by size
+until `diff --verify` hashes them once.
 
 The same CLI runs the contribution pipeline. `verify` checks tables:
 `--material` before you push your own, `--pr` for a dataset PR. The maintainer

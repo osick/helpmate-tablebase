@@ -2,7 +2,7 @@ from __future__ import annotations
 import argparse, json, sys, tempfile
 from pathlib import Path
 from .contrib import cli as contrib_cli
-from .manifest import build_manifest, verify_file
+from .manifest import build_manifest
 
 # Files per commit. The Hub caps repository commits at 128/hour.
 _COMMIT_CHUNK = 64
@@ -58,11 +58,18 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=Non
          git_factory=None) -> int:
     p = argparse.ArgumentParser("helpmate-tables")
     sub = p.add_subparsers(dest="cmd")
-    for name in ("push", "pull"):
+    for name in ("push", "pull", "diff"):
         s = sub.add_parser(name)
         s.add_argument("--tables", required=True, metavar="DIR")
         s.add_argument("--repo", required=True, metavar="USER/DATASET")
-        s.add_argument("--material", action="append", default=[])
+        if name != "diff":
+            s.add_argument("--material", action="append", default=[])
+    sub.choices["pull"].add_argument(
+        "--missing", action="store_true",
+        help="download only the materials that are new or changed (see diff)")
+    sub.choices["diff"].add_argument(
+        "--verify", action="store_true",
+        help="hash the files whose checksum is not cached instead of trusting their size")
     sub.choices["push"].add_argument(
         "--create-pr", action="store_true",
         help="open a pull request on the dataset instead of writing to it "
@@ -180,21 +187,33 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=Non
             print(f"error: {exc}", file=sys.stderr)
             return 1
 
-    # pull
+    # pull / diff
+    from .corpus_diff import ShaCache, diff, report
+    cache = None
     try:
         manifest = hub.fetch_manifest()
         if manifest is None:
             print("error: remote has no manifest", file=sys.stderr)
             return 1
+        if a.cmd == "diff":
+            print(report(diff(tables, manifest, verify=a.verify)))
+            return 0
         materials = a.material or sorted({name[: -len(".hm")]
                                           for name in manifest.get("files", {})
                                           if name.endswith(".hm")})
+        if a.missing:
+            wanted = set(diff(tables, manifest).to_pull)
+            materials = [m for m in materials if m in wanted]
+            print(f"{len(materials)} material(s) new or changed")
+        cache = ShaCache(tables)
+        files = manifest.get("files", {})
         for mat in materials:
             for name in (f"{mat}.hm", f"{mat}.stats.json"):
-                if name not in manifest.get("files", {}):
+                if name not in files:
                     continue
                 f = hub.download(name, tables)
-                if not verify_file(f, manifest):
+                # The hash is needed for the check anyway; caching it spares diff the work.
+                if not f.is_file() or cache.hash(f) != files[name]["sha256"]:
                     f.unlink(missing_ok=True)
                     print(f"error: sha256 mismatch for {name}", file=sys.stderr)
                     return 1
@@ -202,6 +221,9 @@ def main(argv: list[str] | None = None, hub_factory=_default_hub, gh_factory=Non
     except Exception as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
+    finally:
+        if cache is not None:
+            cache.save()
     return 0
 
 
