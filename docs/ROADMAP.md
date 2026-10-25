@@ -7,6 +7,15 @@ comes; this file records the agreed order, goals, dependencies, and open
 questions. v0.5.0 (released 2026-07-30) is the baseline: generator to 6
 pieces, probe library, CLI, Python bindings, CI, docs.
 
+## Six pieces complete (2026-10-25)
+
+- **Done.** All 1,001 classes from two to six men are solved and published
+  (3,940 GiB on Hugging Face). Wave 3 of the contributions closed the last 409
+  six-piece classes: T31M 390 tables, popeye37 19.
+- Next: the material pages, DEEPEST and the site for the full corpus, then
+  seven pieces (checkpoint/resume and raw sub-table probes first; see
+  Major question 1 for leaner RAM).
+
 ## v0.21.0 — faster `gen` and `mine`, contribution pipeline
 
 - **Shipped.** `helpmate gen` about 20× faster with byte-identical tables and

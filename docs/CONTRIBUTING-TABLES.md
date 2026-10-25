@@ -2,41 +2,50 @@
 
 This project needs CPU and RAM more than it needs code.
 
-The corpus is **complete through five pieces** — all 220 five-piece classes,
-plus everything below them. At six pieces there are **<!-- contrib:six-total -->715<!-- /contrib --> material classes**, and
-**<!-- contrib:six-done -->715<!-- /contrib --> are done**, of which <!-- contrib:six-empty -->75<!-- /contrib --> are proven empty (marker
-tables: no helpmate exists in that class, so there is nothing to compute). The
-<!-- contrib:six-open -->0<!-- /contrib --> still to go are more than one desk can do: the
-pawnless ones need a 32 GiB machine, the ones with pawns 64 to 96 GiB.
+The corpus is **complete through six pieces**: all 1,001 classes from two to
+six men, the <!-- contrib:six-total -->715<!-- /contrib --> six-piece ones included, of which <!-- contrib:six-empty -->75<!-- /contrib --> are
+proven empty (marker tables: no helpmate exists in that class). Most of the
+six-piece tables were computed by contributors, and that work is finished.
 
-If you have a machine with 32 GiB of RAM and a few hours where it would
-otherwise idle, you can compute one of the tables that are still open.
+What is left to contribute:
+
+- **Reproductions.** Regenerate a published table and deliver it like a new
+  one: `verify` compares its payload with the published table, an identical
+  delivery turns a trusted table into a verified one, and you are credited as
+  a producer. See [Determinism](#determinism-and-why-it-matters-here) for the
+  route (a `confirm:` claim).
+- **Seven pieces**, later. A pawnless seven-piece class needs about 1.8 TiB of
+  RAM (5.3 TiB with one pawn), and the generator still needs checkpointing
+  before runs of that length are practical. See [ROADMAP.md](ROADMAP.md).
+
+The rest of this guide describes the delivery route, which a reproduction
+follows exactly.
 
 > For contributing *code*, see [CONTRIBUTING.md](CONTRIBUTING.md) — that one
 > is about CI checks and pull requests against the source tree.
 
-## What is missing
+## What a six-piece table needs
 
-<!-- contrib:six-open -->0<!-- /contrib --> six-piece tables. Peak RAM equals the raw table size, because generation
-holds four bytes per cell resident:
+Peak RAM equals the raw table size, because generation holds four bytes per
+cell resident:
 
-| pawns | tables missing | RAM needed | machine |
-| --- | --- | --- | --- |
-| **0** | **<!-- contrib:six-open-p0 -->0<!-- /contrib -->** | **28.9 GiB** | **32 GiB — the accessible tier** |
-| 3 | <!-- contrib:six-open-p3 -->0<!-- /contrib --> | 47.6 GiB | 64 GiB |
-| 4 | <!-- contrib:six-open-p4 -->0<!-- /contrib --> | 35.7 GiB | 64 GiB |
-| 2 | <!-- contrib:six-open-p2 -->0<!-- /contrib --> | 63.5 GiB | 96 GiB (64 is too tight) |
-| 1 | <!-- contrib:six-open-p1 -->0<!-- /contrib --> | 84.7 GiB | 96 GiB |
+| pawns | RAM needed | machine |
+| --- | --- | --- |
+| **0** | **28.9 GiB** | **32 GiB — the accessible tier** |
+| 3 | 47.6 GiB | 64 GiB |
+| 4 | 35.7 GiB | 64 GiB |
+| 2 | 63.5 GiB | 96 GiB (64 is too tight) |
+| 1 | 84.7 GiB | 96 GiB |
 
-Start with the pawnless tier. It is the largest single group, it fits on
-ordinary hardware, and every table in it is 28.9 GiB raw — about 1–6 GiB once
+For a reproduction, start with the pawnless tier: it fits on ordinary
+hardware, and every table in it is 28.9 GiB raw — about 1–6 GiB once
 compressed. A pawnless table takes about 40 minutes on a 16-thread machine
 (KBvkqrb: 41 minutes, and 13.5 minutes on 32 threads, where it took 4 h 28 min
 before 0.21). Tables with pawns have up to three times the cells and have not
 been timed since 0.21; they also need other six-piece tables first (step 2).
 
-Seven pieces is not open: a 7-piece class needs about 2 TB resident and an
-out-of-core generator that does not exist yet.
+Seven pieces is not open yet: a pawnless 7-piece class needs about 1.8 TiB
+resident (5.3 TiB with one pawn), and runs of days need checkpointing first.
 
 ## How to contribute one
 
@@ -53,7 +62,8 @@ comment on your issue. To hand a material over, strike its name through
 [materials list](https://osick.github.io/helpmate-tablebase/#/materials) on
 the site, filterable, shows priority, state and contributor of every
 material. Priority P1 means one White piece besides the king: the longest,
-deepest problems. Every P1 class is done, so start with P2. Claims lapse after
+deepest problems. Every class is done now, so a claim is for a reproduction
+(first line `confirm:`). Claims lapse after
 three weeks of silence.
 
 **2. Pull the published sub-tables first.** `gen` builds the full closure of

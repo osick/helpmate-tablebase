@@ -9,6 +9,10 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Data
+- **Six pieces are complete: all 1,001 classes from two to six men are solved
+  and published** (3,940.5 GiB). The last 409 six-piece classes came from
+  wave 3 of the contributions, verified and accepted on 2026-10-25: T31M
+  delivered 390 tables, popeye37 19.
 - KNNvkrr (independently reproduced by popeye37 and popeye37).
 - KNNvkrn (independently reproduced by popeye37 and popeye37).
 - KNNvkrb (independently reproduced by popeye37 and popeye37).
