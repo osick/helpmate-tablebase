@@ -4,9 +4,9 @@ This project needs CPU and RAM more than it needs code.
 
 The corpus is **complete through five pieces** — all 220 five-piece classes,
 plus everything below them. At six pieces there are **<!-- contrib:six-total -->715<!-- /contrib --> material classes**, and
-**<!-- contrib:six-done -->306<!-- /contrib --> are done**, of which <!-- contrib:six-empty -->75<!-- /contrib --> are proven empty (marker
+**<!-- contrib:six-done -->696<!-- /contrib --> are done**, of which <!-- contrib:six-empty -->75<!-- /contrib --> are proven empty (marker
 tables: no helpmate exists in that class, so there is nothing to compute). The
-<!-- contrib:six-open -->409<!-- /contrib --> still to go are more than one desk can do: the
+<!-- contrib:six-open -->19<!-- /contrib --> still to go are more than one desk can do: the
 pawnless ones need a 32 GiB machine, the ones with pawns 64 to 96 GiB.
 
 If you have a machine with 32 GiB of RAM and a few hours where it would
@@ -17,16 +17,16 @@ otherwise idle, you can compute one of the tables that are still open.
 
 ## What is missing
 
-<!-- contrib:six-open -->409<!-- /contrib --> six-piece tables. Peak RAM equals the raw table size, because generation
+<!-- contrib:six-open -->19<!-- /contrib --> six-piece tables. Peak RAM equals the raw table size, because generation
 holds four bytes per cell resident:
 
 | pawns | tables missing | RAM needed | machine |
 | --- | --- | --- | --- |
-| **0** | **<!-- contrib:six-open-p0 -->174<!-- /contrib -->** | **28.9 GiB** | **32 GiB — the accessible tier** |
-| 3 | <!-- contrib:six-open-p3 -->20<!-- /contrib --> | 47.6 GiB | 64 GiB |
-| 4 | <!-- contrib:six-open-p4 -->3<!-- /contrib --> | 35.7 GiB | 64 GiB |
-| 2 | <!-- contrib:six-open-p2 -->68<!-- /contrib --> | 63.5 GiB | 96 GiB (64 is too tight) |
-| 1 | <!-- contrib:six-open-p1 -->144<!-- /contrib --> | 84.7 GiB | 96 GiB |
+| **0** | **<!-- contrib:six-open-p0 -->13<!-- /contrib -->** | **28.9 GiB** | **32 GiB — the accessible tier** |
+| 3 | <!-- contrib:six-open-p3 -->0<!-- /contrib --> | 47.6 GiB | 64 GiB |
+| 4 | <!-- contrib:six-open-p4 -->0<!-- /contrib --> | 35.7 GiB | 64 GiB |
+| 2 | <!-- contrib:six-open-p2 -->1<!-- /contrib --> | 63.5 GiB | 96 GiB (64 is too tight) |
+| 1 | <!-- contrib:six-open-p1 -->5<!-- /contrib --> | 84.7 GiB | 96 GiB |
 
 Start with the pawnless tier. It is the largest single group, it fits on
 ordinary hardware, and every table in it is 28.9 GiB raw — about 1–6 GiB once
