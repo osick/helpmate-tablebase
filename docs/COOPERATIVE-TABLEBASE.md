@@ -22,7 +22,7 @@ adversarial tablebases never needed: the **number of distinct optimal
 solutions**. For every legal position in a material class the table stores
 distance to mate and how many shortest mating lines tie. `count = 1` is a
 sound problem; anything else is a dual. The corpus is currently complete
-through five pieces, with <!-- contrib:six-done -->701<!-- /contrib --> of the <!-- contrib:six-total -->715<!-- /contrib --> six-piece classes done
+through five pieces, with <!-- contrib:six-done -->715<!-- /contrib --> of the <!-- contrib:six-total -->715<!-- /contrib --> six-piece classes done
 (<!-- contrib:six-empty -->75<!-- /contrib --> of them proven empty by marker tables).
 
 ```
@@ -95,7 +95,7 @@ Real tables are block-compressed: the planes are cut into 64 KiB blocks and
 each block is a separate zstd frame with its content checksum enabled, so a
 probe decompresses one block into a bounded LRU cache and a flipped bit fails
 loudly instead of returning a plausible wrong DTM. The corpus compresses
-10.2×, from 12.0 TiB of planes to <!-- contrib:gib -->3886.3<!-- /contrib --> GiB on disk. The six-piece
+10.2×, from 12.0 TiB of planes to <!-- contrib:gib -->3940.5<!-- /contrib --> GiB on disk. The six-piece
 tables range from 4.7× (KRBvkbp) to 57× (KPvknnn), which tracks how much of
 the class is illegal or unsolvable. Random access stays cheap enough that
 solution enumeration on a compressed table costs about 1.14× the raw table,
@@ -103,7 +103,7 @@ and a full plane scan about 2.3×.
 
 ## What the data says
 
-Across the <!-- contrib:tables-real -->847<!-- /contrib --> tables that hold data there are <!-- contrib:cells-billion -->18351.5<!-- /contrib --> billion plane cells (marker tables are left out: they store a verdict, not cells). Almost two thirds, 62.2 %, are illegal positions the dense index has to reserve room for, 0.4 % are legal but unsolvable, 37.4 % have a helpmate, and of those 3.2 % have a unique solution.
+Across the <!-- contrib:tables-real -->861<!-- /contrib --> tables that hold data there are <!-- contrib:cells-billion -->18706.9<!-- /contrib --> billion plane cells (marker tables are left out: they store a verdict, not cells). Almost two thirds, 62.2 %, are illegal positions the dense index has to reserve room for, 0.4 % are legal but unsolvable, 37.4 % have a helpmate, and of those 3.2 % have a unique solution.
 The 115 six-piece tables with pawns are 71.5 % of all cells, so they set
 these shares. Across the first 302 tables the figures were
 343.0 billion cells, 20.7 % unsolvable, 27.7 % with a helpmate, and 2.9 %
@@ -148,8 +148,8 @@ checked cheaply.
 ## Limits, and the open call
 
 Seven pieces need about 2 TB resident and an out-of-core generator that does
-not exist. Six pieces need a machine, not a redesign: **<!-- contrib:six-open -->14<!-- /contrib --> six-piece classes
-are still open, and <!-- contrib:six-open-p0 -->9<!-- /contrib --> of them fit in 32 GiB and take about 40
+not exist. Six pieces need a machine, not a redesign: **<!-- contrib:six-open -->0<!-- /contrib --> six-piece classes
+are still open, and <!-- contrib:six-open-p0 -->0<!-- /contrib --> of them fit in 32 GiB and take about 40
 minutes each on a 16-thread machine.** Contributions arrive as pull requests
 on the dataset (`helpmate-tables push --create-pr`), and every merged table is
 credited. Regenerating an existing class is a contribution too: `verify`
