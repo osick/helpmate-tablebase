@@ -9,6 +9,15 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Data
+- KNNvkrr (independently reproduced by popeye37 and popeye37).
+- KNNvkrn (independently reproduced by popeye37 and popeye37).
+- KNNvkrb (independently reproduced by popeye37 and popeye37).
+- KNNvkqr (independently reproduced by popeye37 and popeye37).
+- KNNvkqq (independently reproduced by popeye37 and popeye37).
+- KNNvkqn (independently reproduced by popeye37 and popeye37).
+- KNNvkqb (independently reproduced by popeye37 and popeye37).
+- KNNvkbn (independently reproduced by popeye37 and popeye37).
+- KNNvkbb (independently reproduced by popeye37 and popeye37).
 - KNNvkbb, KNNvkbn, KNNvkbp, KNNvknp, KNNvkpp, KNNvkqb, KNNvkqn, KNNvkqp, KNNvkqq, KNNvkqr, KNNvkrb, KNNvkrn, KNNvkrp, KNNvkrr contributed by popeye37 (dataset PR #21).
 - KNNNvkb, KNNNvkn, KNNNvkp, KNNNvkq, KNNNvkr contributed by popeye37 (dataset PR #65, claim #75).
 - KBBBBvk, KBBBNvk, KBBBPvk, KBBNNvk, KBBNPvk, KBBPPvk, KBNNNvk, KBNNPvk, KBNPPvk, KBPPPvk, KNNNNvk, KNNNPvk, KNNPPvk, KNPPPvk, KPPPPvk, KQBBBvk, KQBBNvk, KQBBPvk, KQBNNvk, KQBNPvk, KQBPPvk, KQNNNvk, KQNNPvk, KQNPPvk, KQPPPvk, KQQBBvk, KQQBNvk, KQQBPvk, KQQNNvk, KQQNPvk, KQQPPvk, KQQQBvk, KQQQNvk, KQQQPvk, KQQQQvk, KQQQRvk, KQQRBvk, KQQRNvk, KQQRPvk, KQQRRvk, KQRBBvk, KQRBNvk, KQRBPvk, KQRNNvk, KQRNPvk, KQRPPvk, KQRRBvk, KQRRNvk, KQRRPvk, KQRRRvk, KRBBBvk, KRBBNvk, KRBBPvk, KRBNNvk, KRBNPvk, KRBPPvk, KRNNNvk, KRNNPvk, KRNPPvk, KRPPPvk, KRRBBvk, KRRBNvk, KRRBPvk, KRRNNvk, KRRNPvk, KRRPPvk, KRRRBvk, KRRRNvk, KRRRPvk, KRRRRvk contributed by T31M (dataset PR #67, claim #78).
