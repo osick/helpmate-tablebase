@@ -255,3 +255,87 @@ def test_claim_without_create_pr_is_a_usage_error(tmp_path, capsys):
     seed(tmp_path)
     assert tables_cli.main(["push", "--tables", str(tmp_path), "--repo", "u/ds",
                             "--claim", "39"], hub_factory=lambda repo: RecorderHub()) == 2
+
+
+# --- diff and pull --missing ---------------------------------------------------
+
+class CountingHub(RecorderHub):
+    def __init__(self):
+        super().__init__()
+        self.downloads: list[str] = []
+    def download(self, filename: str, dest_dir: Path) -> Path:
+        self.downloads.append(filename)
+        return super().download(filename, dest_dir)
+
+def _published(tmp_path):
+    src, dst = tmp_path / "src", tmp_path / "dst"
+    src.mkdir(); dst.mkdir(); seed(src)
+    hub = CountingHub()
+    assert tables_cli.main(["push", "--tables", str(src), "--repo", "u/ds"],
+                           hub_factory=lambda repo: hub) == 0
+    return src, dst, hub
+
+def _diff(dst, hub, capsys, *extra):
+    assert tables_cli.main(["diff", "--tables", str(dst), "--repo", "u/ds", *extra],
+                           hub_factory=lambda repo: hub) == 0
+    return capsys.readouterr().out
+
+def test_diff_of_an_empty_directory_lists_everything_as_new(tmp_path, capsys):
+    _, dst, hub = _published(tmp_path)
+    out = _diff(dst, hub, capsys)
+    assert "new      KQvk" in out and "new      Kvk" in out
+    assert out.splitlines()[-1].startswith("2 new")
+    assert hub.downloads == []                      # diff downloads nothing
+
+def test_pull_missing_fetches_only_what_is_new(tmp_path, capsys):
+    _, dst, hub = _published(tmp_path)
+    assert tables_cli.main(["pull", "--tables", str(dst), "--repo", "u/ds", "--material", "KQvk"],
+                           hub_factory=lambda repo: hub) == 0
+    hub.downloads.clear()
+    assert tables_cli.main(["pull", "--tables", str(dst), "--repo", "u/ds", "--missing"],
+                           hub_factory=lambda repo: hub) == 0
+    assert hub.downloads == ["Kvk.hm"]              # KQvk is already here
+    hub.downloads.clear()
+    assert tables_cli.main(["pull", "--tables", str(dst), "--repo", "u/ds", "--missing"],
+                           hub_factory=lambda repo: hub) == 0
+    assert hub.downloads == []                      # nothing left to fetch
+
+def test_pulled_files_are_current_without_hashing_again(tmp_path, capsys, monkeypatch):
+    _, dst, hub = _published(tmp_path)
+    tables_cli.main(["pull", "--tables", str(dst), "--repo", "u/ds"], hub_factory=lambda repo: hub)
+    capsys.readouterr()
+    import helpmate_server.corpus_diff as cd
+    monkeypatch.setattr(cd, "sha256_file", lambda p: (_ for _ in ()).throw(AssertionError("hashed")))
+    out = _diff(dst, hub, capsys, "--verify")       # the cache from pull covers every file
+    assert out.splitlines()[-1].startswith("0 new") and "2 up to date," in out
+
+def test_a_copied_file_is_current_by_size_until_verified(tmp_path, capsys):
+    src, dst, hub = _published(tmp_path)
+    for f in src.iterdir():
+        if f.suffix in (".hm", ".json") and f.name != "manifest.json":
+            (dst / f.name).write_bytes(f.read_bytes())
+    assert "(2 by size only" in _diff(dst, hub, capsys)
+    out = _diff(dst, hub, capsys, "--verify")
+    assert "by size only" not in out and "2 up to date," in out
+
+def test_changed_files_are_found_by_size_and_by_hash(tmp_path, capsys):
+    _, dst, hub = _published(tmp_path)
+    tables_cli.main(["pull", "--tables", str(dst), "--repo", "u/ds"], hub_factory=lambda repo: hub)
+    capsys.readouterr()
+    (dst / "Kvk.hm").write_bytes(b"\x04" * 9)        # size differs
+    (dst / "KQvk.hm").write_bytes(b"\x07" * 24)      # same size, other content
+    import os
+    st = (dst / "KQvk.hm").stat()                    # a later edit: the mtime moves
+    os.utime(dst / "KQvk.hm", ns=(st.st_atime_ns, st.st_mtime_ns + 10**9))
+    out = _diff(dst, hub, capsys, "--verify")
+    assert "changed  Kvk" in out and "changed  KQvk" in out
+    hub.downloads.clear()
+    tables_cli.main(["pull", "--tables", str(dst), "--repo", "u/ds", "--missing"],
+                    hub_factory=lambda repo: hub)
+    assert sorted(hub.downloads) == ["KQvk.hm", "KQvk.stats.json", "Kvk.hm"]
+    assert (dst / "KQvk.hm").read_bytes() == b"\x03" * 24
+
+def test_diff_lists_local_tables_the_dataset_lacks(tmp_path, capsys):
+    _, dst, hub = _published(tmp_path)
+    (dst / "KRvk.hm").write_bytes(b"\x01")
+    assert "local    KRvk" in _diff(dst, hub, capsys)
