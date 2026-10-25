@@ -2849,6 +2849,342 @@
       ],
       "published_from": 66
     },
+    "KNNvkbb": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkbn": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkbp": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvknp": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkpp": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkqb": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkqn": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkqp": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkqq": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkqr": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkrb": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkrn": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkrp": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
+    "KNNvkrr": {
+      "contributor": "popeye37",
+      "hf_pr": 21,
+      "claim": null,
+      "merged": "2026-10-25",
+      "generator_version": "0.20.0",
+      "verification": {
+        "tool": "helpmate-tables 0.20.0",
+        "head": "5288f365683635418b055e77553184b0df44d665",
+        "date": "2026-10-20",
+        "samples": 2000,
+        "seed": 1775605342,
+        "result": "pass"
+      },
+      "producers": [
+        {
+          "contributor": "popeye37",
+          "hf_pr": 21,
+          "date": "2026-10-25",
+          "generator_version": "0.20.0"
+        }
+      ],
+      "published_from": 21
+    },
     "KNPPPvk": {
       "contributor": "T31M",
       "hf_pr": 67,
