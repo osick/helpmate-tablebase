@@ -177,8 +177,10 @@ intentionally not addressed here.
   raw in RAM and compressed on the way out. A 96 GiB machine covers every
   6-piece material; 32 GiB covers all 286 pawnless ones.
 
-- **Seven pieces and beyond are not reachable today.** A 7-piece class needs
-  roughly 2 TB resident, far past any single machine, and would need an
+- **Seven pieces are not computed yet.** A pawnless 7-piece class needs
+  1.8 TiB resident (5.3 TiB with one pawn). Nothing in the index or the file
+  format stops it, so one large server could run it in RAM, but runs of days
+  need checkpointing first, and smaller machines (or eight pieces) need an
   out-of-core generator that does not exist yet. The versioned encoding field
   and the slice-DAG generation order are deliberately designed so such a
   format can be added without invalidating existing tables.

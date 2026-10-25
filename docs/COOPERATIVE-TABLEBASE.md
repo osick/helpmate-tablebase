@@ -21,9 +21,9 @@ something if the solution is *unique*. That gives the table a second field
 adversarial tablebases never needed: the **number of distinct optimal
 solutions**. For every legal position in a material class the table stores
 distance to mate and how many shortest mating lines tie. `count = 1` is a
-sound problem; anything else is a dual. The corpus is currently complete
-through five pieces, with <!-- contrib:six-done -->715<!-- /contrib --> of the <!-- contrib:six-total -->715<!-- /contrib --> six-piece classes done
-(<!-- contrib:six-empty -->75<!-- /contrib --> of them proven empty by marker tables).
+sound problem; anything else is a dual. The corpus is complete through six
+pieces: all <!-- contrib:six-total -->715<!-- /contrib --> six-piece classes are done (<!-- contrib:six-empty -->75<!-- /contrib --> of them proven empty by
+marker tables), 1,001 classes in all.
 
 ```
 $ helpmate mine KQvk --dtm 2 --count 1 --max 3
@@ -95,16 +95,16 @@ Real tables are block-compressed: the planes are cut into 64 KiB blocks and
 each block is a separate zstd frame with its content checksum enabled, so a
 probe decompresses one block into a bounded LRU cache and a flipped bit fails
 loudly instead of returning a plausible wrong DTM. The corpus compresses
-10.2×, from 12.0 TiB of planes to <!-- contrib:gib -->3940.5<!-- /contrib --> GiB on disk. The six-piece
-tables range from 4.7× (KRBvkbp) to 57× (KPvknnn), which tracks how much of
+8.8×, from 34.0 TiB of planes to <!-- contrib:gib -->3940.5<!-- /contrib --> GiB on disk. The six-piece
+tables range from 3.8× (KBNPvkp) to 125× (KRRRRvk), which tracks how much of
 the class is illegal or unsolvable. Random access stays cheap enough that
 solution enumeration on a compressed table costs about 1.14× the raw table,
 and a full plane scan about 2.3×.
 
 ## What the data says
 
-Across the <!-- contrib:tables-real -->861<!-- /contrib --> tables that hold data there are <!-- contrib:cells-billion -->18706.9<!-- /contrib --> billion plane cells (marker tables are left out: they store a verdict, not cells). Almost two thirds, 62.2 %, are illegal positions the dense index has to reserve room for, 0.4 % are legal but unsolvable, 37.4 % have a helpmate, and of those 3.2 % have a unique solution.
-The 115 six-piece tables with pawns are 71.5 % of all cells, so they set
+Across the <!-- contrib:tables-real -->861<!-- /contrib --> tables that hold data there are <!-- contrib:cells-billion -->18706.9<!-- /contrib --> billion plane cells (marker tables are left out: they store a verdict, not cells). 62.0 % are illegal positions the dense index has to reserve room for, 0.2 % are legal but unsolvable, 37.8 % have a helpmate, and of those 6.2 % have a unique solution: 438 billion sound problems.
+The 350 six-piece tables with pawns are 75.5 % of all cells, so they set
 these shares. Across the first 302 tables the figures were
 343.0 billion cells, 20.7 % unsolvable, 27.7 % with a helpmate, and 2.9 %
 of those unique (markers then still counted as unsolvable cells).
@@ -119,9 +119,9 @@ Ka1 Ke1 Qc1+ Ke2 Kb2 Kf2 Kc2 Ke2 b5 Kf2 Kd1 Kf1 b4 Kg1 Ke1 Kh1 Kf1 Kh2
 b3 Kh1 b2 Kh2 b1=N Kh1 Nd2 Kh2 Nf3+ Kg3 Kg1 Bc4 Kh1 Bf1 Ng1 Bg2#
 ```
 
-Its count is saturated at 255. That is the pattern everywhere: in all 452
+Its count is saturated at 255. That is the pattern everywhere: in all 861
 classes that hold data the deepest *sound* problem is shallower than the class
-maximum, by 4.4 plies on average and by 20 in KRBvkp, whose longest helpmate
+maximum, by 4.5 plies on average and by 20 in KRBvkp, whose longest helpmate
 is h#16 and whose longest unique one is h#6. The longest helpmates have
 hundreds of ways to reach mate, which is exactly what disqualifies them as
 compositions. [DEEPEST.md](DEEPEST.md) lists the deepest sound problem in
@@ -145,14 +145,17 @@ proving it means regenerating it. That is stated plainly in
 [CONTRIBUTING-TABLES.md](CONTRIBUTING-TABLES.md), together with what can be
 checked cheaply.
 
-## Limits, and the open call
+## Limits, and what comes next
 
-Seven pieces need about 2 TB resident and an out-of-core generator that does
-not exist. Six pieces need a machine, not a redesign: **<!-- contrib:six-open -->0<!-- /contrib --> six-piece classes
-are still open, and <!-- contrib:six-open-p0 -->0<!-- /contrib --> of them fit in 32 GiB and take about 40
-minutes each on a 16-thread machine.** Contributions arrive as pull requests
-on the dataset (`helpmate-tables push --create-pr`), and every merged table is
-credited. Regenerating an existing class is a contribution too: `verify`
+Six pieces are done: every class through six men is solved, most of the
+six-piece ones on contributors' machines. The deepest sound problem in the
+whole corpus is h#13, reached in three classes (KBvkrp, KBvkbbp, KQBvkrp); the
+longest mate, h#17.5 in KBvkqqp, has many solutions. Seven pieces need about
+1.8 TiB resident for a pawnless class (5.3 TiB with one pawn): within reach of
+one large server, with checkpointing added to the generator, and beyond that
+an out-of-core generator that does not exist. Contributions arrive as pull
+requests on the dataset (`helpmate-tables push --create-pr`), and every merged
+table is credited. Regenerating an existing class is a contribution too: `verify`
 compares its payload with the published table, and an identical delivery
 turns a trusted table into a verified one. It is credited equally, as an
 independent reproduction (25 tables so far).
