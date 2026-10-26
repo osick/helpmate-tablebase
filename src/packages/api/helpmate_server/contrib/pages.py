@@ -74,6 +74,15 @@ def run_pages(materials: list[str], *, checkout: Path, tables: Path, binary: str
         print("no material pages to build", file=sys.stderr)
         return 0
     staging.mkdir(parents=True, exist_ok=True)
+    # An unfinished run for the same materials carries on under its own date, whichever day
+    # it started: a run over hundreds of six-piece pages spans days with nightly stops.
+    for old in sorted(staging.glob("pages-*.json")):
+        try:
+            if json.loads(old.read_text()).get("materials") == materials:
+                today = old.stem[len("pages-"):]
+                break
+        except ValueError:
+            continue
     state_path = staging / f"pages-{today}.json"
     state = json.loads(state_path.read_text()) if state_path.exists() else {}
     if state.get("materials") != materials:
@@ -111,11 +120,11 @@ def run_pages(materials: list[str], *, checkout: Path, tables: Path, binary: str
         for i, (job_dir, mats) in enumerate(job_dirs):
             if i in state["done_jobs"]:
                 continue
-            shutil.rmtree(job_dir, ignore_errors=True)
-            (job_dir / "material").mkdir(parents=True)
+            # An interrupted job keeps its finished pages: --resume builds only the missing ones.
+            (job_dir / "material").mkdir(parents=True, exist_ok=True)
             shutil.copyfile(checkout / "site" / "data" / "materials.json", job_dir / "materials.json")
             cmd = [sys.executable, str(checkout / "tools" / "build_problems.py"), "--tables", str(tables),
-                   "--binary", binary, "--out", str(job_dir)]
+                   "--binary", binary, "--out", str(job_dir), "--resume"]
             for m in mats:
                 cmd += ["--material", m]
             running.append((i, runner(cmd, cwd=checkout)))

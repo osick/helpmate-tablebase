@@ -357,6 +357,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--tables", required=True)
     ap.add_argument("--binary", default="./build/helpmate")
     ap.add_argument("--out", default="site/data")
+    ap.add_argument("--resume", action="store_true",
+                    help="keep the pages already in --out/material and build only the missing "
+                         "ones (their index rows and themes are read back from the kept pages)")
     ap.add_argument("--material", action="append", default=[],
                     help="restrict to these materials (repeatable)")
     a = ap.parse_args(argv)
@@ -383,16 +386,28 @@ def main(argv: Optional[List[str]] = None) -> int:
         if not rows[material].get("done", True):     # rows from old data have no `done`
             print(f"  {material}: not done in materials.json, skipped", file=sys.stderr)
             continue
-        try:
-            doc = build_material(a.binary, a.tables, material,
-                                 json.loads(sc.read_text()), rows[material], attrib)
-        except Exception as exc:                        # reported per material, not hidden
-            print(f"  {material}: FAILED -- {exc}", file=sys.stderr)
-            failures += 1
-            continue
+        page = out / "material" / f"{material}.json"
+        doc = None
+        if a.resume and page.exists():
+            try:                         # pages are written atomically, so a kept one is whole
+                doc = json.loads(page.read_text())
+            except ValueError:
+                doc = None
+        reused = doc is not None
+        if doc is None:
+            try:
+                doc = build_material(a.binary, a.tables, material,
+                                     json.loads(sc.read_text()), rows[material], attrib)
+            except Exception as exc:                    # reported per material, not hidden
+                print(f"  {material}: FAILED -- {exc}", file=sys.stderr)
+                failures += 1
+                continue
+            # Atomic: an interrupted run never leaves a half-written page behind for --resume.
+            tmp = page.with_name(page.name + ".tmp")
+            tmp.write_text(json.dumps(doc, indent=1))
+            tmp.replace(page)
 
         processed.add(material)
-        (out / "material" / f"{material}.json").write_text(json.dumps(doc, indent=1))
         for kind in ("unique", "duals"):
             for p in doc[kind]:
                 for t in p["themes"]:
@@ -410,8 +425,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             # exists -- see build_material's marker guard.
             "has_helpmate": doc["stats"]["solvable"] != 0,
         })
-        print(f"  {material}: {len(doc['unique'])} unique, {len(doc['duals'])} dual",
-              file=sys.stderr)
+        print(f"  {material}: {len(doc['unique'])} unique, {len(doc['duals'])} dual"
+              + (" (kept)" if reused else ""), file=sys.stderr)
 
     # A scoped run (--material) must not wipe out every other material's
     # entry in the committed index/theme files -- merge in place of them.
