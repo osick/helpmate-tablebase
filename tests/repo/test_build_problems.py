@@ -522,3 +522,29 @@ def test_main_skips_materials_whose_row_is_not_done(tmp_path, monkeypatch):
     assert bp.main(["--tables", str(tables), "--out", str(out)]) == 0
     assert built == ["KBvk", "KQvk"]
     assert not (out / "material" / "KRvk.json").exists()
+
+
+def test_resume_keeps_finished_pages_and_still_indexes_them(tmp_path, monkeypatch):
+    bp = _load()
+    tables, out = tmp_path / "tb", tmp_path / "out"
+    (out / "material").mkdir(parents=True)
+    tables.mkdir()
+    for m in ("KQvk", "KRvk"):
+        (tables / f"{m}.stats.json").write_text(json.dumps({"material": m}))
+    (out / "materials.json").write_text(json.dumps([{"material": m, "done": True} for m in ("KQvk", "KRvk")]))
+
+    def page(m):
+        p = {"fen": f"{m} fen", "dtm": 4, "stipulation": "h#2", "themes": ["model"]}
+        return {"material": m, "pieces": 3, "unique": [p], "duals": [],
+                "stats": {"deepest_unique_dtm": 4, "solvable": 1}}
+    (out / "material" / "KQvk.json").write_text(json.dumps(page("KQvk")))   # finished before the stop
+    (out / "material" / "KRvk.json.tmp").write_text("{half")                 # an interrupted write
+    built: list[str] = []
+    monkeypatch.setattr(bp, "build_material", lambda b, t, m, s, r, a: built.append(m) or page(m))
+
+    assert bp.main(["--tables", str(tables), "--out", str(out), "--resume"]) == 0
+    assert built == ["KRvk"]                                   # only the missing page was built
+    assert {r["material"] for r in json.loads((out / "index.json").read_text())} == {"KQvk", "KRvk"}
+    model = json.loads((out / "themes.json").read_text())["model"]
+    assert {p["material"] for p in (model["problems"] if isinstance(model, dict) else model)} == {"KQvk", "KRvk"}
+    assert json.loads((out / "material" / "KRvk.json").read_text())["material"] == "KRvk"

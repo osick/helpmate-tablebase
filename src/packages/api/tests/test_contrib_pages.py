@@ -234,3 +234,35 @@ def test_changes_outside_the_docs_paths_made_during_the_build_stop_before_the_re
 
     rc, _, _ = _go(tmp_path, Dirtying(), git)
     assert rc == 2 and "reset" not in git.names() and "commit_all" not in git.names()
+
+
+class HalfRunner(Runner):
+    """Writes the first material's page, then the job dies (a stop at the nightly cut-off)."""
+
+    def __call__(self, cmd, cwd):
+        self.calls.append((cmd, cwd))
+        out = Path(cmd[cmd.index("--out") + 1])
+        first = cmd[cmd.index("--material") + 1]
+        (out / "material" / f"{first}.json").write_text(json.dumps({"material": first, "kept": True}))
+        return type("P", (), {"wait": lambda self: 1})()
+
+
+def test_an_interrupted_run_carries_on_the_next_day_with_its_finished_pages(tmp_path):
+    checkout, staging, tables = _setup(tmp_path)
+    kw = dict(checkout=checkout, tables=tables, binary="/bin/h", jobs=2, staging=staging)
+    assert run_pages(["A", "B", "C"], git=FakeGit(), today="2026-10-10", runner=HalfRunner(), **kw) == 1
+    kept = sorted(p.name for p in (staging / "pages-2026-10-10").glob("job-*/material/*.json"))
+    assert kept == ["A.json", "B.json"]                       # one finished page per job
+    seen: set[str] = set()
+
+    class SeeingRunner(Runner):
+        def __call__(self, cmd, cwd):
+            out = Path(cmd[cmd.index("--out") + 1])
+            seen.update(p.name for p in (out / "material").glob("*.json"))
+            return super().__call__(cmd, cwd)
+
+    runner = SeeingRunner()
+    assert run_pages(["A", "B", "C"], git=FakeGit(), today="2026-10-11", runner=runner, **kw) == 0
+    assert not (staging / "pages-2026-10-11").exists()        # the run of the 10th carried on
+    assert all("--resume" in cmd for cmd, _ in runner.calls)
+    assert seen == {"A.json", "B.json"}                       # not wiped: --resume keeps them
