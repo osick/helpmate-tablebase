@@ -224,6 +224,8 @@ coverage:
 docs-deepest:
 	python3 tools/render_deepest.py --data docs/DEEPEST.json --out docs/DEEPEST.md
 	python3 tools/deepest_booklet.py --data docs/DEEPEST.json --out docs/DEEPEST.tex
+	python3 tools/deepest_booklet.py --data docs/DEEPEST.json --lang de
+	python3 tools/deepest_booklet.py --data docs/DEEPEST.json --lang fr
 
 # The per-material problem data behind the site's material pages. Needs a
 # corpus, like docs-deepest -- the output is committed because the Pages
@@ -242,12 +244,14 @@ booklet: docs-deepest
 	@kpsewhich chessboard.sty >/dev/null || \
 	  { echo "chessboard.sty not found -- install TeX Live's texlive-games"; exit 1; }
 	mkdir -p $(BOOKLET)
-	pdflatex -interaction=nonstopmode -halt-on-error \
-	  -output-directory=$(BOOKLET) docs/DEEPEST.tex >/dev/null
-	pdflatex -interaction=nonstopmode -halt-on-error \
-	  -output-directory=$(BOOKLET) docs/DEEPEST.tex >/dev/null
-	cp $(BOOKLET)/DEEPEST.pdf docs/DEEPEST.pdf
-	@echo "wrote docs/DEEPEST.pdf (build dir: $(BOOKLET))"
+	for b in DEEPEST DEEPEST_de DEEPEST_fr; do \
+	  for pass in 1 2; do \
+	    lualatex -interaction=nonstopmode -halt-on-error \
+	      -output-directory=$(BOOKLET) docs/$$b.tex >/dev/null || exit 1; \
+	  done; \
+	  cp $(BOOKLET)/$$b.pdf docs/$$b.pdf; \
+	  echo "wrote docs/$$b.pdf (build dir: $(BOOKLET))"; \
+	done
 
 clean:
 	rm -rf $(BUILD) $(COVBUILD) $(BOOKLET)

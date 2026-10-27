@@ -8,6 +8,21 @@ bumps may change behavior).
 
 ## [Unreleased]
 
+### Docs
+- **The DEEPEST booklet is redesigned and now also in German and French**:
+  *Longest Helpmates with up to Six Men* / *Längste Hilfsmatts mit maximal 6
+  Steinen* / *Les plus longs mats aidés jusqu'à six pièces*, 891 A5 pages
+  each. One page per material class with the class's key figures and a chart
+  of its positions by distance to mate, the diagram, the solution, the themes,
+  matching published problems, and a *solve* link plus QR code for the
+  Helpmate Analyzer. A summary of the tablebase opens the booklet, with the
+  maintainer, the contributors and an explicit note that the search for
+  earlier publications is incomplete and no priority is claimed.
+  `make booklet` builds all three with LuaLaTeX.
+- DEEPEST covers all 861 classes from three to six men that hold a unique
+  problem. The 136 better-formed positions chosen in September are kept; 26
+  classes match a published problem (checked against 23,807).
+
 ## [0.21.1] - 2026-10-25
 
 ### Data

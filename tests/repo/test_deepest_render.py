@@ -41,6 +41,7 @@ def _load(name: str):
 
 sys.path.insert(0, str(TOOLS))
 lib = _load("deepest_lib")
+text = _load("deepest_booklet_text")
 booklet = _load("deepest_booklet")
 
 DATA = ROOT / "docs" / "DEEPEST.json"
@@ -250,8 +251,13 @@ def test_latex_escapes_the_hash_in_a_stipulation():
 
 
 @pytest.fixture(scope="module")
-def tex(rows):
-    return booklet.build(rows)
+def registry():
+    return json.loads((ROOT / "data" / "contributions.json").read_text())
+
+
+@pytest.fixture(scope="module")
+def tex(rows, registry):
+    return booklet.build(rows, registry)
 
 
 def test_booklet_is_a_compilable_document(tex):
@@ -265,11 +271,11 @@ def test_booklet_draws_boards_with_the_chessboard_package(tex):
     assert "\\chessboard[" in tex
 
 
-def test_booklet_has_one_diagram_per_class(tex, rows):
-    expected = len(rows) + sum(1 for r in rows if r.get("alternative"))
-    assert tex.count("\\hmentry{") == expected
+def test_booklet_has_one_problem_per_class(tex, rows):
+    # One page per class, the deepest unique problem only: no siblings, no two-solution problems.
+    assert tex.count("\\chessboard[setfen=") == len(rows)
     for r in rows:
-        assert r["fen"] in tex, r["material"]
+        assert f"setfen={r['fen']}]" in tex, r["material"]
 
 
 def test_booklet_covers_every_piece_count_present(tex, rows):
@@ -307,21 +313,25 @@ def test_six_man_count_agrees_with_the_repo():
     assert booklet.possible_classes(6) - booklet.mateable_classes(6) == 70
 
 
-def test_booklet_declares_itself_a_draft(tex, rows):
+def test_booklet_opens_with_a_summary_of_the_tablebase(tex, rows, registry):
     s = booklet.statistics(rows)
-    assert "draft" in tex.lower()
-    assert s["classes"] < s["possible"]         # the reason it is a draft
+    front = tex.split("\\mainmatter", 1)[0]
+    assert "The tablebase in brief" in front and "How to read a page" in front
+    assert f"{s['classes']} (three to six men)" in front
+    for name, n in booklet.contributor_counts(registry):
+        assert f"{name} ({n} tables)" in front
 
 
 def test_booklet_links_to_the_helpmate_analyzer(tex, rows):
-    assert tex.count("helpman.komtera.lt") >= len(rows)
+    for r in rows:
+        assert f"\\qrcode[height=12mm]{{{lib.helpman_url(r['fen'], r['dtm'])}}}" in tex, r["material"]
 
 
 def test_booklet_escapes_every_stipulation(tex):
     # A bare # in LaTeX is a macro parameter, so an unescaped h#13 in the body
     # either aborts the run or silently eats the next token. The preamble is
-    # exempt: #1..#7 there are \hmentry's own parameters.
-    body = tex.split(booklet.PREAMBLE, 1)[1]
+    # exempt: #1, #2 there are \themetag's and \hmfigure's own parameters.
+    body = tex.split(booklet.preamble(), 1)[1]
     for line in body.splitlines():
         if line.lstrip().startswith("%"):
             continue
@@ -333,6 +343,53 @@ def test_checked_in_booklet_is_not_stale(tex):
     assert (ROOT / "docs" / "DEEPEST.tex").read_text() == tex
 
 
+@pytest.mark.parametrize("lang", ["de", "fr"])
+def test_checked_in_translations_are_not_stale(rows, registry, lang):
+    assert (ROOT / booklet.out_path(lang)).read_text() == booklet.build(rows, registry, lang)
+
+
+def test_every_language_has_every_word():
+    en = text.TEXT["en"]
+    for lang in text.LANGS:
+        t = text.TEXT[lang]
+        assert t.keys() == en.keys(), lang
+        for k, v in en.items():
+            if isinstance(v, dict) and k != "themes_map":
+                assert t[k].keys() == v.keys(), (lang, k)
+            # \\' is LaTeX's acute accent: jusqu\\'à would print as jusquà́
+            assert "\\'" not in json.dumps(t[k], ensure_ascii=False).replace("\\\\", "\\"), (lang, k)
+            # a slot the English text fills must exist in the translation too
+            for slot in re.findall(r"<\w+>", v if isinstance(v, str) else ""):
+                assert slot in t[k], (lang, k, slot)
+
+
+def test_translation_carries_the_language_into_tex(rows, registry):
+    de = booklet.build(rows[:3], registry, "de")
+    assert r"\usepackage[ngerman]{babel}" in de
+    assert "Die Tablebase in Kürze" in de and "The tablebase in brief" not in de
+    assert "use comma" in de                       # pgfplots ticks get the decimal comma
+    fr = booklet.build(rows[:3], registry, "fr")
+    assert r"\usepackage[french]{babel}" in fr and "La base en bref" in fr
+
+
+def test_big_numbers_follow_the_long_scale():
+    # 10**12 is a trillion in English but a Billion / un billion in German and French.
+    assert booklet.big(7_070_000_000_000) == "7.07 trillion"
+    assert booklet.big(7_070_000_000_000, "de") == "7,07 Billionen"
+    assert booklet.big(438_000_000_000, "fr") == "438 milliards"
+
+
+def test_german_entry_translates_labels_and_themes():
+    r = {"material": "KQvk", "pieces": 3, "fen": "8/8/8/8/8/1k6/8/KQ6 b - - 0 1",
+         "dtm": 4, "max_dtm": 8, "unique_at_depth": 1, "solution": "Kb4 Qb2+ Ka5 Qa3#",
+         "themes": ["pure", "set-play", "promotions:q"],
+         "quality": {"legal": True, "check": False, "capture_first": True}}
+    tex = booklet.entry(r, 7, "de")
+    assert "Schwarz am Zug" in tex and "Nr.~7" in tex and "lösen" in tex
+    assert r"\themetag{reines Matt} \themetag{Satzspiel}" in tex
+    assert "die Lösung beginnt mit einem Schlag" in tex
+
+
 def test_chessboard_probe_survives_a_machine_with_no_tex(monkeypatch):
     # The probe decides a skipif, so it runs during collection. If it raises
     # on a runner with no TeX installed, the whole module fails to collect and
@@ -341,19 +398,30 @@ def test_chessboard_probe_survives_a_machine_with_no_tex(monkeypatch):
     assert have_chessboard() is False
 
 
-@pytest.mark.skipif(shutil.which("pdflatex") is None, reason="no pdflatex")
+def _have_booklet_fonts() -> bool:
+    if shutil.which("fc-list") is None:
+        return False
+    fams = subprocess.run(["fc-list", ":", "family"], capture_output=True, text=True).stdout
+    return "Source Serif Pro" in fams and "Linux Biolinum O" in fams
+
+
+@pytest.mark.skipif(shutil.which("lualatex") is None, reason="no lualatex")
 @pytest.mark.skipif(not have_chessboard(),
                     reason="chessboard.sty not installed (TeX Live: texlive-games)")
-def test_booklet_compiles(tmp_path, tex):
+@pytest.mark.skipif(not _have_booklet_fonts(), reason="Source Serif Pro / Linux Biolinum O missing")
+@pytest.mark.parametrize("lang", ["en", "de", "fr"])
+def test_booklet_compiles(tmp_path, rows, registry, lang):
+    # The whole booklet takes minutes; one class per piece count exercises every part of it.
+    sample = [next(r for r in rows if r["pieces"] == n) for n in sorted({r["pieces"] for r in rows})]
     src = tmp_path / "DEEPEST.tex"
-    src.write_text(tex)
+    src.write_text(booklet.build(sample, registry, lang))
     for _ in range(2):                          # toc + refs need two passes
         p = subprocess.run(
-            ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", src.name],
+            ["lualatex", "-interaction=nonstopmode", "-halt-on-error", src.name],
             cwd=tmp_path, capture_output=True, text=True,
         )
     assert p.returncode == 0, p.stdout[-3000:]
-    assert (tmp_path / "DEEPEST.pdf").stat().st_size > 100_000
+    assert (tmp_path / "DEEPEST.pdf").stat().st_size > 50_000
 
 
 # --------------------------------------------------------------------------
@@ -414,10 +482,11 @@ def test_booklet_entry_numbers_links_and_lists_themes(rows):
     booklet = _load("deepest_booklet")
     r = dict(next(x for x in rows if x["material"] == "KQvk"))
     r["themes"] = ["pure", "model"]
+    r["themes"] = ["pure", "model", "umnov", "promotions:q"]
     tex = booklet.entry(r, 7)
-    assert tex.startswith("\\hmentry{No.~7\\quad KQvk}")
-    assert tex.count("}{") == 8  # nine arguments
-    assert "pure, model" in tex
+    assert "No.~7" in tex and "KQvk" in tex
+    assert "\\themetag{pure} \\themetag{model} \\themetag{Umnov}" in tex
+    assert "promotions" not in tex                   # parametric variants are left out
     assert lib.helpman_url(r["fen"], r["dtm"]) in tex
 
 
@@ -437,8 +506,23 @@ def test_markdown_index_has_a_published_by_column_and_cards_carry_notes(markdown
 
 
 def test_booklet_index_has_a_published_by_column_and_entries_carry_notes(tex, rows):
-    assert r"material & men & sound & class max & gap & published by & page" in tex
+    assert r"material & men & unique & class max & gap & published by & page" in tex
     booklet = _load("deepest_booklet")
     r = dict(next(x for x in rows if x["material"] == "KQvk"))
     r["quality"] = {"capture_first": True, "check": True, "legal": True}
     assert r"\textit{Note:} the side to move is in check in the diagram; the solution begins with a capture." in booklet.entry(r, 1)
+
+
+@pytest.mark.parametrize("lang", ["en", "de", "fr"])
+def test_booklet_names_its_authors_and_claims_no_priority(rows, registry, lang):
+    # Who made the tables, where they live, and that a missing "published" box
+    # is no claim of originality: intellectual property matters to problemists.
+    t = text.TEXT[lang]
+    front = booklet.build(rows, registry, lang).split("\\mainmatter", 1)[0]
+    assert t["about_title"] in front and t["prior_title"] in front
+    assert t["prior"] in front
+    assert text.MAINTAINER in front
+    for name, _ in booklet.contributor_counts(registry):
+        assert name in front
+    assert "github.com/osick/helpmate-tablebase" in front
+    assert "huggingface.co/datasets/osick/helpmate-tables" in front
