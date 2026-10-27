@@ -165,8 +165,10 @@ is hand-written. Depths and position counts come from each table's exact
 `uniqueness` histogram, not from sampling; every FEN is verified by probing
 before it is used.
 
-The same data is also typeset as a print booklet:
-[`docs/DEEPEST.tex`](DEEPEST.tex), built by
+The same data is also typeset as a print booklet, *Longest Helpmates with up
+to Six Men*, in [English](DEEPEST.pdf), [German](DEEPEST_de.pdf) and
+[French](DEEPEST_fr.pdf): sources [`docs/DEEPEST.tex`](DEEPEST.tex),
+`DEEPEST_de.tex` and `DEEPEST_fr.tex`, built by
 [`tools/deepest_booklet.py`](../tools/deepest_booklet.py).\n""")
     L.append(f"Deepest sound problem in the whole corpus: **{hn(deepest['dtm'])}** "
              f"({deepest['material']}, {deepest['unique_at_depth']} such position"

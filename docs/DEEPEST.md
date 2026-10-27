@@ -7,18 +7,18 @@ dual and the composition is unsound, so `count = 1` is what makes a position
 worth anything as a problem.
 
 **The deepest problem in a material class is almost never the longest one.**
-Across all 452 classes here, the deepest *unique* position is shallower
-than the class maximum **every single time** — 452/452, mean gap
-4.4 plies, worst case 20. The reason is visible
-in the data: in 438 of 452 classes every position at maximum depth has a
+Across all 861 classes here, the deepest *unique* position is shallower
+than the class maximum **every single time** — 861/861, mean gap
+4.5 plies, worst case 20. The reason is visible
+in the data: in 807 of 861 classes every position at maximum depth has a
 **saturated** solution count (255 or more). The longest helpmates have hundreds
 of ways to reach mate, which is exactly what disqualifies them as compositions.
 
 The extreme case is **KRBvkp**: it runs to h#16,
 but its deepest sound problem is h#6 — 20 plies shallower.
 
-These positions are also rare. 41 classes contain **exactly one** unique
-position at their deepest sound depth; 190
+These positions are also rare. 81 classes contain **exactly one** unique
+position at their deepest sound depth; 335
 contain ten or fewer.
 
 Black moves first and cooperates. `h#n` means mate after n moves by each side;
@@ -44,8 +44,10 @@ is hand-written. Depths and position counts come from each table's exact
 `uniqueness` histogram, not from sampling; every FEN is verified by probing
 before it is used.
 
-The same data is also typeset as a print booklet:
-[`docs/DEEPEST.tex`](DEEPEST.tex), built by
+The same data is also typeset as a print booklet, *Longest Helpmates with up
+to Six Men*, in [English](DEEPEST.pdf), [German](DEEPEST_de.pdf) and
+[French](DEEPEST_fr.pdf): sources [`docs/DEEPEST.tex`](DEEPEST.tex),
+`DEEPEST_de.tex` and `DEEPEST_fr.tex`, built by
 [`tools/deepest_booklet.py`](../tools/deepest_booklet.py).
 
 Deepest sound problem in the whole corpus: **h#13** (KBvkrp, 2 such positions).
@@ -58,14 +60,17 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | --- | --- | --- | --- | --- | --- | --- |
 | [KBvkbbp](#kbvkbbp) | 6 | **h#13** | h#16.5 | −7 | 2 |  |
 | [KBvkrp](#kbvkrp) | 5 | **h#13** | h#16.5 | −7 | 2 |  |
+| [KQBvkrp](#kqbvkrp) | 6 | **h#13** | h#17 | −8 | 2 |  |
 | [KBvkqbp](#kbvkqbp) | 6 | **h#12.5** | h#16.5 | −8 | 59 |  |
 | [KBvkqqp](#kbvkqqp) | 6 | **h#12.5** | h#17.5 | −10 | 210 |  |
 | [KBvkqrp](#kbvkqrp) | 6 | **h#12.5** | h#16.5 | −8 | 495 |  |
 | [KBvkrpp](#kbvkrpp) | 6 | **h#12.5** | h#16.5 | −8 | 14 |  |
 | [KBvkrrp](#kbvkrrp) | 6 | **h#12.5** | h#16.5 | −8 | 79 |  |
 | [KPvkbpp](#kpvkbpp) | 6 | **h#12.5** | h#15.5 | −6 | 7 |  |
+| [KBBPvkp](#kbbpvkp) | 6 | **h#12** | h#15 | −6 | 4 |  |
 | [KBvkqp](#kbvkqp) | 5 | **h#12** | h#17 | −10 | 3 |  |
 | [KBvkrbp](#kbvkrbp) | 6 | **h#12** | h#16.5 | −9 | 6 |  |
+| [KQBvkqp](#kqbvkqp) | 6 | **h#12** | h#17 | −10 | 1 |  |
 | [KRBvkrp](#krbvkrp) | 6 | **h#12** | h#17 | −10 | 3 |  |
 | [KBvkbp](#kbvkbp) | 5 | **h#11.5** | h#16 | −9 | 8 |  |
 | [KBvkbpp](#kbvkbpp) | 6 | **h#11.5** | h#16 | −9 | 34 |  |
@@ -74,17 +79,35 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KBvkrnp](#kbvkrnp) | 6 | **h#11.5** | h#16.5 | −10 | 10 |  |
 | [KPvkppp](#kpvkppp) | 6 | **h#11.5** | h#16.5 | −10 | 4 |  |
 | [KBBvkrp](#kbbvkrp) | 6 | **h#11** | h#17 | −12 | 1 |  |
+| [KBPPvkp](#kbppvkp) | 6 | **h#11** | h#14 | −6 | 1 |  |
+| [KBPvkrp](#kbpvkrp) | 6 | **h#11** | h#16 | −10 | 1 |  |
 | [KBvkppp](#kbvkppp) | 6 | **h#11** | h#15.5 | −9 | 1 |  |
+| [KQBPvkp](#kqbpvkp) | 6 | **h#11** | h#15 | −8 | 1 |  |
+| [KBBBvkp](#kbbbvkp) | 6 | **h#10.5** | h#15 | −9 | 2 |  |
 | [KBPvkp](#kbpvkp) | 5 | **h#10.5** | h#16 | −11 | 1 | Szentai (1958) |
+| [KBPvkpp](#kbpvkpp) | 6 | **h#10.5** | h#16 | −11 | 28 |  |
+| [KBPvkqp](#kbpvkqp) | 6 | **h#10.5** | h#17 | −13 | 1 |  |
 | [KBvkbnp](#kbvkbnp) | 6 | **h#10.5** | h#16.5 | −12 | 1 |  |
 | [KBvknpp](#kbvknpp) | 6 | **h#10.5** | h#14.5 | −8 | 1 |  |
 | [KNvkqqp](#knvkqqp) | 6 | **h#10.5** | h#12.5 | −4 | 11 |  |
+| [KPPvkpp](#kppvkpp) | 6 | **h#10.5** | h#15.5 | −10 | 1 |  |
 | [KPvkbbp](#kpvkbbp) | 6 | **h#10.5** | h#15 | −9 | 41 |  |
 | [KBBvkbp](#kbbvkbp) | 6 | **h#10** | h#16 | −12 | 51 |  |
 | [KBBvkqp](#kbbvkqp) | 6 | **h#10** | h#17 | −14 | 7 |  |
+| [KBNPvkp](#kbnpvkp) | 6 | **h#10** | h#15 | −10 | 1 |  |
 | [KBvkbbn](#kbvkbbn) | 6 | **h#10** | h#12 | −4 | 10 |  |
 | [KBvkqnn](#kbvkqnn) | 6 | **h#10** | h#13 | −6 | 5 |  |
+| [KNPvkpp](#knpvkpp) | 6 | **h#10** | h#15 | −10 | 3 |  |
 | [KPvkpp](#kpvkpp) | 5 | **h#10** | h#15.5 | −11 | 2 | Ban (1967) |
+| [KQBvkbp](#kqbvkbp) | 6 | **h#10** | h#16.5 | −13 | 5 |  |
+| [KQBvknp](#kqbvknp) | 6 | **h#10** | h#16 | −12 | 2 |  |
+| [KQBvkqn](#kqbvkqn) | 6 | **h#10** | h#13 | −6 | 17 |  |
+| [KQBvkrn](#kqbvkrn) | 6 | **h#10** | h#13 | −6 | 16 |  |
+| [KQNvkpp](#kqnvkpp) | 6 | **h#10** | h#11 | −2 | 1 |  |
+| [KQNvkqp](#kqnvkqp) | 6 | **h#10** | h#12 | −4 | 35 |  |
+| [KQPvkbp](#kqpvkbp) | 6 | **h#10** | h#15 | −10 | 2 |  |
+| [KQPvkpp](#kqpvkpp) | 6 | **h#10** | h#16 | −12 | 4 |  |
+| [KRBPvkp](#krbpvkp) | 6 | **h#10** | h#15 | −10 | 3 |  |
 | [KRBvkbp](#krbvkbp) | 6 | **h#10** | h#16.5 | −13 | 1 |  |
 | [KRBvknp](#krbvknp) | 6 | **h#10** | h#15.5 | −11 | 1 |  |
 | [KRBvkqn](#krbvkqn) | 6 | **h#10** | h#13 | −6 | 4 |  |
@@ -93,6 +116,8 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KBBvknp](#kbbvknp) | 6 | **h#9.5** | h#14.5 | −10 | 7 |  |
 | [KBBvkpp](#kbbvkpp) | 6 | **h#9.5** | h#16 | −13 | 4 |  |
 | [KBBvkqn](#kbbvkqn) | 6 | **h#9.5** | h#13 | −7 | 3 |  |
+| [KBPvkbp](#kbpvkbp) | 6 | **h#9.5** | h#16 | −13 | 5 |  |
+| [KBPvknp](#kbpvknp) | 6 | **h#9.5** | h#14.5 | −10 | 7 |  |
 | [KBvkbnn](#kbvkbnn) | 6 | **h#9.5** | h#12.5 | −6 | 109 |  |
 | [KBvknnn](#kbvknnn) | 6 | **h#9.5** | h#12 | −5 | 35 |  |
 | [KBvknnp](#kbvknnp) | 6 | **h#9.5** | h#12.5 | −6 | 209 |  |
@@ -105,6 +130,8 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KBvkrn](#kbvkrn) | 5 | **h#9.5** | h#12.5 | −6 | 24 |  |
 | [KBvkrnn](#kbvkrnn) | 6 | **h#9.5** | h#13 | −7 | 36 |  |
 | [KBvkrrn](#kbvkrrn) | 6 | **h#9.5** | h#12.5 | −6 | 128 |  |
+| [KNPvkqp](#knpvkqp) | 6 | **h#9.5** | h#14 | −9 | 4 |  |
+| [KNPvkrp](#knpvkrp) | 6 | **h#9.5** | h#12.5 | −6 | 2 |  |
 | [KNvkpp](#knvkpp) | 5 | **h#9.5** | h#11.5 | −4 | 2 |  |
 | [KNvkppp](#knvkppp) | 6 | **h#9.5** | h#11.5 | −4 | 17 |  |
 | [KNvkqb](#knvkqb) | 5 | **h#9.5** | h#11.5 | −4 | 1 | Sheglow (1998) |
@@ -127,26 +154,51 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KPvkqpp](#kpvkqpp) | 6 | **h#9.5** | h#15.5 | −12 | 236 |  |
 | [KPvkrbp](#kpvkrbp) | 6 | **h#9.5** | h#15 | −11 | 11 |  |
 | [KPvkrpp](#kpvkrpp) | 6 | **h#9.5** | h#15.5 | −12 | 105 |  |
+| [KBBBvkn](#kbbbvkn) | 6 | **h#9** | h#12 | −6 | 22 |  |
 | [KBBvkbn](#kbbvkbn) | 6 | **h#9** | h#12 | −6 | 244 |  |
 | [KBBvkn](#kbbvkn) | 5 | **h#9** | h#12 | −6 | 2 |  |
 | [KBBvkp](#kbbvkp) | 5 | **h#9** | h#16 | −14 | 1 |  |
 | [KBBvkrn](#kbbvkrn) | 6 | **h#9** | h#13 | −8 | 8 |  |
+| [KBNvkqp](#kbnvkqp) | 6 | **h#9** | h#17 | −16 | 16 |  |
+| [KBPvkbn](#kbpvkbn) | 6 | **h#9** | h#12 | −6 | 3 |  |
+| [KBPvkqn](#kbpvkqn) | 6 | **h#9** | h#13 | −8 | 20 |  |
+| [KBPvkrn](#kbpvkrn) | 6 | **h#9** | h#13 | −8 | 16 |  |
 | [KBvkbn](#kbvkbn) | 5 | **h#9** | h#12 | −6 | 57 |  |
 | [KBvknn](#kbvknn) | 5 | **h#9** | h#12.5 | −7 | 34 |  |
 | [KBvkpp](#kbvkpp) | 5 | **h#9** | h#16 | −14 | 51 |  |
+| [KNNvkqb](#knnvkqb) | 6 | **h#9** | h#11 | −4 | 2 |  |
+| [KNPPvkp](#knppvkp) | 6 | **h#9** | h#14 | −10 | 4 |  |
 | [KNPvkp](#knpvkp) | 5 | **h#9** | h#14 | −10 | 9 |  |
 | [KNvkbpp](#knvkbpp) | 6 | **h#9** | h#10.5 | −3 | 2 |  |
 | [KNvknpp](#knvknpp) | 6 | **h#9** | h#10.5 | −3 | 2 |  |
 | [KPvknp](#kpvknp) | 5 | **h#9** | h#14.5 | −11 | 4 |  |
+| [KQBBvkn](#kqbbvkn) | 6 | **h#9** | h#12 | −6 | 8 |  |
+| [KQBBvkp](#kqbbvkp) | 6 | **h#9** | h#15 | −12 | 19 |  |
+| [KQBvkbn](#kqbvkbn) | 6 | **h#9** | h#12.5 | −7 | 160 |  |
+| [KQBvknn](#kqbvknn) | 6 | **h#9** | h#13 | −8 | 112 |  |
+| [KQBvkpp](#kqbvkpp) | 6 | **h#9** | h#16 | −14 | 19 |  |
+| [KQNPvkp](#kqnpvkp) | 6 | **h#9** | h#12 | −6 | 79 |  |
+| [KQNvkbb](#kqnvkbb) | 6 | **h#9** | h#10 | −2 | 9 |  |
+| [KQNvknp](#kqnvknp) | 6 | **h#9** | h#10.5 | −3 | 1 |  |
+| [KQNvkqb](#kqnvkqb) | 6 | **h#9** | h#12 | −6 | 111 |  |
+| [KQNvkrp](#kqnvkrp) | 6 | **h#9** | h#10.5 | −3 | 7 |  |
+| [KQPvknp](#kqpvknp) | 6 | **h#9** | h#15.5 | −13 | 91 |  |
+| [KQPvkrp](#kqpvkrp) | 6 | **h#9** | h#14 | −10 | 71 |  |
+| [KRBBvkp](#krbbvkp) | 6 | **h#9** | h#16 | −14 | 4 |  |
 | [KRBvkbn](#krbvkbn) | 6 | **h#9** | h#12 | −6 | 37 |  |
 | [KRBvknn](#krbvknn) | 6 | **h#9** | h#12 | −6 | 35 |  |
 | [KRBvkpp](#krbvkpp) | 6 | **h#9** | h#16 | −14 | 4 |  |
+| [KRNPvkp](#krnpvkp) | 6 | **h#9** | h#12 | −6 | 1 |  |
 | [KRNvkqb](#krnvkqb) | 6 | **h#9** | h#11 | −4 | 18 |  |
 | [KRNvkqp](#krnvkqp) | 6 | **h#9** | h#12 | −6 | 81 |  |
+| [KRPvkbp](#krpvkbp) | 6 | **h#9** | h#15 | −12 | 5 |  |
+| [KRPvkpp](#krpvkpp) | 6 | **h#9** | h#15 | −12 | 24 |  |
 | [KBBvknn](#kbbvknn) | 6 | **h#8.5** | h#13 | −9 | 17 |  |
 | [KBvkbbb](#kbvkbbb) | 6 | **h#8.5** | h#10 | −3 | 446 |  |
 | [KBvkqbb](#kbvkqbb) | 6 | **h#8.5** | h#10.5 | −4 | 25 |  |
 | [KBvkrbb](#kbvkrbb) | 6 | **h#8.5** | h#9.5 | −2 | 2 |  |
+| [KNPvkbp](#knpvkbp) | 6 | **h#8.5** | h#14 | −11 | 33 |  |
+| [KNPvknp](#knpvknp) | 6 | **h#8.5** | h#10.5 | −4 | 1 |  |
 | [KNvkbb](#knvkbb) | 5 | **h#8.5** | h#10.5 | −4 | 69 |  |
 | [KNvkbbb](#knvkbbb) | 6 | **h#8.5** | h#10.5 | −4 | 1,145 |  |
 | [KNvkbbn](#knvkbbn) | 6 | **h#8.5** | h#10.5 | −4 | 18 |  |
@@ -173,7 +225,11 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KNvkrr](#knvkrr) | 5 | **h#8.5** | h#9.5 | −2 | 5 |  |
 | [KNvkrrn](#knvkrrn) | 6 | **h#8.5** | h#9.5 | −2 | 7 |  |
 | [KNvkrrp](#knvkrrp) | 6 | **h#8.5** | h#9.5 | −2 | 167 |  |
+| [KPPPvkp](#kpppvkp) | 6 | **h#8.5** | h#13.5 | −10 | 2 |  |
+| [KPPvkbp](#kppvkbp) | 6 | **h#8.5** | h#14.5 | −12 | 125 |  |
+| [KPPvknp](#kppvknp) | 6 | **h#8.5** | h#14.5 | −12 | 9 |  |
 | [KPPvkp](#kppvkp) | 5 | **h#8.5** | h#14.5 | −12 | 6 |  |
+| [KPPvkqp](#kppvkqp) | 6 | **h#8.5** | h#14.5 | −12 | 4 |  |
 | [KPvkbbn](#kpvkbbn) | 6 | **h#8.5** | h#9.5 | −2 | 11 |  |
 | [KPvkbnn](#kpvkbnn) | 6 | **h#8.5** | h#9.5 | −2 | 20 |  |
 | [KPvknnn](#kpvknnn) | 6 | **h#8.5** | h#9.5 | −2 | 8 |  |
@@ -189,27 +245,59 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KPvkrnp](#kpvkrnp) | 6 | **h#8.5** | h#12.5 | −8 | 2,170 |  |
 | [KPvkrp](#kpvkrp) | 5 | **h#8.5** | h#14.5 | −12 | 101 |  |
 | [KPvkrrp](#kpvkrrp) | 6 | **h#8.5** | h#10.5 | −4 | 369 |  |
+| [KBBBPvk](#kbbbpvk) | 6 | **h#8** | h#10 | −4 | 11 |  |
+| [KBBPvkn](#kbbpvkn) | 6 | **h#8** | h#12 | −8 | 10 |  |
 | [KBBvkbb](#kbbvkbb) | 6 | **h#8** | h#10 | −4 | 129 |  |
+| [KBNPvkq](#kbnpvkq) | 6 | **h#8** | h#9 | −2 | 1 |  |
+| [KBNvkbp](#kbnvkbp) | 6 | **h#8** | h#16 | −16 | 4 |  |
+| [KBNvkqb](#kbnvkqb) | 6 | **h#8** | h#11 | −6 | 1 |  |
+| [KBNvkrp](#kbnvkrp) | 6 | **h#8** | h#16.5 | −17 | 7 |  |
+| [KBPvknn](#kbpvknn) | 6 | **h#8** | h#13 | −10 | 6 |  |
 | [KBvkbb](#kbvkbb) | 5 | **h#8** | h#10 | −4 | 8 |  |
 | [KBvkn](#kbvkn) | 4 | **h#8** | h#12 | −8 | 19 |  |
 | [KBvkp](#kbvkp) | 4 | **h#8** | h#16 | −16 | 16 |  |
+| [KNNPvkp](#knnpvkp) | 6 | **h#8** | h#11 | −6 | 6 |  |
+| [KNNvkpp](#knnvkpp) | 6 | **h#8** | h#11 | −6 | 1 |  |
+| [KNNvkqp](#knnvkqp) | 6 | **h#8** | h#12 | −8 | 1 |  |
+| [KNPvkqb](#knpvkqb) | 6 | **h#8** | h#11.5 | −7 | 2 |  |
 | [KNvkb](#knvkb) | 4 | **h#8** | h#10.5 | −5 | 5 |  |
 | [KNvkbn](#knvkbn) | 5 | **h#8** | h#10 | −4 | 5 |  |
 | [KNvkp](#knvkp) | 4 | **h#8** | h#11.5 | −7 | 4 |  |
 | [KNvkqn](#knvkqn) | 5 | **h#8** | h#10.5 | −5 | 2 | Sheglow (1998) |
 | [KNvkqrr](#knvkqrr) | 6 | **h#8** | h#9.5 | −3 | 1 |  |
 | [KNvkr](#knvkr) | 4 | **h#8** | h#9.5 | −3 | 9 | Elkies (1995) |
+| [KPPvkrp](#kppvkrp) | 6 | **h#8** | h#14.5 | −13 | 5 |  |
 | [KPvkqbb](#kpvkqbb) | 6 | **h#8** | h#11.5 | −7 | 3 |  |
 | [KPvkqqb](#kpvkqqb) | 6 | **h#8** | h#11.5 | −7 | 15 |  |
 | [KPvkqqq](#kpvkqqq) | 6 | **h#8** | h#9.5 | −3 | 11 |  |
+| [KQBvkbb](#kqbvkbb) | 6 | **h#8** | h#10.5 | −5 | 22 |  |
 | [KQBvkn](#kqbvkn) | 5 | **h#8** | h#12 | −8 | 25 |  |
+| [KQNPvkq](#kqnpvkq) | 6 | **h#8** | h#9 | −2 | 16 |  |
 | [KQNvkb](#kqnvkb) | 5 | **h#8** | h#11 | −6 | 5 |  |
+| [KQNvkbn](#kqnvkbn) | 6 | **h#8** | h#10 | −4 | 21 |  |
+| [KQNvkbp](#kqnvkbp) | 6 | **h#8** | h#10 | −4 | 1,700 |  |
 | [KQNvkn](#kqnvkn) | 5 | **h#8** | h#10 | −4 | 16 |  |
+| [KQNvknn](#kqnvknn) | 6 | **h#8** | h#10 | −4 | 18 |  |
 | [KQNvkp](#kqnvkp) | 5 | **h#8** | h#11 | −6 | 2 |  |
+| [KQNvkqn](#kqnvkqn) | 6 | **h#8** | h#9 | −2 | 23 |  |
 | [KQNvkr](#kqnvkr) | 5 | **h#8** | h#10 | −4 | 11 |  |
+| [KQNvkrn](#kqnvkrn) | 6 | **h#8** | h#9 | −2 | 9 |  |
+| [KQNvkrr](#kqnvkrr) | 6 | **h#8** | h#9.5 | −3 | 4 |  |
+| [KQPPvkp](#kqppvkp) | 6 | **h#8** | h#15 | −14 | 48 |  |
 | [KQPvkb](#kqpvkb) | 5 | **h#8** | h#9 | −2 | 4 |  |
+| [KQPvkbb](#kqpvkbb) | 6 | **h#8** | h#9.5 | −3 | 108 |  |
+| [KQPvkbn](#kqpvkbn) | 6 | **h#8** | h#9 | −2 | 552 |  |
 | [KQPvkn](#kqpvkn) | 5 | **h#8** | h#9 | −2 | 7 |  |
+| [KQPvknn](#kqpvknn) | 6 | **h#8** | h#10 | −4 | 345 |  |
 | [KQPvkp](#kqpvkp) | 5 | **h#8** | h#15 | −14 | 42 |  |
+| [KQPvkqb](#kqpvkqb) | 6 | **h#8** | h#12 | −8 | 33 |  |
+| [KQPvkqn](#kqpvkqn) | 6 | **h#8** | h#10 | −4 | 422 |  |
+| [KQPvkqp](#kqpvkqp) | 6 | **h#8** | h#13 | −10 | 945 |  |
+| [KQPvkqq](#kqpvkqq) | 6 | **h#8** | h#9.5 | −3 | 14 |  |
+| [KQPvkqr](#kqpvkqr) | 6 | **h#8** | h#9 | −2 | 1 |  |
+| [KQPvkrb](#kqpvkrb) | 6 | **h#8** | h#9 | −2 | 2 |  |
+| [KQPvkrn](#kqpvkrn) | 6 | **h#8** | h#9 | −2 | 20 |  |
+| [KRBBvkn](#krbbvkn) | 6 | **h#8** | h#12 | −8 | 8 |  |
 | [KRBvkbb](#krbvkbb) | 6 | **h#8** | h#10 | −4 | 5 |  |
 | [KRBvkn](#krbvkn) | 5 | **h#8** | h#12 | −8 | 4 |  |
 | [KRNvkbb](#krnvkbb) | 6 | **h#8** | h#10 | −4 | 20 |  |
@@ -218,22 +306,60 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRNvknp](#krnvknp) | 6 | **h#8** | h#10.5 | −5 | 55 |  |
 | [KRNvkpp](#krnvkpp) | 6 | **h#8** | h#11.5 | −7 | 15 |  |
 | [KRNvkrp](#krnvkrp) | 6 | **h#8** | h#11.5 | −7 | 39 |  |
+| [KRPvkbb](#krpvkbb) | 6 | **h#8** | h#9 | −2 | 4 |  |
+| [KRPvkbn](#krpvkbn) | 6 | **h#8** | h#9 | −2 | 17 |  |
+| [KRPvknn](#krpvknn) | 6 | **h#8** | h#9 | −2 | 7 |  |
+| [KRPvknp](#krpvknp) | 6 | **h#8** | h#12.5 | −9 | 4 |  |
+| [KRPvkqb](#krpvkqb) | 6 | **h#8** | h#12 | −8 | 1 |  |
+| [KRPvkqn](#krpvkqn) | 6 | **h#8** | h#9 | −2 | 11 |  |
+| [KRPvkqp](#krpvkqp) | 6 | **h#8** | h#14.5 | −13 | 13 |  |
+| [KRPvkrp](#krpvkrp) | 6 | **h#8** | h#12.5 | −9 | 12 |  |
+| [KBBNvkq](#kbbnvkq) | 6 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KBBPvkq](#kbbpvkq) | 6 | **h#7.5** | h#9.5 | −4 | 195 |  |
+| [KBBPvkr](#kbbpvkr) | 6 | **h#7.5** | h#9.5 | −4 | 12 |  |
 | [KBBvkqb](#kbbvkqb) | 6 | **h#7.5** | h#10.5 | −6 | 48 |  |
 | [KBNvkq](#kbnvkq) | 5 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KBNvkqn](#kbnvkqn) | 6 | **h#7.5** | h#12.5 | −10 | 8 |  |
+| [KBNvkqq](#kbnvkqq) | 6 | **h#7.5** | h#8.5 | −2 | 42 |  |
+| [KBNvkqr](#kbnvkqr) | 6 | **h#7.5** | h#8.5 | −2 | 28 |  |
+| [KBNvkrr](#kbnvkrr) | 6 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KBPvkqb](#kbpvkqb) | 6 | **h#7.5** | h#11 | −7 | 5 |  |
+| [KBPvkqq](#kbpvkqq) | 6 | **h#7.5** | h#9 | −3 | 91 |  |
+| [KBPvkqr](#kbpvkqr) | 6 | **h#7.5** | h#9 | −3 | 33 |  |
 | [KBvkqqb](#kbvkqqb) | 6 | **h#7.5** | h#8.5 | −2 | 8 |  |
 | [KBvkqrb](#kbvkqrb) | 6 | **h#7.5** | h#8.5 | −2 | 2 |  |
 | [KBvkrrb](#kbvkrrb) | 6 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KNNPvkq](#knnpvkq) | 6 | **h#7.5** | h#9 | −3 | 6 |  |
+| [KNPPvkq](#knppvkq) | 6 | **h#7.5** | h#8.5 | −2 | 5 |  |
 | [KNPvkb](#knpvkb) | 5 | **h#7.5** | h#11 | −7 | 4 |  |
+| [KNPvkbb](#knpvkbb) | 6 | **h#7.5** | h#10 | −5 | 20 |  |
+| [KNPvkbn](#knpvkbn) | 6 | **h#7.5** | h#9 | −3 | 14 |  |
 | [KNPvkn](#knpvkn) | 5 | **h#7.5** | h#9 | −3 | 2 | Paliulionis (2024) |
+| [KNPvknn](#knpvknn) | 6 | **h#7.5** | h#9 | −3 | 13 |  |
 | [KNPvkq](#knpvkq) | 5 | **h#7.5** | h#8.5 | −2 | 17 |  |
+| [KNPvkqn](#knpvkqn) | 6 | **h#7.5** | h#8.5 | −2 | 254 |  |
+| [KNPvkqq](#knpvkqq) | 6 | **h#7.5** | h#8.5 | −2 | 366 |  |
+| [KNPvkqr](#knpvkqr) | 6 | **h#7.5** | h#8.5 | −2 | 115 |  |
 | [KNPvkr](#knpvkr) | 5 | **h#7.5** | h#9 | −3 | 3 |  |
+| [KNPvkrb](#knpvkrb) | 6 | **h#7.5** | h#9.5 | −4 | 28 |  |
+| [KNPvkrn](#knpvkrn) | 6 | **h#7.5** | h#9 | −3 | 38 |  |
+| [KNPvkrr](#knpvkrr) | 6 | **h#7.5** | h#8.5 | −2 | 18 |  |
 | [KNvkn](#knvkn) | 4 | **h#7.5** | h#10 | −5 | 14 | Kotesovec (1987) |
 | [KNvkrb](#knvkrb) | 5 | **h#7.5** | h#10.5 | −6 | 12 |  |
 | [KNvkrrb](#knvkrrb) | 6 | **h#7.5** | h#8.5 | −2 | 215 |  |
 | [KNvkrrr](#knvkrrr) | 6 | **h#7.5** | h#9 | −3 | 651 |  |
 | [KPPvkb](#kppvkb) | 5 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KPPvkbb](#kppvkbb) | 6 | **h#7.5** | h#8.5 | −2 | 21 |  |
+| [KPPvkbn](#kppvkbn) | 6 | **h#7.5** | h#8.5 | −2 | 73 |  |
 | [KPPvkn](#kppvkn) | 5 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KPPvknn](#kppvknn) | 6 | **h#7.5** | h#9 | −3 | 71 |  |
 | [KPPvkq](#kppvkq) | 5 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KPPvkqb](#kppvkqb) | 6 | **h#7.5** | h#11 | −7 | 24 |  |
+| [KPPvkqn](#kppvkqn) | 6 | **h#7.5** | h#9 | −3 | 42 |  |
+| [KPPvkqq](#kppvkqq) | 6 | **h#7.5** | h#9 | −3 | 56 |  |
+| [KPPvkqr](#kppvkqr) | 6 | **h#7.5** | h#8.5 | −2 | 7 |  |
+| [KPPvkrb](#kppvkrb) | 6 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KPPvkrn](#kppvkrn) | 6 | **h#7.5** | h#8.5 | −2 | 1 |  |
 | [KPvkb](#kpvkb) | 4 | **h#7.5** | h#8.5 | −2 | 13 |  |
 | [KPvkbb](#kpvkbb) | 5 | **h#7.5** | h#9.5 | −4 | 448 |  |
 | [KPvkbbb](#kpvkbbb) | 6 | **h#7.5** | h#9.5 | −4 | 907 |  |
@@ -256,45 +382,145 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KPvkrrb](#kpvkrrb) | 6 | **h#7.5** | h#8.5 | −2 | 21 |  |
 | [KPvkrrn](#kpvkrrn) | 6 | **h#7.5** | h#9.5 | −4 | 60 |  |
 | [KPvkrrr](#kpvkrrr) | 6 | **h#7.5** | h#8.5 | −2 | 6 |  |
+| [KQNPvkn](#kqnpvkn) | 6 | **h#7.5** | h#9 | −3 | 1 |  |
+| [KQNvkqr](#kqnvkqr) | 6 | **h#7.5** | h#9.5 | −4 | 23 |  |
+| [KRNPvkq](#krnpvkq) | 6 | **h#7.5** | h#8.5 | −2 | 12 |  |
+| [KRNPvkr](#krnpvkr) | 6 | **h#7.5** | h#8.5 | −2 | 2 |  |
+| [KRPPvkq](#krppvkq) | 6 | **h#7.5** | h#8.5 | −2 | 1 |  |
+| [KBBBBvk](#kbbbbvk) | 6 | **h#7** | h#8 | −2 | 10 |  |
+| [KBBBNvk](#kbbbnvk) | 6 | **h#7** | h#8 | −2 | 3 |  |
 | [KBBBvk](#kbbbvk) | 5 | **h#7** | h#8 | −2 | 3 |  |
+| [KBBBvkb](#kbbbvkb) | 6 | **h#7** | h#11 | −8 | 948 |  |
+| [KBBNPvk](#kbbnpvk) | 6 | **h#7** | h#9 | −4 | 65 |  |
 | [KBBNvk](#kbbnvk) | 5 | **h#7** | h#8 | −2 | 1 |  |
+| [KBBNvkn](#kbbnvkn) | 6 | **h#7** | h#12 | −10 | 6 |  |
+| [KBBNvkp](#kbbnvkp) | 6 | **h#7** | h#15 | −16 | 17 |  |
+| [KBBPPvk](#kbbppvk) | 6 | **h#7** | h#9 | −4 | 432 |  |
 | [KBBPvk](#kbbpvk) | 5 | **h#7** | h#9 | −4 | 556 |  |
+| [KBBPvkb](#kbbpvkb) | 6 | **h#7** | h#10 | −6 | 906 |  |
 | [KBBvkb](#kbbvkb) | 5 | **h#7** | h#10.5 | −7 | 95 |  |
 | [KBBvkrb](#kbbvkrb) | 6 | **h#7** | h#10.5 | −7 | 3 |  |
+| [KBNNPvk](#kbnnpvk) | 6 | **h#7** | h#8 | −2 | 2 |  |
+| [KBNNvkp](#kbnnvkp) | 6 | **h#7** | h#9 | −4 | 12 |  |
+| [KBNNvkq](#kbnnvkq) | 6 | **h#7** | h#8.5 | −3 | 1 |  |
+| [KBNPPvk](#kbnppvk) | 6 | **h#7** | h#8 | −2 | 3 |  |
 | [KBNPvk](#kbnpvk) | 5 | **h#7** | h#8 | −2 | 9 |  |
+| [KBNPvkn](#kbnpvkn) | 6 | **h#7** | h#8 | −2 | 7 |  |
+| [KBNPvkr](#kbnpvkr) | 6 | **h#7** | h#9 | −4 | 5 |  |
 | [KBNvkb](#kbnvkb) | 5 | **h#7** | h#11 | −8 | 7 |  |
+| [KBNvkbb](#kbnvkbb) | 6 | **h#7** | h#10 | −6 | 161 |  |
+| [KBNvkbn](#kbnvkbn) | 6 | **h#7** | h#12 | −10 | 18 |  |
 | [KBNvkn](#kbnvkn) | 5 | **h#7** | h#12 | −10 | 7 |  |
+| [KBNvknn](#kbnvknn) | 6 | **h#7** | h#11 | −8 | 33 |  |
+| [KBNvknp](#kbnvknp) | 6 | **h#7** | h#12 | −10 | 220 |  |
 | [KBNvkp](#kbnvkp) | 5 | **h#7** | h#16 | −18 | 50 |  |
+| [KBNvkpp](#kbnvkpp) | 6 | **h#7** | h#16 | −18 | 238 |  |
 | [KBNvkr](#kbnvkr) | 5 | **h#7** | h#9 | −4 | 2 |  |
+| [KBNvkrn](#kbnvkrn) | 6 | **h#7** | h#12 | −10 | 5 |  |
+| [KBPPPvk](#kbpppvk) | 6 | **h#7** | h#8 | −2 | 1 |  |
 | [KBPPvk](#kbppvk) | 5 | **h#7** | h#8 | −2 | 12 |  |
+| [KBPPvkb](#kbppvkb) | 6 | **h#7** | h#8 | −2 | 36 |  |
+| [KBPPvkn](#kbppvkn) | 6 | **h#7** | h#8 | −2 | 57 |  |
+| [KBPPvkq](#kbppvkq) | 6 | **h#7** | h#8.5 | −3 | 89 |  |
+| [KBPPvkr](#kbppvkr) | 6 | **h#7** | h#8.5 | −3 | 56 |  |
 | [KBPvk](#kbpvk) | 4 | **h#7** | h#8 | −2 | 12 | Elkies (2004) |
 | [KBPvkb](#kbpvkb) | 5 | **h#7** | h#10 | −6 | 65 |  |
+| [KBPvkbb](#kbpvkbb) | 6 | **h#7** | h#10 | −6 | 388 |  |
 | [KBPvkn](#kbpvkn) | 5 | **h#7** | h#12 | −10 | 101 |  |
 | [KBPvkq](#kbpvkq) | 5 | **h#7** | h#8.5 | −3 | 75 |  |
 | [KBPvkr](#kbpvkr) | 5 | **h#7** | h#8.5 | −3 | 69 |  |
+| [KBPvkrb](#kbpvkrb) | 6 | **h#7** | h#9.5 | −5 | 162 |  |
+| [KBPvkrr](#kbpvkrr) | 6 | **h#7** | h#8.5 | −3 | 336 |  |
+| [KNNNPvk](#knnnpvk) | 6 | **h#7** | h#8 | −2 | 4 |  |
+| [KNNNvkp](#knnnvkp) | 6 | **h#7** | h#8 | −2 | 1 |  |
+| [KNNPPvk](#knnppvk) | 6 | **h#7** | h#8 | −2 | 2 |  |
 | [KNNPvk](#knnpvk) | 5 | **h#7** | h#8 | −2 | 5 |  |
+| [KNNPvkb](#knnpvkb) | 6 | **h#7** | h#8 | −2 | 1 |  |
+| [KNNvkbp](#knnvkbp) | 6 | **h#7** | h#9 | −4 | 4 |  |
 | [KNNvkp](#knnvkp) | 5 | **h#7** | h#11 | −8 | 3 |  |
 | [KNNvkq](#knnvkq) | 5 | **h#7** | h#8.5 | −3 | 1 | Sheglow (1998) |
+| [KNNvkqr](#knnvkqr) | 6 | **h#7** | h#8.5 | −3 | 3 |  |
 | [KNNvkr](#knnvkr) | 5 | **h#7** | h#10 | −6 | 1 |  |
+| [KNNvkrp](#knnvkrp) | 6 | **h#7** | h#12 | −10 | 3 |  |
 | [KNPPvk](#knppvk) | 5 | **h#7** | h#8.5 | −3 | 18 |  |
+| [KNPPvkb](#knppvkb) | 6 | **h#7** | h#8.5 | −3 | 100 |  |
+| [KNPPvkn](#knppvkn) | 6 | **h#7** | h#8.5 | −3 | 204 |  |
+| [KNPPvkr](#knppvkr) | 6 | **h#7** | h#8.5 | −3 | 29 |  |
 | [KNPvk](#knpvk) | 4 | **h#7** | h#8.5 | −3 | 49 | Elkies (2004) |
 | [KPPPvk](#kpppvk) | 5 | **h#7** | h#8 | −2 | 2 |  |
+| [KPPPvkb](#kpppvkb) | 6 | **h#7** | h#8 | −2 | 8 |  |
+| [KPPPvkn](#kpppvkn) | 6 | **h#7** | h#8.5 | −3 | 33 |  |
 | [KPPvk](#kppvk) | 4 | **h#7** | h#8 | −2 | 2 | Salazar Lopez (1973) |
 | [KPvkrr](#kpvkrr) | 5 | **h#7** | h#8.5 | −3 | 5 |  |
+| [KQBBBvk](#kqbbbvk) | 6 | **h#7** | h#8 | −2 | 3 |  |
+| [KQBBNvk](#kqbbnvk) | 6 | **h#7** | h#8 | −2 | 1 |  |
+| [KQBBPvk](#kqbbpvk) | 6 | **h#7** | h#9 | −4 | 2,289 |  |
 | [KQBBvk](#kqbbvk) | 5 | **h#7** | h#8 | −2 | 1 |  |
+| [KQBBvkb](#kqbbvkb) | 6 | **h#7** | h#11 | −8 | 289 |  |
+| [KQBNNvk](#kqbnnvk) | 6 | **h#7** | h#8 | −2 | 6 |  |
+| [KQBNPvk](#kqbnpvk) | 6 | **h#7** | h#8 | −2 | 34 |  |
+| [KQBNvkb](#kqbnvkb) | 6 | **h#7** | h#9 | −4 | 39 |  |
+| [KQBNvkn](#kqbnvkn) | 6 | **h#7** | h#9 | −4 | 101 |  |
+| [KQBNvkp](#kqbnvkp) | 6 | **h#7** | h#12 | −10 | 412 |  |
+| [KQBNvkq](#kqbnvkq) | 6 | **h#7** | h#9 | −4 | 168 |  |
+| [KQBNvkr](#kqbnvkr) | 6 | **h#7** | h#9 | −4 | 49 |  |
+| [KQBPPvk](#kqbppvk) | 6 | **h#7** | h#8 | −2 | 49 |  |
 | [KQBPvk](#kqbpvk) | 5 | **h#7** | h#8 | −2 | 73 |  |
+| [KQBPvkb](#kqbpvkb) | 6 | **h#7** | h#9 | −4 | 958 |  |
+| [KQBPvkn](#kqbpvkn) | 6 | **h#7** | h#9 | −4 | 1,271 |  |
+| [KQBPvkq](#kqbpvkq) | 6 | **h#7** | h#8 | −2 | 1,425 |  |
+| [KQBPvkr](#kqbpvkr) | 6 | **h#7** | h#8 | −2 | 673 |  |
 | [KQBvkb](#kqbvkb) | 5 | **h#7** | h#10 | −6 | 4 |  |
 | [KQBvkp](#kqbvkp) | 5 | **h#7** | h#16 | −18 | 55 |  |
+| [KQBvkqb](#kqbvkqb) | 6 | **h#7** | h#10.5 | −7 | 5 |  |
+| [KQBvkrb](#kqbvkrb) | 6 | **h#7** | h#10 | −6 | 20 |  |
+| [KQNNPvk](#kqnnpvk) | 6 | **h#7** | h#8 | −2 | 45 |  |
 | [KQNNvk](#kqnnvk) | 5 | **h#7** | h#8 | −2 | 3 |  |
+| [KQNNvkb](#kqnnvkb) | 6 | **h#7** | h#9 | −4 | 17 |  |
+| [KQNNvkp](#kqnnvkp) | 6 | **h#7** | h#9 | −4 | 923 |  |
+| [KQNNvkq](#kqnnvkq) | 6 | **h#7** | h#9 | −4 | 43 |  |
+| [KQNNvkr](#kqnnvkr) | 6 | **h#7** | h#8 | −2 | 6 |  |
+| [KQNPPvk](#kqnppvk) | 6 | **h#7** | h#8 | −2 | 134 |  |
 | [KQNPvk](#kqnpvk) | 5 | **h#7** | h#9 | −4 | 160 |  |
+| [KQNPvkb](#kqnpvkb) | 6 | **h#7** | h#9 | −4 | 3,278 |  |
+| [KQNPvkr](#kqnpvkr) | 6 | **h#7** | h#8.5 | −3 | 844 |  |
+| [KQNvkrb](#kqnvkrb) | 6 | **h#7** | h#10 | −6 | 316 |  |
+| [KQPPPvk](#kqpppvk) | 6 | **h#7** | h#8 | −2 | 44 |  |
 | [KQPPvk](#kqppvk) | 5 | **h#7** | h#8 | −2 | 37 |  |
+| [KQPPvkb](#kqppvkb) | 6 | **h#7** | h#9 | −4 | 768 |  |
+| [KQPPvkn](#kqppvkn) | 6 | **h#7** | h#9 | −4 | 1,832 |  |
+| [KQPPvkq](#kqppvkq) | 6 | **h#7** | h#9 | −4 | 422 |  |
+| [KQPPvkr](#kqppvkr) | 6 | **h#7** | h#8 | −2 | 69 |  |
 | [KQPvk](#kqpvk) | 4 | **h#7** | h#8 | −2 | 12 |  |
 | [KQPvkq](#kqpvkq) | 5 | **h#7** | h#9 | −4 | 521 |  |
 | [KQPvkr](#kqpvkr) | 5 | **h#7** | h#9 | −4 | 105 |  |
+| [KQPvkrr](#kqpvkrr) | 6 | **h#7** | h#9 | −4 | 111 |  |
+| [KRBBBvk](#krbbbvk) | 6 | **h#7** | h#8 | −2 | 3 |  |
+| [KRBBPvk](#krbbpvk) | 6 | **h#7** | h#9 | −4 | 500 |  |
 | [KRBBvk](#krbbvk) | 5 | **h#7** | h#8 | −2 | 1 |  |
+| [KRBBvkb](#krbbvkb) | 6 | **h#7** | h#10 | −6 | 5 |  |
+| [KRBNNvk](#krbnnvk) | 6 | **h#7** | h#8 | −2 | 3 |  |
+| [KRBNPvk](#krbnpvk) | 6 | **h#7** | h#8 | −2 | 5 |  |
+| [KRBNvkb](#krbnvkb) | 6 | **h#7** | h#8 | −2 | 8 |  |
+| [KRBNvkn](#krbnvkn) | 6 | **h#7** | h#8 | −2 | 4 |  |
+| [KRBNvkp](#krbnvkp) | 6 | **h#7** | h#13 | −12 | 59 |  |
+| [KRBNvkq](#krbnvkq) | 6 | **h#7** | h#8.5 | −3 | 25 |  |
+| [KRBNvkr](#krbnvkr) | 6 | **h#7** | h#8 | −2 | 8 |  |
+| [KRBPPvk](#krbppvk) | 6 | **h#7** | h#8 | −2 | 10 |  |
 | [KRBPvk](#krbpvk) | 5 | **h#7** | h#8 | −2 | 17 | Abdurahmanovic & Becker (2006) |
+| [KRBPvkb](#krbpvkb) | 6 | **h#7** | h#8 | −2 | 11 |  |
+| [KRBPvkn](#krbpvkn) | 6 | **h#7** | h#8.5 | −3 | 69 |  |
+| [KRBPvkq](#krbpvkq) | 6 | **h#7** | h#8.5 | −3 | 39 |  |
+| [KRBPvkr](#krbpvkr) | 6 | **h#7** | h#8.5 | −3 | 17 |  |
 | [KRBvkrb](#krbvkrb) | 6 | **h#7** | h#8.5 | −3 | 1 |  |
+| [KRNNPvk](#krnnpvk) | 6 | **h#7** | h#8 | −2 | 7 |  |
+| [KRNNvkb](#krnnvkb) | 6 | **h#7** | h#8 | −2 | 1 |  |
+| [KRNNvkp](#krnnvkp) | 6 | **h#7** | h#11 | −8 | 47 |  |
+| [KRNNvkq](#krnnvkq) | 6 | **h#7** | h#8 | −2 | 1 |  |
+| [KRNPPvk](#krnppvk) | 6 | **h#7** | h#8 | −2 | 11 |  |
 | [KRNPvk](#krnpvk) | 5 | **h#7** | h#8 | −2 | 31 |  |
+| [KRNPvkb](#krnpvkb) | 6 | **h#7** | h#8 | −2 | 8 |  |
+| [KRNPvkn](#krnpvkn) | 6 | **h#7** | h#9 | −4 | 15 |  |
 | [KRNvkbn](#krnvkbn) | 6 | **h#7** | h#9.5 | −5 | 39 |  |
 | [KRNvknn](#krnvknn) | 6 | **h#7** | h#9 | −4 | 13 |  |
 | [KRNvkp](#krnvkp) | 5 | **h#7** | h#11.5 | −9 | 6 |  |
@@ -304,12 +530,22 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRNvkrb](#krnvkrb) | 6 | **h#7** | h#10 | −6 | 4 |  |
 | [KRNvkrn](#krnvkrn) | 6 | **h#7** | h#9 | −4 | 20 |  |
 | [KRNvkrr](#krnvkrr) | 6 | **h#7** | h#9.5 | −5 | 102 |  |
+| [KRPPPvk](#krpppvk) | 6 | **h#7** | h#8 | −2 | 1 |  |
 | [KRPPvk](#krppvk) | 5 | **h#7** | h#8 | −2 | 2 |  |
+| [KRPPvkb](#krppvkb) | 6 | **h#7** | h#8 | −2 | 1 |  |
+| [KRPPvkn](#krppvkn) | 6 | **h#7** | h#8.5 | −3 | 25 |  |
+| [KRPPvkp](#krppvkp) | 6 | **h#7** | h#14 | −14 | 76 |  |
+| [KRPPvkr](#krppvkr) | 6 | **h#7** | h#8.5 | −3 | 5 |  |
 | [KRPvkb](#krpvkb) | 5 | **h#7** | h#8 | −2 | 7 |  |
 | [KRPvkn](#krpvkn) | 5 | **h#7** | h#8.5 | −3 | 14 |  |
 | [KRPvkp](#krpvkp) | 5 | **h#7** | h#14 | −14 | 41 |  |
 | [KRPvkq](#krpvkq) | 5 | **h#7** | h#9 | −4 | 7 |  |
+| [KRPvkqq](#krpvkqq) | 6 | **h#7** | h#9 | −4 | 157 |  |
+| [KRPvkqr](#krpvkqr) | 6 | **h#7** | h#8.5 | −3 | 8 |  |
 | [KRPvkr](#krpvkr) | 5 | **h#7** | h#8.5 | −3 | 2 |  |
+| [KRPvkrb](#krpvkrb) | 6 | **h#7** | h#9 | −4 | 7 |  |
+| [KRPvkrn](#krpvkrn) | 6 | **h#7** | h#9 | −4 | 100 |  |
+| [KRPvkrr](#krpvkrr) | 6 | **h#7** | h#8.5 | −3 | 27 |  |
 | [KRvkqbn](#krvkqbn) | 6 | **h#7** | h#8 | −2 | 1 |  |
 | [KRvkqnn](#krvkqnn) | 6 | **h#7** | h#8 | −2 | 1 |  |
 | [KRvkqnp](#krvkqnp) | 6 | **h#7** | h#8 | −2 | 1 |  |
@@ -323,22 +559,43 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRvkqrr](#krvkqrr) | 6 | **h#7** | h#8 | −2 | 22 |  |
 | [KRvkrpp](#krvkrpp) | 6 | **h#7** | h#7.5 | −1 | 1 |  |
 | [KRvkrrp](#krvkrrp) | 6 | **h#7** | h#8 | −2 | 3 |  |
+| [KBBBvkq](#kbbbvkq) | 6 | **h#6.5** | h#8 | −3 | 29 |  |
+| [KBBNNvk](#kbbnnvk) | 6 | **h#6.5** | h#8 | −3 | 1 |  |
+| [KBBNvkb](#kbbnvkb) | 6 | **h#6.5** | h#10 | −7 | 7 |  |
 | [KBBvk](#kbbvk) | 4 | **h#6.5** | h#8 | −3 | 1 | Maslar (1978) |
 | [KBBvkq](#kbbvkq) | 5 | **h#6.5** | h#7.5 | −2 | 3 |  |
 | [KBBvkqq](#kbbvkqq) | 6 | **h#6.5** | h#7.5 | −2 | 273 |  |
 | [KBBvkqr](#kbbvkqr) | 6 | **h#6.5** | h#7.5 | −2 | 214 |  |
 | [KBBvkrr](#kbbvkrr) | 6 | **h#6.5** | h#7.5 | −2 | 52 |  |
 | [KBNNvk](#kbnnvk) | 5 | **h#6.5** | h#8 | −3 | 8 | Sheglow (1998) |
+| [KBNPvkb](#kbnpvkb) | 6 | **h#6.5** | h#8 | −3 | 196 |  |
+| [KBNvkrb](#kbnvkrb) | 6 | **h#6.5** | h#10 | −7 | 440 |  |
 | [KBvkb](#kbvkb) | 4 | **h#6.5** | h#10 | −7 | 8 |  |
 | [KBvkqb](#kbvkqb) | 5 | **h#6.5** | h#9.5 | −6 | 256 | Sheglow (1998) |
 | [KBvkrb](#kbvkrb) | 5 | **h#6.5** | h#9.5 | −6 | 128 |  |
+| [KNNPvkn](#knnpvkn) | 6 | **h#6.5** | h#8 | −3 | 229 |  |
+| [KNNPvkr](#knnpvkr) | 6 | **h#6.5** | h#9 | −5 | 467 |  |
 | [KNNvk](#knnvk) | 4 | **h#6.5** | h#8 | −3 | 9 | Bebesi (1910) |
 | [KNNvkb](#knnvkb) | 5 | **h#6.5** | h#10 | −7 | 21 |  |
+| [KNNvkbb](#knnvkbb) | 6 | **h#6.5** | h#10 | −7 | 215 |  |
+| [KNNvkbn](#knnvkbn) | 6 | **h#6.5** | h#9 | −5 | 12 |  |
 | [KNNvkn](#knnvkn) | 5 | **h#6.5** | h#7.5 | −2 | 2 |  |
 | [KNNvknn](#knnvknn) | 6 | **h#6.5** | h#8 | −3 | 31 |  |
+| [KNNvknp](#knnvknp) | 6 | **h#6.5** | h#9 | −5 | 120 |  |
+| [KNNvkqn](#knnvkqn) | 6 | **h#6.5** | h#9 | −5 | 229 |  |
+| [KNNvkqq](#knnvkqq) | 6 | **h#6.5** | h#8.5 | −4 | 3,470 |  |
+| [KNNvkrb](#knnvkrb) | 6 | **h#6.5** | h#10 | −7 | 1 |  |
+| [KNNvkrn](#knnvkrn) | 6 | **h#6.5** | h#8 | −3 | 1 |  |
+| [KNNvkrr](#knnvkrr) | 6 | **h#6.5** | h#8.5 | −4 | 2,263 |  |
+| [KNPPPvk](#knpppvk) | 6 | **h#6.5** | h#8 | −3 | 103 |  |
+| [KPPPPvk](#kppppvk) | 6 | **h#6.5** | h#7.5 | −2 | 33 |  |
+| [KPPPvkq](#kpppvkq) | 6 | **h#6.5** | h#8.5 | −4 | 3,694 |  |
+| [KPPPvkr](#kpppvkr) | 6 | **h#6.5** | h#8.5 | −4 | 554 |  |
 | [KPPvkr](#kppvkr) | 5 | **h#6.5** | h#8.5 | −4 | 784 |  |
+| [KPPvkrr](#kppvkrr) | 6 | **h#6.5** | h#8.5 | −4 | 3,010 |  |
 | [KPvk](#kpvk) | 3 | **h#6.5** | h#8.5 | −4 | 13 | Niemann (1947) |
 | [KQvkqnn](#kqvkqnn) | 6 | **h#6.5** | h#8 | −3 | 17 |  |
+| [KRBBvkq](#krbbvkq) | 6 | **h#6.5** | h#7.5 | −2 | 7 |  |
 | [KRBvkq](#krbvkq) | 5 | **h#6.5** | h#7.5 | −2 | 3 |  |
 | [KRvkbbp](#krvkbbp) | 6 | **h#6.5** | h#7.5 | −2 | 3 |  |
 | [KRvkbnp](#krvkbnp) | 6 | **h#6.5** | h#7.5 | −2 | 10 |  |
@@ -360,23 +617,72 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRvkrrb](#krvkrrb) | 6 | **h#6.5** | h#8 | −3 | 84 |  |
 | [KRvkrrn](#krvkrrn) | 6 | **h#6.5** | h#8 | −3 | 9 |  |
 | [KRvkrrr](#krvkrrr) | 6 | **h#6.5** | h#8 | −3 | 152 |  |
+| [KBBBvkr](#kbbbvkr) | 6 | **h#6** | h#8 | −4 | 28 |  |
+| [KBBNvkr](#kbbnvkr) | 6 | **h#6** | h#8.5 | −5 | 92 |  |
 | [KBBvkr](#kbbvkr) | 5 | **h#6** | h#7.5 | −3 | 28 |  |
+| [KBNNNvk](#kbnnnvk) | 6 | **h#6** | h#8 | −4 | 40 |  |
+| [KBNNvkb](#kbnnvkb) | 6 | **h#6** | h#8 | −4 | 25 |  |
+| [KBNNvkn](#kbnnvkn) | 6 | **h#6** | h#8 | −4 | 63 |  |
+| [KBNNvkr](#kbnnvkr) | 6 | **h#6** | h#8 | −4 | 43 |  |
 | [KBNvk](#kbnvk) | 4 | **h#6** | h#8 | −4 | 23 |  |
 | [KNNNvk](#knnnvk) | 5 | **h#6** | h#8 | −4 | 4 |  |
+| [KNNNvkb](#knnnvkb) | 6 | **h#6** | h#8 | −4 | 11 |  |
+| [KNNNvkq](#knnnvkq) | 6 | **h#6** | h#8.5 | −5 | 76 |  |
+| [KNNNvkr](#knnnvkr) | 6 | **h#6** | h#8 | −4 | 1 |  |
+| [KQBBvkq](#kqbbvkq) | 6 | **h#6** | h#7 | −2 | 256 |  |
+| [KQBBvkr](#kqbbvkr) | 6 | **h#6** | h#7 | −2 | 291 |  |
 | [KQBNvk](#kqbnvk) | 5 | **h#6** | h#8 | −4 | 98 |  |
 | [KQBvk](#kqbvk) | 4 | **h#6** | h#7 | −2 | 3 |  |
+| [KQNNNvk](#kqnnnvk) | 6 | **h#6** | h#8 | −4 | 81 |  |
+| [KQNNvkn](#kqnnvkn) | 6 | **h#6** | h#8 | −4 | 248 |  |
 | [KQNvk](#kqnvk) | 4 | **h#6** | h#7 | −2 | 3 |  |
+| [KQQPPvk](#kqqppvk) | 6 | **h#6** | h#7 | −2 | 3 |  |
 | [KQQPvk](#kqqpvk) | 5 | **h#6** | h#7 | −2 | 6 |  |
+| [KQQPvkp](#kqqpvkp) | 6 | **h#6** | h#7 | −2 | 34 |  |
+| [KQQPvkq](#kqqpvkq) | 6 | **h#6** | h#7 | −2 | 3 |  |
 | [KQQvk](#kqqvk) | 4 | **h#6** | h#7 | −2 | 2 |  |
+| [KQQvkbn](#kqqvkbn) | 6 | **h#6** | h#7 | −2 | 9 |  |
 | [KQQvkn](#kqqvkn) | 5 | **h#6** | h#7 | −2 | 4 |  |
+| [KQQvknn](#kqqvknn) | 6 | **h#6** | h#7 | −2 | 40 |  |
+| [KQQvknp](#kqqvknp) | 6 | **h#6** | h#7 | −2 | 50 |  |
 | [KQQvkp](#kqqvkp) | 5 | **h#6** | h#7 | −2 | 6 |  |
+| [KQQvkpp](#kqqvkpp) | 6 | **h#6** | h#7 | −2 | 23 |  |
+| [KQQvkqn](#kqqvkqn) | 6 | **h#6** | h#7 | −2 | 75 |  |
+| [KQQvkqp](#kqqvkqp) | 6 | **h#6** | h#7 | −2 | 47 |  |
+| [KQQvkqq](#kqqvkqq) | 6 | **h#6** | h#8 | −4 | 2 |  |
+| [KQRBBvk](#kqrbbvk) | 6 | **h#6** | h#8 | −4 | 41 |  |
+| [KQRBPvk](#kqrbpvk) | 6 | **h#6** | h#7 | −2 | 321 |  |
 | [KQRBvk](#kqrbvk) | 5 | **h#6** | h#7 | −2 | 29 |  |
+| [KQRBvkb](#kqrbvkb) | 6 | **h#6** | h#7 | −2 | 149 |  |
+| [KQRBvkn](#kqrbvkn) | 6 | **h#6** | h#7 | −2 | 28 |  |
+| [KQRBvkp](#kqrbvkp) | 6 | **h#6** | h#14 | −16 | 600 |  |
+| [KQRPPvk](#kqrppvk) | 6 | **h#6** | h#7 | −2 | 113 |  |
 | [KQRPvk](#kqrpvk) | 5 | **h#6** | h#7 | −2 | 14 |  |
+| [KQRPvkb](#kqrpvkb) | 6 | **h#6** | h#7 | −2 | 207 |  |
+| [KQRPvkn](#kqrpvkn) | 6 | **h#6** | h#8 | −4 | 30 |  |
+| [KQRPvkp](#kqrpvkp) | 6 | **h#6** | h#10 | −8 | 720 |  |
+| [KQRPvkq](#kqrpvkq) | 6 | **h#6** | h#8 | −4 | 99 |  |
+| [KQRPvkr](#kqrpvkr) | 6 | **h#6** | h#7 | −2 | 106 |  |
 | [KQRvk](#kqrvk) | 4 | **h#6** | h#7 | −2 | 2 |  |
+| [KQRvkbb](#kqrvkbb) | 6 | **h#6** | h#7 | −2 | 92 |  |
+| [KQRvkbn](#kqrvkbn) | 6 | **h#6** | h#7 | −2 | 141 |  |
+| [KQRvkbp](#kqrvkbp) | 6 | **h#6** | h#7 | −2 | 1,435 |  |
 | [KQRvkn](#kqrvkn) | 5 | **h#6** | h#7 | −2 | 4 |  |
+| [KQRvknn](#kqrvknn) | 6 | **h#6** | h#7 | −2 | 294 |  |
+| [KQRvknp](#kqrvknp) | 6 | **h#6** | h#7 | −2 | 2,648 |  |
 | [KQRvkp](#kqrvkp) | 5 | **h#6** | h#7 | −2 | 72 |  |
+| [KQRvkpp](#kqrvkpp) | 6 | **h#6** | h#7 | −2 | 1,431 |  |
 | [KQRvkq](#kqrvkq) | 5 | **h#6** | h#7 | −2 | 2 |  |
+| [KQRvkqb](#kqrvkqb) | 6 | **h#6** | h#8.5 | −5 | 454 |  |
+| [KQRvkqn](#kqrvkqn) | 6 | **h#6** | h#7 | −2 | 656 |  |
+| [KQRvkqp](#kqrvkqp) | 6 | **h#6** | h#7 | −2 | 1,359 |  |
+| [KQRvkqq](#kqrvkqq) | 6 | **h#6** | h#8.5 | −5 | 1,440 |  |
+| [KQRvkqr](#kqrvkqr) | 6 | **h#6** | h#8 | −4 | 2,025 |  |
 | [KQRvkr](#kqrvkr) | 5 | **h#6** | h#7 | −2 | 6 |  |
+| [KQRvkrb](#kqrvkrb) | 6 | **h#6** | h#7 | −2 | 850 |  |
+| [KQRvkrn](#kqrvkrn) | 6 | **h#6** | h#7 | −2 | 562 |  |
+| [KQRvkrp](#kqrvkrp) | 6 | **h#6** | h#7 | −2 | 2,337 |  |
+| [KQRvkrr](#kqrvkrr) | 6 | **h#6** | h#8 | −4 | 1,093 |  |
 | [KQvk](#kqvk) | 3 | **h#6** | h#7 | −2 | 3 | Csaszar (1945) |
 | [KQvkbbn](#kqvkbbn) | 6 | **h#6** | h#7.5 | −3 | 352 |  |
 | [KQvkbbp](#kqvkbbp) | 6 | **h#6** | h#7 | −2 | 131 |  |
@@ -404,6 +710,8 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KQvkqqn](#kqvkqqn) | 6 | **h#6** | h#7.5 | −3 | 36 |  |
 | [KQvkqqp](#kqvkqqp) | 6 | **h#6** | h#7.5 | −3 | 6 |  |
 | [KQvkqqq](#kqvkqqq) | 6 | **h#6** | h#7 | −2 | 2 |  |
+| [KRBBNvk](#krbbnvk) | 6 | **h#6** | h#8 | −4 | 94 |  |
+| [KRBBvkr](#krbbvkr) | 6 | **h#6** | h#7.5 | −3 | 66 |  |
 | [KRBNvk](#krbnvk) | 5 | **h#6** | h#8 | −4 | 36 |  |
 | [KRBvk](#krbvk) | 4 | **h#6** | h#7 | −2 | 20 |  |
 | [KRBvkb](#krbvkb) | 5 | **h#6** | h#10 | −8 | 28 |  |
@@ -412,12 +720,26 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRBvkqq](#krbvkqq) | 6 | **h#6** | h#8 | −4 | 21 |  |
 | [KRBvkqr](#krbvkqr) | 6 | **h#6** | h#8 | −4 | 47 |  |
 | [KRBvkrr](#krbvkrr) | 6 | **h#6** | h#7 | −2 | 21 |  |
+| [KRNNNvk](#krnnnvk) | 6 | **h#6** | h#7 | −2 | 12 |  |
 | [KRNNvk](#krnnvk) | 5 | **h#6** | h#8 | −4 | 27 |  |
+| [KRNNvkn](#krnnvkn) | 6 | **h#6** | h#7 | −2 | 6 |  |
+| [KRNNvkr](#krnnvkr) | 6 | **h#6** | h#8 | −4 | 122 |  |
 | [KRNvkb](#krnvkb) | 5 | **h#6** | h#10 | −8 | 33 |  |
 | [KRNvkqq](#krnvkqq) | 6 | **h#6** | h#8 | −4 | 22 |  |
 | [KRPvk](#krpvk) | 4 | **h#6** | h#8 | −4 | 25 |  |
+| [KRRBBvk](#krrbbvk) | 6 | **h#6** | h#8 | −4 | 29 |  |
+| [KRRBPvk](#krrbpvk) | 6 | **h#6** | h#7 | −2 | 182 |  |
 | [KRRBvk](#krrbvk) | 5 | **h#6** | h#7 | −2 | 17 |  |
+| [KRRBvkb](#krrbvkb) | 6 | **h#6** | h#8 | −4 | 26 |  |
+| [KRRBvkn](#krrbvkn) | 6 | **h#6** | h#7 | −2 | 10 |  |
+| [KRRBvkp](#krrbvkp) | 6 | **h#6** | h#8 | −4 | 255 |  |
+| [KRRPPvk](#krrppvk) | 6 | **h#6** | h#7 | −2 | 41 |  |
 | [KRRPvk](#krrpvk) | 5 | **h#6** | h#7 | −2 | 5 |  |
+| [KRRPvkb](#krrpvkb) | 6 | **h#6** | h#8 | −4 | 49 |  |
+| [KRRPvkn](#krrpvkn) | 6 | **h#6** | h#8 | −4 | 8 |  |
+| [KRRPvkp](#krrpvkp) | 6 | **h#6** | h#10 | −8 | 224 |  |
+| [KRRPvkq](#krrpvkq) | 6 | **h#6** | h#8 | −4 | 16 |  |
+| [KRRPvkr](#krrpvkr) | 6 | **h#6** | h#7 | −2 | 11 |  |
 | [KRRvkbb](#krrvkbb) | 6 | **h#6** | h#7 | −2 | 72 |  |
 | [KRRvkbn](#krrvkbn) | 6 | **h#6** | h#7 | −2 | 74 |  |
 | [KRRvkbp](#krrvkbp) | 6 | **h#6** | h#7 | −2 | 723 |  |
@@ -453,8 +775,10 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KRvkrnn](#krvkrnn) | 6 | **h#6** | h#7.5 | −3 | 778 |  |
 | [KRvkrp](#krvkrp) | 5 | **h#6** | h#7.5 | −3 | 175 |  |
 | [KRvkrr](#krvkrr) | 5 | **h#6** | h#7.5 | −3 | 100 |  |
+| [KNNNvkn](#knnnvkn) | 6 | **h#5.5** | h#7 | −3 | 147 |  |
 | [KQBvkq](#kqbvkq) | 5 | **h#5.5** | h#7 | −3 | 6 |  |
 | [KQNvkq](#kqnvkq) | 5 | **h#5.5** | h#7 | −3 | 6 |  |
+| [KQQvkqb](#kqqvkqb) | 6 | **h#5.5** | h#8 | −5 | 1 |  |
 | [KQvkbb](#kqvkbb) | 5 | **h#5.5** | h#7 | −3 | 4 |  |
 | [KQvkbbb](#kqvkbbb) | 6 | **h#5.5** | h#7 | −3 | 66 |  |
 | [KQvkbp](#kqvkbp) | 5 | **h#5.5** | h#7 | −3 | 2 |  |
@@ -474,13 +798,38 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KQvkrnp](#kqvkrnp) | 6 | **h#5.5** | h#7.5 | −4 | 390 |  |
 | [KQvkrpp](#kqvkrpp) | 6 | **h#5.5** | h#6.5 | −2 | 75 |  |
 | [KRNvkq](#krnvkq) | 5 | **h#5.5** | h#7 | −3 | 2 |  |
+| [KRRBvkq](#krrbvkq) | 6 | **h#5.5** | h#7.5 | −4 | 90 |  |
+| [KRRNvkq](#krrnvkq) | 6 | **h#5.5** | h#6.5 | −2 | 1 |  |
 | [KRvkq](#krvkq) | 4 | **h#5.5** | h#7.5 | −4 | 6 |  |
 | [KRvkr](#krvkr) | 4 | **h#5.5** | h#7 | −3 | 9 |  |
+| [KNNNNvk](#knnnnvk) | 6 | **h#5** | h#7 | −4 | 768 |  |
+| [KQBvkqq](#kqbvkqq) | 6 | **h#5** | h#8 | −6 | 673 |  |
 | [KQBvkr](#kqbvkr) | 5 | **h#5** | h#6 | −2 | 15 |  |
+| [KQBvkrr](#kqbvkrr) | 6 | **h#5** | h#6 | −2 | 7 |  |
+| [KQNvkqq](#kqnvkqq) | 6 | **h#5** | h#7 | −4 | 326 |  |
+| [KQQPvkb](#kqqpvkb) | 6 | **h#5** | h#7 | −4 | 4,745 |  |
+| [KQQPvkn](#kqqpvkn) | 6 | **h#5** | h#9 | −8 | 7,801 |  |
+| [KQQPvkr](#kqqpvkr) | 6 | **h#5** | h#6 | −2 | 487 |  |
 | [KQQvkb](#kqqvkb) | 5 | **h#5** | h#6 | −2 | 408 |  |
+| [KQQvkbb](#kqqvkbb) | 6 | **h#5** | h#7 | −4 | 8,228 |  |
+| [KQQvkbp](#kqqvkbp) | 6 | **h#5** | h#7 | −4 | 46,878 |  |
 | [KQQvkq](#kqqvkq) | 5 | **h#5** | h#7 | −4 | 441 |  |
+| [KQQvkqr](#kqqvkqr) | 6 | **h#5** | h#7 | −4 | 10 |  |
 | [KQQvkr](#kqqvkr) | 5 | **h#5** | h#6 | −2 | 46 |  |
+| [KQQvkrb](#kqqvkrb) | 6 | **h#5** | h#6.5 | −3 | 292 |  |
+| [KQQvkrn](#kqqvkrn) | 6 | **h#5** | h#6 | −2 | 6,726 |  |
+| [KQQvkrp](#kqqvkrp) | 6 | **h#5** | h#6 | −2 | 5,256 |  |
+| [KQQvkrr](#kqqvkrr) | 6 | **h#5** | h#6 | −2 | 42 |  |
+| [KQRBNvk](#kqrbnvk) | 6 | **h#5** | h#7 | −4 | 16 |  |
+| [KQRBvkq](#kqrbvkq) | 6 | **h#5** | h#7 | −4 | 214 |  |
+| [KQRNNvk](#kqrnnvk) | 6 | **h#5** | h#6 | −2 | 11 |  |
+| [KQRNPvk](#kqrnpvk) | 6 | **h#5** | h#7 | −4 | 4,322 |  |
 | [KQRNvk](#kqrnvk) | 5 | **h#5** | h#7 | −4 | 26 |  |
+| [KQRNvkb](#kqrnvkb) | 6 | **h#5** | h#6 | −2 | 7 |  |
+| [KQRNvkn](#kqrnvkn) | 6 | **h#5** | h#6 | −2 | 754 |  |
+| [KQRNvkp](#kqrnvkp) | 6 | **h#5** | h#8 | −6 | 4,367 |  |
+| [KQRNvkq](#kqrnvkq) | 6 | **h#5** | h#6 | −2 | 119 |  |
+| [KQRNvkr](#kqrnvkr) | 6 | **h#5** | h#6 | −2 | 4 |  |
 | [KQRvkb](#kqrvkb) | 5 | **h#5** | h#7 | −4 | 1,113 |  |
 | [KQvkb](#kqvkb) | 4 | **h#5** | h#6 | −2 | 64 |  |
 | [KQvkqrr](#kqvkqrr) | 6 | **h#5** | h#6 | −2 | 1 |  |
@@ -492,22 +841,84 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 | [KQvkrrp](#kqvkrrp) | 6 | **h#5** | h#6 | −2 | 17 |  |
 | [KRBvkr](#krbvkr) | 5 | **h#5** | h#7 | −4 | 3 |  |
 | [KRNvk](#krnvk) | 4 | **h#5** | h#7 | −4 | 19 | Maslar (1981) |
+| [KRRBNvk](#krrbnvk) | 6 | **h#5** | h#6 | −2 | 16 |  |
+| [KRRNNvk](#krrnnvk) | 6 | **h#5** | h#6 | −2 | 3 |  |
+| [KRRNPvk](#krrnpvk) | 6 | **h#5** | h#7 | −4 | 1,670 |  |
 | [KRRNvk](#krrnvk) | 5 | **h#5** | h#7 | −4 | 4 |  |
+| [KRRNvkb](#krrnvkb) | 6 | **h#5** | h#7 | −4 | 1 |  |
+| [KRRNvkn](#krrnvkn) | 6 | **h#5** | h#6 | −2 | 93 |  |
+| [KRRNvkp](#krrnvkp) | 6 | **h#5** | h#8 | −6 | 907 |  |
+| [KRRNvkr](#krrnvkr) | 6 | **h#5** | h#6.5 | −3 | 4 |  |
 | [KRRvkb](#krrvkb) | 5 | **h#5** | h#7 | −4 | 290 |  |
 | [KRRvkn](#krrvkn) | 5 | **h#5** | h#7 | −4 | 229 |  |
 | [KRRvkq](#krrvkq) | 5 | **h#5** | h#7 | −4 | 219 |  |
 | [KRvkb](#krvkb) | 4 | **h#5** | h#7 | −4 | 365 |  |
 | [KRvkn](#krvkn) | 4 | **h#5** | h#7 | −4 | 247 |  |
+| [KQBvkqr](#kqbvkqr) | 6 | **h#4.5** | h#6.5 | −4 | 51 |  |
 | [KQvkrr](#kqvkrr) | 5 | **h#4.5** | h#6 | −3 | 460 |  |
 | [KQvkrrr](#kqvkrrr) | 6 | **h#4.5** | h#6 | −3 | 577 |  |
+| [KRRBvkr](#krrbvkr) | 6 | **h#4.5** | h#7.5 | −6 | 43 |  |
 | [KRvk](#krvk) | 3 | **h#4.5** | h#7 | −5 | 1 | Ban (1965) |
+| [KQQBvkp](#kqqbvkp) | 6 | **h#4** | h#5 | −2 | 6 |  |
+| [KQQBvkq](#kqqbvkq) | 6 | **h#4** | h#5 | −2 | 10 |  |
+| [KQQNPvk](#kqqnpvk) | 6 | **h#4** | h#5 | −2 | 1,607 |  |
 | [KQQNvk](#kqqnvk) | 5 | **h#4** | h#5 | −2 | 18 |  |
+| [KQQNvkb](#kqqnvkb) | 6 | **h#4** | h#5 | −2 | 552 |  |
+| [KQQNvkn](#kqqnvkn) | 6 | **h#4** | h#5 | −2 | 891 |  |
+| [KQQNvkp](#kqqnvkp) | 6 | **h#4** | h#5 | −2 | 1,680 |  |
+| [KQQNvkq](#kqqnvkq) | 6 | **h#4** | h#5 | −2 | 1,019 |  |
+| [KQQNvkr](#kqqnvkr) | 6 | **h#4** | h#5 | −2 | 29 |  |
+| [KQQQvkn](#kqqqvkn) | 6 | **h#4** | h#5 | −2 | 45 |  |
+| [KQQRvkb](#kqqrvkb) | 6 | **h#4** | h#6 | −4 | 4 |  |
+| [KQQRvkn](#kqqrvkn) | 6 | **h#4** | h#5 | −2 | 322 |  |
+| [KQQRvkq](#kqqrvkq) | 6 | **h#4** | h#7 | −6 | 4 |  |
+| [KQRBvkr](#kqrbvkr) | 6 | **h#4** | h#6 | −4 | 47,252 |  |
+| [KQRRBvk](#kqrrbvk) | 6 | **h#4** | h#6 | −4 | 6 |  |
+| [KQRRNvk](#kqrrnvk) | 6 | **h#4** | h#5 | −2 | 3 |  |
+| [KQRRPvk](#kqrrpvk) | 6 | **h#4** | h#7 | −6 | 3 |  |
+| [KQRRvkb](#kqrrvkb) | 6 | **h#4** | h#7 | −6 | 33 |  |
+| [KQRRvkn](#kqrrvkn) | 6 | **h#4** | h#5 | −2 | 390 |  |
+| [KQRRvkp](#kqrrvkp) | 6 | **h#4** | h#7 | −6 | 3 |  |
+| [KQRRvkq](#kqrrvkq) | 6 | **h#4** | h#6 | −4 | 30 |  |
+| [KRRRNvk](#krrrnvk) | 6 | **h#4** | h#5 | −2 | 2 |  |
+| [KRRRvkb](#krrrvkb) | 6 | **h#4** | h#7 | −6 | 10 |  |
+| [KRRRvkn](#krrrvkn) | 6 | **h#4** | h#5 | −2 | 175 |  |
+| [KRRRvkp](#krrrvkp) | 6 | **h#4** | h#7 | −6 | 3 |  |
 | [KRRvk](#krrvk) | 4 | **h#4** | h#7 | −6 | 27 |  |
+| [KQQBvkr](#kqqbvkr) | 6 | **h#3.5** | h#5 | −3 | 1 |  |
+| [KQRRvkr](#kqrrvkr) | 6 | **h#3.5** | h#5 | −3 | 8 |  |
+| [KRRRvkq](#krrrvkq) | 6 | **h#3.5** | h#6 | −5 | 56 |  |
+| [KRRRvkr](#krrrvkr) | 6 | **h#3.5** | h#4.5 | −2 | 2 |  |
+| [KQQBBvk](#kqqbbvk) | 6 | **h#3** | h#4 | −2 | 631 |  |
+| [KQQBNvk](#kqqbnvk) | 6 | **h#3** | h#4 | −2 | 1,128 |  |
+| [KQQBPvk](#kqqbpvk) | 6 | **h#3** | h#5 | −4 | 49,428 |  |
 | [KQQBvk](#kqqbvk) | 5 | **h#3** | h#4 | −2 | 293 |  |
+| [KQQBvkb](#kqqbvkb) | 6 | **h#3** | h#4 | −2 | 16,298 |  |
+| [KQQBvkn](#kqqbvkn) | 6 | **h#3** | h#5 | −4 | 30,769 |  |
+| [KQQNNvk](#kqqnnvk) | 6 | **h#3** | h#4 | −2 | 76,571 |  |
+| [KQQQvkb](#kqqqvkb) | 6 | **h#3** | h#5 | −4 | 9 |  |
+| [KQQRNvk](#kqqrnvk) | 6 | **h#3** | h#4 | −2 | 71 |  |
+| [KQQRPvk](#kqqrpvk) | 6 | **h#3** | h#4 | −2 | 16,073 |  |
 | [KQQRvk](#kqqrvk) | 5 | **h#3** | h#4 | −2 | 775 |  |
+| [KQQRvkp](#kqqrvkp) | 6 | **h#3** | h#6 | −6 | 48,719 |  |
+| [KQQRvkr](#kqqrvkr) | 6 | **h#3** | h#5 | −4 | 217 |  |
 | [KQRRvk](#kqrrvk) | 5 | **h#3** | h#5 | −4 | 1,116 |  |
+| [KRRRBvk](#krrrbvk) | 6 | **h#3** | h#5 | −4 | 40,594 |  |
+| [KRRRPvk](#krrrpvk) | 6 | **h#3** | h#7 | −8 | 54,154 |  |
 | [KRRRvk](#krrrvk) | 5 | **h#3** | h#5 | −4 | 217 |  |
+| [KQQQvkp](#kqqqvkp) | 6 | **h#2.5** | h#3.5 | −2 | 2 |  |
+| [KQQQvkq](#kqqqvkq) | 6 | **h#2.5** | h#5 | −5 | 68 |  |
+| [KQQQvkr](#kqqqvkr) | 6 | **h#2.5** | h#4 | −3 | 24 |  |
+| [KQQQBvk](#kqqqbvk) | 6 | **h#2** | h#3 | −2 | 142,565 |  |
+| [KQQQNvk](#kqqqnvk) | 6 | **h#2** | h#3 | −2 | 179,748 |  |
+| [KQQQPvk](#kqqqpvk) | 6 | **h#2** | h#3 | −2 | 1,041,105 |  |
+| [KQQQQvk](#kqqqqvk) | 6 | **h#2** | h#3 | −2 | 251 |  |
+| [KQQQRvk](#kqqqrvk) | 6 | **h#2** | h#3 | −2 | 14,587 |  |
 | [KQQQvk](#kqqqvk) | 5 | **h#2** | h#3 | −2 | 3,150 |  |
+| [KQQRBvk](#kqqrbvk) | 6 | **h#2** | h#4 | −4 | 5,705,691 |  |
+| [KQQRRvk](#kqqrrvk) | 6 | **h#2** | h#3 | −2 | 174,709 |  |
+| [KQRRRvk](#kqrrrvk) | 6 | **h#2** | h#3 | −2 | 272,140 |  |
+| [KRRRRvk](#krrrrvk) | 6 | **h#2** | h#3 | −2 | 102,517 |  |
 
 ## KPvk
 
@@ -523,17 +934,6 @@ Sorted by how deep a *sound* problem gets. `class max` is the longest helpmate i
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KPvk-b.svg" width="200" alt="KPvk, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 1</sub></td>
-<td valign="top">
-<b>No. 1b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1K6/8/3P4/7k/8&moves=6.5">solve ↗</a><br>
-The same material and stipulation as No. 1, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...d4 2.Kg3 d5 3.Kf4 d6 4.Ke5 d7 5.Kd6 Ka5 6.Kc7 Ka6 7.Kb8 d8=Q#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
-<br><code>8/8/8/1K6/8/3P4/7k/8 w - - 0 1</code>
-</td>
-</tr></table>
-
 ## KQvk
 
 <table><tr>
@@ -546,17 +946,6 @@ The same material and stipulation as No. 1, which is published; this position is
 <br><b>Published:</b> Csaszar, Imre — Magyar Sakkvilag, 1945; Ideal-Mate Review, 1990; Catalogue h# (CHM) avec 6 pieces, No. 165, 1995, as h#6 (P0551296)<br>
 <br><b>Note:</b> the side to move is in check in the diagram.<br>
 <br><code>8/8/7k/6Q1/8/8/8/K7 b - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KQvk-b.svg" width="200" alt="KQvk, h#6, unpublished"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 1</sub></td>
-<td valign="top">
-<b>No. 2b</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/6Q1/8/8/8/K7&moves=6">solve ↗</a><br>
-The same material and stipulation as No. 2, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Qg7#<br>
-<br><b>Themes:</b> <code>set-play</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocapture</code> <code>nocheck</code><br>
-<br><code>8/7k/8/6Q1/8/8/8/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -653,17 +1042,6 @@ The same material and stipulation as No. 2, which is published; this position is
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KNvkr-b.svg" width="200" alt="KNvkr, h#8, unpublished"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 2</sub></td>
-<td valign="top">
-<b>No. 9b</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/N7/8/8/8/4r3/1K6&moves=8">solve ↗</a><br>
-The same material and stipulation as No. 9, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kg6 Nb4 2.Kf5 Nc2 3.Ke4 Kb2 4.Kd3 Kc1 5.Kc3 Kd1 6.Kb2 Nd4 7.Ka1 Kc1 8.Ra2 Nb3#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
-<br><code>8/7k/N7/8/8/8/4r3/1K6 b - - 0 1</code>
-</td>
-</tr></table>
-
 ## KNvkn
 
 <table><tr>
@@ -675,17 +1053,6 @@ The same material and stipulation as No. 9, which is published; this position is
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
 <br><b>Published:</b> Kotesovec, Vaclav — Sachova skladba, No. 1065, 06/1987, as h#8 0.1... (P0542897) · ?, ? — ?, 03/1975, as h#8 0.1... (P0542908)<br>
 <br><code>5n2/8/8/8/8/8/3k2N1/K7 w - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KNvkn-b.svg" width="200" alt="KNvkn, h#7.5, unpublished"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 2</sub></td>
-<td valign="top">
-<b>No. 10b</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5n2/8/8/8/6N1/8/3k4/1K6&moves=7.5">solve ↗</a><br>
-The same material and stipulation as No. 10, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...Ne5 2.Ke3 Kc2 3.Kf4 Kd3 4.Kg5 Ke4 5.Kh6 Kf5 6.Kh7 Kf6 7.Kh8 Kf7 8.Nh7 Ng6#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
-<br><code>5n2/8/8/8/6N1/8/3k4/1K6 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -756,17 +1123,6 @@ The same material and stipulation as No. 10, which is published; this position i
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KBPvk-b.svg" width="200" alt="KBPvk, h#7, unpublished"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 1</sub></td>
-<td valign="top">
-<b>No. 15b</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/B7/P7/8/3K4&moves=7">solve ↗</a><br>
-The same material and stipulation as No. 15, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kg7 Bb3 2.Kf6 a4 3.Ke5 a5 4.Kd4 a6 5.Kc3 a7 6.Kb2 a8=Q 7.Kb1 Qa2#<br>
-<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
-<br><code>7k/8/8/8/B7/P7/8/3K4 b - - 0 1</code>
-</td>
-</tr></table>
-
 ## KNPvk
 
 <table><tr>
@@ -778,17 +1134,6 @@ The same material and stipulation as No. 15, which is published; this position i
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
 <br><b>Published:</b> Elkies, Noam D. — The Problemist, No. H2793, 07/2004, as h#7 (P1187769)<br>
 <br><code>8/8/8/8/8/N7/P7/3K3k b - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KNPvk-b.svg" width="200" alt="KNPvk, h#7, unpublished"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 1</sub></td>
-<td valign="top">
-<b>No. 16b</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/KN6/P7/7k&moves=7">solve ↗</a><br>
-The same material and stipulation as No. 16, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kg2 Kb4 2.Kf3 a4 3.Ke4 a5 4.Kd5 a6 5.Kc6 a7 6.Kb7 Kc5 7.Ka6 a8=Q#<br>
-<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
-<br><code>8/8/8/8/8/KN6/P7/7k b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -858,17 +1203,6 @@ The same material and stipulation as No. 16, which is published; this position i
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
 <br><b>Published:</b> Bebesi, Gyula — Diagramme und Figuren, No. 1910, 12/12/1966; Catalogue h# (CHM) avec 6 pieces, No. 624, 1995; Ideal-Mate Encyclopedia Vol.1, No. 930, 1999, as h#7 0.1... (P0545484)<br>
 <br><code>1k5N/8/8/8/8/8/7N/3K4 w - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KNNvk-b.svg" width="200" alt="KNNvk, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 1</sub></td>
-<td valign="top">
-<b>No. 21b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6kN/8/8/8/8/8/7N/3K4&moves=6.5">solve ↗</a><br>
-The same material and stipulation as No. 21, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...Ke2 2.Kg7 Kf3 3.Kf6 Kg4 4.Ke5 Kh5 5.Kf4 Ng6+ 6.Kg3 Nf1+ 7.Kh3 Nf4#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
-<br><code>6kN/8/8/8/8/8/7N/3K4 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -1022,18 +1356,6 @@ The same material and stipulation as No. 21, which is published; this position i
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KQvkq-b.svg" width="200" alt="KQvkq, h#5.5, unpublished"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 2</sub></td>
-<td valign="top">
-<b>No. 32b</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/6Q1/8/8/1q6/K7&moves=5.5">solve ↗</a><br>
-The same material and stipulation as No. 32, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...Kxb2 2.Kh8 Kc3 3.Kh7 Kd4 4.Kh8 Ke5 5.Kh7 Kf6 6.Kh8 Qg7#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocheck</code><br>
-<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
-<br><code>8/7k/8/6Q1/8/8/1q6/K7 w - - 0 1</code>
-</td>
-</tr></table>
-
 ## KRvkq
 
 <table><tr>
@@ -1098,17 +1420,6 @@ The same material and stipulation as No. 32, which is published; this position i
 <br><b>Themes:</b> <code>set-play</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>umnov</code><br>
 <br><b>Published:</b> Maslar, Zdravko — Stern, 15/01/1981; Catalogue h# (CHM) avec 6 pieces, No. 784, 1995, as h#5 (P0545644)<br>
 <br><code>8/8/8/8/6k1/N4R2/8/K7 b - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KRNvk-b.svg" width="200" alt="KRNvk, h#5, unpublished"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 1</sub></td>
-<td valign="top">
-<b>No. 37b</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6k1/8/N4R2/8/K7&moves=5">solve ↗</a><br>
-The same material and stipulation as No. 37, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kg4 Rb3 2.Kf4 Rb2 3.Ke3 Nc2+ 4.Kd2 Ne3+ 5.Kc1 Rc2#<br>
-<br><b>Themes:</b> <code>set-play</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>umnov</code><br>
-<br><code>8/8/8/6k1/8/N4R2/8/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -1310,17 +1621,6 @@ The same material and stipulation as No. 37, which is published; this position i
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
 <br><b>Published:</b> Locker, Miklos S. — Magyar Sakkelet, 02/1966, as h#10 0.1... (P0564289)<br>
 <br><code>8/8/6p1/8/6P1/k7/8/Kb6 w - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KPvkbp-b.svg" width="200" alt="KPvkbp, h#9.5, unpublished"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 3</sub></td>
-<td valign="top">
-<b>No. 52b</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/6P1/k7/2b5/K7&moves=9.5">solve ↗</a><br>
-The same material and stipulation as No. 52, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...g5 2.Kb4 Kb2 3.Kc5 Kc3 4.Kd6 Kd4 5.Ke7 Ke5 6.Kf8 Kf6 7.Bb3 Kxg6 8.Kg8 Kh6 9.Kh8 g6 10.Bg8 g7#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
-<br><code>8/8/6p1/8/6P1/k7/2b5/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -1615,17 +1915,6 @@ The same material and stipulation as No. 52, which is published; this position i
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KNvkqn-b.svg" width="200" alt="KNvkqn, h#8, unpublished"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 3</sub></td>
-<td valign="top">
-<b>No. 74b</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/N6k/8/8/8/8/1nq5/K7&moves=8">solve ↗</a><br>
-The same material and stipulation as No. 74, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Qa4+ Kb1 2.Kg6 Kc1 3.Kf5 Kd2 4.Ke4 Ke1 5.Kd3 Nb5 6.Kc2 Ke2 7.Kb1 Kd2 8.Qa1 Nc3#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code><br>
-<br><code>8/N6k/8/8/8/8/1nq5/K7 b - - 0 1</code>
-</td>
-</tr></table>
-
 ## KQBvkn
 
 <table><tr>
@@ -1805,17 +2094,6 @@ The same material and stipulation as No. 74, which is published; this position i
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
 <br><b>Published:</b> Paliulionis, Viktoras — Sachmatija, No. H5293, 01-03/2024, as h#8 0.1.1... (P1421423)<br>
 <br><code>N7/K7/8/7n/8/8/P7/7k w - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KNPvkn-b.svg" width="200" alt="KNPvkn, h#7.5, unpublished"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 2</sub></td>
-<td valign="top">
-<b>No. 87b</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/K7/8/7n/8/P7/8/7k&moves=7.5">solve ↗</a><br>
-The same material and stipulation as No. 87, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...a4 2.Nf6 a5 3.Nd7 a6 4.Nb8 Kb6 5.Kg2 a7 6.Kf3 axb8=Q 7.Ke4 Qf4+ 8.Kd5 Nc7#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>promotions:q</code><br>
-<br><code>N7/K7/8/7n/8/P7/8/7k w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -2438,18 +2716,6 @@ The same material and stipulation as No. 87, which is published; this position i
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KRBPvk-b.svg" width="200" alt="KRBPvk, h#7, unpublished"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 1</sub></td>
-<td valign="top">
-<b>No. 133b</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k6/R7/8/8/6B1/8/6P1/3K4&moves=7">solve ↗</a><br>
-The same material and stipulation as No. 133, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kxa7 Bf3 2.Kb6 g4 3.Kc5 g5 4.Kd4 g6 5.Ke3 g7 6.Kf2 g8=Q 7.Kf1 Qg2#<br>
-<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
-<br><b>Note:</b> the solution begins with a capture.<br>
-<br><code>1k6/R7/8/8/6B1/8/6P1/3K4 b - - 0 1</code>
-</td>
-</tr></table>
-
 ## KRNPvk
 
 <table><tr>
@@ -2604,17 +2870,6 @@ The same material and stipulation as No. 133, which is published; this position 
 </td>
 </tr></table>
 
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KBNNvk-b.svg" width="200" alt="KBNNvk, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 1</sub></td>
-<td valign="top">
-<b>No. 144b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7N/8/8/8/8/2B3N1/K7&moves=6.5">solve ↗</a><br>
-The same material and stipulation as No. 144, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...Kb2 2.Kg8 Kc3 3.Kg7 Kd4 4.Kh6 Ke5 5.Kh5 Kf6 6.Kg4 Kg7 7.Kh5 Bd1#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
-<br><code>7k/7N/8/8/8/8/2B3N1/K7 w - - 0 1</code>
-</td>
-</tr></table>
-
 ## KBvkqb
 
 <table><tr>
@@ -2626,17 +2881,6 @@ The same material and stipulation as No. 144, which is published; this position 
 <br><b>Themes:</b> <code>set-play</code> <code>self-block</code> <code>nocapture</code><br>
 <br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (304), 05-06/1998, as h#7 0.1... (P0574155)<br>
 <br><code>8/B7/1q6/8/2b5/8/8/K6k w - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KBvkqb-b.svg" width="200" alt="KBvkqb, h#6.5, unpublished"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 3</sub></td>
-<td valign="top">
-<b>No. 145b</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/B7/1q6/8/2b5/7k/8/K7&moves=6.5">solve ↗</a><br>
-The same material and stipulation as No. 145, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1...Bb8 2.Qg1+ Kb2 3.Kg2 Kc3 4.Kf2 Kd4 5.Qd1+ Ke4 6.Ke1 Ke3 7.Bf1 Bg3#<br>
-<br><b>Themes:</b> <code>set-play</code> <code>self-block</code> <code>nocapture</code><br>
-<br><code>8/B7/1q6/8/2b5/7k/8/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3163,18 +3407,6 @@ The same material and stipulation as No. 145, which is published; this position 
 <br><b>Published:</b> Sheglow, Wiktor S. — Suomen Tehtäväniekat, No. (306), 05-06/1998, as h#6 (P0574158)<br>
 <br><b>Note:</b> the side to move is in check in the diagram.<br>
 <br><code>8/8/7k/8/2b5/8/7R/K2n4 b - - 0 1</code>
-</td>
-</tr></table>
-
-<table><tr>
-<td width="220" valign="top"><img src="images/deepest/KRvkbn-b.svg" width="200" alt="KRvkbn, h#6, unpublished"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 3</sub></td>
-<td valign="top">
-<b>No. 183b</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/2b5/7R/8/K2n4&moves=6">solve ↗</a><br>
-The same material and stipulation as No. 183, which is published; this position is not in the published database (checked under every mirroring).<br>
-<br><b>Solution:</b> 1.Kg5 Rc3 2.Kf4 Rxc4+ 3.Ke3 Ka2 4.Kd2 Rd4+ 5.Kc1 Kb3 6.Kb1 Rxd1#<br>
-<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
-<br><b>Note:</b> the side to move is in check in the diagram.<br>
-<br><code>8/8/7k/8/2b5/7R/8/K2n4 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3715,12 +3947,26 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KQBvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkrp.svg" width="200" alt="KQBvkrp, h#13"><br><sub><b>h#13</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 223</b> &nbsp;·&nbsp; <b>h#13</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/3p4/2k5/2Q5/8/5Br1&moves=13">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#13. The class runs to h#17, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc3 Kb7 2.d4 Kc6 3.d3 Kd5 4.d2 Ke4 5.d1=N Kf3 6.Ne3 Kf2 7.Kd2 Kxg1 8.Ke1 Kh2 9.Kf2 Kh3 10.Kg1 Kg3 11.Kh1 Bh3 12.Nf1+ Kf2 13.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>closed-walk</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>K7/8/8/3p4/2k5/2Q5/8/5Br1 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBvkqbp
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqbp.svg" width="200" alt="KBvkqbp, h#12.5"><br><sub><b>h#12.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 223</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/4pk2/8/8/2q5/8/B2K4&moves=12.5">solve ↗</a><br>
+<b>No. 224</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/4pk2/8/8/2q5/8/B2K4&moves=12.5">solve ↗</a><br>
 59 positions of 22,724,739,072 indexed have a unique solution at h#12.5. The class runs to h#16.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ke2 2.Qb2+ Kf3 3.e5 Kg4 4.e4 Kh5 5.e3 Kh6 6.e2 Kh7 7.e1=N Kxh8 8.Nf3 Kg8 9.Ng5 Kf8 10.Nh7+ Ke8 11.Kg7 Ke7 12.Kh8 Kf7 13.Qg7+ Bxg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>promotions:n</code><br>
@@ -3733,7 +3979,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqqp.svg" width="200" alt="KBvkqqp, h#12.5"><br><sub><b>h#12.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 224</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=k7/B7/1qp5/8/8/K7/3q4/8&moves=12.5">solve ↗</a><br>
+<b>No. 225</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=k7/B7/1qp5/8/8/K7/3q4/8&moves=12.5">solve ↗</a><br>
 210 positions of 22,724,739,072 indexed have a unique solution at h#12.5. The class runs to h#17.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bb8 2.c5 Bd6 3.c4 Bb4 4.c3 Kb3 5.c2 Kc4 6.c1=N Bd6 7.Nd3 Kd5 8.Qda5+ Ke6 9.Nc5+ Ke7 10.Nb7 Bb4 11.Kb8 Kd7 12.Qa8 Ba5 13.Qba7 Bc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code> <code>klasinc</code> <code>promotions:n</code><br>
@@ -3746,7 +3992,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqrp.svg" width="200" alt="KBvkqrp, h#12.5"><br><sub><b>h#12.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 225</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k6/8/4p3/8/1q6/8/1r6/K1B5&moves=12.5">solve ↗</a><br>
+<b>No. 226</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k6/8/4p3/8/1q6/8/1r6/K1B5&moves=12.5">solve ↗</a><br>
 495 positions of 22,724,739,072 indexed have a unique solution at h#12.5. The class runs to h#16.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Be3 2.Qb7 Bb6 3.Ra2+ Kb1 4.e5 Kc1 5.e4 Kd1 6.e3 Ke1 7.e2 Kf2 8.e1=N+ Ke3 9.Nd3 Kd4 10.Nc5 Ke5 11.Qa8 Kd6 12.Nb7+ Kd7 13.Ra7 Bc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -3759,7 +4005,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrpp.svg" width="200" alt="KBvkrpp, h#12.5"><br><sub><b>h#12.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 226</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3p4/3p4/5k2/8/K7/7r/3B4&moves=12.5">solve ↗</a><br>
+<b>No. 227</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3p4/3p4/5k2/8/K7/7r/3B4&moves=12.5">solve ↗</a><br>
 14 positions of 17,043,554,304 indexed have a unique solution at h#12.5. The class runs to h#16.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bc2+ 2.Kg4 Kb2 3.d5 Kc1 4.d4 Kd1 5.d3 Ke1 6.d2+ Kf1 7.d1=N Kg1 8.Ne3 Kxh2 9.Nf1+ Kg1 10.Kh3 Kf2 11.Kh2 Bf5 12.Kh1 Bh3 13.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>promotions:n</code><br>
@@ -3772,7 +4018,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrrp.svg" width="200" alt="KBvkrrp, h#12.5"><br><sub><b>h#12.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 227</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2k2p2/5r2/8/8/6r1/1K6/7B&moves=12.5">solve ↗</a><br>
+<b>No. 228</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2k2p2/5r2/8/8/6r1/1K6/7B&moves=12.5">solve ↗</a><br>
 79 positions of 22,724,739,072 indexed have a unique solution at h#12.5. The class runs to h#16.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Be4 2.Kd6 Bd3 3.Ke5 Kc3 4.Kf4 Kd4 5.Kf3 Ke5 6.Kg2 Kxf6 7.Kh1 Ke5 8.f5 Bf1 9.f4 Bh3 10.f3 Kf4 11.f2 Kxg3 12.f1=N+ Kf2 13.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>switchback</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -3785,11 +4031,25 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkbpp.svg" width="200" alt="KPvkbpp, h#12.5"><br><sub><b>h#12.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 228</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7p/7p/k6P/7b/8/K7&moves=12.5">solve ↗</a><br>
+<b>No. 229</b> &nbsp;·&nbsp; <b>h#12.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7p/7p/k6P/7b/8/K7&moves=12.5">solve ↗</a><br>
 7 positions of 12,782,665,728 indexed have a unique solution at h#12.5. The class runs to h#15.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kb5 Kc3 3.Kc6 Kd4 4.Kd7 Ke5 5.Ke8 Kf6 6.Kf8 Kg6 7.Kg8 Kxh5 8.Kh8 Kg6 9.Bf5+ Kf7 10.Kh7 h5 11.Bg6+ hxg6+ 12.Kh8 g7+ 13.Kh7 g8=Q#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>switchback</code> <code>promotions:q</code><br>
 <br><code>8/8/7p/7p/k6P/7b/8/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBPvkp.svg" width="200" alt="KBBPvkp, h#12"><br><sub><b>h#12</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 230</b> &nbsp;·&nbsp; <b>h#12</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/4B3/8/6Bp/7P/k7/8/K7&moves=12">solve ↗</a><br>
+4 positions of 17,043,554,304 indexed have a unique solution at h#12. The class runs to h#15, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kb3 Kb1 2.Kc4 Kc2 3.Kd5 Kd3 4.Ke6 Ke4 5.Kf7 Kf5 6.Kg8 Kg6 7.Kh8 Kxh5 8.Kg8 Kg6 9.Kh8 h5 10.Kg8 h6 11.Kh8 Bgf6+ 12.Kg8 h7#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/4B3/8/6Bp/7P/k7/8/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3798,11 +4058,25 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrbp.svg" width="200" alt="KBvkrbp, h#12"><br><sub><b>h#12</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 229</b> &nbsp;·&nbsp; <b>h#12</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/1r2p3/4k3/8/8/8/1B6/K7&moves=12">solve ↗</a><br>
+<b>No. 231</b> &nbsp;·&nbsp; <b>h#12</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/1r2p3/4k3/8/8/8/1B6/K7&moves=12">solve ↗</a><br>
 6 positions of 22,724,739,072 indexed have a unique solution at h#12. The class runs to h#16.5, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kf7 Ka2 2.Kg8 Ka3 3.e5+ Ka4 4.e4 Ka5 5.e3 Ka6 6.e2 Kxb7 7.e1=N Kc6 8.Nf3 Kd5 9.Ng5 Ke5 10.Kh8 Kf6 11.Nh7+ Kf7+ 12.Bg7 Bxg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>self-block</code> <code>promotions:n</code><br>
 <br><code>5b2/1r2p3/4k3/8/8/8/1B6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkqp.svg" width="200" alt="KQBvkqp, h#12"><br><sub><b>h#12</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 232</b> &nbsp;·&nbsp; <b>h#12</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/1B6/8/4q3/8/8/Qp6/k7&moves=12">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#12. The class runs to h#17, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa2 Ka7 2.Kb3 Kb6 3.Kc4 Ba6+ 4.Kd5 Kb5 5.Ke4+ Kc4 6.Kf3 Kd3 7.Kg2 Kd2 8.Kh1 Be2 9.b1=N+ Ke1 10.Nd2 Kf2 11.Nf3 Bf1 12.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K7/1B6/8/4q3/8/8/Qp6/k7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3811,7 +4085,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkrp.svg" width="200" alt="KRBvkrp, h#12"><br><sub><b>h#12</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 230</b> &nbsp;·&nbsp; <b>h#12</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/K7/1B3p2/k7/1R6/8/6r1&moves=12">solve ↗</a><br>
+<b>No. 233</b> &nbsp;·&nbsp; <b>h#12</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/K7/1B3p2/k7/1R6/8/6r1&moves=12">solve ↗</a><br>
 3 positions of 22,724,739,072 indexed have a unique solution at h#12. The class runs to h#17, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxb3 Kb6 2.f4 Kc5 3.f3 Kd4 4.f2 Ke3 5.f1=N+ Kf2 6.Kc3 Kxg1 7.Kd4 Kf2 8.Ke4 Ke1 9.Kf3 Bd7 10.Kg2 Bh3+ 11.Kh1 Kf2 12.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -3825,7 +4099,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkbpp.svg" width="200" alt="KBvkbpp, h#11.5"><br><sub><b>h#11.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 231</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=b7/8/2kp1p2/8/8/8/3K4/5B2&moves=11.5">solve ↗</a><br>
+<b>No. 234</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=b7/8/2kp1p2/8/8/8/3K4/5B2&moves=11.5">solve ↗</a><br>
 34 positions of 17,043,554,304 indexed have a unique solution at h#11.5. The class runs to h#16, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kc3 2.d5 Kb4 3.d4 Ka5 4.d3 Ka6 5.d2 Ka7 6.d1=N Kxa8 7.Nc3 Kb8 8.Nb5 Kc8 9.Na7+ Kd8 10.Kb7 Ba6+ 11.Ka8 Kc7 12.f5 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>promotions:n</code><br>
@@ -3838,7 +4112,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqnp.svg" width="200" alt="KBvkqnp, h#11.5"><br><sub><b>h#11.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 232</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k6/4n3/3K4/3q4/8/8/6p1/2B5&moves=11.5">solve ↗</a><br>
+<b>No. 235</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k6/4n3/3K4/3q4/8/8/6p1/2B5&moves=11.5">solve ↗</a><br>
 2 positions of 22,724,739,072 indexed have a unique solution at h#11.5. The class runs to h#16.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxe7 2.Kc7 Kf6 3.Kd6 Kg6 4.Ke5 Kg5 5.Kd4+ Kf4 6.Kc3 Bd2+ 7.Kb2 Ke3 8.Ka1 Ke2 9.g1=N+ Kd1 10.Ne2 Kc2 11.Nc3 Bc1 12.Na2 Bb2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -3852,7 +4126,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqpp.svg" width="200" alt="KBvkqpp, h#11.5"><br><sub><b>h#11.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 233</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3K4/3p4/B7/1p1kq3/8/8/8/8&moves=11.5">solve ↗</a><br>
+<b>No. 236</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3K4/3p4/B7/1p1kq3/8/8/8/8&moves=11.5">solve ↗</a><br>
 3 positions of 17,043,554,304 indexed have a unique solution at h#11.5. The class runs to h#16.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kc8 2.b4 Kb7 3.b3 Kb6 4.b2 Kb5 5.Ke4+ Kc4 6.Kf3 Kd3 7.Kg2 Kd2 8.Kh1 Be2 9.b1=N+ Ke1 10.Nd2 Kf2 11.Nf3 Bf1 12.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -3865,7 +4139,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrnp.svg" width="200" alt="KBvkrnp, h#11.5"><br><sub><b>h#11.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 234</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3p4/8/6k1/1n6/B6r/1K6&moves=11.5">solve ↗</a><br>
+<b>No. 237</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3p4/8/6k1/1n6/B6r/1K6&moves=11.5">solve ↗</a><br>
 10 positions of 22,724,739,072 indexed have a unique solution at h#11.5. The class runs to h#16.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bxb3 2.d5 Kc1 3.d4 Kd1 4.d3 Ke1 5.d2+ Kf1 6.d1=N Kg1 7.Ne3 Kxh2 8.Nf1+ Kg1 9.Kh3 Kf2 10.Kh2 Be6 11.Kh1 Bh3 12.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>promotions:n</code><br>
@@ -3879,7 +4153,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkppp.svg" width="200" alt="KPvkppp, h#11.5"><br><sub><b>h#11.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 235</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4p3/1p3k2/8/1p6/1P6/K7&moves=11.5">solve ↗</a><br>
+<b>No. 238</b> &nbsp;·&nbsp; <b>h#11.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4p3/1p3k2/8/1p6/1P6/K7&moves=11.5">solve ↗</a><br>
 4 positions of 9,586,999,296 indexed have a unique solution at h#11.5. The class runs to h#16.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.e5 Kc1 3.e4 Kd2 4.e3+ Kc3 5.e2 Kxb3 6.e1=B Ka3 7.Ba5 b4 8.Ke4 bxa5 9.Kd3 a6 10.Kc2 a7 11.Kb1 a8=Q 12.Ka1 Qh1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:qb</code><br>
@@ -3892,7 +4166,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkrp.svg" width="200" alt="KBBvkrp, h#11"><br><sub><b>h#11</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 236</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1K6/2B2p2/k7/1B6/6r1&moves=11">solve ↗</a><br>
+<b>No. 239</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1K6/2B2p2/k7/1B6/6r1&moves=11">solve ↗</a><br>
 1 position of 22,724,739,072 indexed has a unique solution at h#11. The class runs to h#17, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxb2 Kc5 2.f3 Kd4 3.f2 Ke3 4.f1=N+ Kf2 5.Kc3 Kxg1 6.Kd4 Kf2 7.Ke4 Ke1 8.Kf3 Be6 9.Kg2 Bh3+ 10.Kh1 Kf2 11.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -3901,16 +4175,98 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KBPPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPPvkp.svg" width="200" alt="KBPPvkp, h#11"><br><sub><b>h#11</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 240</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/8/8/7p/7P/kP6/8/1K6&moves=11">solve ↗</a><br>
+1 position of 12,782,665,728 indexed has a unique solution at h#11. The class runs to h#14, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb3 Kc1 2.Kc4 Kd2 3.Kd5 Ke3 4.Ke6 Kf4 5.Kf7 Kg5 6.Kg8 Kxh5 7.Kh8 Kg6 8.Kg8 h5 9.Kh8 h6 10.Kg8 h7+ 11.Kh8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5B2/8/8/7p/7P/kP6/8/1K6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkrp.svg" width="200" alt="KBPvkrp, h#11"><br><sub><b>h#11</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 241</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1K6/2B2p2/k7/1P6/6r1&moves=11">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#11. The class runs to h#16, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb2 Kc5 2.f3 Kd4 3.f2 Ke3 4.f1=N+ Kf2 5.Kc3 Kxg1 6.Kd4 Kf2 7.Ke4 Ke1 8.Kf3 Be6 9.Kg2 Bh3+ 10.Kh1 Kf2 11.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/1K6/2B2p2/k7/1P6/6r1 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBvkppp
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkppp.svg" width="200" alt="KBvkppp, h#11"><br><sub><b>h#11</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 237</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k1K4/4B3/8/6p1/4p1p1/8/8/8&moves=11">solve ↗</a><br>
+<b>No. 242</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k1K4/4B3/8/6p1/4p1p1/8/8/8&moves=11">solve ↗</a><br>
 1 position of 12,782,665,728 indexed has a unique solution at h#11. The class runs to h#15.5, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.e3 Kd7 2.e2 Kc6 3.e1=Q Kb5 4.Kc7 Bd8+ 5.Kd6 Kc4 6.Qe8 Kd3 7.Ke5 Ke2 8.Kf4+ Kf1 9.Kg3 Bc7+ 10.Kh4 Kg2 11.Qh5 Bg3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>self-block</code> <code>nocapture</code> <code>promotions:q</code> <code>indian</code><br>
 <br><code>1k1K4/4B3/8/6p1/4p1p1/8/8/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBPvkp.svg" width="200" alt="KQBPvkp, h#11"><br><sub><b>h#11</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 243</b> &nbsp;·&nbsp; <b>h#11</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/8/8/7p/7P/kQ6/8/1K6&moves=11">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#11. The class runs to h#15, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb3 Kc1 2.Kc4 Kd2 3.Kd5 Ke3 4.Ke6 Kf4 5.Kf7 Kg5 6.Kg8 Kxh5 7.Kh8 Kg6 8.Kg8 h5 9.Kh8 h6 10.Kg8 h7+ 11.Kh8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>5B2/8/8/7p/7P/kQ6/8/1K6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBvkp.svg" width="200" alt="KBBBvkp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 244</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K2p4/8/1B1k4/B7/3B4/8/8&moves=10.5">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#10.5. The class runs to h#15, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Bdc4+ 2.Ke4 Kb6 3.Kf3 Kc5 4.Kg2 Bf1+ 5.Kh1 Bbe2 6.d5 Bd7 7.d4 Bdh3 8.d3 Kd4 9.dxe2 Ke3 10.exf1=N+ Kf2 11.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><code>8/K2p4/8/1B1k4/B7/3B4/8/8 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkpp.svg" width="200" alt="KBPvkpp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 245</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/Kp6/8/2k5/8/4p3/4P3/1B6&moves=10.5">solve ↗</a><br>
+28 positions of 12,782,665,728 indexed have a unique solution at h#10.5. The class runs to h#16, so the deepest sound problem is 11 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Bf5 2.Kd6 Kb6 3.Ke7 Kc5 4.b5 Kd4 5.b4 Kxe3 6.b3 Kf4 7.b2 e4 8.b1=R e5 9.Rb8 e6 10.Kf6 e7 11.Rf8 exf8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>excelsior:black</code> <code>nocheck</code> <code>umnov</code> <code>promotions:qr</code><br>
+<br><code>8/Kp6/8/2k5/8/4p3/4P3/1B6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkqp.svg" width="200" alt="KBPvkqp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 246</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/8/8/7p/7P/1k6/8/1Kq5&moves=10.5">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#10.5. The class runs to h#17, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxc1 2.Kc4 Kd2 3.Kd5 Ke3 4.Ke6 Kf4 5.Kf7 Kg5 6.Kg8 Kxh5 7.Kh8 Kg6 8.Kg8 h5 9.Kh8 h6 10.Kg8 h7+ 11.Kh8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5B2/8/8/7p/7P/1k6/8/1Kq5 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3919,7 +4275,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkbnp.svg" width="200" alt="KBvkbnp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 238</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2p5/8/1b6/8/KB6/n7/k7&moves=10.5">solve ↗</a><br>
+<b>No. 247</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2p5/8/1b6/8/KB6/n7/k7&moves=10.5">solve ↗</a><br>
 1 position of 22,724,739,072 indexed has a unique solution at h#10.5. The class runs to h#16.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ba4 2.Nb4 Kb3 3.Nc6 Kc3 4.Ka2 Bxb5 5.Ka3 Ba6 6.Ka4 Kc4 7.Ka5 Kd5 8.Kb6 Ke6 9.Ka7 Kd7 10.Ka8 Kxc7 11.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -3932,7 +4288,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvknpp.svg" width="200" alt="KBvknpp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 239</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2p5/8/1p6/8/KB6/n7/k7&moves=10.5">solve ↗</a><br>
+<b>No. 248</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2p5/8/1p6/8/KB6/n7/k7&moves=10.5">solve ↗</a><br>
 1 position of 17,043,554,304 indexed has a unique solution at h#10.5. The class runs to h#14.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ba4 2.Nb4 Kb3 3.Nc6 Kc3 4.Ka2 Bxb5 5.Ka3 Ba6 6.Ka4 Kc4 7.Ka5 Kd5 8.Kb6 Ke6 9.Ka7 Kd7 10.Ka8 Kxc7 11.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -3945,11 +4301,24 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqqp.svg" width="200" alt="KNvkqqp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 240</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/8/3k1p2/8/8/8/2qq4/K7&moves=10.5">solve ↗</a><br>
+<b>No. 249</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/8/3k1p2/8/8/8/2qq4/K7&moves=10.5">solve ↗</a><br>
 11 positions of 22,724,739,072 indexed have a unique solution at h#10.5. The class runs to h#12.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nf7+ 2.Ke7 Ne5 3.Qd8 Nd7 4.Qb2+ Kxb2 5.f5 Kc3 6.f4 Kd4 7.f3 Ke5 8.f2 Nf6 9.f1=R Nh5 10.Ke8 Ke6 11.Rf8 Ng7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>promotions:r</code><br>
 <br><code>7N/8/3k1p2/8/8/8/2qq4/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkpp.svg" width="200" alt="KPPvkpp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 250</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1p2p3/1P6/1Pk5/K7&moves=10.5">solve ↗</a><br>
+1 position of 9,586,999,296 indexed has a unique solution at h#10.5. The class runs to h#15.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.e3 Ka1 3.e2 Ka2 4.e1=B Ka1 5.Bc3 bxc3 6.bxc3 b4 7.Kd1 b5 8.c2 b6 9.c1=B b7 10.Bd2 b8=Q 11.Kc1 Qb1#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>pendulum</code> <code>nocheck</code> <code>umnov</code> <code>promotions:qbb</code><br>
+<br><code>8/8/8/8/1p2p3/1P6/1Pk5/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3958,7 +4327,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkbbp.svg" width="200" alt="KPvkbbp, h#10.5"><br><sub><b>h#10.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 241</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4b3/8/6p1/3b2P1/8/K6k&moves=10.5">solve ↗</a><br>
+<b>No. 251</b> &nbsp;·&nbsp; <b>h#10.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4b3/8/6p1/3b2P1/8/K6k&moves=10.5">solve ↗</a><br>
 41 positions of 17,043,554,304 indexed have a unique solution at h#10.5. The class runs to h#15, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg2 Kc1 3.Kf3 Kd1 4.Ke4 Kd2 5.Kf5 Ke3 6.Kg6 Kf4 7.Bf7 Kxg4 8.Kh7 Kg5 9.Bh5 Kf6 10.Kh6 g4 11.Bh7 g5#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -3971,7 +4340,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkbp.svg" width="200" alt="KBBvkbp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 242</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/4p3/2b5/kBKB4&moves=10">solve ↗</a><br>
+<b>No. 252</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/4p3/2b5/kBKB4&moves=10">solve ↗</a><br>
 51 positions of 22,724,739,072 indexed have a unique solution at h#10. The class runs to h#16, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.e2 Kd2 2.Kb2 Ke1 3.Kc3 Bdxc2 4.Kd4 Bf5 5.Ke3 Bh3 6.Kf3 Bf1 7.exf1=N Bf5 8.Kg2 Bh3+ 9.Kh1 Kf2 10.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>promotions:n</code><br>
@@ -3984,11 +4353,25 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkqp.svg" width="200" alt="KBBvkqp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 243</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3p4/1K1k4/3q1B2/2B5/8/8&moves=10">solve ↗</a><br>
+<b>No. 253</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3p4/1K1k4/3q1B2/2B5/8/8&moves=10">solve ↗</a><br>
 7 positions of 22,724,739,072 indexed have a unique solution at h#10. The class runs to h#17, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Qa4+ Kb6 2.Kc4 Kc7 3.d5 Kd6 4.d4 Ke5 5.d3 Ke4 6.d2 Ke3 7.d1=B Kd2 8.Kb3 Kc1 9.Ka3 Kb1 10.Bb3 Bc1#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code> <code>promotions:b</code><br>
 <br><code>8/8/3p4/1K1k4/3q1B2/2B5/8/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNPvkp.svg" width="200" alt="KBNPvkp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 254</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/8/8/7p/7P/1N6/k7/2K5&moves=10">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#10. The class runs to h#15, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb3 Kd2 2.Kc4 Ke3 3.Kd5 Kf4 4.Ke6 Kg5 5.Kf7 Kxh5 6.Kg8 Kg6 7.Kh8 h5 8.Kg8 h6 9.Kh8 Bg7+ 10.Kg8 h7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>5B2/8/8/7p/7P/1N6/k7/2K5 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -3997,7 +4380,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkbbn.svg" width="200" alt="KBvkbbn, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 244</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/n7/8/2b5/kBK4b&moves=10">solve ↗</a><br>
+<b>No. 255</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/n7/8/2b5/kBK4b&moves=10">solve ↗</a><br>
 10 positions of 7,751,073,792 indexed have a unique solution at h#10. The class runs to h#12, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Nc5 Kxc2 2.Na6 Kd3 3.Kb2 Kc4 4.Ka3 Be4 5.Ka4 Bxh1 6.Ka5 Bb7 7.Kb6 Bc8 8.Ka7 Kb5 9.Ka8 Kb6 10.Nb8 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4010,11 +4393,150 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqnn.svg" width="200" alt="KBvkqnn, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 245</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2n5/1n6/2q5/8/8/8/7B/1K5k&moves=10">solve ↗</a><br>
+<b>No. 256</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2n5/1n6/2q5/8/8/8/7B/1K5k&moves=10">solve ↗</a><br>
 5 positions of 7,751,073,792 indexed have a unique solution at h#10. The class runs to h#13, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg2 Be5 2.Kf3 Bc3 3.Ke4 Kc2 4.Kd5 Kd3 5.Kd6 Kd4 6.Kc7 Ke5 7.Qa4 Ke6 8.Qa8 Ba5+ 9.Kb8 Kd7 10.Na7 Bc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
 <br><code>2n5/1n6/2q5/8/8/8/7B/1K5k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkpp.svg" width="200" alt="KNPvkpp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 257</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6N1/7k/8/2p5/8/2p5/2P5/1K6&moves=10">solve ↗</a><br>
+3 positions of 12,782,665,728 indexed have a unique solution at h#10. The class runs to h#15, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg6 Nf6 2.Kf5 Ne4 3.Ke5 Nd2 4.cxd2 c4 5.d1=R+ Kc2 6.Rd5 cxd5 7.Kd4 d6 8.Kc4 d7 9.Kb4 d8=Q 10.Ka3 Qa5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:qr</code><br>
+<br><code>6N1/7k/8/2p5/8/2p5/2P5/1K6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkbp.svg" width="200" alt="KQBvkbp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 258</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/kQ6/8/5p2/B7/7b&moves=10">solve ↗</a><br>
+5 positions of 22,724,739,072 indexed have a unique solution at h#10. The class runs to h#16.5, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb5 Bd5 2.f2 Bxh1 3.Kc4 Kb6 4.Kd3 Kc5 5.Ke2 Kd4 6.Kf1 Bg2+ 7.Kg1 Bh3 8.Kh1 Ke3 9.f1=N+ Kf2 10.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/K7/8/kQ6/8/5p2/B7/7b b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvknp.svg" width="200" alt="KQBvknp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 259</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=Q7/k1B2p2/8/5n2/8/8/K7/8&moves=10">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#10. The class runs to h#16, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa8 Kb3 2.Kb7 Kc4 3.Kc8 Kd5 4.Kd7 Ke5 5.Ke8 Kf6 6.Kf8 Bd6+ 7.Kg8 Bf8 8.Kh8 Kxf7 9.Nh6+ Kg6 10.Ng8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>Q7/k1B2p2/8/5n2/8/8/K7/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkqn.svg" width="200" alt="KQBvkqn, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 260</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5q2/8/8/kQ6/8/1K1n1B2&moves=10">solve ↗</a><br>
+17 positions of 7,751,073,792 indexed have a unique solution at h#10. The class runs to h#13, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb3 Kc1 2.Nf2 Kd2 3.Nh3 Ke3 4.Kc2 Bd3+ 5.Kd1 Bf5 6.Ke1 Kf3 7.Kf1 Kg3 8.Kg1 Bd3 9.Kh1 Bf1 10.Ng1 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/5q2/8/8/kQ6/8/1K1n1B2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkrn.svg" width="200" alt="KQBvkrn, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 261</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5r2/8/8/kQ6/4B3/1K1n4&moves=10">solve ↗</a><br>
+16 positions of 7,751,073,792 indexed have a unique solution at h#10. The class runs to h#13, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb3 Kc1 2.Nf2 Kd2 3.Nh3 Ke3 4.Kc2 Bd3+ 5.Kd1 Bf5 6.Ke1 Kf3 7.Kf1 Kg3 8.Kg1 Bd3 9.Kh1 Bf1 10.Ng1 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/5r2/8/8/kQ6/4B3/1K1n4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkpp.svg" width="200" alt="KQNvkpp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 262</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6p1/1K1kQ1p1/8/8/8/8/2N5&moves=10">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#10. The class runs to h#11, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe6 Kc7 2.g5 Kd8 3.g4 Ke8 4.g3 Kf8 5.g2 Kxg7 6.g1=R+ Kh7 7.Kf7 Kh6 8.Kg8 Nd3 9.Kh8 Ne5 10.Rg8 Nf7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6p1/1K1kQ1p1/8/8/8/8/2N5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkqp.svg" width="200" alt="KQNvkqp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 263</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4p3/4Q3/3k4/8/1Nq5/K7&moves=10">solve ↗</a><br>
+35 positions of 22,724,739,072 indexed have a unique solution at h#10. The class runs to h#12, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe5 Nc4+ 2.Kf4 Nd2 3.Qd1+ Kb2 4.e5 Kc3 5.e4 Kd4 6.Kg3 Ke5 7.Kf2 Kf4 8.Ke1 Kg3 9.e3 Kg2 10.e2 Nf3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/4p3/4Q3/3k4/8/1Nq5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkbp.svg" width="200" alt="KQPvkbp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 264</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2K5/8/8/8/6p1/6P1/Q1b5/k7&moves=10">solve ↗</a><br>
+2 positions of 17,043,554,304 indexed have a unique solution at h#10. The class runs to h#15, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa2 Kd7 2.Kb2 Ke6 3.Bb3+ Kf5 4.Kc3 Kxg4 5.Kd4 Kh5 6.Ke5 g4 7.Kf6 g5+ 8.Kg7 g6 9.Kh8 Kh6 10.Bg8 g7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2K5/8/8/8/6p1/6P1/Q1b5/k7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkpp.svg" width="200" alt="KQPvkpp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 265</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Qk/8/1p6/8/8/p7/P7/K7&moves=10">solve ↗</a><br>
+4 positions of 12,782,665,728 indexed have a unique solution at h#10. The class runs to h#16, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Kb1 2.b5 Kc2 3.b4 Kc1 4.b3 axb3 5.Kf7 b4 6.Ke6 b5 7.Kd5 b6 8.Kc4 b7 9.Kb3 b8=Q+ 10.Ka2 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Qk/8/1p6/8/8/p7/P7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPvkp.svg" width="200" alt="KRBPvkp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 266</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7B/5p2/1R3P2/k7/8/K7&moves=10">solve ↗</a><br>
+3 positions of 17,043,554,304 indexed have a unique solution at h#10. The class runs to h#15, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb4 Kb2 2.Kc5 Kc3 3.Kd6 Kd4 4.Ke7 Ke5 5.Kf7 Kxf5 6.Kg8 Kg6 7.Kh8 f5 8.Kg8 f6 9.Kh8 Bg7+ 10.Kg8 f7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/7B/5p2/1R3P2/k7/8/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -4023,7 +4545,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkbp.svg" width="200" alt="KRBvkbp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 246</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/kR6/8/1B3p2/8/7b&moves=10">solve ↗</a><br>
+<b>No. 267</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/kR6/8/1B3p2/8/7b&moves=10">solve ↗</a><br>
 1 position of 22,724,739,072 indexed has a unique solution at h#10. The class runs to h#16.5, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxb5 Bd5 2.f2 Bxh1 3.Kc4 Kb6 4.Kd3 Kc5 5.Ke2 Kd4 6.Kf1 Bg2+ 7.Kg1 Bh3 8.Kh1 Ke3 9.f1=N+ Kf2 10.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>umnov</code> <code>promotions:n</code><br>
@@ -4037,7 +4559,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvknp.svg" width="200" alt="KRBvknp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 247</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=k7/R1B2p2/8/5n2/8/8/K7/8&moves=10">solve ↗</a><br>
+<b>No. 268</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=k7/R1B2p2/8/5n2/8/8/K7/8&moves=10">solve ↗</a><br>
 1 position of 22,724,739,072 indexed has a unique solution at h#10. The class runs to h#15.5, so the deepest sound problem is 11 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxa7 Kb3 2.Kb7 Kc4 3.Kc8 Kd5 4.Kd7 Ke5 5.Ke8 Kf6 6.Kf8 Bd6+ 7.Kg8 Bf8 8.Kh8 Kxf7 9.Nh6+ Kg6 10.Ng8 Bg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>umnov</code><br>
@@ -4051,7 +4573,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkqn.svg" width="200" alt="KRBvkqn, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 248</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/3q4/R4n2/k1KB4&moves=10">solve ↗</a><br>
+<b>No. 269</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/3q4/R4n2/k1KB4&moves=10">solve ↗</a><br>
 4 positions of 7,751,073,792 indexed have a unique solution at h#10. The class runs to h#13, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxa2 Be2 2.Kb3 Bxd3 3.Kc3 Kb1 4.Kd2 Bf1 5.Ke1 Kc2 6.Nh3 Kd3 7.Kf2 Ke4 8.Kg1 Kf3 9.Kh1 Kg3 10.Ng1 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4065,7 +4587,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkqp.svg" width="200" alt="KRBvkqp, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 249</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3R4/1K1kqp2/8/8/8/1B6&moves=10">solve ↗</a><br>
+<b>No. 270</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3R4/1K1kqp2/8/8/8/1B6&moves=10">solve ↗</a><br>
 4 positions of 22,724,739,072 indexed have a unique solution at h#10. The class runs to h#17, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Qxd6 Ka4 2.f4 Kb3 3.f3 Kc2 4.f2 Kd1 5.f1=N Ba2+ 6.Ke4+ Ke1 7.Kf3 Be6 8.Kg2 Bh3+ 9.Kh1 Kf2 10.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>promotions:n</code><br>
@@ -4079,7 +4601,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkrn.svg" width="200" alt="KRBvkrn, h#10"><br><sub><b>h#10</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 250</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2B5/8/8/kR6/6nr/1K6&moves=10">solve ↗</a><br>
+<b>No. 271</b> &nbsp;·&nbsp; <b>h#10</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2B5/8/8/kR6/6nr/1K6&moves=10">solve ↗</a><br>
 3 positions of 7,751,073,792 indexed have a unique solution at h#10. The class runs to h#13, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxb3 Kc1 2.Kc4 Kd2 3.Nf4+ Ke3 4.Nh3 Kf3 5.Kd3 Kg3 6.Ke2 Kxh2 7.Kf1 Kg3 8.Kg1 Bb5 9.Kh1 Bf1 10.Ng1 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
@@ -4093,7 +4615,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvknp.svg" width="200" alt="KBBvknp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 251</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6pn/8/8/8/7B/k3B3/3K4&moves=9.5">solve ↗</a><br>
+<b>No. 272</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6pn/8/8/8/7B/k3B3/3K4&moves=9.5">solve ↗</a><br>
 7 positions of 22,724,739,072 indexed have a unique solution at h#9.5. The class runs to h#14.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bef1 2.Kb3 Ke2 3.Kc4 Kf3+ 4.Kd5 Kg4 5.Ke6 Bd3 6.Kf7 Kf5 7.Kg8 Ke6 8.Ng5+ Ke7 9.Nf7 Bhf5 10.Nh8 Bh7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
@@ -4106,7 +4628,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkpp.svg" width="200" alt="KBBvkpp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 252</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=B7/1p2p3/8/8/1K2k3/8/8/3B4&moves=9.5">solve ↗</a><br>
+<b>No. 273</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=B7/1p2p3/8/8/1K2k3/8/8/3B4&moves=9.5">solve ↗</a><br>
 4 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#16, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Be2 2.e5 Bf1 3.Kf3 Bxb7+ 4.e4 Bc8 5.e3 Kc3 6.e2 Kd2 7.exf1=N+ Ke1 8.Kg2 Bh3+ 9.Kh1 Kf2 10.Nh2 Bg2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>self-block</code> <code>promotions:n</code><br>
@@ -4119,7 +4641,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkqn.svg" width="200" alt="KBBvkqn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 253</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4n3/8/3B4/8/1B4k1/2Kq4&moves=9.5">solve ↗</a><br>
+<b>No. 274</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4n3/8/3B4/8/1B4k1/2Kq4&moves=9.5">solve ↗</a><br>
 3 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#13, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxd1 2.Kf3 Bc1 3.Ke4 Ke2 4.Kxd4 Kf3 5.Ke5 Kg4 6.Kf6 Kh5 7.Kg7 Bh6+ 8.Kh8 Kg6 9.Nf8+ Kf7 10.Nh7 Bg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -4128,12 +4650,38 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KBPvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkbp.svg" width="200" alt="KBPvkbp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 275</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/K1b5/8/6p1/6Pk/7B&moves=9.5">solve ↗</a><br>
+5 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#16, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka4 2.Kg1 Kb3 3.Kf2 Kc2 4.Ke3 Kd1 5.Kf4 Ke2 6.Kg5 Kf3 7.Bg1 Kxg3 8.Bh2+ Kf3 9.Kh4 g3+ 10.Kh3 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
+<br><code>8/8/8/K1b5/8/6p1/6Pk/7B w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvknp.svg" width="200" alt="KBPvknp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 276</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4n3/8/8/8/8/4p3/2B1P3/k1K5&moves=9.5">solve ↗</a><br>
+7 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#14.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Bf5 2.Ka2 Kc2 3.Ka3 Kd3 4.Kb4 Kxe3 5.Kc5 Kf4 6.Kd6 e4 7.Ke7 e5 8.Nd6 e6 9.Nf7 exf7 10.Kf6 f8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><code>4n3/8/8/8/8/4p3/2B1P3/k1K5 w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBvkbnn
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkbnn.svg" width="200" alt="KBvkbnn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 254</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1n6/7B/bK2n2k&moves=9.5">solve ↗</a><br>
+<b>No. 277</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1n6/7B/bK2n2k&moves=9.5">solve ↗</a><br>
 109 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bd6 2.Nc1 Kxa1 3.Kg2 Kb2 4.Kf3 Kc3 5.Ke4 Kd2 6.Kd4 Kxe1 7.Kc3 Kd1 8.Kb2 Ba3+ 9.Ka1 Kc2 10.Na2 Bb2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>kniest</code><br>
@@ -4146,7 +4694,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvknnn.svg" width="200" alt="KBvknnn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 255</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1n6/7B/nK2n2k&moves=9.5">solve ↗</a><br>
+<b>No. 278</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1n6/7B/nK2n2k&moves=9.5">solve ↗</a><br>
 35 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bd6 2.Nc1 Kxa1 3.Kg2 Kb2 4.Kf3 Kc3 5.Ke4 Kd2 6.Kd4 Kxe1 7.Kc3 Kd1 8.Kb2 Ba3+ 9.Ka1 Kc2 10.Na2 Bb2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>kniest</code><br>
@@ -4159,7 +4707,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvknnp.svg" width="200" alt="KBvknnp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 256</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3n4/2p4k/8/8/1n6/8/B7/K7&moves=9.5">solve ↗</a><br>
+<b>No. 279</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3n4/2p4k/8/8/1n6/8/B7/K7&moves=9.5">solve ↗</a><br>
 209 positions of 22,724,739,072 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg7 Kc3 3.Kf8 Kd4 4.Ke8 Ke5 5.Ndc6+ Ke6 6.Kd8 Bc4 7.Kc8 Ba6+ 8.Kb8 Kd7 9.Ka8 Kxc7 10.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code><br>
@@ -4172,7 +4720,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqbn.svg" width="200" alt="KBvkqbn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 257</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7n/8/2B5/3b4/8/2k5/2q5/1K6&moves=9.5">solve ↗</a><br>
+<b>No. 280</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7n/8/2B5/3b4/8/2k5/2q5/1K6&moves=9.5">solve ↗</a><br>
 90 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Kb4 Bb5 3.Qc5 Kb2 4.Bb3 Bc4 5.Ka4 Kc3 6.Qa3 Kd4 7.Ng6 Kd5 8.Nf4+ Kc6 9.Nd3 Kb6 10.Nb4 Bb5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocapture</code><br>
@@ -4186,7 +4734,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqqn.svg" width="200" alt="KBvkqqn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 258</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1q6/1n6/8/8/8/q7/KBk5&moves=9.5">solve ↗</a><br>
+<b>No. 281</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1q6/1n6/8/8/8/q7/KBk5&moves=9.5">solve ↗</a><br>
 341 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa2 2.Kd2 Be4 3.Kc3 Bxb7 4.Kb4 Ba6 5.Ka5 Kb3 6.Nc8 Kc4 7.Kb6 Kd5 8.Ka7 Kc6 9.Ka8 Kc7 10.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4200,7 +4748,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqrn.svg" width="200" alt="KBvkqrn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 259</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n7/8/4r3/8/8/5k2/2qB4/K7&moves=9.5">solve ↗</a><br>
+<b>No. 282</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n7/8/4r3/8/8/5k2/2qB4/K7&moves=9.5">solve ↗</a><br>
 394 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Be3 2.Qd1+ Kb2 3.Nc7 Kc3 4.Nb5+ Kc4 5.Nd4 Kd5 6.Rd6+ Ke5 7.Ke2 Kf4 8.Ke1 Kg3 9.Ne2+ Kg2 10.Rd2 Bf2#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
@@ -4213,7 +4761,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrbn.svg" width="200" alt="KBvkrbn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 260</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/3b4/r7/8/8/K1kB4&moves=9.5">solve ↗</a><br>
+<b>No. 283</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/3b4/r7/8/8/K1kB4&moves=9.5">solve ↗</a><br>
 27 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bxa4 2.Kd2 Bb5 3.Kc3 Ba6 4.Kb4 Kb2 5.Ka5 Kc3 6.Nc8 Kd4 7.Kb6 Kxd5 8.Ka7 Kc6 9.Ka8 Kc7 10.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4227,7 +4775,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrnn.svg" width="200" alt="KBvkrnn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 261</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3n1n2/8/8/8/5Br1/8/8/K6k&moves=9.5">solve ↗</a><br>
+<b>No. 284</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3n1n2/8/8/8/5Br1/8/8/K6k&moves=9.5">solve ↗</a><br>
 36 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#13, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg2 Kc3 3.Kh3 Kd4 4.Kh4 Ke5 5.Kh5 Bg5 6.Kg6 Bxd8 7.Kh7 Kf6 8.Kh8 Kf7 9.Nh7 Bf6+ 10.Rg7+ Bxg7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -4240,11 +4788,39 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrrn.svg" width="200" alt="KBvkrrn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 262</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1n5B/8/8/8/3rr3/8/8/K6k&moves=9.5">solve ↗</a><br>
+<b>No. 285</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1n5B/8/8/8/3rr3/8/8/K6k&moves=9.5">solve ↗</a><br>
 128 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Rd1 Bc3 3.Nc6 Bd2 4.Nd4 Kc3 5.Ne2+ Kd3 6.Rd4+ Ke3 7.Kg1 Kf3 8.Kf1 Be3 9.Ke1 Kg2 10.R4d2 Bf2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
 <br><code>1n5B/8/8/8/3rr3/8/8/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkqp.svg" width="200" alt="KNPvkqp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 286</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7N/8/8/1p6/1P6/Kq6&moves=9.5">solve ↗</a><br>
+4 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#14, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxb1 2.Kg6 Ng4 3.Kf5 Kc1 4.Ke4 Kd1 5.Kd3 Ke1 6.Kc2 Ne3+ 7.Kxb2 Kd2 8.Ka1 Kc3 9.b2 Kb3 10.b1=N Nc2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7k/7N/8/8/1p6/1P6/Kq6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkrp.svg" width="200" alt="KNPvkrp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 287</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7N/8/8/1p6/1P6/Kr6&moves=9.5">solve ↗</a><br>
+2 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#12.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxb1 2.Kg6 Ng4 3.Kf5 Kc1 4.Ke4 Kd1 5.Kd3 Ke1 6.Kc2 Ne3+ 7.Kxb2 Kd2 8.Ka1 Kc3 9.b2 Kb3 10.b1=N Nc2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7k/7N/8/8/1p6/1P6/Kr6 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -4253,7 +4829,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkppp.svg" width="200" alt="KNvkppp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 263</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6p1/1Kp1k1p1/8/8/8/8/2N5&moves=9.5">solve ↗</a><br>
+<b>No. 288</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6p1/1Kp1k1p1/8/8/8/8/2N5&moves=9.5">solve ↗</a><br>
 17 positions of 12,782,665,728 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kc7 2.g5 Kd8 3.g4 Ke8 4.g3 Kf8 5.g2 Kxg7 6.g1=R+ Kh7 7.Kf7 Kh6 8.Kg8 Nd3 9.Kh8 Ne5 10.Rg8 Nf7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>promotions:r</code><br>
@@ -4266,7 +4842,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqbb.svg" width="200" alt="KNvkqbb, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 264</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/2b5/8/q7/2b5/K1N5&moves=9.5">solve ↗</a><br>
+<b>No. 289</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/2b5/8/q7/2b5/K1N5&moves=9.5">solve ↗</a><br>
 23 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Na2 2.Qb2+ Kxb2 3.Kg7 Kc3 4.Kf6 Kc4 5.Ke5 Kb5 6.Kd4 Nc1 7.Kc3 Kxc5 8.Kb2 Kb4 9.Ka1 Ka3 10.Bb1 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
@@ -4280,7 +4856,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqbn.svg" width="200" alt="KNvkqbn, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 265</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6N1/8/8/8/8/b2q4/nK6&moves=9.5">solve ↗</a><br>
+<b>No. 290</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6N1/8/8/8/8/b2q4/nK6&moves=9.5">solve ↗</a><br>
 3 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa1 2.Kg8 Nf5 3.Kf7 Ne3 4.Ke6 Nc2 5.Kd5 Kb2 6.Kc4 Ka3 7.Kc3 Ka4 8.Kb2 Nd4 9.Ka1 Ka3 10.Bb1 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code><br>
@@ -4294,7 +4870,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqbp.svg" width="200" alt="KNvkqbp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 266</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/8/q1N5/8/Kbk5&moves=9.5">solve ↗</a><br>
+<b>No. 291</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/8/q1N5/8/Kbk5&moves=9.5">solve ↗</a><br>
 50 positions of 22,724,739,072 indexed have a unique solution at h#9.5. The class runs to h#10.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Na2+ 2.Kd2 Kxb1 3.g5 Nc3 4.Qc1+ Ka2 5.g4 Kb3 6.g3 Kc4 7.g2 Kd4 8.g1=R Ne4+ 9.Kd1 Kd3 10.Re1 Nf2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>promotions:r</code><br>
@@ -4308,7 +4884,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqnp.svg" width="200" alt="KNvkqnp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 267</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/8/q1N5/8/Knk5&moves=9.5">solve ↗</a><br>
+<b>No. 292</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/8/q1N5/8/Knk5&moves=9.5">solve ↗</a><br>
 50 positions of 22,724,739,072 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Na2+ 2.Kd2 Kxb1 3.g5 Nc3 4.Qc1+ Ka2 5.g4 Kb3 6.g3 Kc4 7.g2 Kd4 8.g1=R Ne4+ 9.Kd1 Kd3 10.Re1 Nf2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>promotions:r</code><br>
@@ -4322,7 +4898,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqpp.svg" width="200" alt="KNvkqpp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 268</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3p4/4p3/4k3/8/8/2q5/K3N3&moves=9.5">solve ↗</a><br>
+<b>No. 293</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3p4/4p3/4k3/8/8/2q5/K3N3&moves=9.5">solve ↗</a><br>
 993 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nf3+ 2.Kf4 Nd2 3.Qd1+ Kb2 4.e5 Kc3 5.e4 Kd4 6.Kg3 Ke5 7.Kf2 Kf4 8.Ke1 Kg3 9.e3 Kg2 10.e2 Nf3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocapture</code><br>
@@ -4335,7 +4911,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqqb.svg" width="200" alt="KNvkqqb, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 269</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/2q5/8/4q3/KN1b4&moves=9.5">solve ↗</a><br>
+<b>No. 294</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/2q5/8/4q3/KN1b4&moves=9.5">solve ↗</a><br>
 140 positions of 7,751,073,792 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nd2 2.Kg7 Kb2 3.Kf6 Ka3 4.Ke5 Nxc4+ 5.Kd4 Kb4 6.Bc2 Ka5 7.Kc3 Nd2 8.Kb2 Kb4 9.Ka1 Ka3 10.Bb1 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code><br>
@@ -4348,7 +4924,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqrb.svg" width="200" alt="KNvkqrb, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 270</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6N1/8/8/8/8/b2q4/rK6&moves=9.5">solve ↗</a><br>
+<b>No. 295</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6N1/8/8/8/8/b2q4/rK6&moves=9.5">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa1 2.Kg8 Nf5 3.Kf7 Ne3 4.Ke6 Nc2 5.Kd5 Kb2 6.Kc4 Ka3 7.Kc3 Ka4 8.Kb2 Nd4 9.Ka1 Ka3 10.Bb1 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code><br>
@@ -4362,7 +4938,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqrp.svg" width="200" alt="KNvkqrp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 271</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K1Nq4/1r6/5p2/2k5/8/8/8/8&moves=9.5">solve ↗</a><br>
+<b>No. 296</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K1Nq4/1r6/5p2/2k5/8/8/8/8&moves=9.5">solve ↗</a><br>
 351 positions of 22,724,739,072 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxb7 2.f5 Nb6 3.Kd6 Nd7 4.Ke7 Kc6 5.f4 Kd5 6.f3 Ke5 7.f2 Nf6 8.f1=R Nh5 9.Ke8 Ke6 10.Rf8 Ng7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:r</code><br>
@@ -4376,7 +4952,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrpp.svg" width="200" alt="KNvkrpp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 272</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2rK4/6p1/4k1p1/8/8/8/8/2N5&moves=9.5">solve ↗</a><br>
+<b>No. 297</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2rK4/6p1/4k1p1/8/8/8/8/2N5&moves=9.5">solve ↗</a><br>
 1 position of 17,043,554,304 indexed has a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxc8 2.g5 Kd8 3.g4 Ke8 4.g3 Kf8 5.g2 Kxg7 6.g1=R+ Kh7 7.Kf7 Kh6 8.Kg8 Nd3 9.Kh8 Ne5 10.Rg8 Nf7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>promotions:r</code><br>
@@ -4390,7 +4966,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkbnp.svg" width="200" alt="KPvkbnp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 273</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/7n/8/8/p7/P7/K3b3&moves=9.5">solve ↗</a><br>
+<b>No. 298</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/7n/8/8/p7/P7/K3b3&moves=9.5">solve ↗</a><br>
 14 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#14.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Nf5 Kc2 3.Nd4+ Kc1 4.Nb3+ axb3 5.Kf7 b4 6.Ke6 b5 7.Kd5 b6 8.Kc4 b7 9.Kb3 b8=Q+ 10.Ka2 Qb1#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -4403,7 +4979,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvknnp.svg" width="200" alt="KPvknnp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 274</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/7n/8/8/p7/P7/K2n4&moves=9.5">solve ↗</a><br>
+<b>No. 299</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/7n/8/8/p7/P7/K2n4&moves=9.5">solve ↗</a><br>
 1 position of 17,043,554,304 indexed has a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Nf5 Kc2 3.Nd4+ Kc1 4.Nb3+ axb3 5.Kf7 b4 6.Ke6 b5 7.Kd5 b6 8.Kc4 b7 9.Kb3 b8=Q+ 10.Ka2 Qb1#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -4416,7 +4992,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvknpp.svg" width="200" alt="KPvknpp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 275</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2p5/8/8/1p5n/1P6/K2k4&moves=9.5">solve ↗</a><br>
+<b>No. 300</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2p5/8/8/1p5n/1P6/K2k4&moves=9.5">solve ↗</a><br>
 112 positions of 12,782,665,728 indexed have a unique solution at h#9.5. The class runs to h#15.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.c5 Ka1 3.c4 Kb1 4.c3 bxc3 5.Nf4 c4 6.Nd5 cxd5 7.Kd2 d6 8.Kc3 d7 9.Kb4 d8=Q 10.Ka3 Qa5#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>pendulum</code> <code>nocheck</code> <code>promotions:q</code><br>
@@ -4429,7 +5005,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqbp.svg" width="200" alt="KPvkqbp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 276</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/5bq1/5P2/k7/8/K7&moves=9.5">solve ↗</a><br>
+<b>No. 301</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/5bq1/5P2/k7/8/K7&moves=9.5">solve ↗</a><br>
 9 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#14.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...fxg5 2.Kb4 Kb2 3.Kc5 Kc3 4.Kd6 Kd4 5.Ke7 Ke5 6.Kf8 Kf6 7.Be6 Kxg6 8.Kg8 Kh6 9.Kh8 g6 10.Bg8 g7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4443,7 +5019,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqnp.svg" width="200" alt="KPvkqnp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 277</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/n7/8/7p/8/q6P/K7&moves=9.5">solve ↗</a><br>
+<b>No. 302</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/n7/8/7p/8/q6P/K7&moves=9.5">solve ↗</a><br>
 6 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#11.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa2 2.Nc5 Kb2 3.Ne4 Ka3 4.Ng3 hxg3 5.Kg6 gxh4 6.Kf5 h5 7.Ke4 h6 8.Kd3 h7 9.Kc2 h8=Q 10.Kb1 Qb2#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>promotions:q</code><br>
@@ -4457,7 +5033,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqpp.svg" width="200" alt="KPvkqpp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 278</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/1p6/8/8/p5q1/P7/K7&moves=9.5">solve ↗</a><br>
+<b>No. 303</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/1p6/8/8/p5q1/P7/K7&moves=9.5">solve ↗</a><br>
 236 positions of 12,782,665,728 indexed have a unique solution at h#9.5. The class runs to h#15.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.b5 Kc2 3.b4 Kc1 4.b3 axb3 5.Kf7 b4 6.Ke6 b5 7.Kd5 b6 8.Kc4 b7 9.Kb3 b8=Q+ 10.Ka2 Qb1#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -4470,7 +5046,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrbp.svg" width="200" alt="KPvkrbp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 279</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/6P1/k7/1rb5/K7&moves=9.5">solve ↗</a><br>
+<b>No. 304</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/8/6P1/k7/1rb5/K7&moves=9.5">solve ↗</a><br>
 11 positions of 17,043,554,304 indexed have a unique solution at h#9.5. The class runs to h#15, so the deepest sound problem is 11 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...g5 2.Kb4 Kxb2 3.Kc5 Kc3 4.Kd6 Kd4 5.Ke7 Ke5 6.Kf8 Kf6 7.Bb3 Kxg6 8.Kg8 Kh6 9.Kh8 g6 10.Bg8 g7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4483,11 +5059,25 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrpp.svg" width="200" alt="KPvkrpp, h#9.5"><br><sub><b>h#9.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 280</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/1p6/8/8/p7/P1r5/K7&moves=9.5">solve ↗</a><br>
+<b>No. 305</b> &nbsp;·&nbsp; <b>h#9.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/1p6/8/8/p7/P1r5/K7&moves=9.5">solve ↗</a><br>
 105 positions of 12,782,665,728 indexed have a unique solution at h#9.5. The class runs to h#15.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.b5 Kxc2 3.b4 Kc1 4.b3 axb3 5.Kf7 b4 6.Ke6 b5 7.Kd5 b6 8.Kc4 b7 9.Kb3 b8=Q+ 10.Ka2 Qb1#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
 <br><code>6k1/8/1p6/8/8/p7/P1r5/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBvkn.svg" width="200" alt="KBBBvkn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 306</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5k2/8/3B4/8/1B6/BK5n&moves=9">solve ↗</a><br>
+22 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kf7 Kc2 2.Ng3 Kd3 3.Ne2 Ke4 4.Kg8 Kf5 5.Nxd4+ Kg6 6.Nf5 Ba3 7.Nh6 Bh8 8.Kxh8 Bf8 9.Ng8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>kniest</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/5k2/8/3B4/8/1B6/BK5n b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -4496,7 +5086,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkbn.svg" width="200" alt="KBBvkbn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 281</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/3b4/8/8/2B5/KBk5&moves=9">solve ↗</a><br>
+<b>No. 307</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/3b4/8/8/2B5/KBk5&moves=9">solve ↗</a><br>
 244 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kd2 Bd3 2.Kc3 Ba6 3.Kb4 Kb2 4.Ka5 Kc3 5.Nc8 Kd4 6.Kb6 Kxd5 7.Ka7 Kc6 8.Ka8 Kc7 9.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4509,7 +5099,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkrn.svg" width="200" alt="KBBvkrn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 282</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/8/8/1B6/3B4/K1k3r1&moves=9">solve ↗</a><br>
+<b>No. 308</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/8/8/1B6/3B4/K1k3r1&moves=9">solve ↗</a><br>
 8 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#13, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxd2+ Ka2 2.Kc3 Bc4 3.Kb4 Ba6 4.Ka5 Kb3 5.Nc8 Kc4 6.Kb6 Kd5 7.Ka7 Kc6 8.Ka8 Kc7 9.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code><br>
@@ -4518,12 +5108,95 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KBNvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkqp.svg" width="200" alt="KBNvkqp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 309</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4k3/4Bp2/1q3N2/8/8/8/8/K7&moves=9">solve ↗</a><br>
+16 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#17, so the deepest sound problem is 16 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe7 Nd7 2.Qd8 Kb2 3.f5 Kc3 4.f4 Kd4 5.f3 Ke5 6.f2 Nf6 7.f1=R Nh5 8.Ke8 Ke6 9.Rf8 Ng7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4k3/4Bp2/1q3N2/8/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkbn.svg" width="200" alt="KBPvkbn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 310</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/5n2/kB6/1P2b3/8/8/8/8&moves=9">solve ↗</a><br>
+3 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb5 Bc5 2.Kc6 Bf8 3.Kd7 Kb7 4.Ke8 Kc6 5.Nh6 Kd5 6.Kf7 Kxe5 7.Kg8 Kf6 8.Kh8 Kg6 9.Ng8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K7/5n2/kB6/1P2b3/8/8/8/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkqn.svg" width="200" alt="KBPvkqn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 311</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2k5/K2P4/8/B7/8/1n6/1q6/8&moves=9">solve ↗</a><br>
+20 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#13, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd7 Bc3 2.Kc6 Bxb2 3.Kb5 Ba3 4.Ka4 Kb6 5.Nc1 Kc5 6.Kb3 Kd4 7.Ka2 Kc3 8.Ka1 Kc2 9.Na2 Bb2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2k5/K2P4/8/B7/8/1n6/1q6/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkrn.svg" width="200" alt="KBPvkrn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 312</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2k5/K2P4/8/B7/8/1r6/8/2n5&moves=9">solve ↗</a><br>
+16 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#13, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd7 Bb4 2.Kc6 Ba3 3.Kb5 Kb7 4.Ka4+ Kc6 5.Rc3+ Kd5 6.Kb3 Kd4 7.Ka2 Kxc3 8.Ka1 Kc2 9.Na2 Bb2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2k5/K2P4/8/B7/8/1r6/8/2n5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkqb.svg" width="200" alt="KNNvkqb, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 313</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/N7/8/8/8/1N4b1/q7/k1K5&moves=9">solve ↗</a><br>
+2 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#11, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb3 Kd2 2.Kb2 Ke2 3.Kc3 Nc8 4.Kd4 Kd2 5.Ke4 Nd6+ 6.Kf3 Ne4 7.Kg2 Ke2 8.Kh1 Kf1 9.Bh2 Nf2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/N7/8/8/8/1N4b1/q7/k1K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPPvkp.svg" width="200" alt="KNPPvkp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 314</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1N6/8/4p3/4P3/4P3/3K1k2&moves=9">solve ↗</a><br>
+4 positions of 12,782,665,728 indexed have a unique solution at h#9. The class runs to h#14, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kf2 Nd7 2.Kxe3 Ne5 3.Kf2 Nf3 4.exf3 e4 5.Kg1 e5 6.f2 e6 7.f1=B e7 8.Bg2 e8=Q 9.Kf1 Qe1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:qb</code><br>
+<br><code>8/8/1N6/8/4p3/4P3/4P3/3K1k2 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KNvkbpp
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkbpp.svg" width="200" alt="KNvkbpp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 283</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/2p5/2p5/8/8/K1b5/8/7k&moves=9">solve ↗</a><br>
+<b>No. 315</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/2p5/2p5/8/8/K1b5/8/7k&moves=9">solve ↗</a><br>
 2 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#10.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Be5 Kb4 2.Kg2 Kc5 3.Kf3 Kxc6 4.Ke4 Kb5 5.Kd5 Ka5 6.Kc6 Nxc7 7.Kb7 Nd5 8.Ka8 Ka6 9.Bb8 Nb6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4536,11 +5209,193 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvknpp.svg" width="200" alt="KNvknpp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 284</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/2p5/p7/2n5/8/7k/8/N7&moves=9">solve ↗</a><br>
+<b>No. 316</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/2p5/p7/2n5/8/7k/8/N7&moves=9">solve ↗</a><br>
 2 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#10.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg4 Kb8 2.Kf5 Kxc7 3.Ke6 Kb6 4.Kd7 Nc2 5.Kc8 Nb4 6.Kb8 Nxa6+ 7.Ka8 Nb4 8.Na6 Nd5 9.Nb8 Nc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>umnov</code><br>
 <br><code>K7/2p5/p7/2n5/8/7k/8/N7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBvkn.svg" width="200" alt="KQBBvkn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 317</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1nB5/8/k7/Q7/8/1K5B&moves=9">solve ↗</a><br>
+8 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa3 Kc2 2.Kb4 Kd3 3.Kc5 Ke4 4.Kxc6 Ke5+ 5.Kc7 Bb7 6.Kb8 Ba6 7.Ka8 Kd6 8.Nc8+ Kc7 9.Na7 Bb7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/1nB5/8/k7/Q7/8/1K5B b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBvkp.svg" width="200" alt="KQBBvkp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 318</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3B4/8/8/3Kp3/kQ1B4&moves=9">solve ↗</a><br>
+19 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#15, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb1 Ke3 2.Kc1 Kf4 3.Kd2 Bg2 4.Ke1 Bf1 5.exf1=N Bg4 6.Kf2 Bh3 7.Kg1 Kf3 8.Kh1 Kf2 9.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/3B4/8/8/3Kp3/kQ1B4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkbn.svg" width="200" alt="KQBvkbn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 319</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/8/8/1b6/2Q5/K1k4B&moves=9">solve ↗</a><br>
+160 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc2 Bb7 2.Kc3 Ba6 3.Kb4 Kb2 4.Ka5 Kxb3 5.Nc8 Kc4 6.Kb6 Kd5 7.Ka7 Kc6 8.Ka8 Kc7 9.Na7 Bb7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/1n6/8/8/1b6/2Q5/K1k4B b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvknn.svg" width="200" alt="KQBvknn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 320</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/8/8/n7/B1Q5/K1k5&moves=9">solve ↗</a><br>
+112 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#13, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc2 Bc4 2.Kc3 Ba6 3.Kb4 Kb2 4.Ka5 Kc3 5.Nc8 Kd4 6.Kb6 Kd5 7.Ka7 Kc6 8.Ka8 Kc7 9.Na7 Bb7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/1n6/8/8/n7/B1Q5/K1k5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkpp.svg" width="200" alt="KQBvkpp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 321</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/kQ6/8/5p2/5p2/KB6&moves=9">solve ↗</a><br>
+19 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#16, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb5 Bf5 2.Kc4 Bh3 3.Kd3 Kb2 4.Ke2 Kc3 5.f1=N Kd4 6.Kf2 Ke4 7.Kg1 Kxf3 8.Kh1 Kf2 9.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/kQ6/8/5p2/5p2/KB6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNPvkp.svg" width="200" alt="KQNPvkp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 322</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/8/Q3p3/k7/4P3/K7&moves=9">solve ↗</a><br>
+79 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa4 Nb6+ 2.Kb3 Nc4 3.e3 Nd2+ 4.exd2 e4 5.Kc2 e5 6.Kc1 e6 7.d1=R e7 8.Rd2 e8=Q 9.Rc2 Qe1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>promotions:qr</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N7/8/8/8/Q3p3/k7/4P3/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkbb.svg" width="200" alt="KQNvkbb, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 323</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7Q/7k/4b1b1/8/8/8/2N5/1K6&moves=9">solve ↗</a><br>
+9 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#10, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kg7 Nd4 3.Kf6 Nxe6 4.Ke5 Nc5 5.Kd4 Ka3 6.Kc3 Ka4 7.Kb2 Kb4 8.Ka1 Ka3 9.Bb1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7Q/7k/4b1b1/8/8/8/2N5/1K6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvknp.svg" width="200" alt="KQNvknp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 324</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N5Qk/8/8/8/8/1p6/8/Kn6&moves=9">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#9. The class runs to h#10.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Kb2 2.Nc3 Ka3 3.Kf7 Kb4 4.Ke6 Ka5 5.Kd5 Kb6 6.Kc4 Ka6 7.Kb4 Nb6 8.Ka3 Ka5 9.Na2 Nc4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N5Qk/8/8/8/8/1p6/8/Kn6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkqb.svg" width="200" alt="KQNvkqb, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 325</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6Qk/7b/8/8/2q5/K6N&moves=9">solve ↗</a><br>
+111 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bxg6 Ng3 2.Kg5 Nf5 3.Kf4 Nd4 4.Ke3 Nxc2+ 5.Kd2 Ka2 6.Kc1 Kb3 7.Kb1 Nd4 8.Ka1 Ka3 9.Bb1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/6Qk/7b/8/8/2q5/K6N b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkrp.svg" width="200" alt="KQNvkrp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 326</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Qk/8/8/1p6/8/8/1r6/K6N&moves=9">solve ↗</a><br>
+7 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#10.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Ng3 2.Rh2 Kb1 3.Rh8 Kc2 4.b4 Kd3 5.b3 Ke4 6.b2 Kf5 7.b1=R Kg6 8.Rb8 Nf5 9.Rf8 Ne7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Qk/8/8/1p6/8/8/1r6/K6N b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvknp.svg" width="200" alt="KQPvknp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 327</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6kn/5Q2/8/8/2p5/8/2P5/K7&moves=9">solve ↗</a><br>
+91 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#15.5, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Nxf7 Kb2 2.Ne5 Kc3 3.Nd3 cxd3 4.Kf7 dxc4 5.Ke6 c5 6.Kd5 c6 7.Kc5 c7 8.Kb5 c8=Q 9.Ka4 Qa6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6kn/5Q2/8/8/2p5/8/2P5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkrp.svg" width="200" alt="KQPvkrp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 328</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/6Qk/5p2/2r2P2/K7&moves=9">solve ↗</a><br>
+71 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#14, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg4 Kb1 2.Re2 Kc1 3.Re3 fxe3 4.Kf5 e4+ 5.Ke6 e5 6.Kd5 e6 7.Kc4 e7 8.Kb3 e8=Q 9.Ka2 Qa4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>phoenix</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/6Qk/5p2/2r2P2/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBBvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBvkp.svg" width="200" alt="KRBBvkp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 329</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3B4/8/8/3Kp3/kR1B4&moves=9">solve ↗</a><br>
+4 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#16, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb1 Ke3 2.Kc1 Kf4 3.Kd2 Bg2 4.Ke1 Bf1 5.exf1=N Bg4 6.Kf2 Bh3 7.Kg1 Kf3 8.Kh1 Kf2 9.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/3B4/8/8/3Kp3/kR1B4 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -4549,7 +5404,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkbn.svg" width="200" alt="KRBvkbn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 285</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/7B/8/1b6/2R5/K1k5&moves=9">solve ↗</a><br>
+<b>No. 330</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1n6/7B/8/1b6/2R5/K1k5&moves=9">solve ↗</a><br>
 37 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxc2 Be2 2.Kc3 Ba6 3.Kb4 Kb2 4.Ka5 Kxb3 5.Nc8 Kc4 6.Kb6 Kd5 7.Ka7 Kc6 8.Ka8 Kc7 9.Na7 Bb7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4563,7 +5418,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvknn.svg" width="200" alt="KRBvknn, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 286</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/n2nB3/7R/K6k&moves=9">solve ↗</a><br>
+<b>No. 331</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/n2nB3/7R/K6k&moves=9">solve ↗</a><br>
 35 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh2 Ka2 2.Kg2 Kb3 3.Kf1 Kc3 4.Ke1 Kxd3 5.Kd1 Kd4 6.Kc2 Bc1 7.Kb1 Kc3 8.Ka1 Kb3 9.Nb1 Bb2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4577,7 +5432,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkpp.svg" width="200" alt="KRBvkpp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 287</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/p7/8/8/8/1B5p/2K3Rk&moves=9">solve ↗</a><br>
+<b>No. 332</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/p7/8/8/8/1B5p/2K3Rk&moves=9">solve ↗</a><br>
 4 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#16, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg1 Kd2 2.h1=B Ke3 3.Ba8 Kf4 4.Kf2 Kf5 5.Ke3 Bc1+ 6.Kd4 Ke6 7.Kc5 Kd7 8.Kb6 Kc8 9.Ka7 Be3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>promotions:b</code><br>
@@ -4586,12 +5441,26 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRNPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNPvkp.svg" width="200" alt="KRNPvkp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 333</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3K4/8/8/6N1/2p5/2P5/6Rk&moves=9">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg1 Nf6 2.Kf2 Ne4+ 3.Ke3 Nxc3 4.Kd4 Nb5+ 5.Kc5 c4 6.Kb6 c5+ 7.Kb7 c6+ 8.Kb8 c7+ 9.Ka8 c8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/3K4/8/8/6N1/2p5/2P5/6Rk b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRNvkqb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkqb.svg" width="200" alt="KRNvkqb, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 288</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/4N2R/8/8/8/1q6/8/Kb6&moves=9">solve ↗</a><br>
+<b>No. 334</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/4N2R/8/8/8/1q6/8/Kb6&moves=9">solve ↗</a><br>
 18 positions of 7,751,073,792 indexed have a unique solution at h#9. The class runs to h#11, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh7 Nc6 2.Kg6 Na5 3.Kf5 Nxb3 4.Ke4 Kb2 5.Kd3 Kc1 6.Kc3 Kd1 7.Kb2 Nd4 8.Ka1 Kc1 9.Ba2 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4605,7 +5474,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkqp.svg" width="200" alt="KRNvkqp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 289</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1p6/8/5NRk/8/2q5/K7&moves=9">solve ↗</a><br>
+<b>No. 335</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1p6/8/5NRk/8/2q5/K7&moves=9">solve ↗</a><br>
 81 positions of 22,724,739,072 indexed have a unique solution at h#9. The class runs to h#12, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg4 Nd5 2.Qa4+ Kb2 3.Kf3 Kc3 4.Qa5+ Kd4 5.Ke2 Ke5 6.Kd3 Kd6 7.Kc4 Kc7 8.Kb5 Kb8 9.Ka6 Nc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -4614,12 +5483,40 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRPvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkbp.svg" width="200" alt="KRPvkbp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 336</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6p1/6P1/R7/kb6/8/K7&moves=9">solve ↗</a><br>
+5 positions of 17,043,554,304 indexed have a unique solution at h#9. The class runs to h#15, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa4 Kb2 2.Kb5 Kc3 3.Kc6 Kd4 4.Kd7 Ke5 5.Ke8 Kf6 6.Kf8 Kxg6 7.Kg8 Kh6 8.Kh8 g6 9.Bg8 g7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/6p1/6P1/R7/kb6/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkpp.svg" width="200" alt="KRPvkpp, h#9"><br><sub><b>h#9</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 337</b> &nbsp;·&nbsp; <b>h#9</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4p3/8/R1p5/k7/2P5/K7&moves=9">solve ↗</a><br>
+24 positions of 12,782,665,728 indexed have a unique solution at h#9. The class runs to h#15, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa4 Kb2 2.c3+ Kxc3 3.e5 Kb2 4.e4 c4 5.e3 c5 6.e2 c6 7.e1=R c7 8.Re5 c8=Q 9.Ra5 Qc4#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>closed-walk</code> <code>self-block</code> <code>kniest</code> <code>promotions:qr</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/4p3/8/R1p5/k7/2P5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBBvknn
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvknn.svg" width="200" alt="KBBvknn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 290</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n7/8/5B2/8/7B/7k/2n5/1K6&moves=8.5">solve ↗</a><br>
+<b>No. 338</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n7/8/5B2/8/7B/7k/2n5/1K6&moves=8.5">solve ↗</a><br>
 17 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#13, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bg3 2.Ne3 Bb8 3.Ng4 Kc2 4.Nc7 Kd3 5.Kg3 Be5+ 6.Kh4 Ke4 7.Ne6 Kf5 8.Ng5 Kg6 9.Nh3 Bg3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
@@ -4632,7 +5529,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkbbb.svg" width="200" alt="KBvkbbb, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 291</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/b7/8/5b2/kBK4b&moves=8.5">solve ↗</a><br>
+<b>No. 339</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/b7/8/5b2/kBK4b&moves=8.5">solve ↗</a><br>
 446 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#10, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kd2 2.Kb2 Kd3 3.Kc1 Ba2 4.Kd1 Bd5 5.Ke1 Bxh1 6.Kf1 Bd5 7.Kg1 Ke4 8.Kh1 Kf3 9.Bg1 Kg3#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code> <code>indian</code><br>
@@ -4645,7 +5542,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqbb.svg" width="200" alt="KBvkqbb, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 292</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/8/8/8/7B/7b/7k/Kq6&moves=8.5">solve ↗</a><br>
+<b>No. 340</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/8/8/8/7B/7b/7k/Kq6&moves=8.5">solve ↗</a><br>
 25 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxb1 2.Bf5+ Kb2 3.Kh3 Kc3 4.Kg4 Kd4 5.Kh5 Ke5 6.Kh6 Kf6 7.Kh7 Kf7 8.Kh8 Kxf8 9.Bh7 Bf6#<br>
 <br><b>Themes:</b> <code>self-block</code><br>
@@ -4659,7 +5556,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrbb.svg" width="200" alt="KBvkrbb, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 293</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=b7/8/8/8/8/8/2B2b2/k1Kr4&moves=8.5">solve ↗</a><br>
+<b>No. 341</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=b7/8/8/8/8/8/2B2b2/k1Kr4&moves=8.5">solve ↗</a><br>
 2 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxd1 2.Kb2 Be4 3.Kc3 Bxa8 4.Kd3 Kc1 5.Ke2 Kc2 6.Kf1 Kd3 7.Kg1 Ke4 8.Kh1 Kf3 9.Bg1 Kg3#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4668,12 +5565,38 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KNPvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkbp.svg" width="200" alt="KNPvkbp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 342</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/b7/8/p7/P7/8/K3N2k&moves=8.5">solve ↗</a><br>
+33 positions of 17,043,554,304 indexed have a unique solution at h#8.5. The class runs to h#14, so the deepest sound problem is 11 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb2 2.Kg1 Kc3 3.Kf2 Kb4 4.Ke3 Ka5 5.Kd4 Kb6 6.Kc4 Ka7 7.Kb5 Nd3 8.Ka5 Nc5 9.Bb5 Nb7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>8/8/b7/8/p7/P7/8/K3N2k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvknp.svg" width="200" alt="KNPvknp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 343</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N1K1n3/8/8/8/8/2p5/2P5/6k1&moves=8.5">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Nb6 2.Kf2 Na4 3.Ke3 Nb2 4.cxb2 c4 5.Kd4 c5 6.Nd6+ cxd6 7.Kc5 d7 8.Kb6 d8=Q+ 9.Ka7 Qa5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>N1K1n3/8/8/8/8/2p5/2P5/6k1 w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KNvkbbb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkbbb.svg" width="200" alt="KNvkbbb, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 294</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/b1b4k/8/4b3/K4N2&moves=8.5">solve ↗</a><br>
+<b>No. 344</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/b1b4k/8/4b3/K4N2&moves=8.5">solve ↗</a><br>
 1,145 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ne3 2.Kg3 Kb2 3.Kf2 Ka3 4.Ke1 Kxa4 5.Kd2 Kb4 6.Kc1 Kc3 7.Kb1 Kd2 8.Ka1 Kc1 9.Ba2 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4686,7 +5609,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkbbn.svg" width="200" alt="KNvkbbn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 295</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/2bb4/n1N5/1K6&moves=8.5">solve ↗</a><br>
+<b>No. 345</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/2bb4/n1N5/1K6&moves=8.5">solve ↗</a><br>
 18 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa2 2.Kf7 Kb3 3.Ke6 Kxc3 4.Kd5 Kb2 5.Kc4 Ka3 6.Kc3 Ka4 7.Kb2 Nd4 8.Ka1 Ka3 9.Bb1 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4700,7 +5623,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkbbp.svg" width="200" alt="KNvkbbp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 296</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/2p5/3b4/8/8/8/8/K2b3k&moves=8.5">solve ↗</a><br>
+<b>No. 346</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/2p5/3b4/8/8/8/8/K2b3k&moves=8.5">solve ↗</a><br>
 1,621 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg2 Kc3 3.Kf3 Kc4 4.Ke4 Kb5 5.Kd5 Ka5 6.Kc6 Nxc7 7.Kb7 Nd5 8.Ka8 Ka6 9.Bb8 Nb6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4713,7 +5636,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkbnn.svg" width="200" alt="KNvkbnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 297</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/7b/8/KNn1n3&moves=8.5">solve ↗</a><br>
+<b>No. 347</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/7b/8/KNn1n3&moves=8.5">solve ↗</a><br>
 9 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg7 Kc3 3.Kf6 Kd2 4.Ke5 Kd1 5.Kd4 Nd2 6.Kc3 Kxe1 7.Kb2 Kd1 8.Ka1 Kc2 9.Na2 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4726,7 +5649,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkbnp.svg" width="200" alt="KNvkbnp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 298</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7n/4p3/4b3/8/N7/K7&moves=8.5">solve ↗</a><br>
+<b>No. 348</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7n/4p3/4b3/8/N7/K7&moves=8.5">solve ↗</a><br>
 2 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#10, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Bd5 Kc2 3.e4 Kc3 4.e3 Kd4 5.e2 Ke5 6.e1=R+ Kf6 7.Re8 Nc3 8.Rh8 Ne4 9.Bg8 Ng5#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocapture</code> <code>promotions:r</code><br>
@@ -4739,7 +5662,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvknnn.svg" width="200" alt="KNvknnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 299</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/1n6/8/8/8/8/KNn1n3&moves=8.5">solve ↗</a><br>
+<b>No. 349</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/1n6/8/8/8/8/KNn1n3&moves=8.5">solve ↗</a><br>
 4 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg7 Kc3 3.Kf6 Kd2 4.Ke5 Kd1 5.Kd4 Nd2 6.Kc3 Kxe1 7.Kb2 Kd1 8.Ka1 Kc2 9.Na2 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4752,7 +5675,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvknnp.svg" width="200" alt="KNvknnp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 300</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/5p2/8/KNn1n3&moves=8.5">solve ↗</a><br>
+<b>No. 350</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/5p2/8/KNn1n3&moves=8.5">solve ↗</a><br>
 211 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#10, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb2 2.Kg7 Kc3 3.Kf6 Kd2 4.Ke5 Kd1 5.Kd4 Nd2 6.Kc3 Kxe1 7.Kb2 Kd1 8.Ka1 Kc2 9.Na2 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4765,7 +5688,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqnn.svg" width="200" alt="KNvkqnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 301</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/nq6/1n6/1KN5&moves=8.5">solve ↗</a><br>
+<b>No. 351</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/nq6/1n6/1KN5&moves=8.5">solve ↗</a><br>
 7 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Qd1 Ka2 3.Kf7 Kxa3 4.Ke6 Kb4 5.Kd5 Ka5 6.Kc4 Ne2 7.Kb3 Kb5 8.Ka2 Kb4 9.Qa1 Nc3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4779,7 +5702,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqqn.svg" width="200" alt="KNvkqqn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 302</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/3n4/5q2/1KNq4&moves=8.5">solve ↗</a><br>
+<b>No. 352</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/3n4/5q2/1KNq4&moves=8.5">solve ↗</a><br>
 34 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Nb2 Ka2 3.Kf7 Ka3 4.Ke6 Kb4 5.Kd5 Ka5 6.Kc4 Ne2 7.Kb3 Kb5 8.Ka2 Kb4 9.Qa1 Nc3#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
@@ -4792,7 +5715,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqqr.svg" width="200" alt="KNvkqqr, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 303</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6N1/8/8/8/8/1r1q3q/1K6&moves=8.5">solve ↗</a><br>
+<b>No. 353</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6N1/8/8/8/8/1r1q3q/1K6&moves=8.5">solve ↗</a><br>
 2 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Rb6 Ne8 3.Rh6 Kb1 4.Qc1+ Kxc1 5.Qh1+ Kd2 6.Kh7 Ke3 7.Kg6 Kf4 8.Kh5 Kf5 9.Qh4 Ng7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
@@ -4806,7 +5729,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqrn.svg" width="200" alt="KNvkqrn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 304</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/r7/1nq5/KN6&moves=8.5">solve ↗</a><br>
+<b>No. 354</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/r7/1nq5/KN6&moves=8.5">solve ↗</a><br>
 13 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nxa3 2.Qa4 Kb1 3.Kg6 Kc1 4.Kf5 Kd2 5.Ke4 Ke1 6.Kd3 Nb5 7.Kc2 Ke2 8.Kb1 Kd2 9.Qa1 Nc3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4820,7 +5743,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrbb.svg" width="200" alt="KNvkrbb, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 305</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1b6/8/KrN2b1k&moves=8.5">solve ↗</a><br>
+<b>No. 355</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1b6/8/KrN2b1k&moves=8.5">solve ↗</a><br>
 130 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxb1 2.Kg2 Nd3 3.Kf3 Kc1 4.Ke4 Kd2 5.Kd4 Ke1 6.Kc3 Nb4 7.Kb2 Kd2 8.Ka1 Kc1 9.Ba2 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4834,7 +5757,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrbn.svg" width="200" alt="KNvkrbn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 306</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/n7/1b6/2N5/K3r3&moves=8.5">solve ↗</a><br>
+<b>No. 356</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/n7/1b6/2N5/K3r3&moves=8.5">solve ↗</a><br>
 5 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nxe1 2.Kg7 Kb1 3.Kf6 Kc1 4.Ke5 Kd2 5.Kd4 Ke2 6.Kc3 Ke3 7.Kb2 Kd2 8.Ka1 Kc1 9.Ba2 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4848,7 +5771,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrbp.svg" width="200" alt="KNvkrbp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 307</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/3p4/1b6/N7/Kr6&moves=8.5">solve ↗</a><br>
+<b>No. 357</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/3p4/1b6/N7/Kr6&moves=8.5">solve ↗</a><br>
 98 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxb1 2.Kg6 Kc1 3.Kf5 Kd2 4.Ke4 Ke1 5.Kd3 Nb4+ 6.Kc3 Ke2 7.Kb2 Kd2 8.Ka1 Kc1 9.Ba2 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>closed-walk</code> <code>self-block</code><br>
@@ -4862,7 +5785,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrnn.svg" width="200" alt="KNvkrnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 308</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/n7/4r3/nKN5&moves=8.5">solve ↗</a><br>
+<b>No. 358</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/n7/4r3/nKN5&moves=8.5">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa1 2.Kf7 Nxe2 3.Ke6 Kb2 4.Kd5 Kc1 5.Kc4 Kd2 6.Kb3 Nd4+ 7.Ka2 Kc3 8.Ka1 Kb3 9.Nb1 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>kniest</code><br>
@@ -4876,7 +5799,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrnp.svg" width="200" alt="KNvkrnp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 309</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/2p5/8/n7/4r3/1KN5&moves=8.5">solve ↗</a><br>
+<b>No. 359</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/2p5/8/n7/4r3/1KN5&moves=8.5">solve ↗</a><br>
 54 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Kf7 Nxe2 3.Ke6 Kb2 4.Kd5 Kc1 5.Kc4 Kd2 6.Kb3 Nd4+ 7.Ka2 Kc3 8.Ka1 Kb3 9.Nb1 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code><br>
@@ -4890,7 +5813,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrrn.svg" width="200" alt="KNvkrrn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 310</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/1r6/8/r7/8/KNn5&moves=8.5">solve ↗</a><br>
+<b>No. 360</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/1r6/8/r7/8/KNn5&moves=8.5">solve ↗</a><br>
 7 positions of 7,751,073,792 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Nxa3 2.Kg6 Nxb5 3.Kf5 Kb2 4.Ke4 Ka3 5.Kd3 Kb4 6.Kc2 Nd4+ 7.Kb1 Kc3 8.Ka1 Kc2 9.Na2 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -4904,7 +5827,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrrp.svg" width="200" alt="KNvkrrp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 311</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/N7/2p5/8/8/4r3/Kr6&moves=8.5">solve ↗</a><br>
+<b>No. 361</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/N7/2p5/8/8/4r3/Kr6&moves=8.5">solve ↗</a><br>
 167 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower.<br>
 <br><b>Solution:</b> 1...Kxb1 2.Kg6 Nb4 3.Kf5 Nc2 4.Ke4 Kb2 5.Kd3 Kc1 6.Kc3 Kd1 7.Kb2 Nd4 8.Ka1 Kc1 9.Ra2 Nb3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -4913,12 +5836,65 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KPPPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPPvkp.svg" width="200" alt="KPPPvkp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 362</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/p7/8/P7/P7/P2K4/7k&moves=8.5">solve ↗</a><br>
+2 positions of 9,586,999,296 indexed have a unique solution at h#8.5. The class runs to h#13.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kc3 2.Kg2 Kb4 3.a5+ Kxa5 4.Kf3 Kb4 5.Ke4 a5 6.Kd5 a6 7.Kc6 a7 8.Kb7 Kc5 9.Ka6 a8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>switchback</code> <code>promotions:q</code><br>
+<br><code>8/8/p7/8/P7/P7/P2K4/7k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkbp.svg" width="200" alt="KPPvkbp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 363</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1p6/1P6/1Pk5/K1b5&moves=8.5">solve ↗</a><br>
+125 positions of 12,782,665,728 indexed have a unique solution at h#8.5. The class runs to h#14.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Bd2 Ka1 3.Bc3 bxc3 4.bxc3 b4 5.Kd1 b5 6.c2 b6 7.c1=B b7 8.Bd2 b8=Q 9.Kc1 Qb1#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:qb</code><br>
+<br><code>8/8/8/8/1p6/1P6/1Pk5/K1b5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvknp.svg" width="200" alt="KPPvknp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 364</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3n4/8/6k1/8/8/1p6/1P3P2/K7&moves=8.5">solve ↗</a><br>
+9 positions of 12,782,665,728 indexed have a unique solution at h#8.5. The class runs to h#14.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...f4 2.Ne6 f5+ 3.Kg5 f6 4.Ng7 fxg7 5.Kf4 g8=Q 6.Ke3 Qxb3+ 7.Kd2 Ka2 8.Kc1 Ka3 9.Kb1 Qd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><code>3n4/8/6k1/8/8/1p6/1P3P2/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkqp.svg" width="200" alt="KPPvkqp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 365</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/p7/8/P7/1Kq5/P7/7k&moves=8.5">solve ↗</a><br>
+4 positions of 12,782,665,728 indexed have a unique solution at h#8.5. The class runs to h#14.5, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxc3 2.Kg2 Kb4 3.a5+ Kxa5 4.Kf3 Kb4 5.Ke4 a5 6.Kd5 a6 7.Kc6 a7 8.Kb7 Kc5 9.Ka6 a8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>switchback</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/p7/8/P7/1Kq5/P7/7k w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KPvkbbn
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkbbn.svg" width="200" alt="KPvkbbn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 312</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/b7/n7/8/8/P7/6bk&moves=8.5">solve ↗</a><br>
+<b>No. 366</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/b7/n7/8/8/P7/6bk&moves=8.5">solve ↗</a><br>
 11 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...a4 2.Bb5 axb5 3.Kg2 b6 4.Kf3 b7 5.Ke4 b8=Q 6.Kd5 Qe5+ 7.Kc6 Kb8 8.Kb6 Kc8 9.Ka7 Qxa5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -4931,7 +5907,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkbnn.svg" width="200" alt="KPvkbnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 313</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/2n5/2n5/8/2P3b1/7k&moves=8.5">solve ↗</a><br>
+<b>No. 367</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/2n5/2n5/8/2P3b1/7k&moves=8.5">solve ↗</a><br>
 20 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb8 2.Nd3 cxd3 3.Kh2 d4 4.Kg3 d5 5.Kf4 d6 6.Ke5 d7 7.Kd6 Ka7 8.Kc7 Ka6 9.Kb8 d8=Q#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -4944,7 +5920,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvknnn.svg" width="200" alt="KPvknnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 314</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/3nn3/n7/8/8/P7/7k&moves=8.5">solve ↗</a><br>
+<b>No. 368</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/3nn3/n7/8/8/P7/7k&moves=8.5">solve ↗</a><br>
 8 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...a4 2.Nb5 axb5 3.Kg2 b6 4.Kf3 b7 5.Ke4 b8=Q 6.Kd5 Qe5+ 7.Kc6 Kb8 8.Kb6 Kc8 9.Ka7 Qxa5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -4957,7 +5933,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqbn.svg" width="200" alt="KPvkqbn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 315</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/7n/b6P/4q3/1K6&moves=8.5">solve ↗</a><br>
+<b>No. 369</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/7n/b6P/4q3/1K6&moves=8.5">solve ↗</a><br>
 2 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#11.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Ng6 h4 3.Kg7 h5 4.Kf6 hxg6 5.Ke5 g7 6.Kd4 g8=Q 7.Qe5 Ka2 8.Bc1 Kb3 9.Be3 Qc4#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -4970,7 +5946,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqnn.svg" width="200" alt="KPvkqnn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 316</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3nn3/K7/8/1q6/1P6/8/7k&moves=8.5">solve ↗</a><br>
+<b>No. 370</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3nn3/K7/8/1q6/1P6/8/7k&moves=8.5">solve ↗</a><br>
 40 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka7 2.Qc4 bxc4 3.Kg2 c5 4.Kf3 c6 5.Ke4 cxd7 6.Kd5 d8=Q+ 7.Kc6 Qd5+ 8.Kc7 Ka6 9.Kb8 Qb7#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>switchback</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -4983,7 +5959,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqqn.svg" width="200" alt="KPvkqqn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 317</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/q7/K7/8/8/2n5/2P5/2q4k&moves=8.5">solve ↗</a><br>
+<b>No. 371</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/q7/K7/8/8/2n5/2P5/2q4k&moves=8.5">solve ↗</a><br>
 7 positions of 22,724,739,072 indexed have a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa7 2.Nd5 c4 3.Kg2 cxd5 4.Kf3 d6 5.Ke4 d7 6.Kd5 d8=Q+ 7.Kc6 Qd5+ 8.Kc7 Ka6 9.Kb8 Qb7#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>closed-walk</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -4997,7 +5973,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqqp.svg" width="200" alt="KPvkqqp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 318</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/5p2/1q6/5P2/2q5/K7&moves=8.5">solve ↗</a><br>
+<b>No. 372</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/5p2/1q6/5P2/2q5/K7&moves=8.5">solve ↗</a><br>
 61 positions of 17,043,554,304 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...f4 2.Qc6 Ka2 3.Qe7 Kb3 4.Qg5 fxg5 5.Kg7 g6 6.Kf6 g7 7.Ke5 g8=Q 8.Qf6 Kc4 9.f4 Qd5#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5010,7 +5986,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqrn.svg" width="200" alt="KPvkqrn, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 319</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/r7/K4q2/8/8/2n5/2P5/7k&moves=8.5">solve ↗</a><br>
+<b>No. 373</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/r7/K4q2/8/8/2n5/2P5/7k&moves=8.5">solve ↗</a><br>
 1 position of 22,724,739,072 indexed has a unique solution at h#8.5. The class runs to h#9.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa7 2.Nd5 c4 3.Kg2 cxd5 4.Kf3 d6 5.Ke4 d7 6.Kd5 d8=Q+ 7.Kc6 Qxf6+ 8.Kc7 Ka6 9.Kb8 Qd8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>promotions:q</code><br>
@@ -5024,7 +6000,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqrp.svg" width="200" alt="KPvkqrp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 320</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/p7/P2qr3/K7&moves=8.5">solve ↗</a><br>
+<b>No. 374</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/p7/P2qr3/K7&moves=8.5">solve ↗</a><br>
 644 positions of 17,043,554,304 indexed have a unique solution at h#8.5. The class runs to h#12.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Re3 Ka1 3.Rb3 axb3 4.Kg6 b4 5.Kf5 b5 6.Ke4 b6 7.Kd3 b7 8.Kc2 b8=Q 9.Kc1 Qb1#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>nocheck</code> <code>promotions:q</code><br>
@@ -5037,7 +6013,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrnp.svg" width="200" alt="KPvkrnp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 321</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1p5n/1P5r/K3k3&moves=8.5">solve ↗</a><br>
+<b>No. 375</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1p5n/1P5r/K3k3&moves=8.5">solve ↗</a><br>
 2,170 positions of 17,043,554,304 indexed have a unique solution at h#8.5. The class runs to h#12.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Rc2 Ka1 3.Rc3 bxc3 4.Nf4 c4 5.Nd5 cxd5 6.Kd2 d6 7.Kc3 d7 8.Kb4 d8=Q 9.Ka3 Qa5#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>nocheck</code> <code>promotions:q</code><br>
@@ -5050,11 +6026,38 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrrp.svg" width="200" alt="KPvkrrp, h#8.5"><br><sub><b>h#8.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 322</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r6/8/8/1r6/6k1/1p6/1P6/K7&moves=8.5">solve ↗</a><br>
+<b>No. 376</b> &nbsp;·&nbsp; <b>h#8.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r6/8/8/1r6/6k1/1p6/1P6/K7&moves=8.5">solve ↗</a><br>
 369 positions of 17,043,554,304 indexed have a unique solution at h#8.5. The class runs to h#10.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Rc5 Ka1 3.Rc3 bxc3 4.Kf5 c4 5.Ke6 c5 6.Kd7 c6+ 7.Kc8 c7 8.Kb7 c8=Q+ 9.Ka8 Qa6#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>umnov</code> <code>promotions:q</code><br>
 <br><code>1r6/8/8/1r6/6k1/1p6/1P6/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBPvk.svg" width="200" alt="KBBBPvk, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 377</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7B/8/7B/8/7P/K5Bk&moves=8">solve ↗</a><br>
+11 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg2 Bd8 2.Kf3 h4 3.Ke4 h5 4.Ke5 Bf4+ 5.Kd5 h6 6.Kc6 h7 7.Kb7 h8=Q 8.Ka8 Qh1#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>promotions:q</code><br>
+<br><code>8/8/7B/8/7B/8/7P/K5Bk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBPvkn.svg" width="200" alt="KBBPvkn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 378</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5k2/5P2/8/8/1B6/n7/1B6/K7&moves=8">solve ↗</a><br>
+10 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#12, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf7 Ka2 2.Ke6 Kb3 3.Kd5 Ka4 4.Kc4 Ka5 5.Kb3 Bc1 6.Ka2 Ka4 7.Ka1 Kb3 8.Nb1 Bb2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5k2/5P2/8/8/1B6/n7/1B6/K7 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -5063,11 +6066,137 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkbb.svg" width="200" alt="KBBvkbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 323</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/8/8/6B1/8/7b/7k/K3B3&moves=8">solve ↗</a><br>
+<b>No. 379</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/8/8/6B1/8/7b/7k/K3B3&moves=8">solve ↗</a><br>
 129 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Bf5 Kb2 2.Kh3 Kc3 3.Kg4 Kd4 4.Kxg5 Ke5 5.Kh6 Kf6 6.Kh7 Kf7 7.Kh8 Kxf8 8.Bh7 Bc3#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
 <br><code>5b2/8/8/6B1/8/7b/7k/K3B3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNPvkq.svg" width="200" alt="KBNPvkq, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 380</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/7N/qB5P/k1K5&moves=8">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb2+ Kd1 2.Qg7 Nf4 3.Kb2 h4 4.Kc3 h5 5.Kd4 h6 6.Ke3 hxg7 7.Kf2 g8=Q 8.Kf1 Qg2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/7N/qB5P/k1K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkbp.svg" width="200" alt="KBNvkbp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 381</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5kNb/6p1/6B1/8/8/8/8/K7&moves=8">solve ↗</a><br>
+4 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#16, so the deepest sound problem is 16 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Be8 2.g5+ Kb1 3.g4 Kc2 4.g3 Kd3 5.g2 Ke4 6.g1=B Kf5 7.Bc5 Kg6 8.Bf8 Bf7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>self-block</code> <code>kniest</code> <code>promotions:b</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>5kNb/6p1/6B1/8/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkqb.svg" width="200" alt="KBNvkqb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 382</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/4q3/2K1kB2/5bN1&moves=8">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#8. The class runs to h#11, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf2 Nf3 2.Bc4 Nd2 3.Ke2 Kc1 4.Kd3 Kd1 5.Kc3 Nf1 6.Kb2 Nxe3 7.Ka1 Kc1 8.Ba2 Nc2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>klasinc</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/4q3/2K1kB2/5bN1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkrp.svg" width="200" alt="KBNvkrp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 383</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7p/7r/8/8/8/NB6/k1K5&moves=8">solve ↗</a><br>
+7 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#16.5, so the deepest sound problem is 17 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa2 Kd2 2.Kb3 Ke3 3.Kc4 Kf4 4.Kd5 Kg5 5.Ke6 Kxh6 6.Kf7 Kg5 7.Kg8 Kf6 8.Kh8 Kf7#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7p/7r/8/8/8/NB6/k1K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvknn.svg" width="200" alt="KBPvknn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 384</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/2K5/kB6/1P6/5n1n&moves=8">solve ↗</a><br>
+6 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#13, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb2 Kd3 2.Kc1 Bd5 3.Kd1 Bxh1 4.Ke1 Bg2 5.Kf2 Bh3 6.Kg1 Ke2 7.Kh1 Kf2 8.Nh2 Bg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/2K5/kB6/1P6/5n1n b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNPvkp.svg" width="200" alt="KNNPvkp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 385</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1p3N2/1P2N3/1K1k4&moves=8">solve ↗</a><br>
+6 positions of 17,043,554,304 indexed have a unique solution at h#8. The class runs to h#11, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe2 Kc1 2.Ke3 Kd1 3.Kd3 Ke1 4.Kc2 Nd4+ 5.Kxb2 Kd2 6.Ka1 Kc3 7.b2 Kb3 8.b1=N Nc2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/1p3N2/1P2N3/1K1k4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkpp.svg" width="200" alt="KNNvkpp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 386</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6p1/5Np1/6N1/8/8/8/K7&moves=8">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#8. The class runs to h#11, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.gxf6 Kb2 2.f5 Kc3 3.f4 Kd4 4.f3 Ke5 5.f2 Kf6 6.f1=R+ Kxg6 7.Rf8 Kh6 8.Rg8 Nf7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>7k/6p1/5Np1/6N1/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkqp.svg" width="200" alt="KNNvkqp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 387</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4qk2/4Np2/4N3/8/8/8/8/2K5&moves=8">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#8. The class runs to h#12, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.fxe6 Kd2 2.e5 Ke3 3.e4 Kf4 4.e3 Kg5 5.e2 Kh6 6.e1=R Kh7 7.Rf1 Kh8 8.Rf7 Ng6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>closed-walk</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>umnov</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4qk2/4Np2/4N3/8/8/8/8/2K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkqb.svg" width="200" alt="KNPvkqb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 388</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1K6/8/1kq5/bP6/N7/8&moves=8">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#11.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb3 Nc3 2.Bd6 Nb5 3.Kb4 Ka6 4.Kc5 Ka5 5.Kc6 Na3 6.Kb7 Nxc4 7.Ka8 Ka6 8.Bb8 Nb6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>klasinc</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/1K6/8/1kq5/bP6/N7/8 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -5076,7 +6205,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkqrr.svg" width="200" alt="KNvkqrr, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 324</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/6N1/1rr5/8/1q6/8/K7&moves=8">solve ↗</a><br>
+<b>No. 389</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/6N1/1rr5/8/1q6/8/K7&moves=8">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#8. The class runs to h#9.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg7 Ne7 2.Qd1+ Ka2 3.Rb2+ Kxb2 4.Rh5 Kc3 5.Qh1 Kd4 6.Rh7 Ke5 7.Kh6 Kf6 8.Qh5 Ng8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -5085,12 +6214,26 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KPPvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkrp.svg" width="200" alt="KPPvkrp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 390</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/5pk1/5P2/2r2P2/K7&moves=8">solve ↗</a><br>
+5 positions of 12,782,665,728 indexed have a unique solution at h#8. The class runs to h#14.5, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kf5 Kb1 2.Re2 Kc1 3.Re4 fxe4+ 4.Ke6 e5 5.Kd5 e6 6.Kc4 e7 7.Kb3 e8=Q 8.Ka2 Qa4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/8/5pk1/5P2/2r2P2/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KPvkqbb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqbb.svg" width="200" alt="KPvkqbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 325</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/8/6b1/1q2b2k/6P1/8&moves=8">solve ↗</a><br>
+<b>No. 391</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/8/6b1/1q2b2k/6P1/8&moves=8">solve ↗</a><br>
 3 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#11.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh2 g3 2.Bd7 g4 3.Kg3 g5 4.Kf4 g6 5.Ke5 g7 6.Kd6 g8=Q 7.Kc7 Qxb3 8.Kc8 Qb8#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5104,7 +6247,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqqb.svg" width="200" alt="KPvkqqb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 326</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/8/6b1/1q5k/6P1/6q1&moves=8">solve ↗</a><br>
+<b>No. 392</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/8/6b1/1q5k/6P1/6q1&moves=8">solve ↗</a><br>
 15 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#11.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh2 g3 2.Bd7 g4 3.Kg3 g5 4.Kf4 g6 5.Ke5 g7 6.Kd6 g8=Q 7.Kc7 Qxb3 8.Kc8 Qb8#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5118,11 +6261,291 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqqq.svg" width="200" alt="KPvkqqq, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 327</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/7q/8/8/8/1q6/P7/1q5k&moves=8">solve ↗</a><br>
+<b>No. 393</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/7q/8/8/8/1q6/P7/1q5k&moves=8">solve ↗</a><br>
 11 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg2 a4 2.Kf3 a5 3.Ke4 a6 4.Qhb7+ axb7 5.Kd5 Kb8 6.Kc6 Kc8 7.Qd5 b8=Q 8.Qbb5 Qc7#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>promotions:q</code><br>
 <br><code>K7/7q/8/8/8/1q6/P7/1q5k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkbb.svg" width="200" alt="KQBvkbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 394</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5b2/8/8/5b2/7B/8/7Q/K6k&moves=8">solve ↗</a><br>
+22 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#10.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kb2 2.Kh3 Kc3 3.Kg4 Kd4 4.Kh5 Ke5 5.Kh6 Kf6 6.Kh7 Kf7 7.Kh8 Kxf8 8.Bh7 Bf6#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5b2/8/8/5b2/7B/8/7Q/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNPvkq.svg" width="200" alt="KQNPvkq, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 395</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/7N/qQ5P/k1K5&moves=8">solve ↗</a><br>
+16 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb2+ Kd1 2.Qg7 Nf4 3.Kb2 h4 4.Kc3 h5 5.Kd4 h6 6.Ke3 hxg7 7.Kf2 g8=Q 8.Kf1 Qg2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/7N/qQ5P/k1K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkbn.svg" width="200" alt="KQNvkbn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 396</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2n5/8/8/8/1N4Qk/8/4b3/K7&moves=8">solve ↗</a><br>
+21 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg4 Kb2 2.Kf5 Kc3 3.Ke6 Kd4 4.Kd7 Kc5 5.Kc7 Nd5+ 6.Kb8 Kc6 7.Ka8 Kc7 8.Na7 Nb6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2n5/8/8/8/1N4Qk/8/4b3/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkbp.svg" width="200" alt="KQNvkbp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 397</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6N1/8/6p1/8/8/2Q5/K1k3b1&moves=8">solve ↗</a><br>
+1,700 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc2 Ne8 2.Kd1 Kb2 3.Bf2 Kc3 4.Bh4 Kd4 5.Ke2 Ke5 6.Kf3 Kf6 7.Kg4 Kg7 8.Kh5 Nf6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6N1/8/6p1/8/8/2Q5/K1k3b1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvknn.svg" width="200" alt="KQNvknn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 398</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3n4/N1n5/8/8/6Qk/8/8/K7&moves=8">solve ↗</a><br>
+18 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg4 Kb2 2.Kf5 Kc3 3.Ke6 Kd4 4.Kd7 Ke5 5.Na8 Kf6 6.Kc7 Ke7 7.Kb8 Kd7 8.Nb7 Nc6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>3n4/N1n5/8/8/6Qk/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkqn.svg" width="200" alt="KQNvkqn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 399</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=nN6/8/8/8/8/1q4Qk/8/K7&moves=8">solve ↗</a><br>
+23 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxg3 Kb2 2.Qg5 Kc3 3.Nc7 Kd4 4.Qh4+ Ke5 5.Ne6 Nd7 6.Ng5 Kf6 7.Kg4 Kg7 8.Kh5 Nf6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>nN6/8/8/8/8/1q4Qk/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkrn.svg" width="200" alt="KQNvkrn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 400</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6Qk/8/n7/N7/6r1/K7&moves=8">solve ↗</a><br>
+9 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg6 Nc2 2.Kf5 Ka2 3.Ke4 Kb1 4.Kd3 Kc1 5.Kc3 Kd1 6.Kb2 Nd4 7.Ka1 Kc1 8.Ra2 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/6Qk/8/n7/N7/6r1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkrr.svg" width="200" alt="KQNvkrr, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 401</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Qk/8/8/6N1/8/1r2r3/K7&moves=8">solve ↗</a><br>
+4 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#9.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Nh2 2.Re6 Nf1 3.Rh2 Kb1 4.Rh1 Kc2 5.Reh6 Kd3 6.Kg6 Ke4 7.Kh5 Kf5 8.Rh4 Ng3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6Qk/8/8/6N1/8/1r2r3/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPPvkp.svg" width="200" alt="KQPPvkp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 402</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/p7/8/P7/K7/P5Q1/6k1&moves=8">solve ↗</a><br>
+48 positions of 12,782,665,728 indexed have a unique solution at h#8. The class runs to h#15, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg2 Kb4 2.a5+ Kxa5 3.Kf3 Kb4 4.Ke4 a5 5.Kd5 a6 6.Kc6 a7 7.Kb7 Kc5 8.Ka6 a8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>switchback</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/p7/8/P7/K7/P5Q1/6k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkbb.svg" width="200" alt="KQPvkbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 403</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7Q/8/3b4/8/bP6/8/K7&moves=8">solve ↗</a><br>
+108 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Ka2 2.Kg6 Kxa3 3.Kf5 b4 4.Ke4 b5 5.Kd3 b6 6.Kc2 b7 7.Kb1 b8=Q+ 8.Ka1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/7Q/8/3b4/8/bP6/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkbn.svg" width="200" alt="KQPvkbn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 404</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Qk/8/8/2n5/b7/P7/K7&moves=8">solve ↗</a><br>
+552 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Bb4 a4 3.Kf6 a5 4.Ke5 a6 5.Kd4 a7 6.Kc3 a8=Q 7.Kb3 Qg2 8.Ka3 Qa2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6Qk/8/8/2n5/b7/P7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvknn.svg" width="200" alt="KQPvknn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 405</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Qk/8/8/8/3n4/8/3P4/1K1n4&moves=8">solve ↗</a><br>
+345 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Kc1 2.Ne3 dxe3 3.Kf7 e4 4.Ke6 e5 5.Kd5 e6 6.Kc4 e7 7.Kb3 e8=Q 8.Ka2 Qa4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Qk/8/8/8/3n4/8/3P4/1K1n4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkqb.svg" width="200" alt="KQPvkqb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 406</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Qk/8/8/2b5/q7/P7/K7&moves=8">solve ↗</a><br>
+33 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#12, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Qc5 a4 3.Kf6 a5 4.Ke5 a6 5.Kd4 a7 6.Kc3 a8=Q 7.Kb4 Kb2 8.Qb5 Qa3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6Qk/8/8/2b5/q7/P7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkqn.svg" width="200" alt="KQPvkqn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 407</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/7k/8/7P/3n4/2q5/K7&moves=8">solve ↗</a><br>
+422 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 h5 2.Qa2+ Kxa2 3.Kh6 Kb3 4.Kg5 h6 5.Kf4 h7 6.Ke3 h8=Q 7.Kd2 Qh2+ 8.Kc1 Qc2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>switchback</code> <code>phoenix</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7Q/7k/8/7P/3n4/2q5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkqp.svg" width="200" alt="KQPvkqp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 408</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/2p5/2P5/2q1Q3/K3k3&moves=8">solve ↗</a><br>
+945 positions of 17,043,554,304 indexed have a unique solution at h#8. The class runs to h#13, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxe2 Kb1 2.Qe7 Kc1 3.Qb4 cxb4 4.Ke2 b5 5.Kd3 b6 6.Kc3 b7 7.Kb3 b8=Q+ 8.Ka2 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/2p5/2P5/2q1Q3/K3k3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkqq.svg" width="200" alt="KQPvkqq, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 409</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1q6/8/7Q/7k/6q1/6P1/K7&moves=8">solve ↗</a><br>
+14 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh5 Ka2 2.Qe3 g4+ 3.Kg6 g5 4.Kf5 g6 5.Ke4 g7 6.Kd3 g8=Q 7.Qg2+ Kb3 8.Qgd2 Qc4#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>phoenix</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/1q6/8/7Q/7k/6q1/6P1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkqr.svg" width="200" alt="KQPvkqr, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 410</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/1r6/8/8/2q5/2P5/7Q/7k&moves=8">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kxb7 2.Qd4 cxd4 3.Kg3 d5 4.Kf4 d6 5.Ke5 d7 6.Kd6 Ka7 7.Kc7 Ka6 8.Kb8 d8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K7/1r6/8/8/2q5/2P5/7Q/7k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkrb.svg" width="200" alt="KQPvkrb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 411</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r6/K7/8/8/2b5/2P5/7Q/7k&moves=8">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kxb8 2.Bd5 c4 3.Kg3 cxd5 4.Kf4 d6 5.Ke5 d7 6.Kd6 Ka7 7.Kc7 Ka6 8.Kb8 d8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>switchback</code> <code>kniest</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>1r6/K7/8/8/2b5/2P5/7Q/7k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkrn.svg" width="200" alt="KQPvkrn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 412</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7Q/8/8/8/6rn/K6P/8&moves=8">solve ↗</a><br>
+20 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 hxg3 2.Kg6 Ka3 3.Kf5 g4+ 4.Ke4 g5 5.Kd3 g6 6.Kc2 g7 7.Kb1 g8=Q 8.Ka1 Qa2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/7Q/8/8/8/6rn/K6P/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBBvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBvkn.svg" width="200" alt="KRBBvkn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 413</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6n1/7k/7R/8/3B4/8/8/B1K5&moves=8">solve ↗</a><br>
+8 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#12, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Nxh6 Kd2 2.Kg8 Ke3 3.Nf5+ Kf4 4.Nxd4 Kg5 5.Nf5 Bg7 6.Nh6 Bf8 7.Kh8 Kg6 8.Ng8 Bg7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6n1/7k/7R/8/3B4/8/8/B1K5 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -5131,7 +6554,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkbb.svg" width="200" alt="KRBvkbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 328</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4b3/4b2B/8/8/3K1kR1&moves=8">solve ↗</a><br>
+<b>No. 414</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4b3/4b2B/8/8/3K1kR1&moves=8">solve ↗</a><br>
 5 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg1 Bf6 2.Kf2 Bxe5 3.Ke3 Ke1 4.Kd3 Kf2 5.Kc2 Ke3 6.Kb1 Kd4 7.Ka1 Kc3 8.Bb1 Kb3#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
@@ -5145,7 +6568,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkbb.svg" width="200" alt="KRNvkbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 329</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/Nb6/8/8/2b5/R7/k1K5&moves=8">solve ↗</a><br>
+<b>No. 415</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/Nb6/8/8/2b5/R7/k1K5&moves=8">solve ↗</a><br>
 20 positions of 7,751,073,792 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxa2 Kc2 2.Ka3 Kd3 3.Ka4 Ke4 4.Kb5 Kf5 5.Kc6 Ke6 6.Kb7 Kd7 7.Ka8 Kc8 8.Ba7 Nc7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5159,7 +6582,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkbp.svg" width="200" alt="KRNvkbp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 330</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/6pk/8/8/7N/b7/8/K7&moves=8">solve ↗</a><br>
+<b>No. 416</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/6pk/8/8/7N/b7/8/K7&moves=8">solve ↗</a><br>
 36 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#10, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh8 Ka2 2.g5 Kxa3 3.g4 Kb4 4.g3 Kc5 5.g2 Kd6 6.g1=R Ke7 7.Rg7+ Kf8 8.Rh7 Ng6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>closed-walk</code> <code>self-block</code> <code>kniest</code> <code>promotions:r</code><br>
@@ -5173,7 +6596,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvknp.svg" width="200" alt="KRNvknp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 331</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5NRk/8/8/2p5/n7/K7&moves=8">solve ↗</a><br>
+<b>No. 417</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5NRk/8/8/2p5/n7/K7&moves=8">solve ↗</a><br>
 55 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#10.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg6 Nd5 2.c2 Kb2 3.c1=B+ Kc2 4.Nc3 Kd3 5.Ne4 Ke2 6.Bh6 Kf3 7.Ng5+ Kg3 8.Kh5 Nf4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:b</code><br>
@@ -5187,7 +6610,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkpp.svg" width="200" alt="KRNvkpp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 332</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6R1/8/8/6N1/p7/p7/K7&moves=8">solve ↗</a><br>
+<b>No. 418</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6R1/8/8/6N1/p7/p7/K7&moves=8">solve ↗</a><br>
 15 positions of 17,043,554,304 indexed have a unique solution at h#8. The class runs to h#11.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg7 Ne3 2.Kf6 Kxa2 3.Ke5 Kb1 4.Kd4 Kc1 5.Kc3 Kd1 6.Kb2 Kd2 7.Ka1 Kc1 8.a2 Nc2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5201,7 +6624,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkrp.svg" width="200" alt="KRNvkrp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 333</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7R/4N1pk/8/1r6/8/8/K7&moves=8">solve ↗</a><br>
+<b>No. 419</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7R/4N1pk/8/1r6/8/8/K7&moves=8">solve ↗</a><br>
 39 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#11.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh7 Ng7 2.Rh4 Kb2 3.Kh6 Kc3 4.Rh3+ Kd4 5.Kg5 Ke5 6.Kh4 Kf6 7.g5 Kg6 8.g4 Nf5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>umnov</code><br>
@@ -5210,12 +6633,166 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRPvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkbb.svg" width="200" alt="KRPvkbb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 420</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6bk/7R/8/8/8/bP6/8/K7&moves=8">solve ↗</a><br>
+4 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Ka2 2.Kg6 Kxa3 3.Kf5 b4 4.Ke4 b5 5.Kd3 b6 6.Kc2 b7 7.Kb1 b8=Q+ 8.Ka1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6bk/7R/8/8/8/bP6/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkbn.svg" width="200" alt="KRPvkbn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 421</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/7b/8/8/8/3n4/3P4/K7&moves=8">solve ↗</a><br>
+17 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Kb1 2.Ne5+ Kc1 3.Kf7 d4 4.Ke6 dxe5 5.Kd5 e6 6.Kc4 e7 7.Kb3 e8=Q 8.Ka2 Qa4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Rk/7b/8/8/8/3n4/3P4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvknn.svg" width="200" alt="KRPvknn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 422</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/2n5/8/8/8/2P4R/6nk&moves=8">solve ↗</a><br>
+7 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 c3 2.Nd4 cxd4 3.Kg3 d5 4.Kf4 d6 5.Ke5 d7 6.Kd6 Ka7 7.Kc7 Ka6 8.Kb8 d8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K7/8/2n5/8/8/8/2P4R/6nk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvknp.svg" width="200" alt="KRPvknp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 423</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/2R5/2kp4/K2n4/3P4/8&moves=8">solve ↗</a><br>
+4 positions of 17,043,554,304 indexed have a unique solution at h#8. The class runs to h#12.5, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc5 Kb3 2.Nf2 d3 3.Ne4 dxe4 4.d3 e5 5.Kd4 e6 6.Ke3 e7 7.Kd2 e8=Q 8.Kc1 Qe1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/2R5/2kp4/K2n4/3P4/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkqb.svg" width="200" alt="KRPvkqb, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 424</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6qk/7R/8/8/8/bP6/8/K7&moves=8">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#8. The class runs to h#12, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Ka2 2.Kg6 Kxa3 3.Kf5 b4 4.Ke4 b5 5.Kd3 b6 6.Kc2 b7 7.Kb1 b8=Q+ 8.Ka1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6qk/7R/8/8/8/bP6/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkqn.svg" width="200" alt="KRPvkqn, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 425</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/7q/8/8/8/3n4/3P4/K7&moves=8">solve ↗</a><br>
+11 positions of 22,724,739,072 indexed have a unique solution at h#8. The class runs to h#9, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Kb1 2.Ne5+ Kc1 3.Kf7 d4 4.Ke6 dxe5 5.Kd5 e6 6.Kc4 e7 7.Kb3 e8=Q 8.Ka2 Qa4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Rk/7q/8/8/8/3n4/3P4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkqp.svg" width="200" alt="KRPvkqp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 426</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/5p2/8/1R3P2/qk1K4&moves=8">solve ↗</a><br>
+13 positions of 17,043,554,304 indexed have a unique solution at h#8. The class runs to h#14.5, so the deepest sound problem is 13 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb2+ Kd2 2.Qg1 f3 3.Qg4 fxg4 4.f3 g5 5.f2 g6 6.f1=R g7 7.Ra1 g8=Q 8.Kb1 Qb3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>self-block</code> <code>umnov</code> <code>klasinc</code> <code>promotions:qr</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/5p2/8/1R3P2/qk1K4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkrp.svg" width="200" alt="KRPvkrp, h#8"><br><sub><b>h#8</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 427</b> &nbsp;·&nbsp; <b>h#8</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4p3/8/2r1P3/K1kR4&moves=8">solve ↗</a><br>
+12 positions of 17,043,554,304 indexed have a unique solution at h#8. The class runs to h#12.5, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd1 e3 2.Rf2 Kb1 3.Rf4 exf4 4.e3 f5 5.e2 f6 6.e1=R f7 7.Re2 f8=Q 8.Rd2 Qf1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>self-block</code> <code>kniest</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:qr</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/4p3/8/2r1P3/K1kR4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNvkq.svg" width="200" alt="KBBNvkq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 428</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6kN/8/7B/8/8/8/2B5/qK6&moves=7.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kxh8 Kb2 3.Kg8 Kc3 4.Kf7 Kd3 5.Kg6 Ke4 6.Kh5 Kf5 7.Kh4 Bg5+ 8.Kh5 Bd1#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6kN/8/7B/8/8/8/2B5/qK6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBPvkq.svg" width="200" alt="KBBPvkq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 429</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6B1/8/6B1/8/6P1/8/Kq1k4&moves=7.5">solve ↗</a><br>
+195 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxb1 2.Ke2 Kc2 3.Kf3 Kd3 4.Kg4 Ke4 5.Kxg5 Bf6+ 6.Kh5 Kf5 7.Kh6 Bg5+ 8.Kh5 g4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6B1/8/6B1/8/6P1/8/Kq1k4 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBPvkr.svg" width="200" alt="KBBPvkr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 430</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6B1/8/8/8/6B1/2k5/6P1/rK6&moves=7.5">solve ↗</a><br>
+12 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kd4 Bh5 3.Ke5 g4 4.Kf6 g5+ 5.Kg7 g6 6.Kxg8 g7 7.Kh7 g8=Q+ 8.Kh6 Qg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6B1/8/8/8/6B1/2k5/6P1/rK6 w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBBvkqb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkqb.svg" width="200" alt="KBBvkqb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 334</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/2Bb4/7B/8/1k1Kq3&moves=7.5">solve ↗</a><br>
+<b>No. 431</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/2Bb4/7B/8/1k1Kq3&moves=7.5">solve ↗</a><br>
 48 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#10.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxe1 2.Kc2 Bd5 3.Kd3 Kd1 4.Ke3 Kc2 5.Kf2 Kd3 6.Kg1 Ke4 7.Kh1 Kf3 8.Bg1 Kg3#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5224,12 +6801,110 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KBNvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkqn.svg" width="200" alt="KBNvkqn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 432</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/7k/3B4/8/8/8/2q5/nK6&moves=7.5">solve ↗</a><br>
+8 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#12.5, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kh6 Ng6 3.Kg5 Ne5 4.Kf4 Nd3+ 5.Ke3 Nb2 6.Kd2 Ka2 7.Qb1+ Kb3 8.Kc1 Bf4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7N/7k/3B4/8/8/8/2q5/nK6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkqq.svg" width="200" alt="KBNvkqq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 433</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/6k1/8/1q6/8/q7/8/K1B5&moves=7.5">solve ↗</a><br>
+42 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Bxa3 2.Kf6 Nf7 3.Ke6 Nd6 4.Kd5 Nxb5 5.Kc4 Kb1 6.Kb3 Kc1 7.Ka2 Nc3+ 8.Ka1 Bb2#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7N/6k1/8/1q6/8/q7/8/K1B5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkqr.svg" width="200" alt="KBNvkqr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 434</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/6k1/8/1q6/8/r7/8/K1B5&moves=7.5">solve ↗</a><br>
+28 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Bxa3 2.Kf6 Nf7 3.Ke6 Nd6 4.Kd5 Nxb5 5.Kc4 Kb1 6.Kb3 Kc1 7.Ka2 Nc3+ 8.Ka1 Bb2#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7N/6k1/8/1q6/8/r7/8/K1B5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkrr.svg" width="200" alt="KBNvkrr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 435</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/B7/7N/8/8/6r1/rK6&moves=7.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kh7 Bf1 3.Kg6 Nf4+ 4.Kf5 Nd3 5.Ke4 Bxg2+ 6.Ke3 Kb2 7.Ke2 Kc3 8.Kd1 Bf3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/8/B7/7N/8/8/6r1/rK6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkqb.svg" width="200" alt="KBPvkqb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 436</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1B1b4/8/K1q5/P6k/8&moves=7.5">solve ↗</a><br>
+5 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#11, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka4 2.Kg3 Bd7 3.Kf4 Kb5 4.Ke5 a4 5.Kd6 a5 6.Kc7 a6 7.Kb8 Kb6 8.Ba8 a7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/1B1b4/8/K1q5/P6k/8 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkqq.svg" width="200" alt="KBPvkqq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 437</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/B7/8/PK6/qq3k2&moves=7.5">solve ↗</a><br>
+91 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka3 2.Qe1 Kb3 3.Ke2 Kc4 4.Kd2 Kd5 5.Kc3 Bb5 6.Kb4 a3+ 7.Ka5 Kc5 8.Qb4+ axb4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/B7/8/PK6/qq3k2 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkqr.svg" width="200" alt="KBPvkqr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 438</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/B7/2r5/8/qK6/P7/7k&moves=7.5">solve ↗</a><br>
+33 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa3 2.Kg2 Kb4 3.Kf3 a4 4.Rb5+ axb5 5.Ke4 b6 6.Kd5 b7 7.Kc6 Bb5+ 8.Kb6 b8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/B7/2r5/8/qK6/P7/7k w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBvkqqb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqqb.svg" width="200" alt="KBvkqqb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 335</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/8/4k3/8/8/B1q3q1/1K6&moves=7.5">solve ↗</a><br>
+<b>No. 439</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/8/4k3/8/8/B1q3q1/1K6&moves=7.5">solve ↗</a><br>
 8 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Kd4 Bd5 3.Kc3 Bxg2 4.Qc1+ Ka2 5.Kd2 Kb3 6.Bc3 Kc4 7.Kd1 Kd3 8.Be1 Bf3#<br>
 <br><b>Themes:</b> <code>self-block</code><br>
@@ -5243,7 +6918,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkqrb.svg" width="200" alt="KBvkqrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 336</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7b/8/8/8/B2r4/K1q5&moves=7.5">solve ↗</a><br>
+<b>No. 440</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7b/8/8/8/B2r4/K1q5&moves=7.5">solve ↗</a><br>
 2 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower.<br>
 <br><b>Solution:</b> 1...Bb1+ 2.Qc2 Ba2 3.Qb1+ Kxb1 4.Rd1+ Kc2 5.Rh1 Kd3 6.Kg6 Ke4 7.Kh5 Kf5 8.Rh4 Bf7#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code> <code>umnov</code><br>
@@ -5257,7 +6932,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBvkrrb.svg" width="200" alt="KBvkrrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 337</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/4b3/8/8/Br6/K1r5&moves=7.5">solve ↗</a><br>
+<b>No. 441</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/4b3/8/8/Br6/K1r5&moves=7.5">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bb1+ 2.Rcc2 Ba2 3.Rc3 Kxb2 4.Rh3+ Kc2 5.Rh4 Kd3 6.Bf4 Ke4 7.Kh5 Kf5 8.Bh6 Bf7#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code><br>
@@ -5266,12 +6941,166 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KNNPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNPvkq.svg" width="200" alt="KNNPvkq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 442</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/5N2/q4PN1/K6k&moves=7.5">solve ↗</a><br>
+6 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kxg2 Nd4 3.Kf1 f4 4.Ke1 f5 5.Kd2 f6 6.Kc3 f7 7.Kb4 f8=Q+ 8.Ka4 Qa3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/5N2/q4PN1/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPPvkq.svg" width="200" alt="KNPPvkq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 443</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/5N2/q4PP1/K6k&moves=7.5">solve ↗</a><br>
+5 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kxg2 Nd4 3.Kf1 f4 4.Ke1 f5 5.Kd2 f6 6.Kc3 f7 7.Kb4 f8=Q+ 8.Ka4 Qa3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/5N2/q4PP1/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkbb.svg" width="200" alt="KNPvkbb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 444</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7b/7k/N3b3/8/P7/8/K7&moves=7.5">solve ↗</a><br>
+20 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#10, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Bd3 a4 3.Bb5 axb5 4.Kg5 b6 5.Kf4 b7 6.Ke3 b8=Q 7.Kd2 Nc4+ 8.Kc1 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/7b/7k/N3b3/8/P7/8/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkbn.svg" width="200" alt="KNPvkbn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 445</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/1b6/1n6/1P6/KN6&moves=7.5">solve ↗</a><br>
+14 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Bc3 bxc3 3.Nd4 cxd4 4.Kg6 d5 5.Kf5 d6 6.Ke4 d7 7.Kd3 d8=Q+ 8.Kc2 Qd2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/7k/8/8/1b6/1n6/1P6/KN6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvknn.svg" width="200" alt="KNPvknn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 446</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/n7/Pn6/NK6&moves=7.5">solve ↗</a><br>
+13 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kc1 2.Nac4 a4 3.Kg7 a5 4.Kf6 a6 5.Ke5 a7 6.Kd4 a8=Q 7.Ne5 Qf3 8.Nbc4 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7k/8/8/8/8/n7/Pn6/NK6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkqn.svg" width="200" alt="KNPvkqn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 447</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5k2/N7/P7/q6n/K7&moves=7.5">solve ↗</a><br>
+254 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Nf3 Nc3 3.Nd4 a4 4.Nb5 axb5 5.Kf4 b6 6.Ke3 b7 7.Kd2 b8=Q 8.Kc1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/5k2/N7/P7/q6n/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkqq.svg" width="200" alt="KNPvkqq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 448</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/7N/1q5P/k1Kq4&moves=7.5">solve ↗</a><br>
+366 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxd1 2.Qg7 Nf4 3.Kb2 h4 4.Kc3 h5 5.Kd4 h6 6.Ke3 hxg7 7.Kf2 g8=Q 8.Kf1 Qg2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/7N/1q5P/k1Kq4 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkqr.svg" width="200" alt="KNPvkqr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 449</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/7N/1q5P/k1Kr4&moves=7.5">solve ↗</a><br>
+115 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxd1 2.Qg7 Nf4 3.Kb2 h4 4.Kc3 h5 5.Kd4 h6 6.Ke3 hxg7 7.Kf2 g8=Q 8.Kf1 Qg2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/7N/1q5P/k1Kr4 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkrb.svg" width="200" alt="KNPvkrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 450</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/N7/8/r7/1Pb5/K7&moves=7.5">solve ↗</a><br>
+28 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...bxa3 2.Bd3 a4 3.Bb5 axb5 4.Kg5 b6 5.Kf4 b7 6.Ke3 b8=Q 7.Kd2 Nc4+ 8.Kc1 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7k/N7/8/r7/1Pb5/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkrn.svg" width="200" alt="KNPvkrn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 451</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/N6k/8/r7/1P1n4/K7&moves=7.5">solve ↗</a><br>
+38 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...bxa3 2.Nc4 a4 3.Nb6 Nc4 4.Kg4 a5 5.Kf3 axb6 6.Ke2 b7 7.Kd1 b8=Q 8.Kc1 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/N6k/8/r7/1P1n4/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPvkrr.svg" width="200" alt="KNPvkrr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 452</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1r6/3N4/r7/K7/P7/7k&moves=7.5">solve ↗</a><br>
+18 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa4 2.Re6 Kb5 3.Kg2 a4 4.Kf3 a5 5.Ke4 a6 6.Ke5 a7 7.Kd6 a8=Q 8.Re5 Qc6#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/1r6/3N4/r7/K7/P7/7k w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KNvkrrb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrrb.svg" width="200" alt="KNvkrrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 338</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1r5k/8/8/8/8/Nr2b3/K7&moves=7.5">solve ↗</a><br>
+<b>No. 453</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1r5k/8/8/8/8/Nr2b3/K7&moves=7.5">solve ↗</a><br>
 215 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower.<br>
 <br><b>Solution:</b> 1...Nc3 2.R2b6 Ne4 3.Bb5 Kb2 4.Kg6 Kc3 5.Rh7 Kd4 6.Rh4 Ke5 7.Kh5 Kf5 8.Rh6 Ng3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
@@ -5284,11 +7113,132 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNvkrrr.svg" width="200" alt="KNvkrrr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 339</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/rr6/1r6/6k1/N7/8/8/K7&moves=7.5">solve ↗</a><br>
+<b>No. 454</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/rr6/1r6/6k1/N7/8/8/K7&moves=7.5">solve ↗</a><br>
 651 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka2 2.Rb8 Ka3 3.Rd7 Nxb6 4.Kf6 Kb4 5.Ke7 Kc5 6.Kd8 Nd5 7.Kc8 Kc6 8.Rd8 Ne7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
 <br><code>8/rr6/1r6/6k1/N7/8/8/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkbb.svg" width="200" alt="KPPvkbb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 455</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/b7/8/P7/P7/3b3k&moves=7.5">solve ↗</a><br>
+21 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb8 2.Bb4 axb4 3.Kg2 a4 4.Kf3 a5 5.Ke4 a6 6.Kd5 a7 7.Kc6 a8=Q+ 8.Kb6 Qb7#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><code>8/K7/8/b7/8/P7/P7/3b3k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkbn.svg" width="200" alt="KPPvkbn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 456</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/1b6/8/n7/P7/P7/K7&moves=7.5">solve ↗</a><br>
+73 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb1 2.Bd4 Kc1 3.Nb6 a4 4.Kg6 a5 5.Kf5 axb6 6.Ke4 b7 7.Kd3 b8=Q 8.Kc3 Qb3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>8/7k/1b6/8/n7/P7/P7/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvknn.svg" width="200" alt="KPPvknn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 457</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/1n6/1n6/1PP5/K7&moves=7.5">solve ↗</a><br>
+71 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb1 2.Nc5 Kc1 3.Nc6 b4 4.Kg7 b5 5.Kf6 bxc6 6.Ke5 c7 7.Kd4 c8=Q 8.Kc3 Qxc5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7k/8/8/8/1n6/1n6/1PP5/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkqb.svg" width="200" alt="KPPvkqb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 458</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/5q2/1b6/1P6/1P6/K7&moves=7.5">solve ↗</a><br>
+24 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#11, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Bd2 b4 3.Qa5+ bxa5 4.Kg6 a6 5.Kf5 a7 6.Ke4 a8=Q+ 7.Kd3 Qh1 8.Kc2 Qb1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>8/7k/8/5q2/1b6/1P6/1P6/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkqn.svg" width="200" alt="KPPvkqn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 459</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/q1n5/P7/P7/K7&moves=7.5">solve ↗</a><br>
+42 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb1 2.Nb6 Kc1 3.Qd4 a4 4.Kg6 a5 5.Kf5 axb6 6.Ke4 b7 7.Kd3 b8=Q 8.Kc3 Qb3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>8/7k/8/8/q1n5/P7/P7/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkqq.svg" width="200" alt="KPPvkqq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 460</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/1P2q3/KP6/q7&moves=7.5">solve ↗</a><br>
+56 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kg5 b4 3.Kf4 b3 4.Qxb3 b5 5.Ke3 b6 6.Kd2 b7 7.Kc1 b8=Q 8.Qd1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7k/8/8/1P2q3/KP6/q7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkqr.svg" width="200" alt="KPPvkqr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 461</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/1P2q3/KP6/r7&moves=7.5">solve ↗</a><br>
+7 positions of 17,043,554,304 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kg5 b4 3.Kf4 b3 4.Qxb3 b5 5.Ke3 b6 6.Kd2 b7 7.Kc1 b8=Q 8.Qd1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7k/8/8/1P2q3/KP6/r7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkrb.svg" width="200" alt="KPPvkrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 462</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/1P6/KP1b4/r7&moves=7.5">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kg5 b4 3.Kf4 b5 4.Ke3 b4 5.Bxb4 b6 6.Kd2 b7 7.Kc1 b8=Q 8.Bd2 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7k/8/8/1P6/KP1b4/r7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkrn.svg" width="200" alt="KPPvkrn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 463</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r6/3n4/8/8/K7/P6k/P7/8&moves=7.5">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka5 2.Rd8 a4 3.Nb8 Kb6 4.Kg4 a5 5.Kf5 a6 6.Ke6 a7 7.Kd7 a8=Q 8.Kc8 Qb7#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><code>1r6/3n4/8/8/K7/P6k/P7/8 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -5297,7 +7247,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkbbb.svg" width="200" alt="KPvkbbb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 340</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/3b4/3P4/K1b3b1&moves=7.5">solve ↗</a><br>
+<b>No. 464</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/3b4/3P4/K1b3b1&moves=7.5">solve ↗</a><br>
 907 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka2 2.Be2 Kb1 3.Bc5 d4 4.Kg5 dxc5 5.Kf4 c6 6.Ke3 c7 7.Kd2 c8=Q 8.Kd1 Qxc1#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
@@ -5310,7 +7260,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqqr.svg" width="200" alt="KPvkqqr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 341</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3q4/q7/8/1K6/2rk4/8/2P5/8&moves=7.5">solve ↗</a><br>
+<b>No. 465</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3q4/q7/8/1K6/2rk4/8/2P5/8&moves=7.5">solve ↗</a><br>
 768 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...c3+ 2.Ke5 Kxc4 3.Qad4+ cxd4+ 4.Kd6 d5 5.Kc7 d6+ 6.Kb6 d7 7.Qe8 dxe8=Q 8.Ka5 Qb5#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5323,7 +7273,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqrb.svg" width="200" alt="KPvkqrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 342</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/8/8/4rk2/8/3qP3/1K6&moves=7.5">solve ↗</a><br>
+<b>No. 466</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/8/8/4rk2/8/3qP3/1K6&moves=7.5">solve ↗</a><br>
 854 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#11.5, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...e3+ 2.Ke5 Ka1 3.Rg4 e4 4.Kf6 e5+ 5.Kg7 e6 6.Rg6 e7 7.Qg5 e8=Q 8.Kh6+ Qxh8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5336,7 +7286,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkqrr.svg" width="200" alt="KPvkqrr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 343</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2r5/K7/1rk5/8/1P6/6q1&moves=7.5">solve ↗</a><br>
+<b>No. 467</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2r5/K7/1rk5/8/1P6/6q1&moves=7.5">solve ↗</a><br>
 22 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...b3+ 2.Kd5 Kxb4 3.Ra6 Kc3 4.Kc6 b4 5.Qc5+ bxc5 6.Kb7 c6+ 7.Ka8 c7 8.Ra7 c8=Q#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5349,7 +7299,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrbb.svg" width="200" alt="KPvkrbb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 344</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/b4b2/5P2/1r6/K7&moves=7.5">solve ↗</a><br>
+<b>No. 468</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/b4b2/5P2/1r6/K7&moves=7.5">solve ↗</a><br>
 323 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxb2 2.Be5+ Kc1 3.Kf7 f4 4.Ke6 fxe5 5.Kd5 e6 6.Kc4 e7 7.Kb3 e8=Q 8.Ka2 Qxa4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5363,7 +7313,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrbn.svg" width="200" alt="KPvkrbn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 345</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/n6k/8/8/b7/r7/P7/2K5&moves=7.5">solve ↗</a><br>
+<b>No. 469</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/n6k/8/8/b7/r7/P7/2K5&moves=7.5">solve ↗</a><br>
 744 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kd2 2.Bb3 Ke3 3.Ra6 a4 4.Nb5 axb5 5.Kg6 b6 6.Kf5 b7 7.Rg6 b8=Q 8.Be6 Qf4#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
@@ -5376,7 +7326,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrnn.svg" width="200" alt="KPvkrnn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 346</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/1r6/n6n/8/7P/K7&moves=7.5">solve ↗</a><br>
+<b>No. 470</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/1r6/n6n/8/7P/K7&moves=7.5">solve ↗</a><br>
 680 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka2 2.Kf5 Ka3 3.Ng6 h4 4.Ke4 h5 5.Kd3 hxg6 6.Kc2 g7 7.Kb1 g8=Q 8.Ka1 Qa2#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5389,7 +7339,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrrb.svg" width="200" alt="KPvkrrb, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 347</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/1r6/K7/b7/Pr6/8&moves=7.5">solve ↗</a><br>
+<b>No. 471</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/1r6/K7/b7/Pr6/8&moves=7.5">solve ↗</a><br>
 21 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa3 2.R5b3+ axb3 3.Kg6 b4 4.Kf5 b5 5.Ke4 b6 6.Kd3 b7 7.Kc2 b8=Q 8.Kb1 Qxb2#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -5403,7 +7353,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrrn.svg" width="200" alt="KPvkrrn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 348</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2r5/K7/1rk1n3/8/1P6/8&moves=7.5">solve ↗</a><br>
+<b>No. 472</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2r5/K7/1rk1n3/8/1P6/8&moves=7.5">solve ↗</a><br>
 60 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...b3+ 2.Kd5 Kxb4 3.Nc5 Kc3 4.Ra6 b4 5.Kc6 bxc5 6.Kb7 c6+ 7.Ka8 c7 8.Ra7 c8=Q#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -5416,7 +7366,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KPvkrrr.svg" width="200" alt="KPvkrrr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 349</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/1r6/K7/r7/Pr6/8&moves=7.5">solve ↗</a><br>
+<b>No. 473</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/1r6/K7/r7/Pr6/8&moves=7.5">solve ↗</a><br>
 6 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kxa3 2.R5b3+ axb3 3.Kg6 b4 4.Kf5 b5 5.Ke4 b6 6.Kd3 b7 7.Kc2 b8=Q 8.Kb1 Qxb2#<br>
 <br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
@@ -5425,12 +7375,190 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KQNPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNPvkn.svg" width="200" alt="KQNPvkn, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 474</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K1k5/Q1n5/8/8/8/2N5/2P5/8&moves=7.5">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#7.5. The class runs to h#9, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Qxc7+ 2.Kxc7 Ne2 3.Kd6 c4 4.Ke5 c5 5.Ke4 c6 6.Kf3 c7 7.Kg2 c8=Q 8.Kh1 Qh3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K1k5/Q1n5/8/8/8/2N5/2P5/8 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkqr.svg" width="200" alt="KQNvkqr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 475</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/N7/8/8/7Q/7r/K4qk1&moves=7.5">solve ↗</a><br>
+23 positions of 7,751,073,792 indexed have a unique solution at h#7.5. The class runs to h#9.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Qxf1+ 2.Kxf1 Kb1 3.Ke2 Kb2 4.Kd3+ Kc1 5.Kc3 Kd1 6.Kb2 Nc5 7.Ka1 Kc1 8.Ra2 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/N7/8/8/7Q/7r/K4qk1 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNPvkq.svg" width="200" alt="KRNPvkq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 476</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/5N2/q4PR1/K6k&moves=7.5">solve ↗</a><br>
+12 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kxg2 Nd4 3.Kf1 f4 4.Ke1 f5 5.Kd2 f6 6.Kc3 f7 7.Kb4 f8=Q+ 8.Ka4 Qa3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/5N2/q4PR1/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNPvkr.svg" width="200" alt="KRNPvkr, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 477</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=KN6/r7/8/8/8/8/3P2R1/7k&moves=7.5">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa7 2.Kxg2 d4 3.Kf3 d5 4.Ke4 d6 5.Kd5 Nc6 6.Kxc6 d7 7.Kc7 Ka6 8.Kb8 d8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>KN6/r7/8/8/8/8/3P2R1/7k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPPvkq.svg" width="200" alt="KRPPvkq, h#7.5"><br><sub><b>h#7.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 478</b> &nbsp;·&nbsp; <b>h#7.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6R1/7k/8/6P1/q5P1/K7&moves=7.5">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#7.5. The class runs to h#8.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kxg6 Ka3 3.Kf5 g4+ 4.Ke4 g5 5.Kd3 g6 6.Kc2 g7 7.Kb1 g8=Q 8.Ka1 Qa2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/6R1/7k/8/6P1/q5P1/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBBvk.svg" width="200" alt="KBBBBvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 479</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/5B1k/7B/8/8/8/7B/K7&moves=7">solve ↗</a><br>
+10 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Be5 7.Kh8 Kg6#<br>
+<br><b>Themes:</b> <code>set-play</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>5B2/5B1k/7B/8/8/8/7B/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBNvk.svg" width="200" alt="KBBBNvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 480</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B1N/5B1k/8/8/8/8/7B/K7&moves=7">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Be5 7.Kh8 Kg6#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>5B1N/5B1k/8/8/8/8/7B/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBvkb.svg" width="200" alt="KBBBvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 481</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6b1/8/8/8/1B5k/K1B1B3&moves=7">solve ↗</a><br>
+948 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#11, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kh3 Ka2 2.Kg4 Kb3 3.Kf5 Kc3 4.Kf6 Kd4 5.Kg7 Ke5 6.Kh8 Kf6 7.Bh7 Kf7#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>single-piece</code> <code>single-piece:white</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><code>8/8/6b1/8/8/8/1B5k/K1B1B3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNPvk.svg" width="200" alt="KBBNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 482</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/5B1N/4B2P/8/1K6&moves=7">solve ↗</a><br>
+65 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Bd2 2.Kh5 h4 3.Kg4 h5 4.Kf3 h6 5.Kf2 h7 6.Ke2 h8=Q 7.Kd1 Qh5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>switchback</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/7k/5B1N/4B2P/8/1K6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNvkn.svg" width="200" alt="KBBNvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 483</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Bk/5N2/7B/3n4/8/8/K7&moves=7">solve ↗</a><br>
+6 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#12, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb2 2.Kf8 Kc3 3.Ke7 Kxd4 4.Kd8 Kc5 5.Kc8 Kb6 6.Kb8 Nd7+ 7.Ka8 Bf3#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6Bk/5N2/7B/3n4/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNvkp.svg" width="200" alt="KBBNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 484</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7B/8/8/8/8/4B3/2p5/K1kN4&moves=7">solve ↗</a><br>
+17 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#15, so the deepest sound problem is 16 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd1 Bc5 2.Kd2 Ka2 3.Kc1 Kb3 4.Kb1 Ba1 5.Kxa1 Ba3 6.c1=N+ Kc2 7.Na2 Bb2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>closed-walk</code> <code>self-block</code> <code>kniest</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7B/8/8/8/8/4B3/2p5/K1kN4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBPPvk.svg" width="200" alt="KBBPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 485</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6B1/8/8/8/6B1/2k3P1/6P1/K7&moves=7">solve ↗</a><br>
+432 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kd4 Bh5 2.Ke5 g4 3.Kf6 g5+ 4.Kg7 g6 5.Kxg8 g7 6.Kh7 g8=Q+ 7.Kh6 Qg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>6B1/8/8/8/6B1/2k3P1/6P1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBPvkb.svg" width="200" alt="KBBPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 486</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1B5b/6k1/3B4/8/8/1P6/8/K7&moves=7">solve ↗</a><br>
+906 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kf7+ Kb1 2.Bd4 b4 3.Bc5 bxc5 4.Ke6 c6 5.Kd5 c7 6.Kc4 c8=Q+ 7.Kb3 Qc2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>promotions:q</code><br>
+<br><code>1B5b/6k1/3B4/8/8/1P6/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBBvkrb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkrb.svg" width="200" alt="KBBvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 350</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/5bB1/7B/8/8/8/1r6/K7&moves=7">solve ↗</a><br>
+<b>No. 487</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/5bB1/7B/8/8/8/1r6/K7&moves=7">solve ↗</a><br>
 3 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh7 Be3 2.Rh2 Kb1 3.Rh3 Kc2 4.Kg6 Kd3 5.Kh5 Ke4 6.Kh4 Kf4 7.Bh5 Bf6#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
@@ -5439,12 +7567,1126 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KBNNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNPvk.svg" width="200" alt="KBNNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 488</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/8/6N1/4N3/4P3/6kB&moves=7">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh1 Nf5 2.Kg2 e4 3.Kf3 e5 4.Kf4 e6 5.Kg5 e7 6.Kg6 e8=Q+ 7.Kh7 Nf6#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/K7/8/8/6N1/4N3/4P3/6kB b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNvkp.svg" width="200" alt="KBNNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 489</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5N2/8/7k/7N/2p2B2/8/8/K7&moves=7">solve ↗</a><br>
+12 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh5 Kb2 2.Kg4 Kc3 3.Kf5 Kd4 4.Kf6 Kd5 5.Kg7 Ke6 6.Kh8 Kf7 7.c3 Be5#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5N2/8/7k/7N/2p2B2/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNvkq.svg" width="200" alt="KBNNvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 490</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6NN/8/8/8/8/qB6/k1K5&moves=7">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb2+ Kd1 2.Kb1 Ke1 3.Kc2 Ng5 4.Kd3 Kd1 5.Ke3 Nf5+ 6.Kf2 Nh3+ 7.Kf1 Ne3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6NN/8/8/8/8/qB6/k1K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNPPvk.svg" width="200" alt="KBNPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 491</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4N3/K3P3/4P3/kB6&moves=7">solve ↗</a><br>
+3 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb1 Nd6 2.Kc2 e4 3.Kc3 e5 4.Kd4 e6 5.Kc5 e7 6.Kb6 e8=Q 7.Ka5 Qb5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/4N3/K3P3/4P3/kB6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNPvkn.svg" width="200" alt="KBNPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 492</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/6P1/5N2/7B/3n4/8/8/K7&moves=7">solve ↗</a><br>
+7 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb2 2.Kf8 Kc3 3.Ke7 Kxd4 4.Kd8 Kc5 5.Kc8 Kb6 6.Kb8 Nd7+ 7.Ka8 Bf3#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6k1/6P1/5N2/7B/3n4/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNPvkr.svg" width="200" alt="KBNPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 493</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3B4/8/8/8/r1N4P/k1K5&moves=7">solve ↗</a><br>
+5 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxc2+ Kxc2 2.Ka2 h4 3.Ka1 h5 4.Ka2 h6 5.Ka1 h7 6.Ka2 h8=R 7.Ka1 Ra8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>pendulum</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/3B4/8/8/8/r1N4P/k1K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkbb.svg" width="200" alt="KBNvkbb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 494</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/b6k/8/8/3B4/b7/8/K7&moves=7">solve ↗</a><br>
+161 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bb8 Nf7 2.Kg6 Ka2 3.Kf5 Kb3 4.Ke4 Nd6+ 5.Kd3 Nb5 6.Kd2 Nc3 7.Kc1 Be3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>nocapture</code><br>
+<br><code>7N/b6k/8/8/3B4/b7/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkbn.svg" width="200" alt="KBNvkbn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 495</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/2n2Nb1/6Bk/8/8/K7&moves=7">solve ↗</a><br>
+18 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#12, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg4 Kb2 2.Kf3 Kc3 3.Ke2 Kd4 4.Nb3+ Ke4 5.Kd1 Kf3 6.Bc1 Kf2 7.Nd2 Ne3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/2n2Nb1/6Bk/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvknn.svg" width="200" alt="KBNvknn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 496</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4N3/7k/8/n7/8/8/n7/KB6&moves=7">solve ↗</a><br>
+33 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#11, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg8 Kb2 2.Kf7 Ka3 3.Ke6 Ka4 4.Kd5 Kxa5 5.Kc4 Nd6+ 6.Kb3 Bc2+ 7.Ka3 Nc4#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>4N3/7k/8/n7/8/8/n7/KB6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvknp.svg" width="200" alt="KBNvknp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 497</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n6N/7k/8/8/2pB4/8/8/K7&moves=7">solve ↗</a><br>
+220 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#12, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.c3 Nf7 2.Kg6 Ka2 3.Kf5 Kb3 4.Ke4 Nd6+ 5.Kd3 Nb5 6.Kd2 Nxc3 7.Kc1 Be3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code><br>
+<br><code>n6N/7k/8/8/2pB4/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkpp.svg" width="200" alt="KBNvkpp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 498</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/pp6/kB6/8/3N4/8/K7&moves=7">solve ↗</a><br>
+238 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#16, so the deepest sound problem is 18 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb5 Kb2 2.a5 Kc3 3.a4 Kd4 4.a3 Kd5 5.Ka4 Kc6 6.b5 Kb6 7.b4 Nc5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/pp6/kB6/8/3N4/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkrn.svg" width="200" alt="KBNvkrn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 499</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6rk/6BN/8/8/2n5/8/8/K7&moves=7">solve ↗</a><br>
+5 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#12, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Ka2 2.Nd6 Kb3 3.Ne8 Kc4 4.Rf8 Kd5 5.Rh8 Ke6 6.Kg8 Ke7 7.Ng7 Nf6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6rk/6BN/8/8/2n5/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPPPvk.svg" width="200" alt="KBPPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 500</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=k1K5/P7/8/8/2B5/2P5/2P5/8&moves=7">solve ↗</a><br>
+1 position of 12,782,665,728 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa7 Bd5 2.Kb6 c4 3.Kc5 Kb7 4.Kd6 Ka6 5.Kc7 c5 6.Kb8 c6 7.Ka8 c7#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>k1K5/P7/8/8/2B5/2P5/2P5/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPPvkb.svg" width="200" alt="KBPPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 501</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/B7/PK6/P7/5b2&moves=7">solve ↗</a><br>
+36 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bb5 Bxb5 2.Kg5 a4 3.Kf4 a5 4.Ke3 a6 5.Kd2 a7 6.Kc1 a8=Q 7.Kb1 Qh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>promotion</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><code>8/8/7k/8/B7/PK6/P7/5b2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPPvkn.svg" width="200" alt="KBPPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 502</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6B1/8/8/n7/P7/P7/K7&moves=7">solve ↗</a><br>
+57 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kh7 Bh6 2.Nb6 a4 3.Kg6 a5 4.Kf5 axb6 5.Ke4 b7 6.Kd3 b8=Q 7.Kc2 Qb3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7k/6B1/8/8/n7/P7/P7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPPvkq.svg" width="200" alt="KBPPvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 503</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/B7/8/K7/P7/P4q2/6k1&moves=7">solve ↗</a><br>
+89 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg2 Kb4 2.Kf3 a4 3.Ke4 a5 4.Qb6+ axb6 5.Kd5 b7 6.Kc6 Bb5+ 7.Kb6 b8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>kniest</code> <code>promotions:q</code><br>
+<br><code>8/8/B7/8/K7/P7/P4q2/6k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPPvkr.svg" width="200" alt="KBPPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 504</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4B3/4P3/4P3/rk1K4&moves=7">solve ↗</a><br>
+56 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kb2+ Bb1 2.Kc3 e4 3.Kd4 e5 4.Ke3 e6 5.Kf4 e7 6.Kg5 e8=Q 7.Kh6 Qg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/8/4B3/4P3/4P3/rk1K4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkbb.svg" width="200" alt="KBPvkbb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 505</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/5B2/4b3/8/2b5/1P6/K7&moves=7">solve ↗</a><br>
+388 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kh7 Bxe5 2.Bd2 b4 3.Kg6 b5 4.Kf5 b6 5.Ke4 b7 6.Kd3 b8=Q 7.Kc2 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7k/8/5B2/4b3/8/2b5/1P6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkrb.svg" width="200" alt="KBPvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 506</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1b6/8/K6B/P7/1r3k2&moves=7">solve ↗</a><br>
+162 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Ke2 Bc8 2.Ra1 Kb2 3.Kd3 a4 4.Kc4 axb5 5.Ra5 b6 6.Kb5 b7 7.Ka6 b8=Q#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/1b6/8/K6B/P7/1r3k2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBPvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBPvkrr.svg" width="200" alt="KBPvkrr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 507</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1r6/8/K7/P2rB3/5k2&moves=7">solve ↗</a><br>
+336 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Ke1 Ka4 2.Rd4+ Kxb5 3.Kd2 Kc6 4.Kc3 Bb5 5.Kb4 a3+ 6.Ka5 Kc5 7.Rb4 axb4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/1r6/8/K7/P2rB3/5k2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNPvk.svg" width="200" alt="KNNNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 508</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5NkN/8/4N3/8/8/K7/P7/8&moves=7">solve ↗</a><br>
+4 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb4 2.Kg8 a4 3.Kf7 a5 4.Ke7 a6 5.Kd6 a7 6.Kc6 a8=Q+ 7.Kb6 Nd7#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>5NkN/8/4N3/8/8/K7/P7/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNvkp.svg" width="200" alt="KNNNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 509</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/4N2k/7p/7N/8/8/8/K7&moves=7">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Nf4 2.h5 Kb2 3.h4 Kc3 4.h3 Kd4 5.h2 Ke5 6.h1=R Kf6 7.Rh7 Nfg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code> <code>umnov</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>7N/4N2k/7p/7N/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNPPvk.svg" width="200" alt="KNNPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 510</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4N3/K3P3/4P3/kN6&moves=7">solve ↗</a><br>
+2 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb1 Nd6 2.Kc2 e4 3.Kc3 e5 4.Kd4 e6 5.Kc5 e7 6.Kb6 e8=Q 7.Ka5 Qb5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/4N3/K3P3/4P3/kN6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNPvkb.svg" width="200" alt="KNNPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 511</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1K6/2NN4/k2P4/b7&moves=7">solve ↗</a><br>
+1 position of 22,724,739,072 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bxc3+ Kb5 2.Be5 Nc5 3.Kb2 d4 4.Kc3 d5 5.Kd4 d6 6.Kd5 d7 7.Kd6 d8=Q#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/1K6/2NN4/k2P4/b7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkbp.svg" width="200" alt="KNNvkbp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 512</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2k5/1bp5/1NN5/8/2K5/8/8/8&moves=7">solve ↗</a><br>
+4 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.cxb6 Ne5 2.Bc6 Kd4 3.Ba4 Kd5 4.Kb7 Kd6 5.Ka6 Kc7 6.Ka5 Kb7 7.b5 Nc6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2k5/1bp5/1NN5/8/2K5/8/8/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkqr.svg" width="200" alt="KNNvkqr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 513</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5N1N/7k/8/8/8/8/1r1q4/K7&moves=7">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kh6 Nhg6 2.Rb4 Nh4 3.Rg4 Kb1 4.Qe1+ Kc2 5.Kg5 Kd3 6.Kf4 Kd4 7.Qg3 Ne6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>5N1N/7k/8/8/8/8/1r1q4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkrp.svg" width="200" alt="KNNvkrp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 514</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5k2/5pr1/K4NN1/8/8/8/8/8&moves=7">solve ↗</a><br>
+3 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#12, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.fxg6 Kb6 2.Ke7 Kb7 3.Kd6+ Kc8 4.Kc6 Kd8 5.Kb7 Nd5 6.Ka8 Kc8 7.Ra7 Nb6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5k2/5pr1/K4NN1/8/8/8/8/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPPvkb.svg" width="200" alt="KNPPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 515</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/6N1/8/8/2k5/3P4/3P4/K7&moves=7">solve ↗</a><br>
+100 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kd4 Ne6+ 2.Ke5 d4+ 3.Kf6 d5 4.Bg7 d6 5.Bf8 d7 6.Kg6 d8=Q 7.Kh5 Qg5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>nocapture</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7b/6N1/8/8/2k5/3P4/3P4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPPvkn.svg" width="200" alt="KNPPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 516</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/N7/8/6n1/8/7k/P5P1/K7&moves=7">solve ↗</a><br>
+204 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kh4 g4 2.Ne6 g5 3.Nc7 g6 4.Kg5 g7 5.Kf6 g8=Q 6.Ke7 Qe6+ 7.Kd8 Nc6#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/N7/8/6n1/8/7k/P5P1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPPvkr.svg" width="200" alt="KNPPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 517</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/N7/K7/P1r5/P7/6k1&moves=7">solve ↗</a><br>
+29 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rb3 axb3 2.Kf2 b4 3.Ke3 b5 4.Kd4 b6 5.Kc5 b7 6.Kb6 b8=Q+ 7.Ka6 Qb7#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:white</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>8/8/8/N7/K7/P1r5/P7/6k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPPvkb.svg" width="200" alt="KPPPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 518</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/K7/P7/P1P5/3b3k&moves=7">solve ↗</a><br>
+8 positions of 12,782,665,728 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg2 Kb4 2.Kf3 a4 3.Ke4 a5 4.Kd5 a6 5.Kc6 a7 6.Kb7 Kc5 7.Ka6 a8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><code>8/8/8/8/K7/P7/P1P5/3b3k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPPvkn.svg" width="200" alt="KPPPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 519</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/K7/P7/1P4P1/3n3k&moves=7">solve ↗</a><br>
+33 positions of 12,782,665,728 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg2 Kb4 2.Kf3 a4 3.Ke4 a5 4.Kd5 a6 5.Kc6 a7 6.Kb7 Kc5 7.Ka6 a8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/K7/P7/1P4P1/3n3k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBBvk.svg" width="200" alt="KQBBBvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 520</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B1Q/5B1k/8/8/8/8/7B/K7&moves=7">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Be5 7.Kh8 Kg6#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5B1Q/5B1k/8/8/8/8/7B/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBNvk.svg" width="200" alt="KQBBNvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 521</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7Q/5B1k/8/5B2/8/8/5N2/K7&moves=7">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kg7 Kc3 3.Kxf7 Kd4 4.Kg7 Ke5 5.Kh6 Kf6 6.Kh5 Bg6+ 7.Kh6 Ng4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7Q/5B1k/8/5B2/8/8/5N2/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBPvk.svg" width="200" alt="KQBBPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 522</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1B6/8/8/8/7B/8/6QP/K4k2&moves=7">solve ↗</a><br>
+2,289 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg2 Bhg3 2.Kf3 h4 3.Ke4 h5 4.Kd5 h6 5.Kc6 h7 6.Kb7 h8=Q 7.Ka8 Qh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>1B6/8/8/8/7B/8/6QP/K4k2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBvkb.svg" width="200" alt="KQBBvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 523</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6b1/8/8/8/8/4B3/5B1Q/K6k&moves=7">solve ↗</a><br>
+289 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#11, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kb2 2.Kh3 Kc3 3.Kg4 Kd4 4.Kh5 Ke5 5.Kg6 Bd4 6.Kh7 Kf6 7.Kh8 Kg6#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6b1/8/8/8/8/4B3/5B1Q/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNNvk.svg" width="200" alt="KQBNNvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 524</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4N2Q/6k1/8/7B/8/5N2/8/K7&moves=7">solve ↗</a><br>
+6 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kg8 Kc3 3.Kh7 Kd4 4.Kh6 Ke5 5.Kxh5 Kf6 6.Kg4 Kg7 7.Kh5 Nf6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>4N2Q/6k1/8/7B/8/5N2/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNPvk.svg" width="200" alt="KQBNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 525</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4N3/8/8/6kQ/8/4P3/B7/K7&moves=7">solve ↗</a><br>
+34 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh5 e4 2.Kg6 Bb1 3.Kf7 e5 4.Kxe8 e6 5.Kf8 e7+ 6.Kg7 e8=Q 7.Kh6 Qg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4N3/8/8/6kQ/8/4P3/B7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNvkb.svg" width="200" alt="KQBNvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 526</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6N1/6Qk/8/8/2B5/1b6/8/K7&moves=7">solve ↗</a><br>
+39 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Ne7 2.Kf6 Kb2 3.Ke5 Ka3 4.Kd4 Nc6+ 5.Kc3 Na5 6.Kc2 Nxb3 7.Kb1 Bd3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6N1/6Qk/8/8/2B5/1b6/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNvkn.svg" width="200" alt="KQBNvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 527</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6QN/7k/8/2n5/8/4B3/K7&moves=7">solve ↗</a><br>
+101 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Ng5 2.Kf6 Kb1 3.Ke5 Kc1 4.Kd4 Nf3+ 5.Kc3 Ne1 6.Kb3 Nc2 7.Ka2 Bxc4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6QN/7k/8/2n5/8/4B3/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNvkp.svg" width="200" alt="KQBNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 528</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5N2/8/8/8/2p5/4B2Q/6k1/K7&moves=7">solve ↗</a><br>
+412 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#12, so the deepest sound problem is 10 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh3 Kb2 2.Kg4 Kc3 3.Kf5 Kd4 4.Kf6 Kd5 5.Kg7 Ke6 6.Kh8 Kf7 7.c3 Bd4#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5N2/8/8/8/2p5/4B2Q/6k1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNvkq.svg" width="200" alt="KQBNvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 529</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5N2/8/8/8/8/8/1B2q2Q/K6k&moves=7">solve ↗</a><br>
+168 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Bh8 2.Qg4 Kb2 3.Kg3 Kc3 4.Kf4 Kd4 5.Kg5+ Ke5 6.Kh6 Kf6 7.Qh5 Bg7#<br>
+<br><b>Themes:</b> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5N2/8/8/8/8/8/1B2q2Q/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBNvkr.svg" width="200" alt="KQBNvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 530</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/6k1/8/7B/3r4/8/KN6&moves=7">solve ↗</a><br>
+49 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Kg6 Kc2 3.Kf5 Kxd3 4.Kf4 Kc4 5.Ke3 Nc3 6.Kd2 Kb3 7.Kc1 Bg5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7Q/6k1/8/7B/3r4/8/KN6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBPPvk.svg" width="200" alt="KQBPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 531</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=k7/Q7/8/8/8/5P2/6P1/K6B&moves=7">solve ↗</a><br>
+49 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa7 g4 2.Kb6 g5 3.Kc5 g6 4.Kd4 g7 5.Ke3 g8=Q 6.Kf2 Qa2+ 7.Kg1 Qg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>k7/Q7/8/8/8/5P2/6P1/K6B b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBPvkb.svg" width="200" alt="KQBPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 532</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/7Q/7k/8/8/8/1P1B4/K7&moves=7">solve ↗</a><br>
+958 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Bc3 2.Kg6 b4 3.Kf5 b5 4.Ke4 b6 5.Kd3 b7 6.Kc2 b8=Q 7.Kc1 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7b/7Q/7k/8/8/8/1P1B4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBPvkn.svg" width="200" alt="KQBPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 533</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7B/8/3Q3P/K1k4n&moves=7">solve ↗</a><br>
+1,271 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd2 Be1+ 2.Kc2 h4 3.Ng3 h5 4.Nf5 h6 5.Ng7 hxg7 6.Kb3 g8=Q+ 7.Ka3 Qa2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/7B/8/3Q3P/K1k4n b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBPvkq.svg" width="200" alt="KQBPvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 534</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/P7/B1Q5/K1k3q1&moves=7">solve ↗</a><br>
+1,425 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxc2+ Bb1+ 2.Kd2 a4 3.Ke3 a5 4.Kf4 a6 5.Kg5 a7 6.Kh6 a8=Q 7.Qg5 Qh8#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/P7/B1Q5/K1k3q1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBPvkr.svg" width="200" alt="KQBPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 535</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/P7/B1Q5/K1k3r1&moves=7">solve ↗</a><br>
+673 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc2+ Bb1+ 2.Kd2 a4 3.Ke3 a5 4.Kf4 a6 5.Kg5 a7 6.Kh6 a8=Q 7.Rg5 Qh8#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/P7/B1Q5/K1k3r1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkqb.svg" width="200" alt="KQBvkqb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 536</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6q1/5k2/5QB1/8/8/2b5/K7&moves=7">solve ↗</a><br>
+5 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10.5, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf5+ Ka2 2.Bb1+ Kb3 3.Kg6 Kc4 4.Kh7 Kd5 5.Kh8 Ke6 6.Qf7+ Kxf7 7.Bh7 Bf6#<br>
+<br><b>Themes:</b> <code>self-block</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/6q1/5k2/5QB1/8/8/2b5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkrb.svg" width="200" alt="KQBvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 537</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7Q/7k/8/8/8/1r6/5b2/KB6&moves=7">solve ↗</a><br>
+20 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Bc2 2.Rh3 Kb2 3.Rh6 Kc3 4.Kg7 Kd3 5.Kg6 Ke4 6.Kh5 Kf5 7.Bh4 Bd1#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7Q/7k/8/8/8/1r6/5b2/KB6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNPvk.svg" width="200" alt="KQNNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 538</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7Q/4N1k1/3N4/8/8/8/4P3/K7&moves=7">solve ↗</a><br>
+45 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 e4 2.Kh7 e5 3.Kg7 e6 4.Kf6 Nef5 5.Ke5 e7 6.Kd5 e8=Q 7.Kc5 Qb5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7Q/4N1k1/3N4/8/8/8/4P3/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNvkb.svg" width="200" alt="KQNNvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 539</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=kQ5N/8/8/8/8/8/7N/b2K4&moves=7">solve ↗</a><br>
+17 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb8 Ke2 2.Kc7 Kf3 3.Kd6 Kg4 4.Ke5 Kh5 5.Kf4 Ng6+ 6.Kg3 Nf1+ 7.Kh3 Nf4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>kQ5N/8/8/8/8/8/7N/b2K4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNvkp.svg" width="200" alt="KQNNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 540</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7Q/6Nk/6p1/8/8/8/8/K5N1&moves=7">solve ↗</a><br>
+923 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kh7 Kc3 3.Kh6 Kd4 4.Kg5 Ke5 5.Kh4 Kf6 6.g5 Kg6 7.g4 Nf5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7Q/6Nk/6p1/8/8/8/8/K5N1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNvkq.svg" width="200" alt="KQNNvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 541</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/7k/8/1q6/7N/8/KN6&moves=7">solve ↗</a><br>
+43 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Nf2 2.Kg6 Nd3 3.Kf5 Nxb4 4.Ke4 Nd5 5.Kd3 Nd2 6.Kc2 Ne3+ 7.Kc1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7Q/7k/8/1q6/7N/8/KN6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNvkr.svg" width="200" alt="KQNNvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 542</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/7k/8/1r6/7N/8/KN6&moves=7">solve ↗</a><br>
+6 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Nf2 2.Kg6 Nd3 3.Kf5 Nxb4 4.Ke4 Nd5 5.Kd3 Nd2 6.Kc2 Ne3+ 7.Kc1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7Q/7k/8/1r6/7N/8/KN6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNPPvk.svg" width="200" alt="KQNPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 543</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/2N5/8/2P5/2P5/K5Qk&moves=7">solve ↗</a><br>
+134 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxg1 c4 2.Kf2 Nd3+ 3.Ke3 c5 4.Kd4 c6 5.Kc4 c7 6.Kb5 c8=Q 7.Ka4 Qa6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/2N5/8/2P5/2P5/K5Qk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNPvkb.svg" width="200" alt="KQNPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 544</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/8/8/8/P2b4/K3kQ2&moves=7">solve ↗</a><br>
+3,278 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf1 a3 2.Bb4 axb4 3.Ke2 b5 4.Kd3 b6 5.Kc4 b7 6.Kb5 b8=Q+ 7.Ka6 Qb6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:white</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N7/8/8/8/8/8/P2b4/K3kQ2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNPvkr.svg" width="200" alt="KQNPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 545</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/Nr6/8/8/6Qk/6P1/K7&moves=7">solve ↗</a><br>
+844 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg3 Nc7 2.Kf4 g4 3.Ke5 g5 4.Kd6 g6 5.Kc6 g7 6.Kb7 g8=Q 7.Ka7 Qa8#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/Nr6/8/8/6Qk/6P1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkrb.svg" width="200" alt="KQNvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 546</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5b2/8/1r6/4Q3/5k2/8/K6N&moves=7">solve ↗</a><br>
+316 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe4 Nf2+ 2.Ke3 Nd3 3.Bh5 Ka2 4.Rb1 Nb2 5.Kd2 Kb3 6.Kc1 Kc3 7.Bd1 Nd3#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/5b2/8/1r6/4Q3/5k2/8/K6N b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPPPvk.svg" width="200" alt="KQPPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 547</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7Q/8/8/6P1/P7/3P4/K7&moves=7">solve ↗</a><br>
+44 positions of 12,782,665,728 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 g5 2.Kg7 g6 3.Kf6 g7 4.Ke5 g8=Q 5.Kd4 Qf8 6.Kc4 Kb1 7.Kb3 Qb4#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/7Q/8/8/6P1/P7/3P4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPPvkb.svg" width="200" alt="KQPPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 548</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Qk/8/1P6/1P1b4/K7&moves=7">solve ↗</a><br>
+768 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 b4 2.Kf4 b5 3.Ke3 b4 4.Bxb4 b6 5.Kd2 b7 6.Kc1 b8=Q 7.Bd2 Qb1#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>switchback</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/6Qk/8/1P6/1P1b4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPPvkn.svg" width="200" alt="KQPPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 549</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7n/8/8/8/6P1/4P3/K1kQ4&moves=7">solve ↗</a><br>
+1,832 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd1 g4 2.Ke1 g5 3.Kf2 g6 4.Ng5 g7 5.Nf3 exf3 6.Kg3 g8=Q+ 7.Kh4 Qg4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>closed-walk</code> <code>phoenix</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7n/8/8/8/6P1/4P3/K1kQ4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPPvkq.svg" width="200" alt="KQPPvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 550</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Qk/8/1P2q3/1P6/K7&moves=7">solve ↗</a><br>
+422 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 b4 2.Kf4 b3 3.Qxb3 b5 4.Ke3 b6 5.Kd2 b7 6.Kc1 b8=Q 7.Qd1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/6Qk/8/1P2q3/1P6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPPvkr.svg" width="200" alt="KQPPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 551</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6r1/6Qk/6P1/6P1/8/K7&moves=7">solve ↗</a><br>
+69 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 Kb2 2.Rf6 Kc3 3.Rf5 gxf5 4.Kg4 f6 5.Kf3 f7 6.Ke2 f8=Q 7.Kd1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>phoenix</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/6r1/6Qk/6P1/6P1/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQPvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQPvkrr.svg" width="200" alt="KQPvkrr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 552</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1r6/5r2/5P2/K1kQ4&moves=7">solve ↗</a><br>
+111 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd1 Ka2 2.Rg3 f4 3.Ke2 f5 4.Kf3 f6 5.Kg4 f7 6.Kh4 f8=Q 7.Rbg4 Qh6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/1r6/5r2/5P2/K1kQ4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBBBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBBvk.svg" width="200" alt="KRBBBvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 553</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B1R/5B1k/8/8/8/8/7B/K7&moves=7">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Be5 7.Kh8 Kg6#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5B1R/5B1k/8/8/8/8/7B/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBBPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBPvk.svg" width="200" alt="KRBBPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 554</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1B6/8/8/8/7B/8/6RP/K4k2&moves=7">solve ↗</a><br>
+500 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg2 Bhg3 2.Kf3 h4 3.Ke4 h5 4.Kd5 h6 5.Kc6 h7 6.Kb7 h8=Q 7.Ka8 Qh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>1B6/8/8/8/7B/8/6RP/K4k2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBBvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBvkb.svg" width="200" alt="KRBBvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 555</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6b1/8/8/8/8/4B3/5B1R/K6k&moves=7">solve ↗</a><br>
+5 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kb2 2.Kh3 Kc3 3.Kg4 Kd4 4.Kh5 Ke5 5.Kg6 Bd4 6.Kh7 Kf6 7.Kh8 Kg6#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6b1/8/8/8/8/4B3/5B1R/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNNvk.svg" width="200" alt="KRBNNvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 556</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4N2R/6k1/8/7B/8/5N2/8/K7&moves=7">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kg8 Kc3 3.Kh7 Kd4 4.Kh6 Ke5 5.Kxh5 Kf6 6.Kg4 Kg7 7.Kh5 Nf6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4N2R/6k1/8/7B/8/5N2/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNPvk.svg" width="200" alt="KRBNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 557</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4N3/8/6k1/7R/8/8/B3P3/K7&moves=7">solve ↗</a><br>
+5 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh5 e4 2.Kg6 Bb1 3.Kf7 e5 4.Kxe8 e6 5.Kf8 e7+ 6.Kg7 e8=Q 7.Kh6 Qg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>4N3/8/6k1/7R/8/8/B3P3/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNvkb.svg" width="200" alt="KRBNvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 558</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/7k/8/7N/7b/8/2B5/K7&moves=7">solve ↗</a><br>
+8 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kg8 Kc3 3.Kf7 Kd3 4.Kg6 Ke2+ 5.Kg5 Kf1 6.Kg4 Kg1 7.Kh3 Bf5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7R/7k/8/7N/7b/8/2B5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNvkn.svg" width="200" alt="KRBNvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 559</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7R/6nk/8/5B2/5N2/8/K7&moves=7">solve ↗</a><br>
+4 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Nh4 Kc3 3.Kg6 Kd4 4.Kh5 Ke5 5.Kg4 Kf6 6.Kh3 Kg5 7.Ng2 Ng1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7R/6nk/8/5B2/5N2/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNvkp.svg" width="200" alt="KRBNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 560</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5N2/8/8/7k/2p4R/8/8/K1B5&moves=7">solve ↗</a><br>
+59 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#13, so the deepest sound problem is 12 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Kb2 2.c3+ Kxc3 3.Kh5 Bb2 4.Kh6 Kd4 5.Kg7 Ke5 6.Kg8 Kf6 7.Kh8 Kf7#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5N2/8/8/7k/2p4R/8/8/K1B5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNvkq.svg" width="200" alt="KRBNvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 561</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/8/8/8/8/BN1q4/K7&moves=7">solve ↗</a><br>
+25 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Bg8+ 2.Kg6 Ka2 3.Kf5 Ka3 4.Ke4 Nc4 5.Kd3 Nxd2 6.Kc2 Nb3 7.Kb1 Bh7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/7R/8/8/8/8/BN1q4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBNvkr.svg" width="200" alt="KRBNvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 562</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/2r5/1N6/8/8/B7/K7&moves=7">solve ↗</a><br>
+8 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Kg6 Ka3 3.Kf5 Nd4+ 4.Ke4 Bd5+ 5.Kd3 Nb3 6.Kc2 Bxc6 7.Kb1 Be4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/7R/2r5/1N6/8/8/B7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPPvk.svg" width="200" alt="KRBPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 563</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1B6/K7/1P6/P6R/6k1&moves=7">solve ↗</a><br>
+10 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kb4 2.Kg3 a4 3.Kf4 a5 4.Ke5 a6 5.Kd6 a7 6.Kc7 a8=Q 7.Kb6 Qb8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/1B6/K7/1P6/P6R/6k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPvkb.svg" width="200" alt="KRBPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 564</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/6R1/7k/8/8/K7/P3B3/8&moves=7">solve ↗</a><br>
+11 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bxg7 Kb3 2.Kg5 a4 3.Kf4 a5 4.Ke3 a6 5.Kd2 a7 6.Kc1 a8=Q 7.Kb1 Qh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>7b/6R1/7k/8/8/K7/P3B3/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPvkn.svg" width="200" alt="KRBPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 565</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4R3/4k3/3nP3/K5B1&moves=7">solve ↗</a><br>
+69 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe4 e3 2.Kd3 e4 3.Nc4 e5 4.Nd6 exd6 5.Kc4 d7 6.Kb5 d8=Q 7.Ka6 Qb6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:white</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/4R3/4k3/3nP3/K5B1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPvkq.svg" width="200" alt="KRBPvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 566</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5B2/8/8/8/5P2/q7/kRK5&moves=7">solve ↗</a><br>
+39 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb1+ Kd2 2.Qe4 fxe4 3.Kb2 e5 4.Ka3 e6 5.Kb4 e7 6.Kc5 e8=Q 7.Kd4 Qe3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/5B2/8/8/8/5P2/q7/kRK5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBPvkr.svg" width="200" alt="KRBPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 567</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/3B4/8/8/8/2RP4/K1kr4&moves=7">solve ↗</a><br>
+17 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc2+ Ka2 2.Rc1 d4 3.Kd3 d5 4.Rc6 dxc6 5.Kc4 c7 6.Kb5 c8=Q 7.Ka4 Qa6#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/3B4/8/8/8/2RP4/K1kr4 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRBvkrb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkrb.svg" width="200" alt="KRBvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 351</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6kR/6b1/8/8/8/8/B4r2/1K6&moves=7">solve ↗</a><br>
+<b>No. 568</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6kR/6b1/8/8/8/8/B4r2/1K6&moves=7">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh8 Bb3 2.Rf8 Kc2 3.Bf6 Kd3 4.Kg7 Kc4 5.Kf7 Kd5 6.Ke8 Ke6 7.Bd8 Ba4#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
@@ -5453,12 +8695,110 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRNNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNPvk.svg" width="200" alt="KRNNPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 569</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5N1R/7k/4N3/8/8/K7/P7/8&moves=7">solve ↗</a><br>
+7 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb4 2.Kg8 a4 3.Kf7 a5 4.Ke7 a6 5.Kd6 a7 6.Kc6 a8=Q+ 7.Kb6 Nd7#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>5N1R/7k/4N3/8/8/K7/P7/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNvkb.svg" width="200" alt="KRNNvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 570</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=kR5N/b7/8/8/8/8/7N/3K4&moves=7">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb8 Ke2 2.Kc7 Kf3 3.Kd6 Kg4 4.Ke5 Kh5 5.Kf4 Ng6+ 6.Kg3 Nf1+ 7.Kh3 Nf4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>kR5N/b7/8/8/8/8/7N/3K4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNvkp.svg" width="200" alt="KRNNvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 571</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/7k/8/4pN2/7N/8/8/K7&moves=7">solve ↗</a><br>
+47 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#11, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.e4 Kc3 3.e3 Kd4 4.e2 Ke5 5.e1=R+ Kf6 6.Re7 Nh6 7.Rh7 Ng6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7R/7k/8/4pN2/7N/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNvkq.svg" width="200" alt="KRNNvkq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 572</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=kR5N/q7/8/8/8/8/7N/3K4&moves=7">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb8 Ke2 2.Kc7 Kf3 3.Kd6 Kg4 4.Ke5 Kh5 5.Kf4 Ng6+ 6.Kg3 Nf1+ 7.Kh3 Nf4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>kR5N/q7/8/8/8/8/7N/3K4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNPPvk.svg" width="200" alt="KRNPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 573</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4N3/K3P3/4P3/kR6&moves=7">solve ↗</a><br>
+11 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb1 Nd6 2.Kc2 e4 3.Kc3 e5 4.Kd4 e6 5.Kc5 e7 6.Kb6 e8=Q 7.Ka5 Qb5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/4N3/K3P3/4P3/kR6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNPvkb.svg" width="200" alt="KRNPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 574</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6bk/7R/8/8/1N6/8/3P4/K7&moves=7">solve ↗</a><br>
+8 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bxh7 d4 2.Kg7 d5 3.Kf6 d6 4.Ke5 d7 5.Kd4 d8=Q+ 6.Kc3 Qd5 7.Bc2 Na2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>self-block</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6bk/7R/8/8/1N6/8/3P4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNPvkn.svg" width="200" alt="KRNPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 575</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2N5/8/8/8/K7/P6R/6nk&moves=7">solve ↗</a><br>
+15 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kb4 2.Kg3 a4 3.Kf4 a5 4.Ke5 a6 5.Kd6 a7 6.Kc6 a8=Q+ 7.Kb6 Nd5#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/2N5/8/8/8/K7/P6R/6nk b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRNvkbn
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkbn.svg" width="200" alt="KRNvkbn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 352</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/5NRk/8/n7/Kb6&moves=7">solve ↗</a><br>
+<b>No. 576</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/5NRk/8/n7/Kb6&moves=7">solve ↗</a><br>
 39 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg4 Kb2 2.Kf3 Kb3 3.Ke3 Kc4 4.Kd2 Kd4 5.Kc1 Ke3 6.Nb4 Ke2 7.Nc2 Nd3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5472,7 +8812,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvknn.svg" width="200" alt="KRNvknn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 353</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7R/3n3k/4N1n1/8/8/K7&moves=7">solve ↗</a><br>
+<b>No. 577</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7R/3n3k/4N1n1/8/8/K7&moves=7">solve ↗</a><br>
 13 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Nxh6 Kb2 2.Ne7 Kc3 3.Kg6 Kd4 4.Kf7 Ke5 5.Ke8 Kf6 6.Nf7 Kg7 7.Nd8 Nf6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5486,7 +8826,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkqn.svg" width="200" alt="KRNvkqn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 354</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1n6/8/8/8/5NRk/8/4q3/K7&moves=7">solve ↗</a><br>
+<b>No. 578</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1n6/8/8/8/5NRk/8/4q3/K7&moves=7">solve ↗</a><br>
 63 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Qxg4 Kb2 2.Kg5 Kc3 3.Kf6 Kd4 4.Ke7 Ke5 5.Kd8 Kf6 6.Qc8 Kf7 7.Nd7 Ne6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5500,7 +8840,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkqr.svg" width="200" alt="KRNvkqr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 355</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7q/8/5NRk/8/8/1r6/K7&moves=7">solve ↗</a><br>
+<b>No. 579</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7q/8/5NRk/8/8/1r6/K7&moves=7">solve ↗</a><br>
 97 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg5 Ne7 2.Rc2 Kb1 3.Rh2+ Kc1 4.Rh5 Kd2 5.Kh4 Ke3 6.Qd3+ Kf4 7.Qh3 Ng6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -5514,7 +8854,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkrb.svg" width="200" alt="KRNvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 356</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6b1/7k/4N2R/8/1r6/8/K7&moves=7">solve ↗</a><br>
+<b>No. 580</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6b1/7k/4N2R/8/1r6/8/K7&moves=7">solve ↗</a><br>
 4 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#10, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Ka2 2.Rb8 Nd7 3.Rd8 Kb3 4.Kg6 Kc4 5.Kf7 Kd5 6.Ke8 Ke6 7.Bf8 Nf6#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
@@ -5528,7 +8868,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkrn.svg" width="200" alt="KRNvkrn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 357</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n7/7N/8/8/6rk/7R/8/K7&moves=7">solve ↗</a><br>
+<b>No. 581</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=n7/7N/8/8/6rk/7R/8/K7&moves=7">solve ↗</a><br>
 20 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh3 Kb2 2.Rh4 Kc3 3.Kg4 Kd4 4.Nc7 Ke5 5.Ne6 Kf6 6.Ng5 Kg7 7.Kh5 Nf6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -5542,7 +8882,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkrr.svg" width="200" alt="KRNvkrr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 358</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5NRk/8/1r6/2r5/K7&moves=7">solve ↗</a><br>
+<b>No. 582</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5NRk/8/1r6/2r5/K7&moves=7">solve ↗</a><br>
 102 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg5 Ne7 2.Rh3 Kb1 3.Rch2 Kc1 4.Rh1+ Kd2 5.Rh5 Ke3 6.Kh4 Kf4 7.Rh3 Ng6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -5551,12 +8891,152 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRPPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPPPvk.svg" width="200" alt="KRPPPvk, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 583</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/K7/PP4P1/6R1/7k&moves=7">solve ↗</a><br>
+1 position of 12,782,665,728 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg2 Kb4 2.Kf3 a4 3.Ke4 a5 4.Kd5 a6 5.Kc6 a7 6.Kb7 Kc5 7.Ka6 a8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/K7/PP4P1/6R1/7k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPPvkb.svg" width="200" alt="KRPPvkb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 584</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/7b/8/8/8/1P6/1P6/2K5&moves=7">solve ↗</a><br>
+1 position of 17,043,554,304 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 b4 2.Kf7 b5 3.Ke6 b6 4.Kd5 b7 5.Kc4 b3+ 6.Kxb3 b8=Q+ 7.Ka2 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Rk/7b/8/8/8/1P6/1P6/2K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPPvkn.svg" width="200" alt="KRPPvkn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 585</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/7n/8/8/8/1P6/1P6/2K5&moves=7">solve ↗</a><br>
+25 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 b4 2.Kf7 b5 3.Ke6 b6 4.Kd5 b7 5.Kc4 b3+ 6.Kxb3 b8=Q+ 7.Ka2 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Rk/7n/8/8/8/1P6/1P6/2K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPPvkp.svg" width="200" alt="KRPPvkp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 586</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3p4/3P4/8/8/8/5PR1/K6k&moves=7">solve ↗</a><br>
+76 positions of 12,782,665,728 indexed have a unique solution at h#7. The class runs to h#14, so the deepest sound problem is 14 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg2 f4 2.Kf3 f5 3.Ke4 f6 4.Kd5 f7 5.Kc6 f8=Q 6.Kb7 Qf3+ 7.Kc8 Qa8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/3p4/3P4/8/8/8/5PR1/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPPvkr.svg" width="200" alt="KRPPvkr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 587</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/K7/8/kR2P1P1/r7&moves=7">solve ↗</a><br>
+5 positions of 17,043,554,304 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb2+ Kb5 2.Kc3 e4 3.Kd4 e5 4.Kd5 e6 5.Kd6 e7 6.Kd7 Kb6 7.Kc8 e8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/K7/8/kR2P1P1/r7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkqq.svg" width="200" alt="KRPvkqq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 588</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/6qk/8/2q4P/K7&moves=7">solve ↗</a><br>
+157 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh5 h3 2.Kg5 h4+ 3.Kf4 h5 4.Ke3 h6 5.Kd2 h7 6.Kc1 h8=Q 7.Qcd1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:white</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/7R/6qk/8/2q4P/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkqr.svg" width="200" alt="KRPvkqr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 589</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4r3/8/8/8/8/4q3/R1K1P3/k7&moves=7">solve ↗</a><br>
+8 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa2 Kd1 2.Qc3 e4 3.Kb3 e5 4.Kc4 e6 5.Kd3 e7 6.Rd8 e8=Q 7.Rd4 Qe2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4r3/8/8/8/8/4q3/R1K1P3/k7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkrb.svg" width="200" alt="KRPvkrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 590</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/7b/8/8/8/8/KP1r4/8&moves=7">solve ↗</a><br>
+7 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Ka3 2.Kf7 b4 3.Ke6 b5 4.Kd5 b6 5.Kc4 b7 6.Rd5 b8=Q 7.Bd3 Qb4#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6Rk/7b/8/8/8/8/KP1r4/8 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkrn.svg" width="200" alt="KRPvkrn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 591</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/4r3/4P2R/K5nk&moves=7">solve ↗</a><br>
+100 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kb1 2.Rh3 e4 3.Nf3 e5 4.Ng5 e6 5.Nf7 exf7 6.Kh1 f8=Q 7.Rh2 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/4r3/4P2R/K5nk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRPvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRPvkrr.svg" width="200" alt="KRPvkrr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 592</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/K7/8/kR2P3/r1r5&moves=7">solve ↗</a><br>
+27 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxb2+ Kb5 2.Kc3 e4 3.Kd4 e5 4.Kd5 e6 5.Kd6 e7 6.Kd7 Kb6 7.Kc8 e8=Q#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/K7/8/kR2P3/r1r5 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRvkqbn
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqbn.svg" width="200" alt="KRvkqbn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 359</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/8/b1n5/2q5/K7&moves=7">solve ↗</a><br>
+<b>No. 593</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/8/b1n5/2q5/K7&moves=7">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Rg2 2.Kh5 Rxc2 3.Kg4 Ra2 4.Kf3 Rxa3 5.Ke2 Kb2 6.Kd1 Kxc3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -5570,7 +9050,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqnn.svg" width="200" alt="KRvkqnn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 360</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/n7/2n5/2q5/K7&moves=7">solve ↗</a><br>
+<b>No. 594</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/n7/2n5/2q5/K7&moves=7">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Rg2 2.Kh5 Rxc2 3.Kg4 Ra2 4.Kf3 Rxa4 5.Ke2 Kb2 6.Kd1 Kxc3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -5584,7 +9064,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqnp.svg" width="200" alt="KRvkqnp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 361</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/8/p1n5/2q5/K7&moves=7">solve ↗</a><br>
+<b>No. 595</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/8/p1n5/2q5/K7&moves=7">solve ↗</a><br>
 1 position of 22,724,739,072 indexed has a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Rg2 2.Kh5 Rxc2 3.Kg4 Ra2 4.Kf3 Rxa3 5.Ke2 Kb2 6.Kd1 Kxc3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -5598,7 +9078,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqqb.svg" width="200" alt="KRvkqqb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 362</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/2b5/1q6/2q5/K7&moves=7">solve ↗</a><br>
+<b>No. 596</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/8/2b5/1q6/2q5/K7&moves=7">solve ↗</a><br>
 4 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#9, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Rg2 2.Kh5 Rxc2 3.Kg4 Rb2 4.Kf3 Rxb3+ 5.Ke2 Kb2 6.Kd1 Kc3 7.Be2 Rb1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -5612,7 +9092,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqqn.svg" width="200" alt="KRvkqqn, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 363</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7R/8/7n/8/2q1q3/K7&moves=7">solve ↗</a><br>
+<b>No. 597</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7R/8/7n/8/2q1q3/K7&moves=7">solve ↗</a><br>
 5 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg7 Rh8 2.Qb1+ Kxb1 3.Qh5 Kc2 4.Ng6 Kd3 5.Qh7 Ke4 6.Kh6 Kf5 7.Kh5 Rxh7#<br>
 <br><b>Themes:</b> <code>maslar</code><br>
@@ -5626,7 +9106,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqqp.svg" width="200" alt="KRvkqqp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 364</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/8/3p4/8/1q6/6q1/K7&moves=7">solve ↗</a><br>
+<b>No. 598</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/8/3p4/8/1q6/6q1/K7&moves=7">solve ↗</a><br>
 6 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg8 Rh1 2.Qbh3 Kb1 3.Qg7 Kc2 4.Qh2+ Kd3 5.d4 Ke4 6.Kh7 Kf5 7.Kh6 Rxh2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>maslar</code><br>
@@ -5640,7 +9120,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqqq.svg" width="200" alt="KRvkqqq, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 365</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/6R1/1qq5/1q6/8/K7&moves=7">solve ↗</a><br>
+<b>No. 599</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/6R1/1qq5/1q6/8/K7&moves=7">solve ↗</a><br>
 22 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kf6 Rg3 2.Ke5 Rxb3 3.Kd4 Rxb4 4.Kc3 Rxc4+ 5.Kb3 Kb1 6.Ka3 Kc2 7.Ka2 Ra4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5654,7 +9134,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqqr.svg" width="200" alt="KRvkqqr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 366</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/7R/1r6/1q6/3q4/K7&moves=7">solve ↗</a><br>
+<b>No. 600</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/7R/1r6/1q6/3q4/K7&moves=7">solve ↗</a><br>
 49 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg6 Rh3 2.Kf5 Rxb3 3.Ke4 Rxb4+ 4.Kd3 Ra4 5.Kc2 Ka2 6.Kd1+ Kb3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5668,7 +9148,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqrb.svg" width="200" alt="KRvkqrb, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 367</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/4b3/8/8/1rq5/K7&moves=7">solve ↗</a><br>
+<b>No. 601</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Rk/8/4b3/8/8/1rq5/K7&moves=7">solve ↗</a><br>
 5 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Rc7 2.Kg5 Rxc2 3.Kf4 Rc5 4.Ke3 Rxe5+ 5.Kd2 Kxb2 6.Kd1 Kc3 7.Kc1 Re1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5682,7 +9162,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqrp.svg" width="200" alt="KRvkqrp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 368</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7R/8/3p4/8/2qr4/K7&moves=7">solve ↗</a><br>
+<b>No. 602</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/7R/8/3p4/8/2qr4/K7&moves=7">solve ↗</a><br>
 9 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg7 Rh8 2.Qb1+ Kxb1 3.Rd1+ Kc2 4.Rh1 Kd3 5.Rh7 Ke4 6.Kh6 Kf5 7.Kh5 Rxh7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>maslar</code><br>
@@ -5696,7 +9176,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqrr.svg" width="200" alt="KRvkqrr, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 369</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/7R/1r6/1q6/3r4/K7&moves=7">solve ↗</a><br>
+<b>No. 603</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/7R/1r6/1q6/3r4/K7&moves=7">solve ↗</a><br>
 22 positions of 7,751,073,792 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg6 Rh3 2.Kf5 Rxb3 3.Ke4 Rxb4+ 4.Kd3 Ra4 5.Kc2 Ka2 6.Kd1+ Kb3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5710,7 +9190,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrpp.svg" width="200" alt="KRvkrpp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 370</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/8/8/8/8/2p5/p1r5/K7&moves=7">solve ↗</a><br>
+<b>No. 604</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6Rk/8/8/8/8/2p5/p1r5/K7&moves=7">solve ↗</a><br>
 1 position of 17,043,554,304 indexed has a unique solution at h#7. The class runs to h#7.5, so the deepest sound problem is 1 ply shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh7 Ra8 2.Rc1+ Kxa2 3.Kg7 Kb3 4.Rb1+ Kc4 5.Rb8 Kd5 6.Kf8 Ke6 7.Ke8 Rxb8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>maslar</code><br>
@@ -5724,7 +9204,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrrp.svg" width="200" alt="KRvkrrp, h#7"><br><sub><b>h#7</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 371</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/8/8/8/7p/3r3r/K7&moves=7">solve ↗</a><br>
+<b>No. 605</b> &nbsp;·&nbsp; <b>h#7</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/8/8/8/7p/3r3r/K7&moves=7">solve ↗</a><br>
 3 positions of 22,724,739,072 indexed have a unique solution at h#7. The class runs to h#8, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg8 Kb1 2.Rhg2 Kc1 3.Rg7 Kxd2 4.Kf7 Ke3 5.Kg6 Rxg7+ 6.Kh5 Kf4 7.Kh4 Rh7#<br>
 <br><b>Themes:</b> <code>switchback</code><br>
@@ -5733,12 +9213,52 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KBBBvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBvkq.svg" width="200" alt="KBBBvkq, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 606</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4B3/4B3/7k/8/8/8/q7/K5B1&moves=6.5">solve ↗</a><br>
+29 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kg7 Bd7 3.Kf7 Kb3 4.Kxe7 Kc4 5.Kd8 Kd5 6.Kc7 Ke6 7.Kd8 Bb6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4B3/4B3/7k/8/8/8/q7/K5B1 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNNvk.svg" width="200" alt="KBBNNvk, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 607</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/6NB/1N4B1/8/8/8/8/K7&moves=6.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Bg8 2.Kxg8 Kb2 3.Kf8 Kc3 4.Ke7 Kd4 5.Kd8 Ke5 6.Kc7 Kf6 7.Kd8 Ne6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><code>7k/6NB/1N4B1/8/8/8/8/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNvkb.svg" width="200" alt="KBBNvkb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 608</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N1B5/5b1k/8/8/B7/8/8/K7&moves=6.5">solve ↗</a><br>
+7 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#10, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Nc7 2.Kg6 Ne6 3.Kf5 Nd4+ 4.Ke4 Nb3 5.Kd3 Ka2 6.Kc2 Ka3 7.Kb1 Bf5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><code>N1B5/5b1k/8/8/B7/8/8/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KBBvkqq
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkqq.svg" width="200" alt="KBBvkqq, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 372</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/7B/8/1q6/8/3q4/KB6&moves=6.5">solve ↗</a><br>
+<b>No. 609</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/7B/8/1q6/8/3q4/KB6&moves=6.5">solve ↗</a><br>
 273 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bf5 2.Qg5 Ka2 3.Qb3+ Kxb3 4.Kg8 Kc4 5.Kf7 Kd5 6.Ke8 Ke6 7.Qd8 Bg6#<br>
 <br><b>Themes:</b> <code>self-block</code><br>
@@ -5751,7 +9271,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkqr.svg" width="200" alt="KBBvkqr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 373</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/1r6/7B/8/8/8/3q4/KB6&moves=6.5">solve ↗</a><br>
+<b>No. 610</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/1r6/7B/8/8/8/3q4/KB6&moves=6.5">solve ↗</a><br>
 214 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bf5 2.Qg5 Ka2 3.Rb3 Kxb3 4.Kg8 Kc4 5.Kf7 Kd5 6.Ke8 Ke6 7.Qd8 Bg6#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
@@ -5764,11 +9284,95 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KBBvkrr.svg" width="200" alt="KBBvkrr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 374</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/7B/8/8/8/6r1/KB4r1&moves=6.5">solve ↗</a><br>
+<b>No. 611</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/7B/8/8/8/6r1/KB4r1&moves=6.5">solve ↗</a><br>
 52 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Bf8 2.Rg7 Kb2 3.R1g6 Kc3 4.Kh7 Kd4 5.Kh6 Ke5 6.Rg5+ Kf6 7.Rh5 Bxg7#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>self-block</code> <code>maslar</code><br>
 <br><code>7k/8/7B/8/8/8/6r1/KB4r1 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNPvkb.svg" width="200" alt="KBNPvkb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 612</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2b5/B6P/KN3k2&moves=6.5">solve ↗</a><br>
+196 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Nxc3 2.Kf2 h4 3.Ke3 h5 4.Kd4 h6 5.Kc5 h7 6.Kb4 h8=Q 7.Ka3 Qf8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/2b5/B6P/KN3k2 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNvkrb.svg" width="200" alt="KBNvkrb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 613</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r1N4/8/5b2/8/8/8/8/K1B4k&moves=6.5">solve ↗</a><br>
+440 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#10, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Kg2 Nf7 3.Rd8 Kb3 4.Rd3+ Kc4 5.Bd4 Kd5 6.Kf3 Ke6 7.Ke4 Ng5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>1r1N4/8/5b2/8/8/8/8/K1B4k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNPvkn.svg" width="200" alt="KNNPvkn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 614</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/P7/1Nn5/K1N5&moves=6.5">solve ↗</a><br>
+229 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb1 2.Kg7 a4 3.Kf6 a5 4.Ke5 a6 5.Kd4 a7 6.Kc3 a8=Q 7.Nd4 Qa5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>closed-walk</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7k/8/8/8/8/P7/1Nn5/K1N5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNPvkr.svg" width="200" alt="KNNPvkr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 615</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3N1N2/8/8/8/8/8/P6k/Kr6&moves=6.5">solve ↗</a><br>
+467 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#9, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxb1 2.Kg3 a4 3.Kf4 a5 4.Ke5 a6 5.Kd6 a7 6.Kc7 Nde6+ 7.Kc8 a8=Q#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>3N1N2/8/8/8/8/8/P6k/Kr6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkbb.svg" width="200" alt="KNNvkbb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 616</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2N3N1/8/8/2b5/3b4/8/6k1/K7&moves=6.5">solve ↗</a><br>
+215 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#10, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Kf3 Kb3 3.Ke4 Nd6+ 4.Kd5 Nf6+ 5.Kc6 Nfe8 6.Kb6 Nc7 7.Ka5 Nc4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>2N3N1/8/8/2b5/3b4/8/6k1/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkbn.svg" width="200" alt="KNNvkbn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 617</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/5b2/8/8/8/n7/8/NKN5&moves=6.5">solve ↗</a><br>
+12 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#9, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb2 2.Kf8 Kxa3 3.Ke7 Kb2 4.Kd6 Kb1 5.Kc5 Ncb3+ 6.Kb4 Nc5 7.Ka3 Nc2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>6k1/5b2/8/8/8/n7/8/NKN5 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -5777,11 +9381,163 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KNNvknn.svg" width="200" alt="KNNvknn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 375</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k5n/8/8/8/8/6Nn/8/3K3N&moves=6.5">solve ↗</a><br>
+<b>No. 618</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1k5n/8/8/8/8/6Nn/8/3K3N&moves=6.5">solve ↗</a><br>
 31 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ke2 2.Kc7 Kf3 3.Kd6 Kg4 4.Ke5 Kh5 5.Kf4 Kh6 6.Kg4 Nf2+ 7.Kh4 Nf5#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
 <br><code>1k5n/8/8/8/8/6Nn/8/3K3N w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvknp.svg" width="200" alt="KNNvknp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 619</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/8/8/8/pn6/1N6/K1N5&moves=6.5">solve ↗</a><br>
+120 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#9, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kb1 2.Kg7 Kc2 3.Kf6 Kc3 4.Ke5 Kb4 5.Kd4 Kb5 6.Kc3 Kb6 7.Kb4 Na2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>7k/8/8/8/8/pn6/1N6/K1N5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkqn.svg" width="200" alt="KNNvkqn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 620</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1N3N2/8/8/8/n6k/8/q7/K7&moves=6.5">solve ↗</a><br>
+229 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#9, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kg5 Kb3 3.Kf6 Kc4 4.Ke7 Kd5 5.Kd8 Ke6 6.Nb6 Kf7 7.Nc8 Ne6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>1N3N2/8/8/8/n6k/8/q7/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkqq.svg" width="200" alt="KNNvkqq, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 621</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1q1N4/8/8/N7/8/2q5/8/K6k&moves=6.5">solve ↗</a><br>
+3,470 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Qcg3 Nc4 3.Qa8+ Kb2 4.Kg2 Ne3+ 5.Kf3 Kc3 6.Kf4 Kd4 7.Qaf3 Ne6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>1q1N4/8/8/N7/8/2q5/8/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkrb.svg" width="200" alt="KNNvkrb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 622</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7N/7k/8/N2b4/8/8/8/Kr6&moves=6.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#6.5. The class runs to h#10, so the deepest sound problem is 7 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxb1 2.Kh6 Ng6 3.Kg5 Ne7 4.Kf4 Ka1 5.Ke3 Nxd5+ 6.Kd2 Ne3 7.Kc1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7N/7k/8/N2b4/8/8/8/Kr6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkrn.svg" width="200" alt="KNNvkrn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 623</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N5k1/8/8/8/8/8/N2r4/n2K4&moves=6.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxd2 2.Kf7 Kc3 3.Ke6 Kb4 4.Kd5 Ka5 5.Kc4 Nb6+ 6.Kb3 Nc1+ 7.Ka3 Nc4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N5k1/8/8/8/8/8/N2r4/n2K4 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNvkrr.svg" width="200" alt="KNNvkrr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 624</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7N/7k/8/8/rr6/8/K1N5&moves=6.5">solve ↗</a><br>
+2,263 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Na2 2.Rb2 Kxb2 3.Kh5 Kxa3 4.Kg4 Kb2 5.Kf3 Ng5+ 6.Ke2 Nf3 7.Kd1 Nc3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/7N/7k/8/8/rr6/8/K1N5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNPPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNPPPvk.svg" width="200" alt="KNPPPvk, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 625</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/1N1P4/2PP4/K6k&moves=6.5">solve ↗</a><br>
+103 positions of 12,782,665,728 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...d4 2.Kg2 d5 3.Kf3 d6 4.Ke4 d7 5.Kd5 d8=Q+ 6.Kc4 d3+ 7.Kb4 Qa5#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>promotions:q</code><br>
+<br><code>8/8/8/8/8/1N1P4/2PP4/K6k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPPPvk.svg" width="200" alt="KPPPPvk, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 626</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/6P1/P7/3P2P1/K7&moves=6.5">solve ↗</a><br>
+33 positions of 9,586,999,296 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...g5+ 2.Kg7 g6 3.Kf6 g7 4.Ke5 g8=Q 5.Kd4 Qf8 6.Kc4 Kb1 7.Kb3 Qb4#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>umnov</code> <code>promotions:q</code><br>
+<br><code>8/8/7k/8/6P1/P7/3P2P1/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPPvkq.svg" width="200" alt="KPPPvkq, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 627</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/q7/1PP3P1/K1k5&moves=6.5">solve ↗</a><br>
+3,694 positions of 12,782,665,728 indexed have a unique solution at h#6.5. The class runs to h#8.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...bxa3 2.Kd2 g4 3.Kc3 g5 4.Kc4 g6 5.Kb5 g7 6.Ka4 g8=Q 7.Kxa3 Qb3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>zajic</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/q7/1PP3P1/K1k5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPPvkr.svg" width="200" alt="KPPPvkr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 628</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/r7/1PP3P1/K1k5&moves=6.5">solve ↗</a><br>
+554 positions of 12,782,665,728 indexed have a unique solution at h#6.5. The class runs to h#8.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...bxa3 2.Kd2 g4 3.Kc3 g5 4.Kc4 g6 5.Kb5 g7 6.Ka4 g8=Q 7.Kxa3 Qb3#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>zajic</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/r7/1PP3P1/K1k5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KPPvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KPPvkrr.svg" width="200" alt="KPPvkrr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 629</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1r6/3P4/3P4/Krk5&moves=6.5">solve ↗</a><br>
+3,010 positions of 17,043,554,304 indexed have a unique solution at h#6.5. The class runs to h#8.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Ka2 2.Rc4 dxc4 3.Kxd2 c5 4.Kc3 c6 5.Kb4 c7 6.Ka4 c8=Q 7.Rb4 Qa6#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/8/1r6/3P4/3P4/Krk5 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -5790,7 +9546,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqnn.svg" width="200" alt="KQvkqnn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 376</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/2n5/3q3Q/1K1n4&moves=6.5">solve ↗</a><br>
+<b>No. 630</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/8/8/8/8/2n5/3q3Q/1K1n4&moves=6.5">solve ↗</a><br>
 17 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Kf7 Qxd2 3.Ke6 Qxc3 4.Kd5 Qe5+ 5.Kc4 Kb1 6.Kb4 Kc2 7.Ka3 Qa5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5799,12 +9555,26 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRBBvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBvkq.svg" width="200" alt="KRBBvkq, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 631</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/7k/3B2R1/8/8/8/q7/K7&moves=6.5">solve ↗</a><br>
+7 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kh8 Kb3 3.Kh7 Kc4 4.Kh8 Kd5 5.Kh7 Ke6 6.Kh8 Kf7 7.Kh7 Rh6#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5B2/7k/3B2R1/8/8/8/q7/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRvkbbp
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkbbp.svg" width="200" alt="KRvkbbp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 377</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/6R1/8/8/bp6/2b5/1K6&moves=6.5">solve ↗</a><br>
+<b>No. 632</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/8/6R1/8/8/bp6/2b5/1K6&moves=6.5">solve ↗</a><br>
 3 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Bb2+ Kxb2 3.Bd1 Kc3 4.b2 Kd4 5.b1=R Ke5 6.Rb8 Kf6 7.Rg8 Rh6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:r</code><br>
@@ -5818,7 +9588,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkbnp.svg" width="200" alt="KRvkbnp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 378</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6R1/8/8/bp6/3n4/1K6&moves=6.5">solve ↗</a><br>
+<b>No. 633</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6R1/8/8/bp6/3n4/1K6&moves=6.5">solve ↗</a><br>
 10 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Bb2+ Kxb2 3.Kh8 Kc3 4.b2 Kd4 5.b1=R Ke5 6.Rb8 Kf6 7.Rg8 Rh6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:r</code><br>
@@ -5832,7 +9602,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkbpp.svg" width="200" alt="KRvkbpp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 379</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4R1bk/8/8/8/8/p7/p7/K7&moves=6.5">solve ↗</a><br>
+<b>No. 634</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4R1bk/8/8/8/8/p7/p7/K7&moves=6.5">solve ↗</a><br>
 11 positions of 17,043,554,304 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Re7 2.Bh7 Kxa2 3.Kg8 Kb3 4.a2 Kc4 5.a1=R Kd5 6.Rg1 Ke6 7.Rg7 Re8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:r</code><br>
@@ -5845,7 +9615,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvknnn.svg" width="200" alt="KRvknnn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 380</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/5R2/8/8/3n4/2nn4/8/1K6&moves=6.5">solve ↗</a><br>
+<b>No. 635</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/5R2/8/8/3n4/2nn4/8/1K6&moves=6.5">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Nf4 Kb2 3.Nde6 Kxc3 4.Nf8 Kd4 5.Kg8 Ke5 6.N4g6+ Kf6 7.Nh8 Rg7#<br>
 <br><b>Themes:</b> <code>self-block</code><br>
@@ -5859,7 +9629,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvknpp.svg" width="200" alt="KRvknpp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 381</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/4R3/7k/8/8/2p5/2p5/K1n5&moves=6.5">solve ↗</a><br>
+<b>No. 636</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/4R3/7k/8/8/2p5/2p5/K1n5&moves=6.5">solve ↗</a><br>
 2 positions of 17,043,554,304 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Rc7 2.Nd3 Ka2 3.Ne5 Kb3 4.Nd7 Kc4 5.Kg7 Kd5 6.Kf8 Ke6 7.Ke8 Rc8#<br>
 <br><b>Themes:</b> <code>nocapture</code> <code>nocheck</code><br>
@@ -5872,7 +9642,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqbb.svg" width="200" alt="KRvkqbb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 382</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4R3/8/7k/8/4b3/1q6/8/K1b5&moves=6.5">solve ↗</a><br>
+<b>No. 637</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4R3/8/7k/8/4b3/1q6/8/K1b5&moves=6.5">solve ↗</a><br>
 160 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ra8 2.Qb8 Ka2 3.Bb7 Kb3 4.Kg7 Kc4 5.Bd5+ Kxd5 6.Kf8 Ke6 7.Ke8 Rxb8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>maslar</code><br>
@@ -5885,7 +9655,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqbp.svg" width="200" alt="KRvkqbp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 383</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5k2/8/8/3b3R/8/p7/2q5/K7&moves=6.5">solve ↗</a><br>
+<b>No. 638</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5k2/8/8/3b3R/8/p7/2q5/K7&moves=6.5">solve ↗</a><br>
 855 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Rh1 2.Qh2 Kb1 3.Bg2 Kc2 4.Kg7 Kd3 5.Be4+ Kxe4 6.Kh6 Kf5 7.Kh5 Rxh2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>maslar</code><br>
@@ -5898,7 +9668,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqpp.svg" width="200" alt="KRvkqpp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 384</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/5R2/8/8/8/1p6/1p4q1/K7&moves=6.5">solve ↗</a><br>
+<b>No. 639</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6k1/5R2/8/8/8/1p6/1p4q1/K7&moves=6.5">solve ↗</a><br>
 346 positions of 17,043,554,304 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kb1 2.Qb7 Kxb2 3.Kh8 Kc3 4.b2 Kd4 5.b1=R Ke5 6.Rh1 Kf6 7.Rh7 Rf8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code> <code>promotions:r</code><br>
@@ -5912,7 +9682,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkqrn.svg" width="200" alt="KRvkqrn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 385</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/6R1/n7/8/1rq5/K7&moves=6.5">solve ↗</a><br>
+<b>No. 640</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/6R1/n7/8/1rq5/K7&moves=6.5">solve ↗</a><br>
 188 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Rg2 2.Kh5 Rxc2 3.Kg4 Rc4+ 4.Kf3 Rxa4 5.Ke2 Kxb2 6.Kd1 Kc3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5925,7 +9695,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrbb.svg" width="200" alt="KRvkrbb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 386</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/5b2/4R3/b7/6r1/1K6&moves=6.5">solve ↗</a><br>
+<b>No. 641</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/5b2/4R3/b7/6r1/1K6&moves=6.5">solve ↗</a><br>
 19 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Kg5 Re5 3.Kf4 Rxf5+ 4.Ke3 Kb1 5.Ke2 Kc2 6.Ke1+ Kd3 7.Kd1 Rf1#<br>
 <br><b>Themes:</b> <code>set-play</code> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5938,7 +9708,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrbn.svg" width="200" alt="KRvkrbn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 387</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5b2/8/4k3/n7/2r5/K2R4&moves=6.5">solve ↗</a><br>
+<b>No. 642</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5b2/8/4k3/n7/2r5/K2R4&moves=6.5">solve ↗</a><br>
 14 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Rd4+ 2.Ke5 Rc4 3.Nb5 Kb1 4.Ra2 Kc1 5.Ra6 Kd2 6.Re6 Ke3 7.Nd6 Rc5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
@@ -5952,7 +9722,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrbp.svg" width="200" alt="KRvkrbp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 388</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3R4/5b2/8/4k3/8/p2r4/K7&moves=6.5">solve ↗</a><br>
+<b>No. 643</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/3R4/5b2/8/4k3/8/p2r4/K7&moves=6.5">solve ↗</a><br>
 37 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#7.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Rd4+ 2.Ke5 Rd6 3.Ke4+ Rxf6 4.Kd3 Ra6 5.Kc2 Kxa2 6.Kd1+ Kb3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -5966,7 +9736,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrnp.svg" width="200" alt="KRvkrnp, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 389</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/5R2/7p/8/n7/2r5/1K6&moves=6.5">solve ↗</a><br>
+<b>No. 644</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/5R2/7p/8/n7/2r5/1K6&moves=6.5">solve ↗</a><br>
 5 positions of 22,724,739,072 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka1 2.Rc7 Kb2 3.Nc4+ Kc3 4.Ne5+ Kd4 5.Ng6 Ke4 6.Kh6 Kf5 7.Rh7 Rxg6#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>indian</code><br>
@@ -5980,7 +9750,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrrb.svg" width="200" alt="KRvkrrb, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 390</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3b1R2/1r5k/1r6/8/8/8/8/K7&moves=6.5">solve ↗</a><br>
+<b>No. 645</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3b1R2/1r5k/1r6/8/8/8/8/K7&moves=6.5">solve ↗</a><br>
 84 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ka2 2.Be7 Ra8 3.Bb4 Kb3 4.Rg7 Kc4 5.Rb8 Kd5 6.Kg8 Ke6 7.Kf8 Rxb8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocheck</code> <code>maslar</code><br>
@@ -5993,7 +9763,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrrn.svg" width="200" alt="KRvkrrn, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 391</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6R1/7k/8/8/1r6/1r6/K2n4&moves=6.5">solve ↗</a><br>
+<b>No. 646</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6R1/7k/8/8/1r6/1r6/K2n4&moves=6.5">solve ↗</a><br>
 9 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Ra7 2.Ra2+ Kxa2 3.Rb7 Ka3 4.Rf7 Kb4 5.Kg7 Kc5 6.Kf8 Kd6 7.Ke8 Ra8#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code><br>
@@ -6006,11 +9776,696 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrrr.svg" width="200" alt="KRvkrrr, h#6.5"><br><sub><b>h#6.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 392</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5R2/8/1r4k1/1r6/8/8/3r4/K7&moves=6.5">solve ↗</a><br>
+<b>No. 647</b> &nbsp;·&nbsp; <b>h#6.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5R2/8/1r4k1/1r6/8/8/3r4/K7&moves=6.5">solve ↗</a><br>
 152 positions of 7,751,073,792 indexed have a unique solution at h#6.5. The class runs to h#8, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Rb8 2.Kf5 Rxb6 3.Ke4 Rxb5 4.Kd3 Ra5 5.Kc2 Ka2 6.Kd1+ Kb3 7.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code><br>
 <br><code>5R2/8/1r4k1/1r6/8/8/3r4/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBBvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBBvkr.svg" width="200" alt="KBBBvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 648</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6B1/6Bk/8/8/1r6/8/8/KB6&moves=6">solve ↗</a><br>
+28 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Ka2 2.Ra4+ Kb3 3.Ra8 Kc4 4.Kf7 Kd5 5.Ke8 Ke6 6.Rd8 Bg6#<br>
+<br><b>Themes:</b> <code>self-block</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>6B1/6Bk/8/8/1r6/8/8/KB6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBBNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBBNvkr.svg" width="200" alt="KBBNvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 649</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6N1/7k/8/4B3/8/8/K1B4r&moves=6">solve ↗</a><br>
+92 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxc1+ Kb2 2.Kg5 Nf5 3.Kf4 Nd4 4.Ke3 Nc2+ 5.Ke2 Kc3 6.Kd1 Bf3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6N1/7k/8/4B3/8/8/K1B4r b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNNvk.svg" width="200" alt="KBNNNvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 650</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6NN/7k/8/5N2/8/8/K2B4&moves=6">solve ↗</a><br>
+40 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Kh6 Kc3 3.Kg5 Kd4 4.Kh4 Ke5 5.Kg3 Kf6 6.Kh4 Nf5#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/6NN/7k/8/5N2/8/8/K2B4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNvkb.svg" width="200" alt="KBNNvkb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 651</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5NN1/7k/8/4B3/8/8/K4b2&moves=6">solve ↗</a><br>
+25 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb2 2.Bh3 Kc3 3.Bf5 Kd4 4.Bh7 Ke5 5.Bg8 Kf5 6.Kh7 Kf6#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>single-piece</code> <code>single-piece:white</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/5NN1/7k/8/4B3/8/8/K4b2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNvkn.svg" width="200" alt="KBNNvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 652</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/n4N2/6k1/7N/8/K2B4&moves=6">solve ↗</a><br>
+63 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh3 Kb2 2.Nb3 Kc3 3.Nc1 Kd4 4.Ne2+ Ke5 5.Kg4 Kf6 6.Kh5 Bxe2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/n4N2/6k1/7N/8/K2B4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KBNNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KBNNvkr.svg" width="200" alt="KBNNvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 653</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6N1/6N1/7k/6r1/8/8/K1B5&moves=6">solve ↗</a><br>
+43 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg6 Kb2 2.Rh4 Kc3 3.Rh8 Kd4 4.Kf7 Ke5 5.Kf8 Kf6 6.Rg8 Ba3#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6N1/6N1/7k/6r1/8/8/K1B5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNvkb.svg" width="200" alt="KNNNvkb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 654</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7N/7k/5N2/5N2/8/8/Kb6&moves=6">solve ↗</a><br>
+11 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Bxf5 Nd5 2.Kh5 Ka2 3.Kg4 Kb2 4.Kf3 Ng5+ 5.Ke2 Nf3 6.Kd1 Nc3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7N/7k/5N2/5N2/8/8/Kb6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNvkq.svg" width="200" alt="KNNNvkq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 655</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N5N1/8/8/7N/8/8/4q3/K6k&moves=6">solve ↗</a><br>
+76 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg2 Kb1 2.Qb5+ Kc2 3.Kf3 Kc3 4.Ke4 Ng3+ 5.Kd5 Ne7+ 6.Kc5 Ne4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
+<br><code>N5N1/8/8/7N/8/8/4q3/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNvkr.svg" width="200" alt="KNNNvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 656</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/5Nr1/5N2/8/8/7N/8/1K6&moves=6">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxf7 Kc2 2.Rh7 Kd3 3.Kg7 Ke4 4.Rh4+ Kf5 5.Kh6 Ng4+ 6.Kh5 Nf4#<br>
+<br><b>Themes:</b> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/5Nr1/5N2/8/8/7N/8/1K6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBvkq.svg" width="200" alt="KQBBvkq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 657</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2B5/6Q1/5k2/8/8/4B3/3q4/K7&moves=6">solve ↗</a><br>
+256 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Qa5 Kc2 3.Kg6 Kd3 4.Kh5 Ke4 5.Kh4 Kf4 6.Qh5 Bf2#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2B5/6Q1/5k2/8/8/4B3/3q4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBBvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBBvkr.svg" width="200" alt="KQBBvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 658</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/6k1/3B4/7B/6r1/8/K7&moves=6">solve ↗</a><br>
+291 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Rg8 Kc3 3.Kg7 Kd4 4.Kf8 Ke5 5.Ke8 Ke6 6.Rf8 Bc6#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7Q/6k1/3B4/7B/6r1/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNNvk.svg" width="200" alt="KQNNNvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 659</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5N1Q/7k/8/8/8/8/1K3NN1&moves=6">solve ↗</a><br>
+81 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kc2 2.Kg7 Kd3 3.Kg6 Ke4 4.Kh5 Kf5 5.Kh4 Nf3+ 6.Kh5 Ng3#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/5N1Q/7k/8/8/8/8/1K3NN1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNNvkn.svg" width="200" alt="KQNNvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 660</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4N3/8/6Qk/n7/8/8/8/K2N4&moves=6">solve ↗</a><br>
+248 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg6 Ka2 2.Kf5 Ne3+ 3.Ke4 Nd6+ 4.Kd3 Nb7 5.Kd2 Nxa5 6.Kc1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>4N3/8/6Qk/n7/8/8/8/K2N4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQPPvk.svg" width="200" alt="KQQPPvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 661</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/8/8/P7/P3Q3/6kQ&moves=6">solve ↗</a><br>
+3 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh1 Kb7 2.Kg1 Kc6 3.Kh1 Kd5 4.Kg1 Ke4 5.Kh1 Kf3 6.Kg1 Qg2#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K7/8/8/8/8/P7/P3Q3/6kQ b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQPvkp.svg" width="200" alt="KQQPvkp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 662</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7Q/7k/8/6Q1/8/3p4/3P4/K7&moves=6">solve ↗</a><br>
+34 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 Kb2 2.Kh7 Kc3 3.Kh8 Kd4 4.Kh7 Ke5 5.Kh8 Kf6 6.Kh7 Qg7#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>pendulum</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7Q/7k/8/6Q1/8/3p4/3P4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQPvkq.svg" width="200" alt="KQQPvkq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 663</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/Qq6/8/P7/7Q/7k&moves=6">solve ↗</a><br>
+3 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 a4 2.Kg3 axb5 3.Kf4 Qa4+ 4.Ke5 b6 5.Kd6 b7 6.Kc7 b8=Q#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>K7/8/8/Qq6/8/P7/7Q/7k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkbn.svg" width="200" alt="KQQvkbn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 664</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Q1/7k/8/8/b7/7Q/K1n5&moves=6">solve ↗</a><br>
+9 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Ne2 Kc2 3.Ng1 Kd3 4.Nh3 Ke4 5.Kh6 Kf5 6.Kh5 Qxh3#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/6Q1/7k/8/8/b7/7Q/K1n5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvknn.svg" width="200" alt="KQQvknn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 665</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6Q1/7k/8/8/8/8/K1nn3Q&moves=6">solve ↗</a><br>
+40 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Ne2 Kc2 3.Ng1 Kd3 4.Nh3 Ke4 5.Kh6 Kf5 6.Kh5 Qxh3#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/6Q1/7k/8/8/8/8/K1nn3Q b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvknp.svg" width="200" alt="KQQvknp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 666</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/5Q1k/8/2p5/8/1n6/K7&moves=6">solve ↗</a><br>
+50 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb1 2.c3 Kc2 3.Nc4 Kd3 4.Ne5+ Ke4 5.Ng6 Kf5 6.Kh6 Qxg6#<br>
+<br><b>Themes:</b> <code>switchback</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7Q/5Q1k/8/2p5/8/1n6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkpp.svg" width="200" alt="KQQvkpp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 667</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/5Q1k/3p4/p7/8/8/K7&moves=6">solve ↗</a><br>
+23 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.a3+ Kc3 3.a2 Kd4 4.a1=R Ke5 5.Ra8 Kf5 6.Rh8 Qg6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7Q/5Q1k/3p4/p7/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkqn.svg" width="200" alt="KQQvkqn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 668</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7Q/7k/1q6/4n3/6Q1/K7&moves=6">solve ↗</a><br>
+75 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Ka2 2.Qb3+ Kxb3 3.Ng4 Kc4 4.Kg7 Kd5 5.Kf8 Ke6 6.Ke8 Qa8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7Q/7k/1q6/4n3/6Q1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkqp.svg" width="200" alt="KQQvkqp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 669</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/KQ4q1/5p2/8/8/6Q1/8/7k&moves=6">solve ↗</a><br>
+47 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb7+ Kxb7 2.f5 Kc6 3.f4 Kd5 4.f3 Ke4 5.f2 Kf3 6.f1=N Qg2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>umnov</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/KQ4q1/5p2/8/8/6Q1/8/7k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkqq.svg" width="200" alt="KQQvkqq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 670</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/7k/8/8/1q6/8/K1Qq4&moves=6">solve ↗</a><br>
+2 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Qb1+ 2.Qdd3 Qe1 3.Qf7 Kb2 4.Qdg6 Kc3 5.Kg7 Kd4 6.Kf6 Qe5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7Q/7k/8/8/1q6/8/K1Qq4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBBvk.svg" width="200" alt="KQRBBvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 671</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/6k1/8/7B/6R1/7B/K7&moves=6">solve ↗</a><br>
+41 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Kh6 Kc3 3.Kh5 Kd4 4.Kxh4 Ke5 5.Kh5 Kf6 6.Kh6 Rh3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7Q/6k1/8/7B/6R1/7B/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBPvk.svg" width="200" alt="KQRBPvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 672</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6kQ/6RB/8/8/1P6/K7&moves=6">solve ↗</a><br>
+321 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh6 b4 2.Kxg5 b5 3.Kf4 b6 4.Ke3 b7 5.Kd2 b8=Q 6.Kc1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>phoenix</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/6kQ/6RB/8/8/1P6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBvkb.svg" width="200" alt="KQRBvkb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 673</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/4B1b1/6Q1/4R2k/8/8/8/K7&moves=6">solve ↗</a><br>
+149 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxg6 Bg5 2.Kh5 Kb1 3.Kg4 Re8 4.Kf3 Be7 5.Ke2 Bb4+ 6.Kd1 Re1#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>klasinc</code> <code>indian</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/4B1b1/6Q1/4R2k/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBvkn.svg" width="200" alt="KQRBvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 674</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2B5/6Q1/5k2/4R3/3n4/8/K7&moves=6">solve ↗</a><br>
+28 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg6 Ra4 2.Kf5 Ra3 3.Ke4 Ka2 4.Ke3 Kb3 5.Kd2 Ba5+ 6.Kc1 Ra1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/2B5/6Q1/5k2/4R3/3n4/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBvkp.svg" width="200" alt="KQRBvkp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 675</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6B1/8/6kQ/6Rp/8/8/8/K7&moves=6">solve ↗</a><br>
+600 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#14, so the deepest sound problem is 16 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Kb2 2.h4 Kc3 3.h3 Kd4 4.h2 Ke5 5.h1=R Kf6 6.Rh5 Rg6#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>closed-walk</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>6B1/8/6kQ/6Rp/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRPPvk.svg" width="200" alt="KQRPPvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 676</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/6Rk/8/8/8/P4P2/K7&moves=6">solve ↗</a><br>
+113 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 f4 2.Kh8 f5 3.Kh7 f6 4.Kh8 f7 5.Kh7 Rg7+ 6.Kh8 f8=Q#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7Q/6Rk/8/8/8/P4P2/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRPvkb.svg" width="200" alt="KQRPvkb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 677</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/6Rk/8/8/b7/6P1/K7&moves=6">solve ↗</a><br>
+207 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh7 g4 2.Be7 g5 3.Bf6+ gxf6 4.Kh8 f7 5.Kh7 Rg7+ 6.Kh8 f8=Q#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7Q/6Rk/8/8/b7/6P1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRPvkn.svg" width="200" alt="KQRPvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 678</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/6Q1/7k/8/1n6/8/1P6/K7&moves=6">solve ↗</a><br>
+30 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Nd5 Kc2 3.Nf6 Kd3 4.Nh7 Ke4 5.Kh6 Kf5 6.Kh5 Rxh7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7R/6Q1/7k/8/1n6/8/1P6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRPvkp.svg" width="200" alt="KQRPvkp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 679</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7Q/5pk1/8/8/6RP/K7&moves=6">solve ↗</a><br>
+720 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#10, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Kb2 2.f4 Kc3 3.f3 Kd4 4.f2 Ke5 5.f1=N Kf6 6.Nxh2 Rxh2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>promotion</code> <code>underpromotion</code> <code>kniest</code> <code>nocheck</code> <code>promotions:n</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/7Q/5pk1/8/8/6RP/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRPvkq.svg" width="200" alt="KQRPvkq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 680</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5Q2/4k3/3R4/8/2q5/1P6/K7&moves=6">solve ↗</a><br>
+99 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf7 Rd2 2.Ke6 Rc2 3.Kd5 Kb1 4.Kc4 Kc1 5.Kb3 Rxc3+ 6.Ka2 Ra3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/5Q2/4k3/3R4/8/2q5/1P6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRPvkr.svg" width="200" alt="KQRPvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 681</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/8/8/1r6/1P5Q/1R4k1&moves=6">solve ↗</a><br>
+106 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Ka6 2.Rxb2 Rxb2+ 3.Kg1 Kb5 4.Kf1 Kc4 5.Ke1 Kd3 6.Kd1 Rb1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/K7/8/8/8/1r6/1P5Q/1R4k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkbb.svg" width="200" alt="KQRvkbb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 682</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5bQ1/5k2/4R3/8/K1b5&moves=6">solve ↗</a><br>
+92 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 Re5 2.Kf4 Rxf5+ 3.Ke3 Kb1 4.Ke2 Kc2 5.Ke1 Kd3 6.Kd1 Rf1#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/5bQ1/5k2/4R3/8/K1b5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkbn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkbn.svg" width="200" alt="KQRvkbn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 683</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Q1/2b4k/8/7R/K2n4&moves=6">solve ↗</a><br>
+141 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 Rc2 2.Kf4 Rxc4+ 3.Ke3 Ka2 4.Kd2 Rd4+ 5.Kc1 Kb3 6.Kb1 Rxd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/6Q1/2b4k/8/7R/K2n4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkbp.svg" width="200" alt="KQRvkbp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 684</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7Q/7k/p7/2b3R1/K7&moves=6">solve ↗</a><br>
+1,435 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh5 Rxc2 2.Kg4 Ra2 3.Kf3 Rxa3+ 4.Ke2 Kb2 5.Kd1 Kc3 6.Kc1 Ra1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/7Q/7k/p7/2b3R1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvknn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvknn.svg" width="200" alt="KQRvknn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 685</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Q1/7k/2nn4/8/K6R&moves=6">solve ↗</a><br>
+294 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 Rc1 2.Kf4 Rxc3 3.Ke3 Ka2 4.Kd2 Rxd3+ 5.Kc1 Kb3 6.Kb1 Rd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/6Q1/7k/2nn4/8/K6R b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvknp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvknp.svg" width="200" alt="KQRvknp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 686</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7Q/7k/p1n5/8/K5R1&moves=6">solve ↗</a><br>
+2,648 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh5 Rb1 2.Kg4 Rb3 3.Kf3 Rxa3 4.Ke2 Kb2 5.Kd1 Kxc3 6.Kc1 Ra1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/7Q/7k/p1n5/8/K5R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkpp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkpp.svg" width="200" alt="KQRvkpp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 687</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7Q/6k1/5R1p/2p5/8/K7&moves=6">solve ↗</a><br>
+1,431 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Kb1 2.h3 Kc2 3.h2 Kd3 4.h1=R Ke4 5.Rg1 Kf5 6.Rg7 Rh4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>kniest</code> <code>nocheck</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7Q/6k1/5R1p/2p5/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkqb.svg" width="200" alt="KQRvkqb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 688</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7Q/b2q2Rk/8/K7&moves=6">solve ↗</a><br>
+454 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Rg7 2.Qh7 Rxh7+ 3.Kg3 Kb1 4.Kf2 Kc2 5.Ke1 Kd3 6.Kd1 Rh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/7Q/b2q2Rk/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkqn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkqn.svg" width="200" alt="KQRvkqn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 689</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7Q/6nk/2q5/K5R1&moves=6">solve ↗</a><br>
+656 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Rc1 2.Qf2 Rc2 3.Kh3 Kb2 4.Kg2 Kc3 5.Kf1 Kd3 6.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/7Q/6nk/2q5/K5R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkqp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkqp.svg" width="200" alt="KQRvkqp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 690</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5Q2/2p2k2/7R/3q4/K7&moves=6">solve ↗</a><br>
+1,359 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf5 Rc3 2.Ke4 Rxc4+ 3.Kd3 Ra4 4.Kc2 Ka2 5.Kd1+ Kb3 6.Kc1 Ra1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/5Q2/2p2k2/7R/3q4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkqq.svg" width="200" alt="KQRvkqq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 691</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7Q/4q1Rk/2q5/K7&moves=6">solve ↗</a><br>
+1,440 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8.5, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Rg2 2.Kh3 Rxc2 3.Qf2 Kb2 4.Kg2 Kc3 5.Kf1 Kd3 6.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/7Q/4q1Rk/2q5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkqr.svg" width="200" alt="KQRvkqr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 692</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4Q3/1qrk4/8/3R4/K7&moves=6">solve ↗</a><br>
+2,025 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe5 Rb2 2.Kd4 Rxb4 3.Kc3 Rxc4+ 4.Kb3 Kb1 5.Ka3 Kc2 6.Ka2 Ra4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/4Q3/1qrk4/8/3R4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkrb.svg" width="200" alt="KQRvkrb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 693</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Q1/7k/8/b1r5/K6R&moves=6">solve ↗</a><br>
+850 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 Rb1 2.Kf4 Rb2 3.Ke3 Kxa2 4.Kd2 Kb3 5.Kc1 Ra2 6.Rd2 Ra1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/6Q1/7k/8/b1r5/K6R b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkrn.svg" width="200" alt="KQRvkrn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 694</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7Q/1r5k/8/8/K3n1R1&moves=6">solve ↗</a><br>
+562 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh5 Rh1+ 2.Kg4 Ka2 3.Kf3 Ka3 4.Ke2 Kxb4 5.Kd1 Kc3 6.Kc1 Rxe1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/7Q/1r5k/8/8/K3n1R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkrp.svg" width="200" alt="KQRvkrp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 695</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Q1/7k/8/p1r5/K6R&moves=6">solve ↗</a><br>
+2,337 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg5 Rb1 2.Kf4 Rb2 3.Ke3 Kxa2 4.Kd2 Kb3 5.Kc1 Ra2 6.Rd2 Ra1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/6Q1/7k/8/p1r5/K6R b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRvkrr.svg" width="200" alt="KQRvkrr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 696</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4Q3/1rrk4/8/8/K2R4&moves=6">solve ↗</a><br>
+1,093 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe5 Rb1 2.Kd4 Rxb4 3.Kc3 Rxc4+ 4.Kb3 Kb1 5.Ka3 Kc2 6.Ka2 Ra4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/4Q3/1rrk4/8/8/K2R4 b - - 0 1</code>
 </td>
 </tr></table>
 
@@ -6019,7 +10474,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkbbn.svg" width="200" alt="KQvkbbn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 393</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/1n4Q1/b7/2b5/K7&moves=6">solve ↗</a><br>
+<b>No. 697</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/1n4Q1/b7/2b5/K7&moves=6">solve ↗</a><br>
 352 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qxb4 2.Kg5 Qxa3 3.Kf4 Qf8+ 4.Ke3 Kb2 5.Ke2 Kc3 6.Kd1 Qf1#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6033,7 +10488,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkbbp.svg" width="200" alt="KQvkbbp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 394</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/6Q1/p7/8/b7/K1b5&moves=6">solve ↗</a><br>
+<b>No. 698</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/6Q1/p7/8/b7/K1b5&moves=6">solve ↗</a><br>
 131 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh7 Kxa2 2.a3 Kb3 3.Bb2 Kc4 4.Bg7 Kd5 5.Kg8 Ke6 6.Kf8 Qd8#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
@@ -6047,7 +10502,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkbnn.svg" width="200" alt="KQvkbnn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 395</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/6Q1/3n4/2b5/K2n4&moves=6">solve ↗</a><br>
+<b>No. 699</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/6Q1/3n4/2b5/K2n4&moves=6">solve ↗</a><br>
 310 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qxd1 2.Kg5 Qxd3 3.Kf4 Qf5+ 4.Ke3 Kb2 5.Ke2 Kc3 6.Kd1 Qf1#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code><br>
@@ -6061,7 +10516,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkbnp.svg" width="200" alt="KQvkbnp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 396</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/3p2Q1/3n4/2b5/K7&moves=6">solve ↗</a><br>
+<b>No. 700</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/3p2Q1/3n4/2b5/K7&moves=6">solve ↗</a><br>
 171 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qxd4 2.Kg5 Qxd3 3.Kf4 Qf5+ 4.Ke3 Kb2 5.Ke2 Kc3 6.Kd1 Qf1#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6075,7 +10530,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkbpp.svg" width="200" alt="KQvkbpp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 397</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3Q3k/8/8/1p6/8/2p5/2b5/K7&moves=6">solve ↗</a><br>
+<b>No. 701</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3Q3k/8/8/1p6/8/2p5/2b5/K7&moves=6">solve ↗</a><br>
 3 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg7 Ka2 2.Bh7 Kb3 3.c2 Kc3 4.c1=Q+ Kd4 5.Qc4+ Ke5 6.Qg8 Qf6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>self-block</code> <code>nocapture</code> <code>umnov</code> <code>promotions:q</code><br>
@@ -6089,7 +10544,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvknnn.svg" width="200" alt="KQvknnn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 398</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/2n3Q1/n2n4/8/K7&moves=6">solve ↗</a><br>
+<b>No. 702</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/2n3Q1/n2n4/8/K7&moves=6">solve ↗</a><br>
 292 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qxc4 2.Kg5 Qxd3 3.Kf4 Qf5+ 4.Ke3 Kb2 5.Ke2 Kc3 6.Kd1 Qf1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6103,7 +10558,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvknnp.svg" width="200" alt="KQvknnp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 399</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/2p5/3n4/n7/6Q1/8/7k/8&moves=6">solve ↗</a><br>
+<b>No. 703</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/2p5/3n4/n7/6Q1/8/7k/8&moves=6">solve ↗</a><br>
 1,102 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.c5 Kb8 2.c4 Kc7 3.c3 Kxd6 4.c2 Ke5 5.c1=R Kf4 6.Rh1 Qg3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>excelsior</code> <code>excelsior:black</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:r</code><br>
@@ -6116,7 +10571,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvknpp.svg" width="200" alt="KQvknpp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 400</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/4pQ1p/8/8/8/n7/K7&moves=6">solve ↗</a><br>
+<b>No. 704</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/4pQ1p/8/8/8/n7/K7&moves=6">solve ↗</a><br>
 163 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Nb4 Kb2 2.Nc6 Kc3 3.Nd8 Kd4 4.Kg8 Ke5 5.Nf7+ Kxe6 6.Kf8 Qxf7#<br>
 <br><b>Themes:</b> <i>none detected</i><br>
@@ -6129,7 +10584,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkppp.svg" width="200" alt="KQvkppp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 401</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/2p2Q2/p4p2/8/8/8/K7&moves=6">solve ↗</a><br>
+<b>No. 705</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/2p2Q2/p4p2/8/8/8/K7&moves=6">solve ↗</a><br>
 35 positions of 12,782,665,728 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.a4 Kb2 2.a3+ Kc3 3.a2 Kd4 4.a1=R Ke5 5.Ra8 Kxf5 6.Rh8 Qg6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>single-piece</code> <code>single-piece:black</code> <code>promotions:r</code><br>
@@ -6142,7 +10597,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqbb.svg" width="200" alt="KQvkqbb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 402</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/8/8/8/8/K1b1qb2&moves=6">solve ↗</a><br>
+<b>No. 706</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/8/8/8/8/K1b1qb2&moves=6">solve ↗</a><br>
 12 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh8 Qg4 2.Bg5+ Kb2 3.Qe7 Kc3 4.Kg7 Kd4 5.Kf6 Kd5 6.Qg7 Qe6#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocapture</code><br>
@@ -6156,7 +10611,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqbn.svg" width="200" alt="KQvkqbn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 403</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3n3k/b5Q1/1q6/8/K7&moves=6">solve ↗</a><br>
+<b>No. 707</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3n3k/b5Q1/1q6/8/K7&moves=6">solve ↗</a><br>
 218 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qxa4 2.Kg5 Qxb3 3.Kf4 Qa2 4.Ke3 Kb2 5.Kd2 Kb3+ 6.Kc1 Qc2#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6170,7 +10625,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqbp.svg" width="200" alt="KQvkqbp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 404</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/6Q1/1qp5/b7/8/K7&moves=6">solve ↗</a><br>
+<b>No. 708</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/6Q1/1qp5/b7/8/K7&moves=6">solve ↗</a><br>
 28 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh7 Ka2 2.Qb7 Kxa3 3.Qg7 Kb4 4.Kg8 Kc5 5.Kf8 Kd6 6.Qg8 Qe7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocheck</code><br>
@@ -6184,7 +10639,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqnp.svg" width="200" alt="KQvkqnp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 405</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/1p4Q1/2n5/7q/K7&moves=6">solve ↗</a><br>
+<b>No. 709</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/1p4Q1/2n5/7q/K7&moves=6">solve ↗</a><br>
 605 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qe2 2.Kg5 Kb2 3.Kf4 Qxh2+ 4.Ke3 Qh7 5.Kd2 Kb3 6.Kc1 Qc2#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6198,7 +10653,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqpp.svg" width="200" alt="KQvkqpp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 406</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/p5Q1/1qp5/8/K7&moves=6">solve ↗</a><br>
+<b>No. 710</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/p5Q1/1qp5/8/K7&moves=6">solve ↗</a><br>
 60 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh6 Qxa4 2.Kg5 Qxb3 3.Kf4 Ka2 4.Ke3 Qe6+ 5.Kd2 Kb3 6.Kc1 Qe1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6212,7 +10667,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqqb.svg" width="200" alt="KQvkqqb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 407</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/8/8/3q4/2q5/K1b5&moves=6">solve ↗</a><br>
+<b>No. 711</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/8/8/3q4/2q5/K1b5&moves=6">solve ↗</a><br>
 8 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh8 Qg3 2.Qc7 Ka2 3.Qg6 Kb3 4.Qcf7+ Kc3 5.Kg7 Kd4 6.Kf6 Qe5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocapture</code><br>
@@ -6226,7 +10681,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqqn.svg" width="200" alt="KQvkqqn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 408</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4n2k/6Q1/8/8/2q4q/K7&moves=6">solve ↗</a><br>
+<b>No. 712</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4n2k/6Q1/8/8/2q4q/K7&moves=6">solve ↗</a><br>
 36 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh7 Qd2 2.Qg6 Kb2 3.Nf4 Kc3 4.Kh6 Kd4 5.Kg5 Ke5 6.Qhh5 Qxf4#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>maslar</code><br>
@@ -6240,7 +10695,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqqp.svg" width="200" alt="KQvkqqp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 409</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/2p5/8/7q/7q/K7&moves=6">solve ↗</a><br>
+<b>No. 713</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/2p5/8/7q/7q/K7&moves=6">solve ↗</a><br>
 6 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh8 Qb6 2.Qb8 Kb2 3.Qh7 Kc3 4.c4 Kd4 5.Qbg8 Ke5 6.Kg7 Qf6#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code> <code>nocapture</code> <code>nocheck</code><br>
@@ -6254,7 +10709,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqqq.svg" width="200" alt="KQvkqqq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 410</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/8/8/q3q3/3q4/1K6&moves=6">solve ↗</a><br>
+<b>No. 714</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/6Q1/8/8/q3q3/3q4/1K6&moves=6">solve ↗</a><br>
 2 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh8 Qd3 2.Qc2+ Kxc2 3.Qd2+ Kxd2 4.Kg7 Ke3 5.Kh6 Kf4 6.Kh5 Qh7#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code><br>
@@ -6263,12 +10718,40 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRBBNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBNvk.svg" width="200" alt="KRBBNvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 715</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=4BN2/3B2R1/7k/8/8/8/8/K7&moves=6">solve ↗</a><br>
+94 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb2 2.Kf6 Kc3 3.Ke7 Kd4 4.Kd8 Ke5 5.Kc7 Kf6 6.Kd8 Ne6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>4BN2/3B2R1/7k/8/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRBBvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRBBvkr.svg" width="200" alt="KRBBvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 716</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5B1R/7k/4B1r1/8/8/8/K7&moves=6">solve ↗</a><br>
+66 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Kh6 Kc3 3.Rg3+ Kd4 4.Kg5 Ke4 5.Kh4 Kf4 6.Rh3 Bf6#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/5B1R/7k/4B1r1/8/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRBvkqb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkqb.svg" width="200" alt="KRBvkqb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 411</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/Bb6/2R5/K1kq4&moves=6">solve ↗</a><br>
+<b>No. 717</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/Bb6/2R5/K1kq4&moves=6">solve ↗</a><br>
 273 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#10.5, so the deepest sound problem is 9 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxc2+ Bc1 2.Kd3 Kb2 3.Ke2 Kc3 4.Qf1 Kd4 5.Ke1 Ke3 6.Bd1 Bd2#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>umnov</code><br>
@@ -6282,7 +10765,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkqq.svg" width="200" alt="KRBvkqq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 412</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6qk/6B1/8/8/8/7R/7q/K7&moves=6">solve ↗</a><br>
+<b>No. 718</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6qk/6B1/8/8/8/7R/7q/K7&moves=6">solve ↗</a><br>
 21 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg7 Kb1 2.Qe5 Kc2 3.Qh5 Kd3 4.Kh6 Ke4 5.Qh4+ Kf5 6.Qg7 Rxh4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -6296,7 +10779,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkqr.svg" width="200" alt="KRBvkqr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 413</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2q3r1/6Bk/7R/8/8/K7&moves=6">solve ↗</a><br>
+<b>No. 719</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/2q3r1/6Bk/7R/8/8/K7&moves=6">solve ↗</a><br>
 47 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg5 Kb2 2.Qe8 Kc3 3.Rg8 Kd4 4.Qh5 Ke5 5.Kh6+ Kf6 6.Kh7 Rxh5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -6310,7 +10793,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRBvkrr.svg" width="200" alt="KRBvkrr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 414</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6rk/6B1/8/8/8/7R/3r4/K7&moves=6">solve ↗</a><br>
+<b>No. 720</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6rk/6B1/8/8/8/7R/3r4/K7&moves=6">solve ↗</a><br>
 21 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower.<br>
 <br><b>Solution:</b> 1.Kxg7 Kb1 2.Rd5 Kc2 3.Rh5 Kd3 4.Kh6 Ke4 5.Rh4+ Kf5 6.Rg7 Rxh4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -6319,12 +10802,54 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRNNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNNvk.svg" width="200" alt="KRNNNvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 721</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7N/8/7N/8/8/k1K5/R1N5&moves=6">solve ↗</a><br>
+12 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa1 Kd1 2.Kb2 Nb3 3.Kc3 Kc1 4.Kd3 Nc5+ 5.Ke2 Ng3+ 6.Ke1 Nd3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7N/8/7N/8/8/k1K5/R1N5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNvkn.svg" width="200" alt="KRNNvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 722</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3Rk1Nn/8/7N/8/8/8/8/2K5&moves=6">solve ↗</a><br>
+6 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd8 Kd2 2.Kd7 Ke3 3.Ke8 Kf4 4.Kf8 Kg5 5.Kg7 Nf5+ 6.Kh7 Nf6#<br>
+<br><b>Themes:</b> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>3Rk1Nn/8/7N/8/8/8/8/2K5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRNNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRNNvkr.svg" width="200" alt="KRNNvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 723</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1r3N1R/7k/8/5N2/8/K7&moves=6">solve ↗</a><br>
+122 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Nd4 2.Kg5 Nd7 3.Kf4 Nxb6 4.Ke3 Nd5+ 5.Kd2 Ne3 6.Kc1 Nb3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/1r3N1R/7k/8/5N2/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRNvkqq
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRNvkqq.svg" width="200" alt="KRNvkqq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 415</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7q/7k/5NR1/2q5/K7&moves=6">solve ↗</a><br>
+<b>No. 724</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7q/7k/5NR1/2q5/K7&moves=6">solve ↗</a><br>
 22 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Qxf3 Rg2 2.Kh3 Rxc2 3.Qf2 Kb2 4.Kg2 Kc3 5.Kf1 Kd3 6.Ke1 Rc1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
@@ -6333,12 +10858,166 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRRBBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBBvk.svg" width="200" alt="KRRBBvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 725</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7R/7k/8/7B/6R1/7B/K7&moves=6">solve ↗</a><br>
+29 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.Kh6 Kc3 3.Kh5 Kd4 4.Kxh4 Ke5 5.Kh5 Kf6 6.Kh6 Rh3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7R/7k/8/7B/6R1/7B/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRBPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBPvk.svg" width="200" alt="KRRBPvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 726</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=5B2/7R/7k/8/8/P7/8/K5R1&moves=6">solve ↗</a><br>
+182 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 a4 2.Kh8 a5 3.Kh7 a6 4.Kh8 a7 5.Kh7 a8=Q 6.Kh8 Qh1#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>promotion</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>5B2/7R/7k/8/8/P7/8/K5R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRBvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBvkb.svg" width="200" alt="KRRBvkb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 727</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/4B3/7R/6Rk/7b/8/8/K7&moves=6">solve ↗</a><br>
+26 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Rg8 2.Kh5 Re8 3.Kg4 Kb2 4.Kf3 Kc3 5.Ke2 Bxh4+ 6.Kd1 Re1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/4B3/7R/6Rk/7b/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRBvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBvkn.svg" width="200" alt="KRRBvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 728</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7R/7k/8/5B2/8/1n6/K5R1&moves=6">solve ↗</a><br>
+10 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb1 2.Nd3 Kc2 3.Nxf4 Kd2 4.Kh6 Ke3 5.Kh5 Kxf4 6.Kh4 Rh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/7R/7k/8/5B2/8/1n6/K5R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRBvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBvkp.svg" width="200" alt="KRRBvkp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 729</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2p4R/7k/8/8/8/3B4/K5R1&moves=6">solve ↗</a><br>
+255 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Kb2 2.c5 Kc3 3.c4 Kd4 4.c3 Ke5 5.cxd2 Kf6 6.Kh6 Rh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>nocheck</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/2p4R/7k/8/8/8/3B4/K5R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRPPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRPPvk.svg" width="200" alt="KRRPPvk, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 730</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/7k/8/8/6R1/8/1P5P/K7&moves=6">solve ↗</a><br>
+41 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh8 b4 2.Kh7 b5 3.Kh6 b6 4.Kh5 b7 5.Kxg4 b8=Q 6.Kh3 Qg3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>nocheck</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7R/7k/8/8/6R1/8/1P5P/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRPvkb.svg" width="200" alt="KRRPvkb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 731</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7k/7R/6R1/8/8/b7/6P1/K7&moves=6">solve ↗</a><br>
+49 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 g4 2.Be7 g5 3.Bf6+ gxf6 4.Kh8 f7 5.Kh7 Rg7+ 6.Kh8 f8=Q#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>excelsior</code> <code>excelsior:white</code> <code>switchback</code> <code>pendulum</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7k/7R/6R1/8/8/b7/6P1/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRPvkn.svg" width="200" alt="KRRPvkn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 732</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7R/6R1/7k/8/1n6/8/1P6/K7&moves=6">solve ↗</a><br>
+8 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kb1 2.Nd5 Kc2 3.Nf6 Kd3 4.Nh7 Ke4 5.Kh6 Kf5 6.Kh5 Rxh7#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7R/6R1/7k/8/1n6/8/1P6/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRPvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRPvkp.svg" width="200" alt="KRRPvkp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 733</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7R/7k/4p3/8/7P/K5R1&moves=6">solve ↗</a><br>
+224 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#10, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh6 Kb2 2.Kh5 Kc3 3.Kh4 Kd4 4.Kh3 Kxe4 5.Kxh2 Kf3 6.Kh3 Rh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/7R/7k/4p3/8/7P/K5R1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRPvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRPvkq.svg" width="200" alt="KRRPvkq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 734</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/8/8/8/3P2R1/1q4Rk&moves=6">solve ↗</a><br>
+16 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxg1+ Ka6 2.Qh2 Rxh2+ 3.Kg1 Kb5 4.Kf1 Kc4 5.Ke1 Kd3 6.Kd1 Rh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/K7/8/8/8/8/3P2R1/1q4Rk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRPvkr.svg" width="200" alt="KRRPvkr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 735</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/K7/8/8/8/1r6/1P5R/1R4k1&moves=6">solve ↗</a><br>
+11 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Ka6 2.Rxb2 Rxb2+ 3.Kg1 Kb5 4.Kf1 Kc4 5.Ke1 Kd3 6.Kd1 Rb1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/K7/8/8/8/1r6/1P5R/1R4k1 b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KRRvkbb
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkbb.svg" width="200" alt="KRRvkbb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 416</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/b7/2b3R1/K7&moves=6">solve ↗</a><br>
+<b>No. 736</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/b7/2b3R1/K7&moves=6">solve ↗</a><br>
 72 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rxc2 2.Kg4 Ra2 3.Kf3 Rxa3+ 4.Ke2 Kb2 5.Kd1 Kc3 6.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6352,7 +11031,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkbn.svg" width="200" alt="KRRvkbn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 417</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/b1n5/8/K5R1&moves=6">solve ↗</a><br>
+<b>No. 737</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/b1n5/8/K5R1&moves=6">solve ↗</a><br>
 74 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rb1 2.Kg4 Rb3 3.Kf3 Rxa3 4.Ke2 Kb2 5.Kd1 Kxc3 6.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -6366,7 +11045,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkbp.svg" width="200" alt="KRRvkbp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 418</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/4R3/7p/8/6Rk/7b&moves=6">solve ↗</a><br>
+<b>No. 738</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/4R3/7p/8/6Rk/7b&moves=6">solve ↗</a><br>
 723 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh3 Kb7 2.Kxg2 Kc6 3.h3 Kd5 4.h2 Ke4 5.Kh3+ Kf4 6.Bg2 Rh5#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>self-block</code><br>
@@ -6380,7 +11059,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvknn.svg" width="200" alt="KRRvknn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 419</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6R1/7k/2nn4/8/K6R&moves=6">solve ↗</a><br>
+<b>No. 739</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6R1/7k/2nn4/8/K6R&moves=6">solve ↗</a><br>
 175 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg5 Rc1 2.Kf4 Rxc3 3.Ke3 Ka2 4.Kd2 Rxd3+ 5.Kc1 Kb3 6.Kb1 Rd1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6394,7 +11073,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvknp.svg" width="200" alt="KRRvknp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 420</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/p1n5/8/K5R1&moves=6">solve ↗</a><br>
+<b>No. 740</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/p1n5/8/K5R1&moves=6">solve ↗</a><br>
 1,311 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rb1 2.Kg4 Rb3 3.Kf3 Rxa3 4.Ke2 Kb2 5.Kd1 Kxc3 6.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -6408,7 +11087,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkpp.svg" width="200" alt="KRRvkpp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 421</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/7p/5R1p/7k/6R1/8&moves=6">solve ↗</a><br>
+<b>No. 741</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=K7/8/8/7p/5R1p/7k/6R1/8&moves=6">solve ↗</a><br>
 912 positions of 17,043,554,304 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxg2 Kb7 2.h3 Kc6 3.h2 Kd5 4.h1=R Ke4 5.Kh2 Kf3 6.Rg1 Rh4#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>nocheck</code> <code>promotions:r</code><br>
@@ -6422,7 +11101,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkqb.svg" width="200" alt="KRRvkqb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 422</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/1q5k/8/8/K4bR1&moves=6">solve ↗</a><br>
+<b>No. 742</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/1q5k/8/8/K4bR1&moves=6">solve ↗</a><br>
 140 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rh1+ 2.Kg4 Rh4+ 3.Kf3 Rxb4 4.Ke2 Kb2 5.Kd1 Kc3 6.Be2 Rb1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -6436,7 +11115,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkqn.svg" width="200" alt="KRRvkqn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 423</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7R/6nk/2q5/K5R1&moves=6">solve ↗</a><br>
+<b>No. 743</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7R/6nk/2q5/K5R1&moves=6">solve ↗</a><br>
 149 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh4 Rc1 2.Qf2 Rc2 3.Kh3 Kb2 4.Kg2 Kc3 5.Kf1 Kd3 6.Ke1 Rc1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>nocheck</code> <code>umnov</code><br>
@@ -6450,7 +11129,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkqp.svg" width="200" alt="KRRvkqp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 424</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/p7/2q3R1/K7&moves=6">solve ↗</a><br>
+<b>No. 744</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/p7/2q3R1/K7&moves=6">solve ↗</a><br>
 453 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rxc2 2.Kg4 Ra2 3.Kf3 Rxa3+ 4.Ke2 Kb2 5.Kd1 Kc3 6.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6464,7 +11143,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkqq.svg" width="200" alt="KRRvkqq, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 425</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/1q2q3/8/K5R1&moves=6">solve ↗</a><br>
+<b>No. 745</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/1q2q3/8/K5R1&moves=6">solve ↗</a><br>
 498 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rb1 2.Kg4 Rxb3 3.Kf3 Kb2 4.Ke2 Rxe3+ 5.Kd1 Kc3 6.Kc1 Re1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6478,7 +11157,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkqr.svg" width="200" alt="KRRvkqr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 426</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4R3/R4k2/5rq1/8/K7&moves=6">solve ↗</a><br>
+<b>No. 746</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4R3/R4k2/5rq1/8/K7&moves=6">solve ↗</a><br>
 797 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxe5 Rg4 2.Kd5 Rxg3 3.Kc4 Kb1 4.Kb3 Kc1 5.Ka2 Rxf3 6.Ka1 Ra3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -6492,7 +11171,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkrb.svg" width="200" alt="KRRvkrb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 427</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1r6/7R/7k/8/8/K4bR1&moves=6">solve ↗</a><br>
+<b>No. 747</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/1r6/7R/7k/8/8/K4bR1&moves=6">solve ↗</a><br>
 388 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rh1+ 2.Kg4 Rh6 3.Kf3 Rxb6 4.Ke2 Kb2 5.Kd1 Kc3 6.Be2 Rb1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -6506,7 +11185,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkrn.svg" width="200" alt="KRRvkrn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 428</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/1r5k/8/8/K3n1R1&moves=6">solve ↗</a><br>
+<b>No. 748</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/1r5k/8/8/K3n1R1&moves=6">solve ↗</a><br>
 166 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rh1+ 2.Kg4 Ka2 3.Kf3 Ka3 4.Ke2 Kxb4 5.Kd1 Kc3 6.Kc1 Rxe1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6520,7 +11199,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkrp.svg" width="200" alt="KRRvkrp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 429</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/1r6/5p2/K5R1&moves=6">solve ↗</a><br>
+<b>No. 749</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7R/7k/1r6/5p2/K5R1&moves=6">solve ↗</a><br>
 797 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxh5 Rf1 2.Kg4 Ka2 3.Kf3 Kxb3 4.Ke2 Rxf2+ 5.Kd1 Kc3 6.Kc1 Rf1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6534,7 +11213,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRRvkrr.svg" width="200" alt="KRRvkrr, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 3 + 3</sub></td>
 <td valign="top">
-<b>No. 430</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4R3/R4k2/5rr1/8/K7&moves=6">solve ↗</a><br>
+<b>No. 750</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4R3/R4k2/5rr1/8/K7&moves=6">solve ↗</a><br>
 424 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#8, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kxe5 Rg4 2.Kd5 Rxg3 3.Kc4 Kb1 4.Kb3 Kc1 5.Ka2 Rxf3 6.Ka1 Ra3#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
@@ -6548,7 +11227,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkbbb.svg" width="200" alt="KRvkbbb, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 431</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/5b2/4R3/b7/8/K1b5&moves=6">solve ↗</a><br>
+<b>No. 751</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/5b2/4R3/b7/8/K1b5&moves=6">solve ↗</a><br>
 408 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg5 Re5 2.Kf4 Rxf5+ 3.Ke3 Kb1 4.Ke2 Kc2 5.Ke1 Kd3 6.Kd1 Rf1#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6561,7 +11240,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkbbn.svg" width="200" alt="KRvkbbn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 432</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/5bn1/3R4/8/2b5/K7&moves=6">solve ↗</a><br>
+<b>No. 752</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/5bn1/3R4/8/2b5/K7&moves=6">solve ↗</a><br>
 1,232 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh5 Rd5 2.Kg4 Kb2 3.Kf3 Rxf5+ 4.Ke2 Kxc2 5.Ke1 Kd3 6.Kd1 Rf1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6574,7 +11253,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkbnn.svg" width="200" alt="KRvkbnn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 433</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/n2R4/8/2b5/K2n4&moves=6">solve ↗</a><br>
+<b>No. 753</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/n2R4/8/2b5/K2n4&moves=6">solve ↗</a><br>
 1,834 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Bb3 Rxd1 2.Kg4 Rd4+ 3.Kf3 Rxa4 4.Ke2 Kb2 5.Kd1 Kc3 6.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code><br>
@@ -6587,7 +11266,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvknnp.svg" width="200" alt="KRvknnp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 434</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6pk/6R1/8/n7/K1n5&moves=6">solve ↗</a><br>
+<b>No. 754</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6pk/6R1/8/n7/K1n5&moves=6">solve ↗</a><br>
 23,475 positions of 22,724,739,072 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Nd3 Rxg5+ 2.Kh4 Rh5+ 3.Kg3 Kb1 4.Kf2 Kc2 5.Ke1 Kxd3 6.Kd1 Rh1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>umnov</code><br>
@@ -6600,7 +11279,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkppp.svg" width="200" alt="KRvkppp, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 435</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/p7/p6k/p7/K5R1&moves=6">solve ↗</a><br>
+<b>No. 755</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/p7/p6k/p7/K5R1&moves=6">solve ↗</a><br>
 8,358 positions of 12,782,665,728 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kh2 Rg2+ 2.Kh1 Rxa2 3.Kg1 Kb1 4.Kf1 Kc2 5.Ke1 Kd3 6.Kd1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6613,11 +11292,38 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KRvkrnn.svg" width="200" alt="KRvkrnn, h#6"><br><sub><b>h#6</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 436</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/nr2R3/8/n7/K7&moves=6">solve ↗</a><br>
+<b>No. 756</b> &nbsp;·&nbsp; <b>h#6</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/nr2R3/8/n7/K7&moves=6">solve ↗</a><br>
 778 positions of 7,751,073,792 indexed have a unique solution at h#6. The class runs to h#7.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Rd4 Re2 2.Kg4 Rxa2 3.Kf3 Rxa4 4.Ke2 Kb2 5.Kd1 Kc3 6.Kc1 Ra1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>nocheck</code><br>
 <br><code>8/8/8/7k/nr2R3/8/n7/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNvkn.svg" width="200" alt="KNNNvkn, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 757</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/8/1n6/KN1N3N&moves=5.5">solve ↗</a><br>
+147 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#7, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Nhf2 2.Nd3 Ng4 3.Nf4 Kb2 4.Kg6 Kc3 5.Kf5 Nde3+ 6.Ke4 Nd2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocapture</code><br>
+<br><code>8/7k/8/8/8/8/1n6/KN1N3N w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkqb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkqb.svg" width="200" alt="KQQvkqb, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 758</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/6Q1/8/7k/8/6Q1/q7/K7&moves=5.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#5.5. The class runs to h#8, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Bxg7 Kb3 3.Kh6 Kc4 4.Kh7 Kd5 5.Kg8 Ke6 6.Kf8 Qb8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7b/6Q1/8/7k/8/6Q1/q7/K7 w - - 0 1</code>
 </td>
 </tr></table>
 
@@ -6626,7 +11332,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkbbb.svg" width="200" alt="KQvkbbb, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 437</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/3b4/8/4b3/b7/Q7/K7&moves=5.5">solve ↗</a><br>
+<b>No. 759</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/3b4/8/4b3/b7/Q7/K7&moves=5.5">solve ↗</a><br>
 66 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#7, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qc2 2.Bb2+ Kb1 3.Bf6 Kc1 4.Kg6 Kd2 5.Kf5 Ke3 6.Ke5 Qxe4#<br>
 <br><b>Themes:</b> <code>self-block</code><br>
@@ -6639,7 +11345,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqqr.svg" width="200" alt="KQvkqqr, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 438</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/1q6/8/KrQq4&moves=5.5">solve ↗</a><br>
+<b>No. 760</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7k/8/8/8/1q6/8/KrQq4&moves=5.5">solve ↗</a><br>
 84 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#6.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxb1+ 2.Qdd3 Qe1 3.Qf7 Kb2 4.Qdg6 Kc3 5.Kg7 Kd4 6.Kf6 Qe5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
@@ -6653,7 +11359,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqrb.svg" width="200" alt="KQvkqrb, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 439</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/1b6/1q6/8/K2rQ3&moves=5.5">solve ↗</a><br>
+<b>No. 761</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7k/1b6/1q6/8/K2rQ3&moves=5.5">solve ↗</a><br>
 359 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#6.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxd1+ 2.Kg5 Qxb3 3.Kf4 Qa2 4.Ke3 Kb2 5.Kd2 Kb3+ 6.Kc1 Qc2#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6667,7 +11373,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqrn.svg" width="200" alt="KQvkqrn, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 440</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/8/n7/rq6/Q7/K7&moves=5.5">solve ↗</a><br>
+<b>No. 762</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/8/n7/rq6/Q7/K7&moves=5.5">solve ↗</a><br>
 1,825 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#7.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxa3 2.Kf5 Qxb3 3.Ke4 Qe6+ 4.Kd3 Ka2 5.Kd2 Kb3 6.Kc1 Qe1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6681,7 +11387,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqrp.svg" width="200" alt="KQvkqrp, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 441</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/3p4/2q5/KQr5&moves=5.5">solve ↗</a><br>
+<b>No. 763</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/3p4/2q5/KQr5&moves=5.5">solve ↗</a><br>
 1,434 positions of 22,724,739,072 indexed have a unique solution at h#5.5. The class runs to h#7.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxc1+ 2.Kh5 Qxc2 3.Kg4 Qa2 4.Kf3 Kb2 5.Ke2 Kc3+ 6.Kd1 Qd2#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>indian</code><br>
@@ -6695,7 +11401,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrbb.svg" width="200" alt="KQvkrbb, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 442</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5k2/8/6Q1/bb6/8/Kr6&moves=5.5">solve ↗</a><br>
+<b>No. 764</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/5k2/8/6Q1/bb6/8/Kr6&moves=5.5">solve ↗</a><br>
 93 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#6.5, so the deepest sound problem is 2 plies shallower.<br>
 <br><b>Solution:</b> 1...Kxb1 2.Bf7 Kc2 3.Bg6+ Kd2 4.Kg7 Ke3 5.Kh6 Kf4 6.Bh7 Qg5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>self-block</code><br>
@@ -6709,7 +11415,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrbn.svg" width="200" alt="KQvkrbn, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 443</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/1n6/b7/8/KQr5&moves=5.5">solve ↗</a><br>
+<b>No. 765</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/1n6/b7/8/KQr5&moves=5.5">solve ↗</a><br>
 304 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#7.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxc1+ 2.Kh5 Qxa3 3.Kg4 Qa2 4.Kf3 Kb2 5.Ke2 Kc3+ 6.Kd1 Qd2#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6723,7 +11429,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrbp.svg" width="200" alt="KQvkrbp, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 444</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/r1p5/Q1b5/K7&moves=5.5">solve ↗</a><br>
+<b>No. 766</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/8/r1p5/Q1b5/K7&moves=5.5">solve ↗</a><br>
 369 positions of 22,724,739,072 indexed have a unique solution at h#5.5. The class runs to h#6.5, so the deepest sound problem is 2 plies shallower.<br>
 <br><b>Solution:</b> 1...Qxa3 2.Kg5 Qxc3 3.Kf4 Qf6+ 4.Ke3 Kb2 5.Ke2 Kc3 6.Kd1 Qf1#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6737,7 +11443,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrnn.svg" width="200" alt="KQvkrnn, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 445</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/8/8/r1n5/Q7/K2n4&moves=5.5">solve ↗</a><br>
+<b>No. 767</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/8/8/r1n5/Q7/K2n4&moves=5.5">solve ↗</a><br>
 329 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#7.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxa3 2.Kf5 Qxc3 3.Ke4 Qe1+ 4.Kd3 Ka2 5.Kc2 Ka3 6.Kb1 Qxd1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6751,7 +11457,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrnp.svg" width="200" alt="KQvkrnp, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 446</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/1n6/p7/8/KQr5&moves=5.5">solve ↗</a><br>
+<b>No. 768</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/7k/8/1n6/p7/8/KQr5&moves=5.5">solve ↗</a><br>
 390 positions of 22,724,739,072 indexed have a unique solution at h#5.5. The class runs to h#7.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxc1+ 2.Kh5 Qxa3 3.Kg4 Qa2 4.Kf3 Kb2 5.Ke2 Kc3+ 6.Kd1 Qd2#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6765,7 +11471,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrpp.svg" width="200" alt="KQvkrpp, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 447</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/8/8/pp6/8/K2rQ3&moves=5.5">solve ↗</a><br>
+<b>No. 769</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6k1/8/8/pp6/8/K2rQ3&moves=5.5">solve ↗</a><br>
 75 positions of 17,043,554,304 indexed have a unique solution at h#5.5. The class runs to h#6.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Qxd1 2.Kf5 Qxb3 3.Ke4 Qe6+ 4.Kd3 Ka2 5.Kd2 Kb3 6.Kc1 Qe1#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6774,12 +11480,361 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRRBvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBvkq.svg" width="200" alt="KRRBvkq, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 770</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1B6/8/8/7R/6k1/1R6/q7/K7&moves=5.5">solve ↗</a><br>
+90 positions of 7,751,073,792 indexed have a unique solution at h#5.5. The class runs to h#7.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kxh5 Kb2 3.Kg4 Kc3 4.Kf3 Kd3 5.Kf2 Ba7+ 6.Ke1 Rb1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>1B6/8/8/7R/6k1/1R6/q7/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNvkq.svg" width="200" alt="KRRNvkq, h#5.5"><br><sub><b>h#5.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 771</b> &nbsp;·&nbsp; <b>h#5.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=3N4/8/8/6R1/7k/2R5/q7/K7&moves=5.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#5.5. The class runs to h#6.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa2 2.Kxg5 Kb3 3.Kf6 Kc4 4.Ke7 Kd5 5.Kxd8 Ke6 6.Ke8 Rc8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>3N4/8/8/6R1/7k/2R5/q7/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KNNNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KNNNNvk.svg" width="200" alt="KNNNNvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 772</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N5N1/8/8/7N/8/N7/8/K6k&moves=5">solve ↗</a><br>
+768 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kg2 Kb2 2.Kf3 Kc3 3.Ke4 Ng3+ 4.Kd5 Ne7+ 5.Kc5 Ne4#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code><br>
+<br><code>N5N1/8/8/7N/8/N7/8/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkqq.svg" width="200" alt="KQBvkqq, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 773</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1q6/3q4/7B/K4Qk1&moves=5">solve ↗</a><br>
+673 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#8, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Qe1 2.Qf4 Kb2 3.Qdg3 Kc2 4.Kg2 Kd1 5.Kf3 Qe2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/1q6/3q4/7B/K4Qk1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkrr.svg" width="200" alt="KQBvkrr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 774</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5B2/5k2/1rr1Q3/8/K7&moves=5">solve ↗</a><br>
+7 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf5 Qxc3 2.Ke4 Qe5+ 3.Kd3 Ka2 4.Kd2 Kxb3 5.Kc1 Qe1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/5B2/5k2/1rr1Q3/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQNvkqq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQNvkqq.svg" width="200" alt="KQNvkqq, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 775</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/1q6/3q4/7N/K4Qk1&moves=5">solve ↗</a><br>
+326 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Qe1 2.Qf4 Kb2 3.Qdg3 Kc2 4.Kg2 Kd1 5.Kf3 Qe2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/1q6/3q4/7N/K4Qk1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQPvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQPvkb.svg" width="200" alt="KQQPvkb, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 776</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/8/1Pb4Q/K2Q2k1&moves=5">solve ↗</a><br>
+4,745 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh2 Qd4 2.Bb1 Kxb1 3.Kg2 Kc2 4.Kf1 Kd3 5.Ke1 Qg1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/8/1Pb4Q/K2Q2k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQPvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQPvkn.svg" width="200" alt="KQQPvkn, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 777</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1P6/8/8/8/8/Q1Q5/K1k1n3&moves=5">solve ↗</a><br>
+7,801 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#9, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Nxc2+ Qxc2+ 2.Kxc2 Ka2 3.Kc1 Ka3 4.Kb1 b8=Q+ 5.Ka1 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>switchback</code> <code>phoenix</code> <code>promotions:q</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/1P6/8/8/8/8/Q1Q5/K1k1n3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQPvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQPvkr.svg" width="200" alt="KQQPvkr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 778</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1r6/7Q/3P2k1/8/K4Q2&moves=5">solve ↗</a><br>
+487 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 d4 2.Kg3 Qxb5 3.Kf2 Kb2 4.Ke1 Kc3 5.Kd1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/1r6/7Q/3P2k1/8/K4Q2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkbb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkbb.svg" width="200" alt="KQQvkbb, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 779</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1Q6/8/8/7Q/6k1/2b5/K1b5&moves=5">solve ↗</a><br>
+8,228 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Qb2 2.Bb1 Kxb1 3.Kg3 Kc2 4.Kf2 Kd3+ 5.Ke1 Qe2#<br>
+<br><b>Themes:</b> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/1Q6/8/8/7Q/6k1/2b5/K1b5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkbp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkbp.svg" width="200" alt="KQQvkbp, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 780</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5Q2/8/8/8/2p5/2b4Q/K5k1&moves=5">solve ↗</a><br>
+46,878 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Qa7 2.Bb1 Kxb1 3.Kg2 Kc2 4.Kf1 Kd3 5.Ke1 Qg1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/5Q2/8/8/8/2p5/2b4Q/K5k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkqr.svg" width="200" alt="KQQvkqr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 781</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1q6/8/8/8/1r6/Q7/KQ5k&moves=5">solve ↗</a><br>
+10 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxb1+ Qxb1+ 2.Kg2 Qb5 3.Kf2 Kb2 4.Ke1 Kc3 5.Kd1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/1q6/8/8/8/1r6/Q7/KQ5k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkrb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkrb.svg" width="200" alt="KQQvkrb, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 782</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/1r6/8/8/2b4Q/6k1/8/K4Q2&moves=5">solve ↗</a><br>
+292 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Qxc4+ 2.Kg3 Qb5 3.Kf2 Kb2 4.Ke1 Kc3 5.Kd1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/1r6/8/8/2b4Q/6k1/8/K4Q2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkrn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkrn.svg" width="200" alt="KQQvkrn, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 783</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7Q/3r2k1/7n/K4Q2&moves=5">solve ↗</a><br>
+6,726 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Kb2 2.Kg3 Qxd3+ 3.Kf2 Kc3 4.Ke1 Qe3+ 5.Kd1 Qd2#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/7Q/3r2k1/7n/K4Q2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkrp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkrp.svg" width="200" alt="KQQvkrp, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 784</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1r6/2p4Q/6k1/8/K4Q2&moves=5">solve ↗</a><br>
+5,256 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh4 Qxc4+ 2.Kg3 Qxb5 3.Kf2 Kb2 4.Ke1 Kc3 5.Kd1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/1r6/2p4Q/6k1/8/K4Q2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQvkrr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQvkrr.svg" width="200" alt="KQQvkrr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 785</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/5Q2/4k3/1rr5/3Q4/K7&moves=5">solve ↗</a><br>
+42 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxf5 Qxc3 2.Ke4 Qe5+ 3.Kd3 Ka2 4.Kd2 Kxb3 5.Kc1 Qe1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/5Q2/4k3/1rr5/3Q4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBNvk.svg" width="200" alt="KQRBNvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 786</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=Q1B5/kR6/8/8/8/8/8/1K5N&moves=5">solve ↗</a><br>
+16 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxa8 Ra7+ 2.Kb8 Ra8+ 3.Kc7 Ng3 4.Kd8 Nf5 5.Ke8 Be6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>Q1B5/kR6/8/8/8/8/8/1K5N b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBvkq.svg" width="200" alt="KQRBvkq, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 787</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/4B3/1QqR4/K1k5&moves=5">solve ↗</a><br>
+214 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxb2+ Rxb2+ 2.Kd1 Kb1 3.Ke1 Kc2 4.Kf1 Kd3 5.Ke1 Rb1#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/4B3/1QqR4/K1k5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNNvk.svg" width="200" alt="KQRNNvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 788</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/7Q/6k1/5R2/8/8/1K6/N3N3&moves=5">solve ↗</a><br>
+11 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh7 Rf1 2.Kg6 Nf3 3.Kf5 Nb3 4.Ke4 Re1+ 5.Kd3 Ne5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/7Q/6k1/5R2/8/8/1K6/N3N3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNPvk.svg" width="200" alt="KQRNPvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 789</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/8/1P4R1/K2N2kQ&moves=5">solve ↗</a><br>
+4,322 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh1 Rh2+ 2.Kg1 Kb1 3.Kf1 Kc2 4.Ke1 Kd3 5.Kxd1 Rh1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/8/1P4R1/K2N2kQ b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNvkb.svg" width="200" alt="KQRNvkb, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 790</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6Qk/8/N5b1/8/K4R2&moves=5">solve ↗</a><br>
+7 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxg5 Rb1 2.Kf4 Rb2 3.Ke3 Nc2+ 4.Kd2 Ne3+ 5.Kc1 Rc2#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/6Qk/8/N5b1/8/K4R2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNvkn.svg" width="200" alt="KQRNvkn, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 791</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/N7/7Q/n6k/K3R3&moves=5">solve ↗</a><br>
+754 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh3 Kb1 2.Kg2 Re2+ 3.Kf1 Rxa2 4.Ke1 Re2+ 5.Kd1 Nc3#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/N7/7Q/n6k/K3R3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNvkp.svg" width="200" alt="KQRNvkp, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 792</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/6R1/p7/NQ6/K6k&moves=5">solve ↗</a><br>
+4,367 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#8, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.axb2+ Kb1 2.Kh2 Kc2 3.b1=R Nc3 4.Rg1 Ne2 5.Rg2 Rh4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/6R1/p7/NQ6/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNvkq.svg" width="200" alt="KQRNvkq, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 793</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/N7/8/8/8/3q1R2/K3Q2k&moves=5">solve ↗</a><br>
+119 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxe1+ Kb2 2.Kg1 Rc2 3.Qf2 Kc3 4.Kf1 Kd3 5.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>self-block</code> <code>kniest</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/N7/8/8/8/3q1R2/K3Q2k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRNvkr.svg" width="200" alt="KQRNvkr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 794</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/N7/8/8/8/5R2/K4Qrk&moves=5">solve ↗</a><br>
+4 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxf1+ Kb2 2.Kg1 Rc2 3.Rf2 Kc3 4.Kf1 Kd3 5.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>self-block</code> <code>umnov</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/N7/8/8/8/5R2/K4Qrk b - - 0 1</code>
+</td>
+</tr></table>
+
 ## KQvkqrr
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkqrr.svg" width="200" alt="KQvkqrr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 448</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2r1Q3/3K1kq1/2r5&moves=5">solve ↗</a><br>
+<b>No. 795</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2r1Q3/3K1kq1/2r5&moves=5">solve ↗</a><br>
 1 position of 7,751,073,792 indexed has a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kf1+ Qe2+ 2.Kg1 Qf2+ 3.Kh2 Qe2 4.Rg3 Kxc1 5.Kh3 Qh5#<br>
 <br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code><br>
@@ -6793,7 +11848,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrrb.svg" width="200" alt="KQvkrrb, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 449</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2r5/1r6/8/8/8/7k/b6Q/K7&moves=5">solve ↗</a><br>
+<b>No. 796</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2r5/1r6/8/8/8/7k/b6Q/K7&moves=5">solve ↗</a><br>
 2 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg4 Qb2 2.Bc4 Kb1 3.Kf3 Kc2 4.Ke2 Kc3+ 5.Kd1 Qd2#<br>
 <br><b>Themes:</b> <code>nocapture</code> <code>indian</code><br>
@@ -6807,7 +11862,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrrn.svg" width="200" alt="KQvkrrn, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 450</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r6/8/8/8/2r5/4nk2/6Q1/K7&moves=5">solve ↗</a><br>
+<b>No. 797</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1r6/8/8/8/2r5/4nk2/6Q1/K7&moves=5">solve ↗</a><br>
 110 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kf4 Qb7 2.Re4 Kb2 3.Kf3 Kc3 4.Ke2 Qb2+ 5.Kd1 Qd2#<br>
 <br><b>Themes:</b> <code>switchback</code> <code>nocapture</code> <code>klasinc</code><br>
@@ -6821,7 +11876,7 @@ The same material and stipulation as No. 183, which is published; this position 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrrp.svg" width="200" alt="KQvkrrp, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 451</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7k/2p4Q/1r2r3/K7&moves=5">solve ↗</a><br>
+<b>No. 798</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/7k/2p4Q/1r2r3/K7&moves=5">solve ↗</a><br>
 17 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1.Kg5 Qxc3 2.Kf4 Qxb2 3.Ke3 Qa3+ 4.Kd2 Kb1 5.Kd1 Qc1#<br>
 <br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
@@ -6830,16 +11885,884 @@ The same material and stipulation as No. 183, which is published; this position 
 </td>
 </tr></table>
 
+## KRRBNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBNvk.svg" width="200" alt="KRRBNvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 799</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=R1B5/kR6/8/8/8/8/8/1K5N&moves=5">solve ↗</a><br>
+16 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxa8 Ra7+ 2.Kb8 Ra8+ 3.Kc7 Ng3 4.Kd8 Nf5 5.Ke8 Be6#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>R1B5/kR6/8/8/8/8/8/1K5N b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNNvk.svg" width="200" alt="KRRNNvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 800</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6R1/7k/4R3/N7/8/8/1K6/N7&moves=5">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg8 Ra6 2.Kf7 Nc6 3.Ke6 Nc2 4.Kd5 Ra5+ 5.Kc4 Ne5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>6R1/7k/4R3/N7/8/8/1K6/N7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNPvk.svg" width="200" alt="KRRNPvk, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 801</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/5N2/8/1P5R/KR4k1&moves=5">solve ↗</a><br>
+1,670 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh2 b4 2.Kg3 Rb3+ 3.Kf2 Kb2 4.Ke1 Kc3 5.Kd1 Rb1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/5N2/8/1P5R/KR4k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNvkb.svg" width="200" alt="KRRNvkb, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 802</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/6R1/7k/3R4/8/8/1K6/N7&moves=5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#5. The class runs to h#7, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg7 Kc3 2.Kf6 Kd4 3.Kg7 Ke5 4.Kf8+ Ke6 5.Bg7 Rd8#<br>
+<br><b>Themes:</b> <code>pure</code> <code>switchback</code> <code>self-block</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>7b/6R1/7k/3R4/8/8/1K6/N7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNvkn.svg" width="200" alt="KRRNvkn, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 803</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/6R1/7k/8/n7/8/K3N2R&moves=5">solve ↗</a><br>
+93 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg6 Kb2 2.Nc4+ Kc2 3.Kf5 Rh5+ 4.Ke4 Re5+ 5.Kd4 Nf3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>self-block</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/6R1/7k/8/n7/8/K3N2R b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNvkp.svg" width="200" alt="KRRNvkp, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 804</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/6R1/p7/NR6/K6k&moves=5">solve ↗</a><br>
+907 positions of 22,724,739,072 indexed have a unique solution at h#5. The class runs to h#8, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.axb2+ Kb1 2.Kh2 Kc2 3.b1=R Nc3 4.Rg1 Ne2 5.Rg2 Rh4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>promotion</code> <code>underpromotion</code> <code>self-block</code> <code>umnov</code> <code>promotions:r</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/8/8/6R1/p7/NR6/K6k b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRNvkr.svg" width="200" alt="KRRNvkr, h#5"><br><sub><b>h#5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 805</b> &nbsp;·&nbsp; <b>h#5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/N7/8/8/8/5R2/K4Rrk&moves=5">solve ↗</a><br>
+4 positions of 7,751,073,792 indexed have a unique solution at h#5. The class runs to h#6.5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxf1+ Kb2 2.Kg1 Rc2 3.Rf2 Kc3 4.Kf1 Kd3 5.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>self-block</code> <code>umnov</code><br>
+<br><b>Note:</b> the solution begins with a capture.<br>
+<br><code>8/8/N7/8/8/8/5R2/K4Rrk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQBvkqr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQBvkqr.svg" width="200" alt="KQBvkqr, h#4.5"><br><sub><b>h#4.5</b> &nbsp;·&nbsp; 3 + 3</sub></td>
+<td valign="top">
+<b>No. 806</b> &nbsp;·&nbsp; <b>h#4.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/5q2/8/8/1Q6/2B5/2k5/K2r4&moves=4.5">solve ↗</a><br>
+51 positions of 7,751,073,792 indexed have a unique solution at h#4.5. The class runs to h#6.5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Qb1+ 2.Kxc3 Qxd1 3.Kb4 Kb1 4.Ka3 Kc1 5.Ka2 Qa4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/5q2/8/8/1Q6/2B5/2k5/K2r4 w - - 0 1</code>
+</td>
+</tr></table>
+
 ## KQvkrrr
 
 <table><tr>
 <td width="220" valign="top"><img src="images/deepest/KQvkrrr.svg" width="200" alt="KQvkrrr, h#4.5"><br><sub><b>h#4.5</b> &nbsp;·&nbsp; 2 + 4</sub></td>
 <td valign="top">
-<b>No. 452</b> &nbsp;·&nbsp; <b>h#4.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4k3/8/5Q2/r7/rr6/2K5&moves=4.5">solve ↗</a><br>
+<b>No. 807</b> &nbsp;·&nbsp; <b>h#4.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/4k3/8/5Q2/r7/rr6/2K5&moves=4.5">solve ↗</a><br>
 577 positions of 7,751,073,792 indexed have a unique solution at h#4.5. The class runs to h#6, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
 <br><b>Solution:</b> 1...Kd1 2.Kd5 Qd2+ 3.Kc4 Ke2 4.Kb3 Kd3 5.Ra4 Qc3#<br>
 <br><b>Themes:</b> <code>self-block</code> <code>nocapture</code><br>
 <br><code>8/8/4k3/8/5Q2/r7/rr6/2K5 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRBvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRBvkr.svg" width="200" alt="KRRBvkr, h#4.5"><br><sub><b>h#4.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 808</b> &nbsp;·&nbsp; <b>h#4.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/R2R4/rBk5/K7&moves=4.5">solve ↗</a><br>
+43 positions of 7,751,073,792 indexed have a unique solution at h#4.5. The class runs to h#7.5, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Rxa2 2.Kxd3 Kb1 3.Ke2 Kc2 4.Ke1 Kd3 5.Kd1 Ra1#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/R2R4/rBk5/K7 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBvkp.svg" width="200" alt="KQQBvkp, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 809</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2k1p3/3QB3/1QK5&moves=4">solve ↗</a><br>
+6 positions of 22,724,739,072 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.exd2+ Kd1 2.Kd4 Kc2 3.d1=B+ Kc1 4.Kc3 Qb2#<br>
+<br><b>Themes:</b> <code>promotion</code> <code>underpromotion</code> <code>switchback</code> <code>closed-walk</code> <code>umnov</code> <code>promotions:b</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/2k1p3/3QB3/1QK5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBvkq.svg" width="200" alt="KQQBvkq, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 810</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/2Q5/1q6/8/KQ1kB3&moves=4">solve ↗</a><br>
+10 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Qxb1+ Kxb1 2.Kxe1 Kb2 3.Kd1 Kc3 4.Kc1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/2Q5/1q6/8/KQ1kB3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNPvk.svg" width="200" alt="KQQNPvk, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 811</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/8/3Q4/8/1P6/K5kQ&moves=4">solve ↗</a><br>
+1,607 positions of 22,724,739,072 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh1 Kb1 2.Kg2 Kc2 3.Kf1 Kd3 4.Ke1 Qg1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>N7/8/8/8/3Q4/8/1P6/K5kQ b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNvkb.svg" width="200" alt="KQQNvkb, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 812</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/2b5/8/8/8/4Q3/8/K5kQ&moves=4">solve ↗</a><br>
+552 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh1 Nb6 2.Bh2 Nd5 3.Bg1 Nf4 4.Kh2 Qh3#<br>
+<br><b>Themes:</b> <code>self-block</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>N7/2b5/8/8/8/4Q3/8/K5kQ b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNvkn.svg" width="200" alt="KQQNvkn, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 813</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/4Q3/8/8/8/8/8/K2n1kQ1&moves=4">solve ↗</a><br>
+891 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxg1 Nb6 2.Ne3 Nc4 3.Ng2 Qe3+ 4.Kf1 Nd2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code> <code>self-block</code> <code>umnov</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N7/4Q3/8/8/8/8/8/K2n1kQ1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNvkp.svg" width="200" alt="KQQNvkp, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 814</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/5Q1p/8/8/7Q/K5k1&moves=4">solve ↗</a><br>
+1,680 positions of 22,724,739,072 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxh2 Nc7 2.Kg2 Ne6 3.Kg3 Ng5 4.Kh4 Qf4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N7/8/8/5Q1p/8/8/7Q/K5k1 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNvkq.svg" width="200" alt="KQQNvkq, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 815</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/8/8/1q6/Q7/KQk5&moves=4">solve ↗</a><br>
+1,019 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Qxb1+ Qxb1+ 2.Kd2 Nb6 3.Kc3 Qc1+ 4.Kb3 Qb2#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N7/8/8/8/8/1q6/Q7/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNvkr.svg" width="200" alt="KQQNvkr, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 816</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/8/8/1r6/Q7/KQk5&moves=4">solve ↗</a><br>
+29 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxb1+ Qxb1+ 2.Kd2 Nb6 3.Kc3 Qc1+ 4.Kb3 Qb2#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>N7/8/8/8/8/1r6/Q7/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQvkn.svg" width="200" alt="KQQQvkn, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 817</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1Q6/8/8/Q1Q5/K1k1n3&moves=4">solve ↗</a><br>
+45 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Nxc2+ Qxc2+ 2.Kxc2 Ka2 3.Kc1 Kb3 4.Kb1 Qf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/1Q6/8/8/Q1Q5/K1k1n3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRvkb.svg" width="200" alt="KQQRvkb, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 818</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=6bk/7Q/8/8/8/3K4/6R1/7Q&moves=4">solve ↗</a><br>
+4 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#6, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Bxh7+ Qxh7+ 2.Kxh7 Ke4 3.Kh6 Kf5 4.Kh5 Rh2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>6bk/7Q/8/8/8/3K4/6R1/7Q b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRvkn.svg" width="200" alt="KQQRvkn, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 819</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/3R4/Q1Q5/K1k1n3&moves=4">solve ↗</a><br>
+322 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Nxc2+ Qxc2+ 2.Kxc2 Ka2 3.Kc1 Kb3 4.Kb1 Rd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/3R4/Q1Q5/K1k1n3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRvkq.svg" width="200" alt="KQQRvkq, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 820</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/q2k4/5Q2/2R5/QK6&moves=4">solve ↗</a><br>
+4 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#7, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxa1+ Kxa1 2.Ke5 Kb2 3.Kd4 Qf4+ 4.Kd3 Rd2#<br>
+<br><b>Themes:</b> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/q2k4/5Q2/2R5/QK6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRBvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRBvkr.svg" width="200" alt="KQRBvkr, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 821</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/8/Br2R3/KQk5&moves=4">solve ↗</a><br>
+47,252 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#6, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Rxb1+ Bxb1 2.Kd1 Ka2 3.Kc1 Kb3 4.Kxb1 Re1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code> <code>kniest</code> <code>zajic</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/8/Br2R3/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRBvk.svg" width="200" alt="KQRRBvk, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 822</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/6R1/6BQ/1K4Rk&moves=4">solve ↗</a><br>
+6 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#6, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh2 Kc2 2.Kxg1 Kd3 3.Kf2 Rf3+ 4.Ke1 Rf1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/6R1/6BQ/1K4Rk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRNvk.svg" width="200" alt="KQRRNvk, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 823</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6N1/3Q4/2Rk4/2R5/K7&moves=4">solve ↗</a><br>
+3 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd4 Kb2 2.Ke5 Re2+ 3.Kd5 Re5+ 4.Kd4 Nf3#<br>
+<br><b>Themes:</b> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/6N1/3Q4/2Rk4/2R5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRPvk.svg" width="200" alt="KQRRPvk, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 824</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2k5/2Q5/8/8/8/P7/R7/RK6&moves=4">solve ↗</a><br>
+3 positions of 22,724,739,072 indexed have a unique solution at h#4. The class runs to h#7, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc7 a4 2.Kb6 Rb2+ 3.Ka5 Ka2 4.Kxa4 Kb1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>2k5/2Q5/8/8/8/P7/R7/RK6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRvkb.svg" width="200" alt="KQRRvkb, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 825</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/8/4k1R1/5Q2/4R3/8/K7&moves=4">solve ↗</a><br>
+33 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#7, so the deepest sound problem is 6 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxf4+ Rge5 2.Kg4 Rg3+ 3.Kh4 Rg7 4.Kh3 Rh5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7b/8/8/4k1R1/5Q2/4R3/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRvkn.svg" width="200" alt="KQRRvkn, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 826</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/3R4/Q1R5/K1k1n3&moves=4">solve ↗</a><br>
+390 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Nxc2+ Qxc2+ 2.Kxc2 Ka2 3.Kc1 Kb3 4.Kb1 Rd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/3R4/Q1R5/K1k1n3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRvkp.svg" width="200" alt="KQRRvkp, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 827</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1p6/QR6/k7/8/KR6&moves=4">solve ↗</a><br>
+3 positions of 22,724,739,072 indexed have a unique solution at h#4. The class runs to h#7, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.bxa4 R1b3+ 2.axb3 Kb1 3.b2 Kc2 4.Ka2 Ra4#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/1p6/QR6/k7/8/KR6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRvkq.svg" width="200" alt="KQRRvkq, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 828</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/6R1/5k2/4Q3/4R3/8/7q/K7&moves=4">solve ↗</a><br>
+30 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#6, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Qxe5+ Kb1 2.Ke6 Kc2 3.Kd5 Rxe5+ 4.Kc4 Rg4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/6R1/5k2/4Q3/4R3/8/7q/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRNvk.svg" width="200" alt="KRRRNvk, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 829</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/6N1/3R4/2Rk4/2R5/K7&moves=4">solve ↗</a><br>
+2 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd4 Kb2 2.Ke5 Re2+ 3.Kd5 Re5+ 4.Kd4 Nf3#<br>
+<br><b>Themes:</b> <code>closed-walk</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code> <code>umnov</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/6N1/3R4/2Rk4/2R5/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRvkb.svg" width="200" alt="KRRRvkb, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 830</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7b/8/6R1/4kR2/6R1/8/8/K7&moves=4">solve ↗</a><br>
+10 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#7, so the deepest sound problem is 6 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxf5+ Rf6+ 2.Ke5 Kb2 3.Kd5 Kc3 4.Kc5 Rg5#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>7b/8/6R1/4kR2/6R1/8/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRvkn.svg" width="200" alt="KRRRvkn, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 831</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/3R4/R1R5/K1k1n3&moves=4">solve ↗</a><br>
+175 positions of 7,751,073,792 indexed have a unique solution at h#4. The class runs to h#5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Nxc2+ Rxc2+ 2.Kxc2 Ka2 3.Kc1 Kb3 4.Kb1 Rd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>ideal</code> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/3R4/R1R5/K1k1n3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRvkp.svg" width="200" alt="KRRRvkp, h#4"><br><sub><b>h#4</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 832</b> &nbsp;·&nbsp; <b>h#4</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1p6/RR6/k7/8/KR6&moves=4">solve ↗</a><br>
+3 positions of 22,724,739,072 indexed have a unique solution at h#4. The class runs to h#7, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.bxa4 R1b3+ 2.axb3 Kb1 3.b2 Kc2 4.Ka2 Ra4#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/1p6/RR6/k7/8/KR6 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBvkr.svg" width="200" alt="KQQBvkr, h#3.5"><br><sub><b>h#3.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 833</b> &nbsp;·&nbsp; <b>h#3.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/BQ6/8/8/2k5/4Q3/3K1r2&moves=3.5">solve ↗</a><br>
+1 position of 7,751,073,792 indexed has a unique solution at h#3.5. The class runs to h#5, so the deepest sound problem is 3 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Qe1+ 2.Rxe1+ Kxe1 3.Kc2 Bd3+ 4.Kc1 Qb1#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/BQ6/8/8/2k5/4Q3/3K1r2 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRvkr.svg" width="200" alt="KQRRvkr, h#3.5"><br><sub><b>h#3.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 834</b> &nbsp;·&nbsp; <b>h#3.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3Q4/8/r3R3/2k5/KR6&moves=3.5">solve ↗</a><br>
+8 positions of 7,751,073,792 indexed have a unique solution at h#3.5. The class runs to h#5, so the deepest sound problem is 3 plies shallower.<br>
+<br><b>Solution:</b> 1...Qa2+ 2.Rxa2+ Kxa2 3.Kd2 Rb2+ 4.Kc1 Re1#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/3Q4/8/r3R3/2k5/KR6 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRvkq.svg" width="200" alt="KRRRvkq, h#3.5"><br><sub><b>h#3.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 835</b> &nbsp;·&nbsp; <b>h#3.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/3R4/2k5/1q6/KR2R3&moves=3.5">solve ↗</a><br>
+56 positions of 7,751,073,792 indexed have a unique solution at h#3.5. The class runs to h#6, so the deepest sound problem is 5 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Rxb2 2.Kxd4 Rbb1 3.Kd3 Kb2 4.Kd2 Rbd1#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/3R4/2k5/1q6/KR2R3 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRvkr.svg" width="200" alt="KRRRvkr, h#3.5"><br><sub><b>h#3.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 836</b> &nbsp;·&nbsp; <b>h#3.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/3R4/2k5/1R6/rK2R3&moves=3.5">solve ↗</a><br>
+2 positions of 7,751,073,792 indexed have a unique solution at h#3.5. The class runs to h#4.5, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1...Kxa1 2.Kxd4 Rbb1 3.Kd3 Kb2 4.Kd2 Rbd1#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/3R4/2k5/1R6/rK2R3 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBBvk.svg" width="200" alt="KQQBBvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 837</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/4Q3/3k4/8/K1B1BQ2&moves=3">solve ↗</a><br>
+631 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#4, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe4 Qf4+ 2.Kd3 Ka2 3.Kc2 Qd2#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/4Q3/3k4/8/K1B1BQ2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBNvk.svg" width="200" alt="KQQBNvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 838</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7B/6N1/8/8/8/8/3Q4/KQk5&moves=3">solve ↗</a><br>
+1,128 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#4, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd2 Ka2 2.Kc3 Ne6+ 3.Kc4 Qb3#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7B/6N1/8/8/8/8/3Q4/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBPvk.svg" width="200" alt="KQQBPvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 839</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=7B/8/8/4P3/8/8/3Q4/KQk5&moves=3">solve ↗</a><br>
+49,428 positions of 22,724,739,072 indexed have a unique solution at h#3. The class runs to h#5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd2 Bf6 2.Ke2 Qd3+ 3.Ke1 Bh4#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>7B/8/8/4P3/8/8/3Q4/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBvkb.svg" width="200" alt="KQQBvkb, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 840</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/b7/BQ2Q3/K1k5&moves=3">solve ↗</a><br>
+16,298 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#4, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Bxb2+ Qxb2+ 2.Kd1 Bc4 3.Ke1 Qe2#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/8/b7/BQ2Q3/K1k5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQBvkn
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQBvkn.svg" width="200" alt="KQQBvkn, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 841</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2Q2Q2/8/K1k1n2B&moves=3">solve ↗</a><br>
+30,769 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#5, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Nc2+ Qxc2+ 2.Kxc2 Qc3+ 3.Kd1 Bf3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/8/8/2Q2Q2/8/K1k1n2B b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQNNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQNNvk.svg" width="200" alt="KQQNNvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 842</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1N6/N7/8/8/8/8/3Q4/KQk5&moves=3">solve ↗</a><br>
+76,571 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#4, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxd2 Ka2 2.Kc3 Qc2+ 3.Kb4 Nbc6#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>1N6/N7/8/8/8/8/3Q4/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQvkb
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQvkb.svg" width="200" alt="KQQQvkb, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 843</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/3K4/8/Q6b/Q5Qk&moves=3">solve ↗</a><br>
+9 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#5, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Bxg1+ Qxg1+ 2.Kxg1 Ke3 3.Kf1 Qf2#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/8/3K4/8/Q6b/Q5Qk b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRNvk.svg" width="200" alt="KQQRNvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 844</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=N7/8/8/3R4/4Q3/1Q1k4/8/K7&moves=3">solve ↗</a><br>
+71 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#4, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe4 Nc7 2.Kf4 Ne6+ 3.Ke4 Qd3#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>N7/8/8/3R4/4Q3/1Q1k4/8/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRPvk.svg" width="200" alt="KQQRPvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 845</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/P7/8/4Q3/1RQk4/K7&moves=3">solve ↗</a><br>
+16,073 positions of 22,724,739,072 indexed have a unique solution at h#3. The class runs to h#4, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe3 Ka2 2.Kd4 Qe4+ 3.Kc3 Rc2#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/P7/8/4Q3/1RQk4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRvkp.svg" width="200" alt="KQQRvkp, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 846</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/1p6/8/4Q3/R1Qk4/K7&moves=3">solve ↗</a><br>
+48,719 positions of 22,724,739,072 indexed have a unique solution at h#3. The class runs to h#6, so the deepest sound problem is 6 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxe3 Ra6 2.Kd4 Qe4+ 3.Kc5 Rc6#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/1p6/8/4Q3/R1Qk4/K7 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRvkr.svg" width="200" alt="KQQRvkr, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 847</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/R7/8/1r6/Q7/KQk5&moves=3">solve ↗</a><br>
+217 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#5, so the deepest sound problem is 4 plies shallower.<br>
+<br><b>Solution:</b> 1.Rxb1+ Qxb1+ 2.Kd2 Qd3+ 3.Kc1 Rc5#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>switchback</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram; the solution begins with a capture.<br>
+<br><code>8/8/8/R7/8/1r6/Q7/KQk5 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRBvk.svg" width="200" alt="KRRRBvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 848</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/4R3/1B1R4/K1k1R3&moves=3">solve ↗</a><br>
+40,594 positions of 7,751,073,792 indexed have a unique solution at h#3. The class runs to h#5, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd2 Re4 2.Kc2 Rc1+ 3.Kb3 Rc3#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/4R3/1B1R4/K1k1R3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRPvk.svg" width="200" alt="KRRRPvk, h#3"><br><sub><b>h#3</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 849</b> &nbsp;·&nbsp; <b>h#3</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2R5/3R1P2/K1k2R2&moves=3">solve ↗</a><br>
+54,154 positions of 22,724,739,072 indexed have a unique solution at h#3. The class runs to h#7, so the deepest sound problem is 8 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd2 Rb1 2.Ke2 Rb2+ 3.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/2R5/3R1P2/K1k2R2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQvkp
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQvkp.svg" width="200" alt="KQQQvkp, h#2.5"><br><sub><b>h#2.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 850</b> &nbsp;·&nbsp; <b>h#2.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/Qp6/K5Q1/1Q6/7k&moves=2.5">solve ↗</a><br>
+2 positions of 22,724,739,072 indexed have a unique solution at h#2.5. The class runs to h#3.5, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1...Ka2 2.b3+ Qgxb3 3.Kg1 Qd1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/8/Qp6/K5Q1/1Q6/7k w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQvkq
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQvkq.svg" width="200" alt="KQQQvkq, h#2.5"><br><sub><b>h#2.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 851</b> &nbsp;·&nbsp; <b>h#2.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/4Q3/2Q5/k7/2Q5/1K1q4&moves=2.5">solve ↗</a><br>
+68 positions of 7,751,073,792 indexed have a unique solution at h#2.5. The class runs to h#5, so the deepest sound problem is 5 plies shallower.<br>
+<br><b>Solution:</b> 1...Qc1+ 2.Qxc1+ Qxc1+ 3.Kb3 Qb5#<br>
+<br><b>Themes:</b> <code>mirror</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/4Q3/2Q5/k7/2Q5/1K1q4 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQvkr
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQvkr.svg" width="200" alt="KQQQvkr, h#2.5"><br><sub><b>h#2.5</b> &nbsp;·&nbsp; 4 + 2</sub></td>
+<td valign="top">
+<b>No. 852</b> &nbsp;·&nbsp; <b>h#2.5</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3Q4/8/r5Q1/2k5/K4Q2&moves=2.5">solve ↗</a><br>
+24 positions of 7,751,073,792 indexed have a unique solution at h#2.5. The class runs to h#4, so the deepest sound problem is 3 plies shallower.<br>
+<br><b>Solution:</b> 1...Qa2+ 2.Rxa2+ Kxa2 3.Kd2 Qgd3#<br>
+<br><b>Themes:</b> <i>none detected</i><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/3Q4/8/r5Q1/2k5/K4Q2 w - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQBvk.svg" width="200" alt="KQQQBvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 853</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=1Q6/8/8/8/8/8/1Q1B4/K1kQ4&moves=2">solve ↗</a><br>
+142,565 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd1 Qd4 2.Kc2 Qb1#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>1Q6/8/8/8/8/8/1Q1B4/K1kQ4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQNvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQNvk.svg" width="200" alt="KQQQNvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 854</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/2Q5/8/2Q5/8/8/8/K1kQ1N2&moves=2">solve ↗</a><br>
+179,748 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxd1 Qh2 2.Ke1 Qc1#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/2Q5/8/2Q5/8/8/8/K1kQ1N2 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQPvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQPvk.svg" width="200" alt="KQQQPvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 855</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=2Q5/8/8/8/8/2Q2P2/8/K1kQ4&moves=2">solve ↗</a><br>
+1,041,105 positions of 22,724,739,072 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxd1 Qb2 2.Ke1 Qcc1#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>2Q5/8/8/8/8/2Q2P2/8/K1kQ4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQQvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQQvk.svg" width="200" alt="KQQQQvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 856</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/Q1Q5/8/8/8/8/8/QK4kQ&moves=2">solve ↗</a><br>
+251 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxh1 Q7a2 2.Kg1 Qc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>switchback</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/Q1Q5/8/8/8/8/8/QK4kQ b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQQRvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQQRvk.svg" width="200" alt="KQQQRvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 857</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/7Q/5R1Q/8/8/K1Qk4&moves=2">solve ↗</a><br>
+14,587 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxc1 Qe1+ 2.Kc2 Qhd1#<br>
+<br><b>Themes:</b> <code>single-piece</code> <code>single-piece:black</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/7Q/5R1Q/8/8/K1Qk4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRBvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRBvk.svg" width="200" alt="KQQRBvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 858</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/8/3Q3B/KQk1R3&moves=2">solve ↗</a><br>
+5,705,691 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#4, so the deepest sound problem is 4 plies shallower. Every position at that depth is saturated (255+ solutions).<br>
+<br><b>Solution:</b> 1.Kxd2 Qd3+ 2.Kxe1 Bg3#<br>
+<br><b>Themes:</b> <code>pure</code> <code>model</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>kniest</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/8/3Q3B/KQk1R3 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQQRRvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQQRRvk.svg" width="200" alt="KQQRRvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 859</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/R1R5/2Q5/8/K1kQ4&moves=2">solve ↗</a><br>
+174,709 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxd1 Qb2 2.Ke1 Rc1#<br>
+<br><b>Themes:</b> <code>pure</code> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/R1R5/2Q5/8/K1kQ4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KQRRRvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KQRRRvk.svg" width="200" alt="KQRRRvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 860</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/8/8/2R1R3/4R3/K1kQ4&moves=2">solve ↗</a><br>
+272,140 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kxd1 Rb3 2.Kc1 Rb1#<br>
+<br><b>Themes:</b> <code>switchback</code> <code>single-piece</code> <code>single-piece:white</code> <code>single-piece:black</code> <code>nocheck</code><br>
+<br><b>Note:</b> the diagram has no legal last move, so it cannot arise in a game.<br>
+<br><code>8/8/8/8/8/2R1R3/4R3/K1kQ4 b - - 0 1</code>
+</td>
+</tr></table>
+
+## KRRRRvk
+
+<table><tr>
+<td width="220" valign="top"><img src="images/deepest/KRRRRvk.svg" width="200" alt="KRRRRvk, h#2"><br><sub><b>h#2</b> &nbsp;·&nbsp; 5 + 1</sub></td>
+<td valign="top">
+<b>No. 861</b> &nbsp;·&nbsp; <b>h#2</b>, unique solution &nbsp;·&nbsp; <a href="https://helpman.komtera.lt/?fen=8/8/8/3R4/8/8/8/K1kRRR2&moves=2">solve ↗</a><br>
+102,517 positions of 7,751,073,792 indexed have a unique solution at h#2. The class runs to h#3, so the deepest sound problem is 2 plies shallower.<br>
+<br><b>Solution:</b> 1.Kc2 Rb1 2.Kc3 Rec1#<br>
+<br><b>Themes:</b> <code>mirror</code> <code>single-piece</code> <code>single-piece:black</code> <code>nocapture</code> <code>nocheck</code><br>
+<br><b>Note:</b> the side to move is in check in the diagram.<br>
+<br><code>8/8/8/3R4/8/8/8/K1kRRR2 b - - 0 1</code>
 </td>
 </tr></table>
 

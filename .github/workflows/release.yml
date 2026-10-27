@@ -64,3 +64,5 @@ jobs:
             helpmate-*-linux-x86_64.tar.gz
             helpmate-*-linux-x86_64.tar.gz.sha256
             docs/DEEPEST.pdf
+            docs/DEEPEST_de.pdf
+            docs/DEEPEST_fr.pdf

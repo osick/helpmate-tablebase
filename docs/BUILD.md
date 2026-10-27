@@ -542,7 +542,8 @@ informational gcovr coverage summary. Every job but the coverage summary is a
 required check (see [CONTRIBUTING.md](CONTRIBUTING.md)).
 `.github/workflows/release.yml` runs on `v*` tags: build, fast tests, and a
 GitHub Release with a `helpmate-<tag>-linux-x86_64.tar.gz` binary tarball,
-its `.sha256` and `docs/DEEPEST.pdf`. `pages.yml` builds the showcase and
+its `.sha256` and the three booklets `docs/DEEPEST.pdf`, `DEEPEST_de.pdf` and
+`DEEPEST_fr.pdf`. `pages.yml` builds the showcase and
 deploys it to GitHub Pages (on pushes that touch it, daily, and after each
 Claims run), `claims.yml` keeps the status comment on every claim issue
 current, and `stats-check.yml` checks daily, and after each Pages run, that

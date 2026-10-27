@@ -54,6 +54,27 @@ def deepest_unique_depth(stats: dict) -> tuple[int, int] | None:
                 for s in ("wtm", "btm"))
     return d, total
 
+def class_histograms(stats: dict) -> dict:
+    """The class at a glance, for the booklet's per-class chart: positions by distance to mate
+    and, per distance, how many have a unique solution (both sides to move added up)."""
+    dtm: dict[int, int] = {}
+    uniq: dict[int, int] = {}
+    for side in stats.get("dtm_histogram", {}).values():
+        for k, v in side.items():
+            dtm[int(k)] = dtm.get(int(k), 0) + int(v)
+    for side in stats.get("uniqueness", {}).values():
+        for k, counts in side.items():
+            n = int(counts.get("1", 0))
+            if n:
+                uniq[int(k)] = uniq.get(int(k), 0) + n
+    return {
+        "positions": 2 * int(stats.get("plane_size") or 0),
+        "helpmates": sum(dtm.values()),
+        "dtm_hist": {str(k): dtm[k] for k in sorted(dtm)},
+        "unique_hist": {str(k): uniq[k] for k in sorted(uniq)},
+    }
+
+
 def saturated_at_max(stats: dict) -> bool:
     """True if every position at max_dtm has a saturated (255+) solution count."""
     md = str(stats["max_dtm"])
@@ -113,6 +134,7 @@ def main() -> int:
             "solution": lines[0] if lines else "",
             "extra_lines": len(lines) - 1,
             "themes": themes,
+            **class_histograms(s),
         })
         gap = s["max_dtm"] - depth
         print(f"  {mat}: unique depth {depth} (max {s['max_dtm']}, gap {gap}), "

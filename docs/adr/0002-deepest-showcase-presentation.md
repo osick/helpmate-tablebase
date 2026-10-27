@@ -100,6 +100,15 @@ disagree about how much of the project is done.
 - The booklet needs `chessboard.sty`, which is not in a minimal TeX Live.
   `make booklet` says so when it is missing, and the compile test skips
   rather than failing.
+- Since 2026-10 (layout C) the booklet is typeset with **LuaLaTeX**: one page
+  per class with the class's statistics and a pgfplots chart, a `qrcode` link
+  to the Analyzer for the printed page, and the Source Serif Pro and Linux
+  Biolinum O fonts; the compile test skips without them. It exists in English,
+  German and French; every printed word lives in
+  `tools/deepest_booklet_text.py`, and a test asserts each language has every
+  entry and slot. It shows only the longest unique problem per class -- no
+  siblings, no two-solution problems -- and says that the search for earlier
+  publications is incomplete and claims no priority.
 - `docs/DEEPEST.tex` is checked in and generated. Tests assert both it and
   `docs/DEEPEST.md` match what the renderers currently produce, so an edit to
   either file by hand fails CI instead of being silently overwritten later.
