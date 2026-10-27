@@ -96,10 +96,12 @@ NO_HSCROLL = "document.documentElement.scrollWidth <= window.innerWidth + 1"
 def test_materials_page(site, browser, width):
     url, has_status = site
     page = browser.new_page(viewport={"width": width, "height": 900})
-    page.goto(url + "#/materials?state=open&prio=1")
+    # Every class is solved since 2026-10-25, so "open" is empty by design;
+    # "done" is the state the table shows rows for, with or without a status file.
+    page.goto(url + "#/materials?state=done&prio=1")
     page.wait_for_selector("#materials-table tbody tr")
     assert page.is_visible("#screen-materials")
-    assert page.input_value('[data-f="state"]') == "open"
+    assert page.input_value('[data-f="state"]') == "done"
     assert page.input_value('[data-f="prio"]') == "1"
     rows = page.locator("#materials-table tbody tr")
     assert rows.count() > 0
