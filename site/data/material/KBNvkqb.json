@@ -1,0 +1,321 @@
+{
+ "material": "KBNvkqb",
+ "pieces": 6,
+ "stats": {
+  "max_dtm": 22,
+  "deepest_unique_dtm": 16,
+  "unique_at_depth": 1,
+  "deepest_dual_dtm": 18,
+  "strict_dual_dtm": 13,
+  "plane_size": 7751073792,
+  "solvable": 8361679254,
+  "unique": 157283503,
+  "size_bytes": 6457865321,
+  "saturated_at_max": true,
+  "dtm_histogram": {
+   "btm": {
+    "0": 74526,
+    "10": 800162309,
+    "12": 105056248,
+    "14": 1549466,
+    "16": 49343,
+    "18": 42387,
+    "2": 1939088,
+    "20": 13588,
+    "22": 405,
+    "4": 61727545,
+    "6": 712036103,
+    "8": 1850551466
+   },
+   "wtm": {
+    "1": 310111,
+    "11": 562255716,
+    "13": 39024474,
+    "15": 586315,
+    "17": 1122,
+    "19": 147,
+    "21": 9,
+    "3": 14391374,
+    "5": 290093593,
+    "7": 1757221319,
+    "9": 2164592600
+   }
+  }
+ },
+ "unique": [
+  {
+   "fen": "8/8/8/8/8/4q3/2K1kB2/5bN1 b - - 0 1",
+   "dtm": 16,
+   "stipulation": "h#8",
+   "count": 1,
+   "starts": 1,
+   "ends": 1,
+   "themes": [
+    "pure",
+    "model",
+    "ideal",
+    "switchback",
+    "self-block",
+    "nocheck",
+    "klasinc"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Kxf2",
+      "uci": "e2f2",
+      "fen": "8/8/8/8/8/4q3/2K2k2/5bN1 w - - 0 2"
+     },
+     {
+      "san": "Nf3",
+      "uci": "g1f3",
+      "fen": "8/8/8/8/8/4qN2/2K2k2/5b2 b - - 1 2"
+     },
+     {
+      "san": "Bc4",
+      "uci": "f1c4",
+      "fen": "8/8/8/8/2b5/4qN2/2K2k2/8 w - - 2 3"
+     },
+     {
+      "san": "Nd2",
+      "uci": "f3d2",
+      "fen": "8/8/8/8/2b5/4q3/2KN1k2/8 b - - 3 3"
+     },
+     {
+      "san": "Ke2",
+      "uci": "f2e2",
+      "fen": "8/8/8/8/2b5/4q3/2KNk3/8 w - - 4 4"
+     },
+     {
+      "san": "Kc1",
+      "uci": "c2c1",
+      "fen": "8/8/8/8/2b5/4q3/3Nk3/2K5 b - - 5 4"
+     },
+     {
+      "san": "Kd3",
+      "uci": "e2d3",
+      "fen": "8/8/8/8/2b5/3kq3/3N4/2K5 w - - 6 5"
+     },
+     {
+      "san": "Kd1",
+      "uci": "c1d1",
+      "fen": "8/8/8/8/2b5/3kq3/3N4/3K4 b - - 7 5"
+     },
+     {
+      "san": "Kc3",
+      "uci": "d3c3",
+      "fen": "8/8/8/8/2b5/2k1q3/3N4/3K4 w - - 8 6"
+     },
+     {
+      "san": "Nf1",
+      "uci": "d2f1",
+      "fen": "8/8/8/8/2b5/2k1q3/8/3K1N2 b - - 9 6"
+     },
+     {
+      "san": "Kb2",
+      "uci": "c3b2",
+      "fen": "8/8/8/8/2b5/4q3/1k6/3K1N2 w - - 10 7"
+     },
+     {
+      "san": "Nxe3",
+      "uci": "f1e3",
+      "fen": "8/8/8/8/2b5/4N3/1k6/3K4 b - - 0 7"
+     },
+     {
+      "san": "Ka1",
+      "uci": "b2a1",
+      "fen": "8/8/8/8/2b5/4N3/8/k2K4 w - - 1 8"
+     },
+     {
+      "san": "Kc1",
+      "uci": "d1c1",
+      "fen": "8/8/8/8/2b5/4N3/8/k1K5 b - - 2 8"
+     },
+     {
+      "san": "Ba2",
+      "uci": "c4a2",
+      "fen": "8/8/8/8/8/4N3/b7/k1K5 w - - 3 9"
+     },
+     {
+      "san": "Nc2#",
+      "uci": "e3c2",
+      "fen": "8/8/8/8/8/8/b1N5/k1K5 b - - 4 9"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": true,
+    "check": true,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "duals": [
+  {
+   "fen": "7k/5b1N/8/8/8/1q6/8/KB6 w - - 0 1",
+   "dtm": 13,
+   "stipulation": "h#6.5",
+   "count": 2,
+   "starts": 2,
+   "ends": 2,
+   "themes": [
+    "self-block",
+    "nocapture",
+    "nocheck"
+   ],
+   "solutions": [
+    [
+     {
+      "san": "Bd3",
+      "uci": "b1d3",
+      "fen": "7k/5b1N/8/8/8/1q1B4/8/K7 b - - 1 1"
+     },
+     {
+      "san": "Qb8",
+      "uci": "b3b8",
+      "fen": "1q5k/5b1N/8/8/8/3B4/8/K7 w - - 2 2"
+     },
+     {
+      "san": "Bb5",
+      "uci": "d3b5",
+      "fen": "1q5k/5b1N/8/1B6/8/8/8/K7 b - - 3 2"
+     },
+     {
+      "san": "Kg7",
+      "uci": "h8g7",
+      "fen": "1q6/5bkN/8/1B6/8/8/8/K7 w - - 4 3"
+     },
+     {
+      "san": "Kb2",
+      "uci": "a1b2",
+      "fen": "1q6/5bkN/8/1B6/8/8/1K6/8 b - - 5 3"
+     },
+     {
+      "san": "Kg6",
+      "uci": "g7g6",
+      "fen": "1q6/5b1N/6k1/1B6/8/8/1K6/8 w - - 6 4"
+     },
+     {
+      "san": "Kc3",
+      "uci": "b2c3",
+      "fen": "1q6/5b1N/6k1/1B6/8/2K5/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kf5",
+      "uci": "g6f5",
+      "fen": "1q6/5b1N/8/1B3k2/8/2K5/8/8 w - - 8 5"
+     },
+     {
+      "san": "Kd4",
+      "uci": "c3d4",
+      "fen": "1q6/5b1N/8/1B3k2/3K4/8/8/8 b - - 9 5"
+     },
+     {
+      "san": "Bg6",
+      "uci": "f7g6",
+      "fen": "1q6/7N/6b1/1B3k2/3K4/8/8/8 w - - 10 6"
+     },
+     {
+      "san": "Kd5",
+      "uci": "d4d5",
+      "fen": "1q6/7N/6b1/1B1K1k2/8/8/8/8 b - - 11 6"
+     },
+     {
+      "san": "Qf4",
+      "uci": "b8f4",
+      "fen": "8/7N/6b1/1B1K1k2/5q2/8/8/8 w - - 12 7"
+     },
+     {
+      "san": "Bd7#",
+      "uci": "b5d7",
+      "fen": "8/3B3N/6b1/3K1k2/5q2/8/8/8 b - - 13 7"
+     }
+    ],
+    [
+     {
+      "san": "Be4",
+      "uci": "b1e4",
+      "fen": "7k/5b1N/8/8/4B3/1q6/8/K7 b - - 1 1"
+     },
+     {
+      "san": "Qb8",
+      "uci": "b3b8",
+      "fen": "1q5k/5b1N/8/8/4B3/8/8/K7 w - - 2 2"
+     },
+     {
+      "san": "Bb7",
+      "uci": "e4b7",
+      "fen": "1q5k/1B3b1N/8/8/8/8/8/K7 b - - 3 2"
+     },
+     {
+      "san": "Kg7",
+      "uci": "h8g7",
+      "fen": "1q6/1B3bkN/8/8/8/8/8/K7 w - - 4 3"
+     },
+     {
+      "san": "Kb2",
+      "uci": "a1b2",
+      "fen": "1q6/1B3bkN/8/8/8/8/1K6/8 b - - 5 3"
+     },
+     {
+      "san": "Kg6",
+      "uci": "g7g6",
+      "fen": "1q6/1B3b1N/6k1/8/8/8/1K6/8 w - - 6 4"
+     },
+     {
+      "san": "Kc3",
+      "uci": "b2c3",
+      "fen": "1q6/1B3b1N/6k1/8/8/2K5/8/8 b - - 7 4"
+     },
+     {
+      "san": "Kf5",
+      "uci": "g6f5",
+      "fen": "1q6/1B3b1N/8/5k2/8/2K5/8/8 w - - 8 5"
+     },
+     {
+      "san": "Kd4",
+      "uci": "c3d4",
+      "fen": "1q6/1B3b1N/8/5k2/3K4/8/8/8 b - - 9 5"
+     },
+     {
+      "san": "Bg6",
+      "uci": "f7g6",
+      "fen": "1q6/1B5N/6b1/5k2/3K4/8/8/8 w - - 10 6"
+     },
+     {
+      "san": "Kd5",
+      "uci": "d4d5",
+      "fen": "1q6/1B5N/6b1/3K1k2/8/8/8/8 b - - 11 6"
+     },
+     {
+      "san": "Qf4",
+      "uci": "b8f4",
+      "fen": "8/1B5N/6b1/3K1k2/5q2/8/8/8 w - - 12 7"
+     },
+     {
+      "san": "Bc8#",
+      "uci": "b7c8",
+      "fen": "2B5/7N/6b1/3K1k2/5q2/8/8/8 b - - 13 7"
+     }
+    ]
+   ],
+   "published": null,
+   "published_by": null,
+   "quality": {
+    "capture_first": false,
+    "check": false,
+    "legal": true
+   },
+   "alternative": null
+  }
+ ],
+ "notes": [
+  "Only one position exists at this depth.",
+  "Only one position exists at this depth."
+ ],
+ "candidates_considered": 1,
+ "candidates_total": 1
+}

@@ -2288,6 +2288,174 @@
   "has_helpmate": false
  },
  {
+  "material": "KBBBBvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBNvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBPvk",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBvkn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBvkp",
+  "pieces": 6,
+  "stipulation": "h#10.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBvkq",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBBvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNNvk",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNvkb",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNvkq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBNvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBPvkn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBPvkp",
+  "pieces": 6,
+  "stipulation": "h#12",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBPvkq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBBPvkr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
   "material": "KBBvkbb",
   "pieces": 6,
   "stipulation": "h#8",
@@ -2403,6 +2571,398 @@
   "material": "KBBvkrr",
   "pieces": 6,
   "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNNvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNvkb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNNvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNPvkb",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNPvkp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNPvkq",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkbb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkbn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkbp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvknn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvknp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkpp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkqb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkqn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkqp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkqq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkqr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkrb",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkrn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkrp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBNvkrr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPPvkp",
+  "pieces": 6,
+  "stipulation": "h#11",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPPvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkbb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkbn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkbp",
+  "pieces": 6,
+  "stipulation": "h#9.5",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvknn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvknp",
+  "pieces": 6,
+  "stipulation": "h#9.5",
+  "unique": 2,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkpp",
+  "pieces": 6,
+  "stipulation": "h#10.5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkqb",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkqn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkqp",
+  "pieces": 6,
+  "stipulation": "h#10.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkqq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkqr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkrb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkrn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkrp",
+  "pieces": 6,
+  "stipulation": "h#11",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KBPvkrr",
+  "pieces": 6,
+  "stipulation": "h#7",
   "unique": 3,
   "duals": 3,
   "has_helpmate": true
@@ -2688,9 +3248,393 @@
   "has_helpmate": false
  },
  {
+  "material": "KNNNNvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNNvkb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 2,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNNvkn",
+  "pieces": 6,
+  "stipulation": "h#5.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNNvkq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNNvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNPvkn",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNPvkp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNPvkq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNPvkr",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkbb",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkbn",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkbp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
   "material": "KNNvknn",
   "pieces": 6,
   "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvknp",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkpp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkqb",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkqn",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkqp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkqq",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkqr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkrb",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkrn",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkrp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNNvkrr",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPPPvk",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPPvkp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPPvkq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkbb",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkbn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkbp",
+  "pieces": 6,
+  "stipulation": "h#8.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvknn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvknp",
+  "pieces": 6,
+  "stipulation": "h#8.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkpp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkqb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkqn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkqp",
+  "pieces": 6,
+  "stipulation": "h#9.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkqq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkqr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkrb",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkrn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkrp",
+  "pieces": 6,
+  "stipulation": "h#9.5",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KNPvkrr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
   "unique": 3,
   "duals": 3,
   "has_helpmate": true
@@ -2976,6 +3920,174 @@
   "has_helpmate": true
  },
  {
+  "material": "KPPPPvk",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPPvkp",
+  "pieces": 6,
+  "stipulation": "h#8.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPPvkq",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPPvkr",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkbb",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkbn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkbp",
+  "pieces": 6,
+  "stipulation": "h#8.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvknn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvknp",
+  "pieces": 6,
+  "stipulation": "h#8.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkpp",
+  "pieces": 6,
+  "stipulation": "h#10.5",
+  "unique": 1,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkqb",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkqn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkqp",
+  "pieces": 6,
+  "stipulation": "h#8.5",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkqq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkqr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkrb",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkrn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkrp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KPPvkrr",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
   "material": "KPvkbbb",
   "pieces": 6,
   "stipulation": "h#7.5",
@@ -3253,6 +4365,1486 @@
   "stipulation": "h#7.5",
   "unique": 2,
   "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBBvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBNvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBvkn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBvkp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBvkq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBBvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNNvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBNvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBPvkp",
+  "pieces": 6,
+  "stipulation": "h#11",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBPvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkbb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkbn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkbp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvknn",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvknp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 2,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkpp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkqb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkqn",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkqp",
+  "pieces": 6,
+  "stipulation": "h#12",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkqq",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkqr",
+  "pieces": 6,
+  "stipulation": "h#4.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkrb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkrn",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkrp",
+  "pieces": 6,
+  "stipulation": "h#13",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQBvkrr",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNNvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNNvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNPvkn",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNPvkp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNPvkq",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkbb",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkbn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkbp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvknn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvknp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkpp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkqb",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkqn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkqp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkqq",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkqr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkrb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkrn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkrp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQNvkrr",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPPvkp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPPvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkbb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkbn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkbp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 2,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvknn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvknp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkpp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkqb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkqn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkqp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkqq",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkqr",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkrb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkrn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkrp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQPvkrr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBBvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBNvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBPvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBvkb",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBvkn",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBvkp",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBvkq",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQBvkr",
+  "pieces": 6,
+  "stipulation": "h#3.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNNvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNPvk",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNvkb",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNvkn",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNvkp",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNvkq",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQNvkr",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQPPvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQPvkb",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQPvkn",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQPvkp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQPvkq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQPvkr",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQBvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQNvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQPvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQQvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQRvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQvkb",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQvkn",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQvkp",
+  "pieces": 6,
+  "stipulation": "h#2.5",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQvkq",
+  "pieces": 6,
+  "stipulation": "h#2.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQQvkr",
+  "pieces": 6,
+  "stipulation": "h#2.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRBvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRNvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRPvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRRvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRvkb",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRvkn",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRvkp",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRvkq",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQRvkr",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkbb",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkbn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkbp",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvknn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvknp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkpp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkqb",
+  "pieces": 6,
+  "stipulation": "h#5.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkqn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkqp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkqq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkqr",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkrb",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkrn",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkrp",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQQvkrr",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBBvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBNvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBPvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBvkb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBvkp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBvkq",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRBvkr",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNNvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNPvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNvkb",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNvkn",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNvkp",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNvkq",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRNvkr",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRPPvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRPvkb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRPvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRPvkp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRPvkq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRPvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRBvk",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRNvk",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRPvk",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 2,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRRvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRvkb",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRvkn",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRvkp",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRvkq",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 2,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRRvkr",
+  "pieces": 6,
+  "stipulation": "h#3.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkbb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkbn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkbp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvknn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvknp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkpp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkqb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkqn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkqp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkqq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkqr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkrb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkrn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkrp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KQRvkrr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
   "has_helpmate": true
  },
  {
@@ -3536,6 +6128,174 @@
   "has_helpmate": true
  },
  {
+  "material": "KRBBBvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBNvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 2,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBvkn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBvkp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBvkq",
+  "pieces": 6,
+  "stipulation": "h#6.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBBvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNNvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBNvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBPvkp",
+  "pieces": 6,
+  "stipulation": "h#10",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBPvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRBPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
   "material": "KRBvkbb",
   "pieces": 6,
   "stipulation": "h#8",
@@ -3652,6 +6412,110 @@
   "pieces": 6,
   "stipulation": "h#6",
   "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNNvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNvkq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNNvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNPvkp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNPvkq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRNPvkr",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
   "duals": 3,
   "has_helpmate": true
  },
@@ -3773,6 +6637,414 @@
   "stipulation": "h#7",
   "unique": 3,
   "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPPPvk",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPPvkb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPPvkn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPPvkp",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPPvkq",
+  "pieces": 6,
+  "stipulation": "h#7.5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPPvkr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkbb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkbn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkbp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvknn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvknp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkpp",
+  "pieces": 6,
+  "stipulation": "h#9",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkqb",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkqn",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkqp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkqq",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkqr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkrb",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkrn",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkrp",
+  "pieces": 6,
+  "stipulation": "h#8",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRPvkrr",
+  "pieces": 6,
+  "stipulation": "h#7",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBBvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBNvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBPvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBvkb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBvkp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBvkq",
+  "pieces": 6,
+  "stipulation": "h#5.5",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRBvkr",
+  "pieces": 6,
+  "stipulation": "h#4.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNNvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 2,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNPvk",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNvkb",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNvkn",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNvkp",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNvkq",
+  "pieces": 6,
+  "stipulation": "h#5.5",
+  "unique": 1,
+  "duals": 1,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRNvkr",
+  "pieces": 6,
+  "stipulation": "h#5",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRPPvk",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 2,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRPvkb",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRPvkn",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRPvkp",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRPvkq",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRPvkr",
+  "pieces": 6,
+  "stipulation": "h#6",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRBvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRNvk",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 1,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRPvk",
+  "pieces": 6,
+  "stipulation": "h#3",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRRvk",
+  "pieces": 6,
+  "stipulation": "h#2",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRvkb",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRvkn",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRvkp",
+  "pieces": 6,
+  "stipulation": "h#4",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRvkq",
+  "pieces": 6,
+  "stipulation": "h#3.5",
+  "unique": 3,
+  "duals": 3,
+  "has_helpmate": true
+ },
+ {
+  "material": "KRRRvkr",
+  "pieces": 6,
+  "stipulation": "h#3.5",
+  "unique": 2,
+  "duals": 3,
   "has_helpmate": true
  },
  {
