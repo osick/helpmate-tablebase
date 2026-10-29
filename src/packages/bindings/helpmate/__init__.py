@@ -9,10 +9,11 @@ class Tablebase(_Tablebase):
 
     def mine_with_stats(self, material: str, dtm: int, count: int = -1, max: int = 100,
                         starts: int = -1, ends: int = -1,
-                        themes: list[str] | None = None) -> tuple[list, int]:
+                        themes: list[str] | None = None,
+                        dualfree: bool = False) -> tuple[list, int]:
         """Like mine(), but also returns how many positions were skipped because
         their optimal-line count is saturated (255+) and therefore not enumerable."""
         return self._mine_with_stats(material, dtm, count, max, starts, ends,
-                                     themes or [])
+                                     themes or [], dualfree)
 
 __all__ = ["Tablebase", "generate", "themes", "check_theme", "MissingTableError", "__version__"]

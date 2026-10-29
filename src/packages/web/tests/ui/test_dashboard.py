@@ -2235,3 +2235,17 @@ def test_count_filter_text_is_sent_as_theme_values(page, server_mining):
     qs = parse_qs(urlparse(req_info.value.url).query)
     assert qs.get("theme") == ["mirror", "ideal:1", "mirror:2"]
     assert "theme-counts" not in qs
+
+
+def test_dualfree_checkbox_sends_the_parameter_only_when_ticked(page, server_mining):
+    page.goto(f"{server_mining}/#panel=mine")
+    page.wait_for_selector("#mine-themes option")
+    page.fill("#mine-form input[name=material]", "KQvk")
+    page.fill("#mine-form input[name=dtm]", "2")
+    with page.expect_request(lambda r: "/v1/mine" in r.url) as req_info:
+        page.click("#mine-form button[type=submit]")
+    assert "dualfree" not in parse_qs(urlparse(req_info.value.url).query)
+    page.check("#mine-form input[name=dualfree]")
+    with page.expect_request(lambda r: "/v1/mine" in r.url) as req_info:
+        page.click("#mine-form button[type=submit]")
+    assert parse_qs(urlparse(req_info.value.url).query).get("dualfree") == ["true"]

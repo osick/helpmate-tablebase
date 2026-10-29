@@ -88,6 +88,16 @@ add_test(NAME cli_mine_theme_unknown COMMAND ${CMAKE_COMMAND}
          -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
 set_tests_properties(cli_mine_theme_unknown PROPERTIES DEPENDS cli_gen)
 
+# The usage text names --dualfree (the filter itself is pinned in
+# verify_mine_theme_filters.cmake).
+add_test(NAME cli_mine_dualfree_usage COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         "-DARGS=mine"
+         -DEXPECTED_RC=3
+         "-DPATTERN1=--dualfree"
+         "-DPATTERN2=mine needs a MATERIAL"
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
+
 # Counted themes (NAME:N): a zero count fails naming the rule, and the theme
 # list says which themes can be counted.
 add_test(NAME cli_mine_count_bad COMMAND ${CMAKE_COMMAND}

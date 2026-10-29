@@ -210,3 +210,11 @@ def test_a_zero_count_is_a_400_with_the_resolver_message(client_mining):
     r = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 2, "theme": ["ideal:0"]})
     assert r.status_code == 400
     assert "a count must be at least 1" in r.text
+
+
+def test_mine_dualfree_parameter(client_mining):
+    on = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 6, "max": 1000,
+                                        "dualfree": "true"}).json()
+    off = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 6, "max": 1000}).json()
+    assert len(on["fens"]) == 622 and not on["truncated"]
+    assert len(off["fens"]) == 1000 and off["truncated"]

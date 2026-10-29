@@ -130,7 +130,7 @@ PYBIND11_MODULE(_helpmate, mod) {
         .def(
             "mine",
             [](const Tablebase& t, const std::string& mat, int dtm, int count, int max, int starts, int ends,
-               std::vector<std::string> themes) {
+               std::vector<std::string> themes, bool dualfree) {
                 validate_mine_shape(count, starts, ends);
                 std::vector<std::string> out;
                 t.mine(mat_or_throw(mat),
@@ -138,7 +138,8 @@ PYBIND11_MODULE(_helpmate, mod) {
                                   .count = count,
                                   .starts = starts,
                                   .ends = ends,
-                                  .themes = std::move(themes)},
+                                  .themes = std::move(themes),
+                                  .dualfree = dualfree},
                        [&](const std::string& f) {
                            out.push_back(f);
                            return (int)out.size() < max;
@@ -146,11 +147,12 @@ PYBIND11_MODULE(_helpmate, mod) {
                 return out;
             },
             py::arg("material"), py::arg("dtm"), py::arg("count") = -1, py::arg("max") = 100,
-            py::arg("starts") = -1, py::arg("ends") = -1, py::arg("themes") = std::vector<std::string>{})
+            py::arg("starts") = -1, py::arg("ends") = -1, py::arg("themes") = std::vector<std::string>{},
+            py::arg("dualfree") = false)
         .def(
             "_mine_with_stats",
             [](const Tablebase& t, const std::string& mat, int dtm, int count, int max, int starts, int ends,
-               std::vector<std::string> themes) {
+               std::vector<std::string> themes, bool dualfree) {
                 validate_mine_shape(count, starts, ends);
                 std::vector<std::string> out;
                 uint64_t skipped = 0;
@@ -160,7 +162,8 @@ PYBIND11_MODULE(_helpmate, mod) {
                                .count = count,
                                .starts = starts,
                                .ends = ends,
-                               .themes = std::move(themes)},
+                               .themes = std::move(themes),
+                               .dualfree = dualfree},
                     [&](const std::string& f) {
                         out.push_back(f);
                         return (int)out.size() < max;
@@ -169,7 +172,8 @@ PYBIND11_MODULE(_helpmate, mod) {
                 return std::make_pair(out, skipped);  // -> (list[str], int) in Python
             },
             py::arg("material"), py::arg("dtm"), py::arg("count") = -1, py::arg("max") = 100,
-            py::arg("starts") = -1, py::arg("ends") = -1, py::arg("themes") = std::vector<std::string>{})
+            py::arg("starts") = -1, py::arg("ends") = -1, py::arg("themes") = std::vector<std::string>{},
+            py::arg("dualfree") = false)
         .def("_stats_json",
              [](const Tablebase& t, const std::string& mat) { return t.stats_json(mat_or_throw(mat)); });
     mod.def(
