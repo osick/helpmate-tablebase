@@ -1,5 +1,9 @@
 # Theme catalogue: what this project could detect
 
+> The detectors this build actually has, their exact definitions and how
+> each one is counted for `--theme NAME:N` are in
+> [USAGE.md, Themes](USAGE.md#themes); `helpmate themes` prints them too.
+
 Every one of the **295 themes** named in the [Helpmate Analyzer
 glossary](https://helpman.komtera.lt/themes.html) (Viktoras Paliulionis),
 classified against what a tablebase can actually compute. The glossary is the

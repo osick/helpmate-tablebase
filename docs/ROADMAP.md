@@ -7,6 +7,16 @@ comes; this file records the agreed order, goals, dependencies, and open
 questions. v0.5.0 (released 2026-07-30) is the baseline: generator to 6
 pieces, probe library, CLI, Python bindings, CI, docs.
 
+## Counted themes (2026-10-29)
+
+- **Done, unreleased.** `--theme NAME:N`: at least N occurrences of a theme
+  summed over all optimal solutions (`promotion:4`, `ideal:2`), on every
+  surface that takes a theme name; asked for by a problemist. Design:
+  `docs/superpowers/specs/2026-10-29-theme-occurrence-counts-design.md`.
+- Next ideas for mining — exact and per-solution counts, echo mates, a
+  quality score, theme statistics, user-defined themes, twins — are collected
+  in `docs/research/2026-10-29-mining-concept.md`.
+
 ## Six pieces complete (2026-10-25)
 
 - **Done.** All 1,001 classes from two to six men are solved and published
