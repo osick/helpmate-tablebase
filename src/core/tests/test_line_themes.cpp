@@ -1173,6 +1173,37 @@ TEST_CASE("occurrence counts per solution", "[themes][line][count]") {
         REQUIRE(count_promotion(s) == 2);
         REQUIRE(count_underpromotion(s) == 1);
         REQUIRE(count_capture_free(s) == 1);
+        // Both pawns start on their own second rank: two excelsiors, both white.
+        REQUIRE(count_excelsior(s) == 2);
+        REQUIRE(count_excelsior_white(s) == 2);
+        REQUIRE(count_excelsior_black(s) == 0);
+    }
+    SECTION("one lost rook, two rook promotions: two phoenix occurrences") {
+        // Kxa7 takes White's rook; both later promotions re-create a rook, and
+        // each promoting ply counts once.
+        auto s = play("k7/R7/8/8/8/8/5PP1/4K3 b - - 0 1",
+                      {{"a8", "a7", {}}, {"f2", "f4", {}}, {"a7", "b7", {}}, {"f4", "f5", {}},
+                       {"b7", "a7", {}}, {"f5", "f6", {}}, {"a7", "b7", {}}, {"f6", "f7", {}},
+                       {"b7", "a7", {}}, {"f7", "f8", PieceType::Rook}, {"a7", "b7", {}}, {"g2", "g4", {}},
+                       {"b7", "a7", {}}, {"g4", "g5", {}}, {"a7", "b7", {}}, {"g5", "g6", {}},
+                       {"b7", "a7", {}}, {"g6", "g7", {}}, {"a7", "b7", {}}, {"g7", "g8", PieceType::Rook}});
+        REQUIRE(count_phoenix(s) == 2);
+        REQUIRE(count_underpromotion(s) == 2);
+        REQUIRE(count_promotion(s) == 2);
+    }
+    SECTION("two captures on the square the black king ends on") {
+        // Rxd4, Kxd4: both captures land on d4, where the king stands at the
+        // end (kniest 2), and the second is the king recapturing (zajic 1).
+        auto s = play("8/8/8/4k3/3n4/8/8/3R3K w - - 0 1", {{"d1", "d4", {}}, {"e5", "d4", {}}});
+        REQUIRE(count_kniest(s) == 2);
+        REQUIRE(count_zajic(s) == 1);
+    }
+    SECTION("two self-blocked field squares") {
+        // The rook to g8 and the bishop to g7 both stand, unattacked, on the
+        // field of the king on h8.
+        auto s = play("1r5k/8/5b2/8/8/8/8/7K w - - 0 1",
+                      {{"h1", "g1", {}}, {"b8", "g8", {}}, {"g1", "h1", {}}, {"f6", "g7", {}}});
+        REQUIRE(count_self_block(s) == 2);
     }
     SECTION("a rook swinging a1-b1-a1-b1: two switchbacks, one pendulum") {
         auto s =
