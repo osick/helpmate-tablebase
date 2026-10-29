@@ -407,3 +407,80 @@ TEST_CASE("to_jsonl without facets is minimal and the footer follows an empty se
     REQUIRE(nlohmann::json::parse(lines[0])["max"] == 7);
     REQUIRE(nlohmann::json::parse(lines[1]) == nlohmann::json({{"positions", 0}, {"skipped_saturated", 0}}));
 }
+
+// ---------------------------------------------------------------------------
+// NAME:N occurrence counts
+
+TEST_CASE("enrichment also fills theme_counts", "[mine_set][count]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 10);
+    s.add(kGolden);
+    Hit h = s.hits()[0];
+    s.ensure_themes(h);
+    REQUIRE(h.theme_counts);
+    const auto& counts = *h.theme_counts;
+    for (const auto& [name, n] : counts) {
+        REQUIRE(n > 0);
+        REQUIRE(themes::countable(*themes::find_theme(name)));
+    }
+    // Every countable theme the position shows has a count, and nothing else does.
+    for (const auto& name : *h.themes) {
+        const bool counted = std::any_of(counts.begin(), counts.end(), [&](const auto& c) { return c.first == name; });
+        REQUIRE(counted == themes::countable(*themes::find_theme(name)));
+    }
+}
+
+TEST_CASE("with_theme accepts a counted name", "[mine_set][count]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb);
+    REQUIRE(s.with_theme("mirror:1", false).size() == 477);  // :1 is the plain theme
+    auto two = s.with_theme("mirror:2", false);
+    REQUIRE(two.size() > 0);
+    REQUIRE(two.size() < 477);
+    for (const auto& h : two.hits()) {
+        const auto& c = *h.theme_counts;
+        auto it = std::find_if(c.begin(), c.end(), [](const auto& p) { return p.first == "mirror"; });
+        REQUIRE(it != c.end());
+        REQUIRE(it->second >= 2);
+    }
+    REQUIRE(s.with_theme("mirror:2", true).size() == 580 - two.size());
+    REQUIRE_THROWS_AS(s.with_theme("mirror:0", false), std::invalid_argument);
+}
+
+TEST_CASE("mine: a counted theme filters, and :1 is the plain theme", "[mine_set][count]") {
+    Tablebase tb(gen_kqvk());
+    auto run = [&](const MineFilter& f) {
+        std::vector<std::string> out;
+        tb.mine(*Material::parse("KQvk"), f, [&](const std::string& fen) {
+            out.push_back(fen);
+            return true;
+        });
+        return out;
+    };
+    REQUIRE(run(MineFilter{.dtm = 2, .themes = {"mirror:1"}}) == run(MineFilter{.dtm = 2, .themes = {"mirror"}}));
+    REQUIRE(run(MineFilter{.dtm = 2, .themes = {"mirror:2"}}).size() < run(MineFilter{.dtm = 2, .themes = {"mirror"}}).size());
+}
+
+TEST_CASE("mine: an unreachable count is no hits, not an error", "[mine_set][count]") {
+    // One solution ends in one mate, so ideal:2 cannot hold with --count 1.
+    Tablebase tb(gen_kqvk());
+    int hits = 0;
+    REQUIRE_NOTHROW(tb.mine(*Material::parse("KQvk"), MineFilter{.dtm = 2, .count = 1, .themes = {"ideal:2"}},
+                            [&](const std::string&) {
+                                ++hits;
+                                return true;
+                            }));
+    REQUIRE(hits == 0);
+}
+
+TEST_CASE("JSON hits carry theme_counts with the themes facet only", "[mine_set][count]") {
+    Tablebase tb(gen_kqvk());
+    MineSet s(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, INT_MAX);
+    s.add(kGolden);
+    auto with = nlohmann::json::parse(s.to_json({.themes = true}));
+    const auto& p = with["positions"][0];
+    REQUIRE(p["theme_counts"].is_object());
+    REQUIRE(p["theme_counts"]["mirror"].get<int>() >= 1);
+    auto without = nlohmann::json::parse(s.to_json({}));
+    REQUIRE_FALSE(without["positions"][0].contains("theme_counts"));
+}

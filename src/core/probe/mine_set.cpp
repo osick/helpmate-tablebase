@@ -94,7 +94,11 @@ void MineSet::shape_on(const Tablebase& tb, Hit& h) const {
 
 void MineSet::themes_on(const Tablebase& tb, Hit& h) const {
     if (h.themes) return;
-    guarded(h, [&] { h.themes = non_parametric(tb.themes_of(h.fen, enum_cap(h))); });
+    guarded(h, [&] {
+        auto [names, counts] = tb.themes_with_counts(h.fen, enum_cap(h));
+        h.themes = non_parametric(names);
+        h.theme_counts = std::move(counts);
+    });
 }
 
 void MineSet::solutions_on(const Tablebase& tb, Hit& h) const {
@@ -232,6 +236,17 @@ MineSet MineSet::with_theme(const std::string& name, bool negate, const Progress
     std::string err;
     auto r = themes::resolve_theme(name, &err);
     if (!r) throw std::invalid_argument(err);
+    if (r->min_count > 0) {
+        // NAME:N: the cached occurrence counts decide, at no extra enumeration.
+        ensure_themes_all(progress);
+        const std::string base(r->def->name);
+        return filtered([&](const Hit& h) {
+            const auto& c = *h.theme_counts;
+            auto it = std::find_if(c.begin(), c.end(), [&](const auto& p) { return p.first == base; });
+            const bool shows = it != c.end() && it->second >= r->min_count;
+            return shows != negate;
+        });
+    }
     if (r->def->param == nullptr) {
         ensure_themes_all(progress);
         const std::string canon = r->name();
@@ -311,6 +326,11 @@ nlohmann::ordered_json MineSet::position_json(const Hit& h, Facets f) const {
         p["unavailable"] = h.unavailable;
     } else {
         if (f.themes && h.themes) p["themes"] = *h.themes;
+        if (f.themes && h.theme_counts) {
+            nlohmann::ordered_json c = nlohmann::ordered_json::object();
+            for (const auto& [name, n] : *h.theme_counts) c[name] = n;
+            p["theme_counts"] = std::move(c);
+        }
         if (f.solutions && h.shape && h.solutions) {
             // A saturated position has no countable solution set, so
             // `starts`/`ends` would be a guess presented as a fact: say

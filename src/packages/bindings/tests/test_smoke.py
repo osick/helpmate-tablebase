@@ -154,3 +154,23 @@ def test_mine_rejects_a_bad_parametric_value(tables):
     assert tb.mine("KQvk", 2, themes=["promotions:q"], max=3) == []   # no pawn: no match, no error
     with pytest.raises(ValueError, match="does not accept"):
         tb.mine("KQvk", 2, themes=["promotions:qx"])
+
+
+def test_theme_registry_says_which_themes_are_countable():
+    by_name = {e["name"]: e for e in helpmate.themes()}
+    assert by_name["promotion"]["countable"] is True
+    assert by_name["ideal"]["countable"] is True
+    assert by_name["set-play"]["countable"] is False
+    assert by_name["promotions:<types>"]["countable"] is False
+
+
+def test_check_theme_and_mine_accept_counts(tables):
+    assert helpmate.check_theme("ideal:2") is None
+    assert helpmate.check_theme("excelsior:white:2") is None
+    assert "at least 1" in helpmate.check_theme("ideal:0")
+    assert "cannot be counted" in helpmate.check_theme("set-play:2")
+    tb = helpmate.Tablebase(tables)
+    assert len(tb.mine("KQvk", 2, themes=["mirror:1"], max=600)) == 477   # :1 is the plain theme
+    assert len(tb.mine("KQvk", 2, themes=["mirror:2"], max=600)) == 131
+    with pytest.raises(ValueError, match="at least 1"):
+        tb.mine("KQvk", 2, themes=["mirror:0"])

@@ -113,6 +113,8 @@ void usage() {
                  "                 optimal solution does). Repeatable; every named theme must\n"
                  "                 be present, though not necessarily in the same solution.\n"
                  "                 A parametric theme takes a value: --theme promotions:qrr\n"
+                 "                 NAME:N: at least N occurrences over all solutions, e.g.\n"
+                 "                 --theme promotion:4 or --theme ideal:2 (countable themes)\n"
                  "                 `helpmate themes` lists the names and their definitions.\n"
                  "  --themes       probe: also print the themes the position's solutions show\n"
                  "                 mine: annotate every hit with all (non-parametric) themes\n"
@@ -967,6 +969,7 @@ int cmd_themes() {
     for (const auto& t : themes::theme_registry()) {
         std::cout << themes::display_name(t) << "\n";
         std::cout << "    needs: " << themes::needs_name(t.needs) << "\n";
+        std::cout << "    countable: " << (themes::countable(t) ? "yes" : "no") << "\n";
         print_wrapped(std::string(t.doc));
         // A parametric theme says what goes after the colon, right here, so
         // `--theme promotions:qrr` is discoverable without the docs.
@@ -974,6 +977,11 @@ int cmd_themes() {
             print_wrapped("parameter " + std::string(t.param->name) + " (e.g. " + std::string(t.name) + ":" +
                           std::string(t.param->example) + "): " + std::string(t.param->doc));
     }
+    std::cout << "\nNAME:N\n";
+    print_wrapped(
+        "A countable theme with a count, e.g. --theme promotion:4 or --theme ideal:2, matches when the "
+        "theme occurs at least N times summed over all optimal solutions. For nocapture and nocheck, N "
+        "counts the solutions that are capture-free (check-free).");
     return 0;
 }
 

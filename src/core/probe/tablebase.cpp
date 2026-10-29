@@ -597,6 +597,16 @@ std::vector<std::string> Tablebase::themes_of(const std::string& fen, int max) c
     return out;
 }
 
+std::pair<std::vector<std::string>, std::vector<std::pair<std::string, int>>> Tablebase::themes_with_counts(
+    const std::string& fen, int max) const {
+    std::pair<std::vector<std::string>, std::vector<std::pair<std::string, int>>> out;
+    with_theme_input(fen, max, [&](const themes::ThemeInput& in) {
+        out.first = themes::detect(in);
+        out.second = themes::count_all(in);
+    });
+    return out;
+}
+
 bool Tablebase::shows_theme(const std::string& fen, const themes::ResolvedTheme& t, int max) const {
     bool r = false;
     with_theme_input(fen, max, [&](const themes::ThemeInput& in) { r = t.eval(in); });
