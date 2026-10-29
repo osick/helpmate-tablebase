@@ -1181,12 +1181,16 @@ TEST_CASE("occurrence counts per solution", "[themes][line][count]") {
     SECTION("one lost rook, two rook promotions: two phoenix occurrences") {
         // Kxa7 takes White's rook; both later promotions re-create a rook, and
         // each promoting ply counts once.
-        auto s = play("k7/R7/8/8/8/8/5PP1/4K3 b - - 0 1",
-                      {{"a8", "a7", {}}, {"f2", "f4", {}}, {"a7", "b7", {}}, {"f4", "f5", {}},
-                       {"b7", "a7", {}}, {"f5", "f6", {}}, {"a7", "b7", {}}, {"f6", "f7", {}},
-                       {"b7", "a7", {}}, {"f7", "f8", PieceType::Rook}, {"a7", "b7", {}}, {"g2", "g4", {}},
-                       {"b7", "a7", {}}, {"g4", "g5", {}}, {"a7", "b7", {}}, {"g5", "g6", {}},
-                       {"b7", "a7", {}}, {"g6", "g7", {}}, {"a7", "b7", {}}, {"g7", "g8", PieceType::Rook}});
+        auto s = play("k7/R7/8/8/8/8/5PP1/4K3 b - - 0 1", {{"a8", "a7", {}}, {"f2", "f4", {}},
+                                                           {"a7", "b7", {}}, {"f4", "f5", {}},
+                                                           {"b7", "a7", {}}, {"f5", "f6", {}},
+                                                           {"a7", "b7", {}}, {"f6", "f7", {}},
+                                                           {"b7", "a7", {}}, {"f7", "f8", PieceType::Rook},
+                                                           {"a7", "b7", {}}, {"g2", "g4", {}},
+                                                           {"b7", "a7", {}}, {"g4", "g5", {}},
+                                                           {"a7", "b7", {}}, {"g5", "g6", {}},
+                                                           {"b7", "a7", {}}, {"g6", "g7", {}},
+                                                           {"a7", "b7", {}}, {"g7", "g8", PieceType::Rook}});
         REQUIRE(count_phoenix(s) == 2);
         REQUIRE(count_underpromotion(s) == 2);
         REQUIRE(count_promotion(s) == 2);
