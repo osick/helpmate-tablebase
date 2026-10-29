@@ -2218,3 +2218,20 @@ def test_privacy_states_the_no_storage_claim_the_code_actually_backs(page, serve
       session: Object.keys(sessionStorage).length,
     })""")
     assert state == {"cookie": "", "local": 0, "session": 0}, state
+
+
+def test_count_filter_text_is_sent_as_theme_values(page, server_mining):
+    # The "Count filters" box takes NAME:N words; each must reach the server
+    # as its own theme=..., after the picked themes, and the box itself must
+    # not leak into the query as a field of its own.
+    page.goto(f"{server_mining}/#panel=mine")
+    page.wait_for_selector("#mine-themes option")
+    page.fill("#mine-form input[name=material]", "KQvk")
+    page.fill("#mine-form input[name=dtm]", "2")
+    page.select_option("#mine-themes", ["mirror"])
+    page.fill("#mine-theme-counts", "ideal:1 mirror:2")
+    with page.expect_request(lambda r: "/v1/mine" in r.url) as req_info:
+        page.click("#mine-form button[type=submit]")
+    qs = parse_qs(urlparse(req_info.value.url).query)
+    assert qs.get("theme") == ["mirror", "ideal:1", "mirror:2"]
+    assert "theme-counts" not in qs

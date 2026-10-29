@@ -184,6 +184,8 @@ PYBIND11_MODULE(_helpmate, mod) {
                 d["name"] = themes::display_name(t);
                 d["doc"] = std::string(t.doc);
                 d["needs"] = std::string(themes::needs_name(t.needs));
+                // Whether `name:N` (occurrences over all solutions) is accepted.
+                d["countable"] = themes::countable(t);
                 if (t.param) {
                     py::dict prm;
                     prm["name"] = std::string(t.param->name);
@@ -197,9 +199,10 @@ PYBIND11_MODULE(_helpmate, mod) {
             }
             return out;
         },
-        "Every theme detector this build knows: [{name, doc, needs, parameter}, ...], in display "
+        "Every theme detector this build knows: [{name, doc, needs, countable, parameter}, ...], in display "
         "order. `parameter` is None for a boolean theme, or {name, doc, example} for a parametric "
-        "one whose query form is name:value (promotions:qrr).");
+        "one whose query form is name:value (promotions:qrr). `countable` is True when name:N "
+        "(at least N occurrences over all optimal solutions, e.g. ideal:2) is accepted.");
     mod.def(
         "check_theme",
         [](const std::string& name) -> py::object {

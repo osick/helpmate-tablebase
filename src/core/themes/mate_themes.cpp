@@ -107,4 +107,9 @@ bool is_mirror(const Solution& s) {
     return true;
 }
 
+int count_pure(const Solution& s) { return is_pure(s) ? 1 : 0; }
+int count_model(const Solution& s) { return is_model(s) ? 1 : 0; }
+int count_ideal(const Solution& s) { return is_ideal(s) ? 1 : 0; }
+int count_mirror(const Solution& s) { return is_mirror(s) ? 1 : 0; }
+
 }  // namespace hm::themes

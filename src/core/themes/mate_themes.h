@@ -34,4 +34,11 @@ bool is_ideal(const Solution& s);
 // Every square adjacent to the black king is empty, of either colour.
 bool is_mirror(const Solution& s);
 
+// Occurrence counts for `--theme NAME:N`: a solution ends in one mate, so each
+// is 1 when its mate is of that kind and 0 otherwise.
+int count_pure(const Solution& s);
+int count_model(const Solution& s);
+int count_ideal(const Solution& s);
+int count_mirror(const Solution& s);
+
 }  // namespace hm::themes

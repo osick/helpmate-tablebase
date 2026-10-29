@@ -88,6 +88,19 @@ add_test(NAME cli_mine_theme_unknown COMMAND ${CMAKE_COMMAND}
          -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
 set_tests_properties(cli_mine_theme_unknown PROPERTIES DEPENDS cli_gen)
 
+# Counted themes (NAME:N): a zero count fails naming the rule, and the theme
+# list says which themes can be counted.
+add_test(NAME cli_mine_count_bad COMMAND ${CMAKE_COMMAND}
+         -DHELPMATE=$<TARGET_FILE:helpmate>
+         "-DARGS=mine KQvk --dtm 2 --theme ideal:0 --tables ${CLI_TT}"
+         -DEXPECTED_RC=3
+         "-DPATTERN1=a count must be at least 1"
+         "-DPATTERN2=ideal:0"
+         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/assert_exit_and_output.cmake)
+set_tests_properties(cli_mine_count_bad PROPERTIES DEPENDS cli_gen)
+add_test(NAME cli_themes_countable COMMAND helpmate themes)
+set_tests_properties(cli_themes_countable PROPERTIES PASS_REGULAR_EXPRESSION "countable: yes.*countable: no.*NAME:N")
+
 # Parametric themes: `promotions:q` is a valid name (KQvk has no pawn, so the
 # scan simply finds nothing and exits 0); a bad value and the bare name must
 # fail naming the fix; the singular typo `promotion:q` must NOT fall through

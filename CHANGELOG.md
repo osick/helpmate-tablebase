@@ -8,6 +8,17 @@ bumps may change behavior).
 
 ## [Unreleased]
 
+### Added
+- **Counted themes, `--theme NAME:N`** (a problemist's request): at least N
+  occurrences of the theme summed over all optimal solutions, so
+  `--theme promotion:4` finds four promotions across the solutions and
+  `--count 2 --theme ideal:2` two solutions that both end in an ideal mate.
+  Works in `mine`, the `--interactive` shell, Python, the HTTP API and the
+  dashboard (*Count filters*). `helpmate themes`, `/v1/themes` and
+  `helpmate.themes()` say which themes are countable; `mine --themes --json`
+  hits carry `theme_counts`. Existing theme answers are unchanged (checked
+  byte for byte on eight real tables).
+
 ### Docs
 - **The DEEPEST booklet is redesigned and now also in German and French**:
   *Longest Helpmates with up to Six Men* / *Längste Hilfsmatts mit maximal 6

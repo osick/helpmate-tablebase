@@ -202,3 +202,15 @@ TEST_CASE("a position with no black king detects nothing", "[themes][mate]") {
     REQUIRE_FALSE(is_ideal(s));
     REQUIRE_FALSE(is_mirror(s));
 }
+
+TEST_CASE("mate-theme occurrence counts are 1 or 0 per solution", "[themes][mate][count]") {
+    auto base = at(kBase);
+    REQUIRE(count_pure(base) == 1);
+    REQUIRE(count_pure(at("R5k1/4N3/6K1/8/8/8/8/8 b - - 0 1")) == 0);  // double check
+    for (const char* fen : {kBase, "R5k1/4N3/6K1/8/8/8/8/8 b - - 0 1"}) {
+        auto s = at(fen);
+        REQUIRE(count_model(s) == (is_model(s) ? 1 : 0));
+        REQUIRE(count_ideal(s) == (is_ideal(s) ? 1 : 0));
+        REQUIRE(count_mirror(s) == (is_mirror(s) ? 1 : 0));
+    }
+}

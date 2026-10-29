@@ -120,6 +120,36 @@ bool has_maslar(const Solution& s);
 // arrival and no check, so none is required.
 bool has_maslar_black_white(const Solution& s);
 
+// Occurrence counts for `--theme NAME:N` (see the occurrence table in
+// docs/superpowers/specs/2026-10-29-theme-occurrence-counts-design.md). An
+// occurrence is one completion of the theme -- a ply, a unit, or the mate --
+// and every has_X / is_X above is exactly count_X(s) > 0.
+int count_promotion(const Solution& s);       // promoting plies
+int count_underpromotion(const Solution& s);  // plies promoting to R, B or N
+int count_excelsior(const Solution& s);       // pawns from their own second rank that promote
+int count_excelsior_white(const Solution& s);
+int count_excelsior_black(const Solution& s);
+int count_switchback(const Solution& s);    // returns: square[i] == square[i + 2] in a trajectory
+int count_closed_walk(const Solution& s);   // circuits per unit, left to right, no overlap
+int count_pendulum(const Solution& s);      // units whose trajectory is a pendulum
+int count_self_block(const Solution& s);    // self-blocked field squares in the mate
+int count_single_piece(const Solution& s);  // 0 or 1: a property of the whole solution
+int count_single_piece_white(const Solution& s);
+int count_single_piece_black(const Solution& s);
+int count_en_passant(const Solution& s);    // en-passant plies
+int count_kniest(const Solution& s);        // captures on the square the king is mated on
+int count_zajic(const Solution& s);         // king recaptures there after an earlier capture
+int count_phoenix(const Solution& s);       // promotions re-creating a type the side lost earlier
+int count_schnoebelen(const Solution& s);   // promoted units captured unmoved on their square
+int count_capture_free(const Solution& s);  // 0 or 1
+int count_check_free(const Solution& s);    // 0 or 1
+int count_umnov(const Solution& s);         // plies landing where the preceding ply left
+int count_umnov_mate(const Solution& s);    // 0 or 1
+int count_klasinc(const Solution& s);       // leave-and-return windows a line piece crosses
+int count_indian(const Solution& s);        // distinct plies completing an Indian
+int count_maslar(const Solution& s);        // distinct plies completing a Maslar
+int count_maslar_black_white(const Solution& s);
+
 // The solution's promotions as a canonical multiset string: one letter per
 // promotion, either colour, sorted in the fixed order q, r, b, n -- "qrr" for
 // one queen and two rooks. Empty when nothing promotes. `promotions:<types>`

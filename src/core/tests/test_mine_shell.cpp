@@ -234,3 +234,10 @@ TEST_CASE("shell: save jsonl writes header, records and footer", "[mine_shell]")
     REQUIRE(rec.contains("themes"));
     REQUIRE(rec.contains("solutions"));
 }
+
+TEST_CASE("shell: a counted theme narrows, a zero count is an error", "[mine_shell][count]") {
+    Tablebase tb(gen_kqvk());
+    auto r = run(tb, "theme mirror:1\nreset\ntheme mirror:0\n");
+    REQUIRE(r.out.rfind("477 positions\n580 positions\n", 0) == 0);
+    REQUIRE(has(r.err, "a count must be at least 1"));
+}

@@ -187,3 +187,26 @@ def test_parametric_theme_errors_are_400_naming_the_problem(client_mining):
         err = r.json()["error"]
         assert err["code"] == "invalid_theme"
         assert needle in err["message"], (name, err["message"])
+
+
+def test_themes_endpoint_reports_countable(client):
+    by_name = {t["name"]: t for t in client.get("/v1/themes").json()["themes"]}
+    assert by_name["ideal"]["countable"] is True
+    assert by_name["set-play"]["countable"] is False
+
+
+def test_mine_accepts_a_counted_theme(client_mining):
+    # mirror:1 is the plain theme (477 on KQvk dtm=2); mirror:2 narrows further.
+    one = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 2, "max": 600,
+                                         "theme": ["mirror:1"]}).json()
+    two = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 2, "max": 600,
+                                         "theme": ["mirror:2"]}).json()
+    assert len(one["fens"]) == 477
+    assert 0 < len(two["fens"]) < 477
+    assert set(two["fens"]) <= set(one["fens"])
+
+
+def test_a_zero_count_is_a_400_with_the_resolver_message(client_mining):
+    r = client_mining.get("/v1/mine", params={"material": "KQvk", "dtm": 2, "theme": ["ideal:0"]})
+    assert r.status_code == 400
+    assert "a count must be at least 1" in r.text

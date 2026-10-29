@@ -23,6 +23,9 @@ struct Hit {
     int dtm = -1, count = -1;
     std::optional<SolutionShape> shape;
     std::optional<std::vector<std::string>> themes;                  // non-parametric names only
+    // Occurrences of every countable theme that occurs, summed over the
+    // solutions (themes::count_all); filled together with `themes`.
+    std::optional<std::vector<std::pair<std::string, int>>> theme_counts;
     std::optional<std::vector<std::vector<std::string>>> solutions;  // SAN, one vector per solution
     std::string unavailable;
 };

@@ -10,7 +10,8 @@
 namespace hm::themes {
 namespace {
 
-bool excelsior_for(const Solution& s, std::optional<Color> want) {
+int excelsior_for(const Solution& s, std::optional<Color> want) {
+    int n = 0;
     const auto start_pieces = s.start.pieces();
     for (const auto& t : trajectories(s)) {
         if (!t.promoted) continue;
@@ -22,10 +23,12 @@ bool excelsior_for(const Solution& s, std::optional<Color> want) {
         // scan cannot currently reject anything the rank test let through. It
         // states the theme's own definition rather than relying on that.
         for (const auto& p : start_pieces)
-            if (p.square == origin && p.piece.color == t.color && p.piece.type == PieceType::Pawn)
-                return true;
+            if (p.square == origin && p.piece.color == t.color && p.piece.type == PieceType::Pawn) {
+                ++n;
+                break;
+            }
     }
-    return false;
+    return n;
 }
 
 bool single_for(const Solution& s, Color c) {
@@ -37,33 +40,46 @@ bool single_for(const Solution& s, Color c) {
 
 }  // namespace
 
-bool has_promotion(const Solution& s) {
+int count_promotion(const Solution& s) {
+    int n = 0;
     for (const auto& p : s.plies)
-        if (p.promotion) return true;
-    return false;
+        if (p.promotion) ++n;
+    return n;
 }
+bool has_promotion(const Solution& s) { return count_promotion(s) > 0; }
 
-bool has_underpromotion(const Solution& s) {
+int count_underpromotion(const Solution& s) {
+    int n = 0;
     for (const auto& p : s.plies)
-        if (p.promotion && *p.promotion != PieceType::Queen) return true;
-    return false;
+        if (p.promotion && *p.promotion != PieceType::Queen) ++n;
+    return n;
 }
+bool has_underpromotion(const Solution& s) { return count_underpromotion(s) > 0; }
 
-bool has_excelsior(const Solution& s) { return excelsior_for(s, std::nullopt); }
-bool has_excelsior_white(const Solution& s) { return excelsior_for(s, Color::White); }
-bool has_excelsior_black(const Solution& s) { return excelsior_for(s, Color::Black); }
+int count_excelsior(const Solution& s) { return excelsior_for(s, std::nullopt); }
+int count_excelsior_white(const Solution& s) { return excelsior_for(s, Color::White); }
+int count_excelsior_black(const Solution& s) { return excelsior_for(s, Color::Black); }
+bool has_excelsior(const Solution& s) { return count_excelsior(s) > 0; }
+bool has_excelsior_white(const Solution& s) { return count_excelsior_white(s) > 0; }
+bool has_excelsior_black(const Solution& s) { return count_excelsior_black(s) > 0; }
 
-bool has_switchback(const Solution& s) {
+int count_switchback(const Solution& s) {
+    int n = 0;
     for (const auto& t : trajectories(s))
         for (size_t i = 0; i + 2 < t.squares.size(); ++i)
-            if (t.squares[i] == t.squares[i + 2]) return true;
-    return false;
+            if (t.squares[i] == t.squares[i + 2]) ++n;
+    return n;
 }
+bool has_switchback(const Solution& s) { return count_switchback(s) > 0; }
 
-bool has_closed_walk(const Solution& s) {
+int count_closed_walk(const Solution& s) {
+    int n = 0;
     for (const auto& t : trajectories(s))
-        for (size_t i = 0; i < t.squares.size(); ++i)
-            for (size_t j = i + 3; j < t.squares.size(); ++j) {
+        // Left to right without overlap: once a circuit (i, j) closes, the
+        // next one may start no earlier than j, so A-B-C-A-B-C counts 1.
+        for (size_t i = 0; i < t.squares.size();) {
+            size_t closed = 0;
+            for (size_t j = i + 3; j < t.squares.size() && !closed; ++j) {
                 if (t.squares[i] != t.squares[j]) continue;
                 std::set<uint8_t> mid(t.squares.begin() + i + 1, t.squares.begin() + j);
                 // A path that touches its own start square in between is a
@@ -78,17 +94,26 @@ bool has_closed_walk(const Solution& s) {
                 // intermediate ply lands on a square none of the others did)
                 // rules that out while leaving a genuine circuit (no repeats
                 // at all between i and j) unaffected.
-                if (mid.size() == j - i - 1 && mid.count(t.squares[i]) == 0) return true;
+                if (mid.size() == j - i - 1 && mid.count(t.squares[i]) == 0) closed = j;
             }
-    return false;
+            if (closed) {
+                ++n;
+                i = closed;
+            } else {
+                ++i;
+            }
+        }
+    return n;
 }
+bool has_closed_walk(const Solution& s) { return count_closed_walk(s) > 0; }
 
-bool has_self_block(const Solution& s) {
+int count_self_block(const Solution& s) {
+    int n = 0;
     const auto ps = final_board(s).pieces();
     int bk = -1;
     for (const auto& p : ps)
         if (p.piece.type == PieceType::King && p.piece.color == Color::Black) bk = p.square;
-    if (bk < 0) return false;
+    if (bk < 0) return 0;
 
     for (int f : king_field(bk)) {
         const PlacedPiece* occ = nullptr;
@@ -115,88 +140,114 @@ bool has_self_block(const Solution& s) {
         // blocked every other black unit from ever moving there. So the answer
         // is correct; do not reuse this loop to report WHICH ply caused it.
         for (const auto& ply : s.plies)  // did a black unit MOVE there?
-            if (ply.piece.color == Color::Black && (int)ply.to == f) return true;
+            if (ply.piece.color == Color::Black && (int)ply.to == f) {
+                ++n;  // one per field square, however often units arrived on it
+                break;
+            }
     }
-    return false;
+    return n;
 }
+bool has_self_block(const Solution& s) { return count_self_block(s) > 0; }
 
 bool is_single_piece_white(const Solution& s) { return single_for(s, Color::White); }
 bool is_single_piece_black(const Solution& s) { return single_for(s, Color::Black); }
 bool is_single_piece(const Solution& s) { return is_single_piece_white(s) || is_single_piece_black(s); }
+int count_single_piece(const Solution& s) { return is_single_piece(s) ? 1 : 0; }
+int count_single_piece_white(const Solution& s) { return is_single_piece_white(s) ? 1 : 0; }
+int count_single_piece_black(const Solution& s) { return is_single_piece_black(s) ? 1 : 0; }
 
-bool has_en_passant(const Solution& s) {
+int count_en_passant(const Solution& s) {
+    int n = 0;
     for (const auto& p : s.plies)
-        if (p.is_ep) return true;
-    return false;
+        if (p.is_ep) ++n;
+    return n;
 }
+bool has_en_passant(const Solution& s) { return count_en_passant(s) > 0; }
 
-bool has_kniest(const Solution& s) {
+int count_kniest(const Solution& s) {
     const Board& fin = final_board(s);
     int bk = -1;
     for (const auto& pp : fin.pieces())
         if (pp.piece.type == PieceType::King && pp.piece.color == Color::Black) bk = pp.square;
-    if (bk < 0) return false;
+    if (bk < 0) return 0;
+    int n = 0;
     for (const auto& p : s.plies)
-        if (p.captured && (int)p.to == bk) return true;
-    return false;
+        if (p.captured && (int)p.to == bk) ++n;
+    return n;
 }
+bool has_kniest(const Solution& s) { return count_kniest(s) > 0; }
 
 // A unit is captured on S, a later ply recaptures on S with the black king,
 // and the black king is mated standing on S.
-bool has_zajic(const Solution& s) {
+int count_zajic(const Solution& s) {
     const Board& fin = final_board(s);
     int bk = -1;
     for (const auto& pp : fin.pieces())
         if (pp.piece.type == PieceType::King && pp.piece.color == Color::Black) bk = pp.square;
-    if (bk < 0) return false;
-    for (size_t i = 0; i < s.plies.size(); ++i) {
-        if (!s.plies[i].captured || (int)s.plies[i].to != bk) continue;
-        for (size_t j = i + 1; j < s.plies.size(); ++j) {
-            const Ply& r = s.plies[j];
-            if (r.captured && (int)r.to == bk && r.piece.type == PieceType::King &&
-                r.piece.color == Color::Black)
-                return true;
-        }
+    if (bk < 0) return 0;
+    // One per king recapture j on the mating square that has an earlier
+    // capture i there.
+    int n = 0;
+    bool earlier = false;
+    for (const Ply& r : s.plies) {
+        if (!r.captured || (int)r.to != bk) continue;
+        if (earlier && r.piece.type == PieceType::King && r.piece.color == Color::Black) ++n;
+        earlier = true;
     }
-    return false;
+    return n;
 }
+bool has_zajic(const Solution& s) { return count_zajic(s) > 0; }
 
 // A unit of type T belonging to side C is captured, and a LATER ply promotes
 // a pawn of side C to type T -- the captured unit is reborn.
-bool has_phoenix(const Solution& s) {
-    for (size_t i = 0; i < s.plies.size(); ++i) {
-        const Ply& cap = s.plies[i];
-        if (!cap.captured) continue;
-        // The captured unit belongs to the side that did NOT move.
-        const Color owner = cap.piece.color == Color::White ? Color::Black : Color::White;
-        for (size_t j = i + 1; j < s.plies.size(); ++j) {
-            const Ply& pr = s.plies[j];
-            if (pr.promotion && *pr.promotion == *cap.captured && pr.piece.color == owner) return true;
+int count_phoenix(const Solution& s) {
+    // One per promoting ply j that has an earlier capture i of a unit of the
+    // promoting side and the promoted type.
+    int n = 0;
+    for (size_t j = 0; j < s.plies.size(); ++j) {
+        const Ply& pr = s.plies[j];
+        if (!pr.promotion) continue;
+        for (size_t i = 0; i < j; ++i) {
+            const Ply& cap = s.plies[i];
+            if (!cap.captured) continue;
+            // The captured unit belongs to the side that did NOT move.
+            const Color owner = cap.piece.color == Color::White ? Color::Black : Color::White;
+            if (*pr.promotion == *cap.captured && pr.piece.color == owner) {
+                ++n;
+                break;
+            }
         }
     }
-    return false;
+    return n;
 }
+bool has_phoenix(const Solution& s) { return count_phoenix(s) > 0; }
 
 // A pawn promotes on square S; a later ply captures on S; and no ply in
 // between moves a unit FROM S. The promoted unit is captured without ever
 // having moved.
-bool has_schnoebelen(const Solution& s) {
+int count_schnoebelen(const Solution& s) {
+    int n = 0;
     for (size_t i = 0; i < s.plies.size(); ++i) {
         if (!s.plies[i].promotion) continue;
         const int sq = (int)s.plies[i].to;
         for (size_t j = i + 1; j < s.plies.size(); ++j) {
             if ((int)s.plies[j].from == sq) break;  // it moved: not Schnoebelen
-            if (s.plies[j].captured && (int)s.plies[j].to == sq) return true;
+            if (s.plies[j].captured && (int)s.plies[j].to == sq) {
+                ++n;
+                break;
+            }
         }
     }
-    return false;
+    return n;
 }
+bool has_schnoebelen(const Solution& s) { return count_schnoebelen(s) > 0; }
 
 // One unit's trajectory visits exactly two distinct squares and has length
 // >= 4 -- A,B,A,B, at least two returns. Deliberately NOT exclusive with
 // switchback: a pendulum trajectory contains a switchback (A,B,A), and both
 // are reported -- exactly as ideal implies model implies pure already does.
-bool has_pendulum(const Solution& s) {
+int count_pendulum(const Solution& s) {
+    int n = 0;
     for (const auto& t : trajectories(s)) {
         if (t.squares.size() < 4) continue;
         std::set<uint8_t> distinct(t.squares.begin(), t.squares.end());
@@ -215,10 +266,11 @@ bool has_pendulum(const Solution& s) {
         // because it states the theme's own two-square definition directly,
         // the same reasoning excelsior_for's rank check above uses for a
         // defensive-but-unkillable-by-deletion condition.
-        if (distinct.size() == 2) return true;
+        if (distinct.size() == 2) ++n;
     }
-    return false;
+    return n;
 }
+bool has_pendulum(const Solution& s) { return count_pendulum(s) > 0; }
 
 bool is_capture_free(const Solution& s) {
     if (s.plies.empty()) return false;  // nothing was played, so nothing is shown
@@ -226,6 +278,8 @@ bool is_capture_free(const Solution& s) {
         if (p.captured) return false;  // `captured` is set for en-passant too
     return true;
 }
+
+int count_capture_free(const Solution& s) { return is_capture_free(s) ? 1 : 0; }
 
 bool is_check_free(const Solution& s) {
     if (s.plies.empty()) return false;  // nothing was played, so nothing is shown
@@ -236,16 +290,21 @@ bool is_check_free(const Solution& s) {
     return true;
 }
 
-bool has_umnov(const Solution& s) {
+int count_check_free(const Solution& s) { return is_check_free(s) ? 1 : 0; }
+
+int count_umnov(const Solution& s) {
+    int n = 0;
     for (size_t i = 1; i < s.plies.size(); ++i)
-        if (s.plies[i].to == s.plies[i - 1].from) return true;
-    return false;
+        if (s.plies[i].to == s.plies[i - 1].from) ++n;
+    return n;
 }
+bool has_umnov(const Solution& s) { return count_umnov(s) > 0; }
 
 bool has_umnov_mate(const Solution& s) {
     const size_t n = s.plies.size();
     return n >= 2 && s.plies[n - 1].to == s.plies[n - 2].from;
 }
+int count_umnov_mate(const Solution& s) { return has_umnov_mate(s) ? 1 : 0; }
 
 namespace {
 
@@ -297,12 +356,15 @@ std::optional<PlacedPiece> line_piece_on(const Board& b, int sq, Color c) {
 // piece of colour `lc` moving a -> b over square c) followed by an
 // INTERFERENCE (ply j > i, a unit of colour `ic` arriving on c) while the
 // line piece still stands on b. Calls `finish(i, j, b, c)` for every such
-// pair and returns true as soon as it does; `finish` inspects the plies
-// after j. The line piece's identity is "the unit on b", which is exact
-// because the scan stops at the first ply that moves from b or captures on b.
+// pair; `finish` inspects the plies after j and returns the index of the ply
+// that completes the theme, or -1. Returns the distinct completing plies --
+// one occurrence each, however many critical moves lead to the same one.
+// The line piece's identity is "the unit on b", which is exact because the
+// scan stops at the first ply that moves from b or captures on b.
 template <class Finish>
-bool critical_then_interference(const Solution& s, Color lc, Color ic, bool interferer_may_be_king,
-                                Finish&& finish) {
+std::set<int> critical_then_interference(const Solution& s, Color lc, Color ic, bool interferer_may_be_king,
+                                         Finish&& finish) {
+    std::set<int> done;
     const int n = (int)s.plies.size();
     for (int i = 0; i < n; ++i) {
         const Ply& crit = s.plies[i];
@@ -314,16 +376,17 @@ bool critical_then_interference(const Solution& s, Color lc, Color ic, bool inte
                 if (p.from == b || p.to == b) break;  // the line piece moved or was taken
                 if (p.to != c || p.piece.color != ic) continue;
                 if (!interferer_may_be_king && p.piece.type == PieceType::King) continue;
-                if (finish(i, j, b, c)) return true;
+                if (const int k = finish(i, j, b, c); k >= 0) done.insert(k);
             }
         }
     }
-    return false;
+    return done;
 }
 
 }  // namespace
 
-bool has_klasinc(const Solution& s) {
+int count_klasinc(const Solution& s) {
+    int n = 0;
     for (const auto& t : trajectories(s)) {
         // squares[k] is where the unit stood before ply plies[k]; it leaves
         // squares[k] by that ply and next stands on squares[k2] == squares[k]
@@ -340,17 +403,22 @@ bool has_klasinc(const Solution& s) {
                     // type: collect_solutions reads the mover off the board.
                     const PieceType ty = s.plies[j].piece.type;
                     if (ty != PieceType::Queen && ty != PieceType::Rook && ty != PieceType::Bishop) continue;
-                    if (passes_over(s.plies[j].from, s.plies[j].to, a)) return true;
+                    if (passes_over(s.plies[j].from, s.plies[j].to, a)) {
+                        ++n;  // one per window, however many line pieces cross it
+                        break;
+                    }
                 }
                 break;  // the FIRST return closes this window; later returns open their own
             }
         }
     }
-    return false;
+    return n;
 }
+bool has_klasinc(const Solution& s) { return count_klasinc(s) > 0; }
 
-bool has_indian(const Solution& s) {
+int count_indian(const Solution& s) {
     const int n = (int)s.plies.size();
+    int total = 0;
     for (Color lc : {Color::White, Color::Black}) {
         const Color enemy = lc == Color::White ? Color::Black : Color::White;
         // The interferer is of the line piece's own colour; it may be the
@@ -358,28 +426,31 @@ bool has_indian(const Solution& s) {
         auto finish = [&](int, int j, int b, int c) {
             for (int k = j + 1; k < n; ++k) {
                 const Ply& p = s.plies[k];
-                if (p.from == b || p.to == b) return false;  // the line piece moved or was taken
+                if (p.from == b || p.to == b) return -1;  // the line piece moved or was taken
                 if (p.from != c) {
-                    if (p.to == c) return false;  // the interferer was captured on c
+                    if (p.to == c) return -1;  // the interferer was captured on c
                     continue;
                 }
                 // The interferer leaves c. It must uncover a check from the
                 // line piece along the line through c -- a check the moving
                 // unit gives by itself is not the theme.
-                if (!p.is_check) return false;
+                if (!p.is_check) return -1;
                 const int king = king_square(p.after, enemy);
                 const auto lp = line_piece_on(p.after, b, lc);
                 return king >= 0 && lp && passes_over(b, king, c) &&
-                       piece_attacks(p.after.pieces(), *lp, king);
+                               piece_attacks(p.after.pieces(), *lp, king)
+                           ? k
+                           : -1;
             }
-            return false;
+            return -1;
         };
-        if (critical_then_interference(s, lc, lc, true, finish)) return true;
+        total += (int)critical_then_interference(s, lc, lc, true, finish).size();
     }
-    return false;
+    return total;
 }
+bool has_indian(const Solution& s) { return count_indian(s) > 0; }
 
-bool has_maslar(const Solution& s) {
+int count_maslar(const Solution& s) {
     const int n = (int)s.plies.size();
     auto finish = [&](int, int j, int b, int c) {
         bool king_arrived = false;
@@ -389,35 +460,39 @@ bool has_maslar(const Solution& s) {
                 // The line piece moves at last: it must capture the
                 // interferer on c, giving check along the thematic line to a
                 // black king that arrived there after the interference.
-                if (p.to != c || !p.captured || !p.is_check || !king_arrived) return false;
+                if (p.to != c || !p.captured || !p.is_check || !king_arrived) return -1;
                 const int king = king_square(p.after, Color::Black);
                 const auto lp = line_piece_on(p.after, c, Color::White);
                 return king >= 0 && lp && passes_over(b, king, c) &&
-                       piece_attacks(p.after.pieces(), *lp, king);
+                               piece_attacks(p.after.pieces(), *lp, king)
+                           ? k
+                           : -1;
             }
-            if (p.to == b || p.from == c || p.to == c) return false;  // line piece or interferer disturbed
+            if (p.to == b || p.from == c || p.to == c) return -1;  // line piece or interferer disturbed
             // Beyond c as seen from b: between b and c is impossible, the line
             // piece on b attacks those squares.
             if (p.piece.color == Color::Black && p.piece.type == PieceType::King && passes_over(b, p.to, c))
                 king_arrived = true;
         }
-        return false;
+        return -1;
     };
-    return critical_then_interference(s, Color::White, Color::Black, false, finish);
+    return (int)critical_then_interference(s, Color::White, Color::Black, false, finish).size();
 }
+bool has_maslar(const Solution& s) { return count_maslar(s) > 0; }
 
-bool has_maslar_black_white(const Solution& s) {
+int count_maslar_black_white(const Solution& s) {
     const int n = (int)s.plies.size();
     auto finish = [&](int, int j, int b, int c) {
         for (int k = j + 1; k < n; ++k) {
             const Ply& p = s.plies[k];
-            if (p.from == b) return p.to == c && p.captured.has_value();
-            if (p.to == b || p.from == c || p.to == c) return false;
+            if (p.from == b) return p.to == c && p.captured.has_value() ? k : -1;
+            if (p.to == b || p.from == c || p.to == c) return -1;
         }
-        return false;
+        return -1;
     };
-    return critical_then_interference(s, Color::Black, Color::White, false, finish);
+    return (int)critical_then_interference(s, Color::Black, Color::White, false, finish).size();
 }
+bool has_maslar_black_white(const Solution& s) { return count_maslar_black_white(s) > 0; }
 
 namespace {
 // The fixed display order of the promotion letters, and the map back.

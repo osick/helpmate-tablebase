@@ -551,7 +551,10 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
   `nocapture` and `nocheck`, are the exception: they hold only when **every**
   optimal solution qualifies; `zilahi` and `allumwandlung` compare solutions
   with each other. A parametric theme takes its value after a colon:
-  `--theme promotions:qrr`. See [Themes](#themes)
+  `--theme promotions:qrr`. A countable theme takes a count instead:
+  `--theme promotion:4` or `--theme ideal:2` asks for at least that many
+  occurrences summed over all optimal solutions — see
+  [Counting themes](#counting-themes-namen). See [Themes](#themes)
   below for the full semantics, the theme list, and the performance caveat —
   theme filters force solution enumeration and cost noticeably more than a
   plain `--dtm`/`--count`/`--starts`/`--ends` scan;
@@ -559,6 +562,8 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
   the cap;
 - `--themes`: annotate every hit with all the themes it shows (every
   non-parametric theme; `promotions:<types>` is asked for with `--theme`);
+  in `--json`/`--jsonl` output the hit also carries `theme_counts`, the
+  occurrences of every countable theme that occurs;
 - `--solutions`: print every optimal solution of each hit as SAN;
 - `--json`: emit one JSON document instead of text (below);
 - `--jsonl`: emit JSON Lines instead: a header line, one object per position
@@ -685,6 +690,7 @@ $ helpmate mine KQvk --dtm 2 --max 1 --json --themes --solutions --tables tt
       "dtm": 2,
       "count": 1,
       "themes": ["set-play", "pure", "model", "ideal", "mirror", "single-piece", "single-piece:white", "single-piece:black", "nocapture", "nocheck"],
+      "theme_counts": {"pure": 1, "model": 1, "ideal": 1, "mirror": 1, "single-piece": 1, "single-piece:white": 1, "single-piece:black": 1, "nocapture": 1, "nocheck": 1},
       "starts": 1,
       "ends": 1,
       "solutions": [["Ka2", "Qa4#"]]
@@ -707,7 +713,7 @@ their keys: a position has `fen`, the header has `material`, the footer has
 ```
 $ helpmate mine KQvk --dtm 2 --max 1 --jsonl --themes --solutions --tables tt
 {"material":"KQvk","filter":{"dtm":2,"count":-1,"starts":-1,"ends":-1,"themes":[]},"max":1}
-{"fen":"8/8/8/8/8/8/8/k1KQ4 b - - 0 1","dtm":2,"count":1,"themes":["set-play","pure","model","ideal","mirror","single-piece","single-piece:white","single-piece:black","nocapture","nocheck"],"starts":1,"ends":1,"solutions":[["Ka2","Qa4#"]]}
+{"fen":"8/8/8/8/8/8/8/k1KQ4 b - - 0 1","dtm":2,"count":1,"themes":["set-play","pure","model","ideal","mirror","single-piece","single-piece:white","single-piece:black","nocapture","nocheck"],"theme_counts":{"pure":1,"model":1,"ideal":1,"mirror":1,"single-piece":1,"single-piece:white":1,"single-piece:black":1,"nocapture":1,"nocheck":1},"starts":1,"ends":1,"solutions":[["Ka2","Qa4#"]]}
 {"positions":1,"skipped_saturated":0}
 ```
 
@@ -796,118 +802,146 @@ Real output, `./build/helpmate themes` on this checkout:
 $ helpmate themes
 set-play
     needs: plane
+    countable: no
     Set play: the same position with the other side to move is solvable one
     move sooner (sibling dtm == this position's dtm - 1) -- the mate is
     already available and the side to move merely delays it. A sibling one
     move LONGER is the opposite of set play, not set play.
 pure
     needs: solutions
+    countable: yes
     Pure mate: every square of the black king's field is unavailable for
     exactly one reason, and the king's square is attacked exactly once (so
     double check is impure).
 model
     needs: solutions
+    countable: yes
     Model mate: pure, and every white unit except the king and pawns
     participates -- attacks the king's square or a field square, or stands
     on one.
 ideal
     needs: solutions
+    countable: yes
     Ideal mate: model with no exemptions -- the white king and white pawns
     must participate too, and every black unit other than the king must
     stand on a field square.
 mirror
     needs: solutions
+    countable: yes
     Mirror mate: every square adjacent to the black king is empty, of either
     colour.
 promotion
     needs: solutions
+    countable: yes
     A pawn promotes during the solution.
 underpromotion
     needs: solutions
+    countable: yes
     A pawn promotes to rook, bishop or knight.
 excelsior
     needs: solutions
+    countable: yes
     A pawn standing on its own second rank at the start of the solution
     promotes during it (either colour).
 excelsior:white
     needs: solutions
+    countable: yes
     Excelsior by a white pawn.
 excelsior:black
     needs: solutions
+    countable: yes
     Excelsior by a black pawn.
 switchback
     needs: solutions
+    countable: yes
     A unit leaves a square and returns to it, having visited exactly one
     intermediate square.
 closed-walk
     needs: solutions
+    countable: yes
     Rundlauf: a unit returns to its departure square having visited two or
     more distinct intermediate squares, so it traverses a circuit rather
     than retracing its path.
 self-block
     needs: solutions
+    countable: yes
     A black unit other than the king moves onto a square of its own king's
     field and stands there unattacked in the mating position, blocking a
     flight square.
 single-piece
     needs: solutions
+    countable: yes
     Every move by one side is made by the same unit (either side).
 single-piece:white
     needs: solutions
+    countable: yes
     Every white move is made by the same unit.
 single-piece:black
     needs: solutions
+    countable: yes
     Every black move is made by the same unit; with the king, this is the
     Analyzer's 'BK moves only'.
 en-passant
     needs: solutions
+    countable: yes
     A ply is an en-passant capture.
 kniest
     needs: solutions
+    countable: yes
     Kniest: a unit is captured on the square where the black king is later
     mated.
 zajic
     needs: solutions
+    countable: yes
     Zajic: a unit is captured on the square where the black king is mated,
     and the king recaptures there.
 phoenix
     needs: solutions
+    countable: yes
     Phoenix: a unit is captured and a pawn of the same colour later promotes
     to that same type.
 schnoebelen
     needs: solutions
+    countable: yes
     Schnoebelen: a promoted unit is captured on its promotion square without
     ever having moved.
 pendulum
     needs: solutions
+    countable: yes
     Pendulum: a unit oscillates between exactly two squares, returning at
     least twice.
 nocapture
     needs: solutions
+    countable: yes
     No capture: no unit is captured in any optimal solution (en passant
     included). Holds only when EVERY solution is capture-free, unlike the
     themes above, which match when any one solution shows them.
 nocheck
     needs: solutions
+    countable: yes
     No check: no move gives check in any optimal solution except the last
     move of each solution, the mate itself. Holds only when EVERY solution
     is check-free before its final move, unlike the themes above, which
     match when any one solution shows them.
 umnov
     needs: solutions
+    countable: yes
     Umnov: a unit moves onto the square the opponent's immediately preceding
     move vacated.
 umnov-mate
     needs: solutions
+    countable: yes
     Umnov mate: the mating move lands on the square Black's last move
     vacated.
 klasinc
     needs: solutions
+    countable: yes
     Klasinc: a unit leaves square a, a line piece (queen, rook or bishop,
     either colour) later moves along a line that passes over a, and after
     that the first unit returns to a.
 zilahi
     needs: solutions
+    countable: no
     Zilahi: two solutions and two white units X and Y such that X gives mate
     in one solution and is captured in the other, while Y gives mate in the
     second and is captured in the first. Units are identified by their
@@ -916,12 +950,14 @@ zilahi
     first 100 solutions are compared.
 allumwandlung
     needs: solutions
+    countable: no
     Allumwandlung (AUW): across the position's optimal solutions, pawns
     promote to all four types -- queen, rook, bishop and knight -- either
     colour, in any number of solutions. The same question as
     promotions:qrbn.
 promotions:<types>
     needs: solutions
+    countable: no
     Promotions: taking the promotions of all optimal solutions together, at
     least these types occur, with multiplicity, either colour --
     promotions:qrr needs one queen and two rooks among them (q and r in one
@@ -936,22 +972,89 @@ promotions:<types>
     together and rq is the same as qr; further promotions may occur
 indian
     needs: solutions
+    countable: yes
     Indian: a line piece crosses a critical square, a unit of its own colour
     then interferes on that square, and later that unit moves away giving
     discovered check from the line piece along the line through the square.
     Either colour.
 maslar
     needs: solutions
+    countable: yes
     Maslar: a white line piece plays a critical move along the thematic
     line, a black unit interferes on the crossed square, the black king then
     arrives on the line beyond it, and the white piece captures the
     interfering unit giving check (or mate).
 maslar:black-white
     needs: solutions
+    countable: yes
     Black-White Maslar: Black makes the critical move with a line piece,
     White interferes on the crossed square, and the black line piece finally
     captures the interfering white unit.
+
+NAME:N
+    A countable theme with a count, e.g. --theme promotion:4 or --theme
+    ideal:2, matches when the theme occurs at least N times summed over all
+    optimal solutions. For nocapture and nocheck, N counts the solutions
+    that are capture-free (check-free).
 ```
+
+### Counting themes: `NAME:N`
+
+`--theme NAME:N` matches a position when theme NAME occurs **at least N
+times in total, summed over all of its optimal solutions** (2026-10-29, on a
+problemist's request):
+
+- `--theme promotion:4`: four promotions altogether — in one solution, two in
+  each of two, or one in each of four.
+- `--count 2 --theme ideal:2`: two solutions, both ending in an ideal mate (a
+  solution has one mate, so `ideal:2` needs two solutions that show it).
+- *At least*, not exactly: `promotion:4` also matches five promotions.
+- `NAME:1` is the plain theme for every theme that matches when *some*
+  solution shows it. For `nocapture` and `nocheck`, which need *every*
+  solution, `nocapture:2` means "at least two capture-free solutions" — a
+  different question from plain `nocapture`.
+- A trailing `:<digits>` is always the count, so names with a colon take one
+  too: `excelsior:white:2`. N runs from 1 to 9999.
+- Not countable, because a single solution does not show them: `set-play`,
+  `zilahi`, `allumwandlung` and `promotions:<types>`. `helpmate themes` says
+  `countable: yes` or `no` for each; so do `/v1/themes` and Python
+  `helpmate.themes()` (field `countable`).
+- `mine` enumerates every solution of a non-saturated position, so its counts
+  are exact; a saturated position is skipped, as for every solution theme.
+  The `--interactive` shell and the `theme_counts` of a saturated hit in
+  `--json` output use its first 100 solutions, so there a count is a lower
+  bound.
+
+What one occurrence is — one completion of the theme, identified by the mate,
+a ply or a unit; a solution has at least one occurrence exactly when it shows
+the theme:
+
+| theme | occurrences in one solution |
+|---|---|
+| pure, model, ideal, mirror | 1 if its mate is of that kind, else 0 |
+| umnov-mate | 1 if the mating move lands on the square Black's last move vacated |
+| promotion | promoting plies |
+| underpromotion | plies promoting to rook, bishop or knight |
+| excelsior, excelsior:white, excelsior:black | pawns (of that colour) that start on their own second rank and promote |
+| switchback | returns: a unit stands on a square again two plies of its own later (A-B-A-B has two) |
+| closed-walk | completed circuits per unit, counted left to right without overlap: A-B-C-A is 1, A-B-C-A-B-C-A is 2 |
+| pendulum | units whose trajectory is a pendulum |
+| self-block | squares of the black king's field that a black unit moved onto and holds, unattacked, in the mate |
+| single-piece, single-piece:white, single-piece:black | 1 if the solution is single-piece (for that side) |
+| en-passant | en-passant plies |
+| kniest | capturing plies whose destination is the square the black king is mated on |
+| zajic | black-king recaptures on the mating square that follow an earlier capture there |
+| phoenix | promoting plies that re-create a type the same side lost earlier in the solution |
+| schnoebelen | promotions whose promoted unit is captured on its promotion square without having moved |
+| nocapture | 1 if the solution captures nothing |
+| nocheck | 1 if no ply before the mate gives check |
+| umnov | plies landing on the square the preceding ply vacated |
+| klasinc | leave-and-return windows of a unit that a line piece passes over |
+| indian | plies that complete an Indian (the discovering move) |
+| maslar, maslar:black-white | plies that complete a Maslar (the line piece's capture) |
+
+The dashboard's mine screen has a *Count filters* box for these
+(`promotion:4 ideal:2`).
 
 ### `needs`: what a theme actually reads
 

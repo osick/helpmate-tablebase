@@ -42,3 +42,21 @@ if(NOT n_mirror EQUAL 477)
 endif()
 
 message(STATUS "mine --theme mirror filters: ${n_mirror} of ${n_all} (KQvk dtm=2) -- confirmed non-trivial")
+
+# NAME:N (2026-10-29): `mirror:1` is the plain theme, so it must give the same
+# 477; `mirror:2` (at least two mirror mates over all solutions) must give
+# fewer. 131 is this implementation's value, pinned as a regression guard.
+foreach(spec "mirror:1;477" "mirror:2;131")
+  list(GET spec 0 theme)
+  list(GET spec 1 want)
+  execute_process(COMMAND "${HELPMATE}" mine KQvk --dtm 2 --theme ${theme} --max 100000 --tables "${TABLES}"
+                   OUTPUT_VARIABLE out_c RESULT_VARIABLE rc_c)
+  if(NOT rc_c EQUAL 0)
+    message(FATAL_ERROR "--theme ${theme} mine failed with ${rc_c}: ${out_c}")
+  endif()
+  string(REGEX MATCHALL "\n" c_newlines "${out_c}")
+  list(LENGTH c_newlines n_c)
+  if(NOT n_c EQUAL want)
+    message(FATAL_ERROR "expected ${want} dtm=2 positions with theme ${theme} for KQvk, got ${n_c}")
+  endif()
+endforeach()

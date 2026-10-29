@@ -2,6 +2,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "chess/types.h"
@@ -44,6 +45,14 @@ struct ThemeInput {
 
 using Detector = bool (*)(const ThemeInput&);
 
+// How often one solution shows a theme -- what `--theme NAME:N` sums over all
+// solutions. Null for a theme that is not countable (set-play and the
+// set-wide themes).
+using Counter = int (*)(const Solution&);
+
+// The largest N `NAME:N` accepts; a guard against nonsense input only.
+inline constexpr int kMaxThemeCount = 9999;
+
 // A PARAMETRIC theme: one registry entry, a family of questions. The user
 // writes `name:value` (`promotions:qrr`); `canon` normalises and validates
 // the value (nullopt = not a valid value), `eval` answers the yes/no for one
@@ -66,7 +75,11 @@ struct ThemeDef {
     std::string_view doc;  // the definition, shown by `helpmate themes`
     Needs needs;
     const ThemeParam* param = nullptr;  // non-null: parametric, fn is null
+    Counter count = nullptr;            // non-null: NAME:N is accepted
 };
+
+// True when `NAME:N` may be asked of this theme.
+bool countable(const ThemeDef& t);
 
 // "promotions:<types>" for a parametric entry, the bare name otherwise. The
 // name every listing surface shows, so a user can see that a value is needed.
@@ -78,8 +91,11 @@ std::string display_name(const ThemeDef& t);
 struct ResolvedTheme {
     const ThemeDef* def;
     std::string value;  // canonical; empty for a boolean theme
+    // NAME:N: at least this many occurrences summed over all solutions.
+    // 0 = the plain theme.
+    int min_count = 0;
     bool eval(const ThemeInput& in) const;
-    std::string name() const;  // "promotions:qrr", or the bare name
+    std::string name() const;  // "promotions:qrr", "promotion:4", or the bare name
 };
 
 // Resolves `name`. Exact registry names first (so `excelsior:white` stays a
@@ -131,5 +147,10 @@ const ThemeDef* find_theme(std::string_view name);
 // the position shows (`promotions:q promotions:rn`), and nothing when it
 // shows none.
 std::vector<std::string> detect(const ThemeInput& in);
+
+// Every countable theme that occurs at least once, with its occurrences
+// summed over all solutions, in registry order -- the `theme_counts` of
+// `mine --json`.
+std::vector<std::pair<std::string, int>> count_all(const ThemeInput& in);
 
 }  // namespace hm::themes

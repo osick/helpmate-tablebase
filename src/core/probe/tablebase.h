@@ -146,6 +146,11 @@ public:
     // one place, with_theme_input (private, below), shared with shows_theme.
     // `max` caps enumeration; -1 means "this position's own solution count".
     std::vector<std::string> themes_of(const std::string& fen, int max) const;
+    // themes_of plus every countable theme's occurrences summed over the
+    // solutions (themes::count_all), from ONE enumeration -- what a mine hit
+    // with --themes carries.
+    std::pair<std::vector<std::string>, std::vector<std::pair<std::string, int>>> themes_with_counts(
+        const std::string& fen, int max) const;
     // Does `fen` show the (possibly parametric) theme `t`? Same ThemeInput
     // as themes_of, so a parametric value such as promotions:qrr is judged by
     // the registry's own eval, never by string-matching themes_of's output.
