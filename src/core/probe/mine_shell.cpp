@@ -43,6 +43,8 @@ void help(std::ostream& out) {
            "  count N          keep positions with exactly N optimal solutions\n"
            "  starts N         keep positions with N distinct first moves\n"
            "  ends N           keep positions with N distinct mating moves\n"
+           "  dualfree         keep positions no two of whose solutions end in the same mate\n"
+           "  not dualfree     keep the others (positions with such a dual)\n"
            "  back             undo the last narrowing\n"
            "  reset            return to the loaded set\n"
            "  list [FROM [N]]  print FENs FROM..FROM+N-1 (default 1, 20)\n"
@@ -123,6 +125,11 @@ int run_mine_shell(MineSet root, std::istream& in, std::ostream& out, std::ostre
                 for (const auto& t : themes::theme_registry()) err << " " << themes::display_name(t);
                 err << "\n";
             }
+        } else if (c == "dualfree" || (c == "not" && w.size() >= 2 && w[1] == "dualfree")) {
+            const size_t before = cur.unavailable_count();
+            MineSet next = cur.with_dualfree(c == "dualfree", progress);
+            note_unavailable(before);
+            narrowed(std::move(next));
         } else if (c == "count" || c == "starts" || c == "ends") {
             int n = 0;
             if (!need_int(w, n)) continue;

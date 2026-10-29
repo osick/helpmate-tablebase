@@ -549,3 +549,21 @@ TEST_CASE("mine --dualfree skips saturated positions and counts them", "[mine_se
     REQUIRE(plain == 0);  // a plain dtm scan never needs the solutions
     REQUIRE(dual > 0);    // KQvk dtm 12 has saturated positions (count 255)
 }
+
+TEST_CASE("with_dualfree splits a set into dual-free and the rest", "[mine_set][dualfree]") {
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb, 6);
+    REQUIRE(s.size() == 11208);
+    auto keep = s.with_dualfree(true);
+    auto rest = s.with_dualfree(false);
+    REQUIRE(keep.size() == 622);  // the mine --dualfree total at dtm 6
+    REQUIRE(keep.size() + rest.size() == s.size());
+}
+
+TEST_CASE("the JSON header records the dualfree filter", "[mine_set][dualfree]") {
+    Tablebase tb(gen_kqvk());
+    MineSet plain(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2}, 5);
+    REQUIRE(nlohmann::json::parse(plain.to_json({}))["filter"]["dualfree"] == false);
+    MineSet dual(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2, .dualfree = true}, 5);
+    REQUIRE(nlohmann::json::parse(dual.to_json({}))["filter"]["dualfree"] == true);
+}
