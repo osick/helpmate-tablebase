@@ -166,7 +166,8 @@
         <label>themes
           <select id="mine-themes" name="theme" multiple size="6"></select>
           <div id="mine-theme-params"></div>
-          <small class="hint">optional — a position must show every theme you pick, though not necessarily in the same solution; a parametric theme such as promotions takes a value in its own box (e.g. qrr)</small>
+          <label class="theme-param">Count filters <input id="mine-theme-counts" name="theme-counts" placeholder="e.g. promotion:4 ideal:2" autocomplete="off"></label>
+          <small class="hint">optional — a position must show every theme you pick, though not necessarily in the same solution; a parametric theme such as promotions takes a value in its own box (e.g. qrr); a count filter NAME:N asks for at least N occurrences over all solutions</small>
         </label>
         <label>max results <input name="max" type="number" min="1" value="50"></label>
         <div class="row">

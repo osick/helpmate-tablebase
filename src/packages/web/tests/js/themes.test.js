@@ -68,3 +68,12 @@ test("themeQueryNames appends base:value for filled parametric inputs only", () 
   assert.deepEqual(themeQueryNames([], {}), []);
   assert.deepEqual(themeQueryNames(undefined, undefined), []);
 });
+
+test("themeQueryNames appends the words of the count-filter text", () => {
+  assert.deepEqual(themeQueryNames(["pure"], {}, " promotion:4, ideal:2 "),
+                   ["pure", "promotion:4", "ideal:2"]);
+  assert.deepEqual(themeQueryNames(["pure"], { promotions: "q" }, "ideal:2"),
+                   ["pure", "promotions:q", "ideal:2"]);
+  assert.deepEqual(themeQueryNames(["pure"], {}, " , "), ["pure"]);
+  assert.deepEqual(themeQueryNames(["pure"], {}), ["pure"]);
+});

@@ -48,12 +48,15 @@ export function parametricBase(theme) {
 // The `theme` query list a search sends: every picked boolean name, plus
 // `base:value` for each parametric theme whose input is non-empty. Whitespace
 // is trimmed; the server canonicalises the value (order, case) and rejects a
-// bad one with a 400 the screen shows verbatim.
-export function themeQueryNames(selected, paramValues) {
+// bad one with a 400 the screen shows verbatim. `countText` is the "Count
+// filters" box: NAME:N words (promotion:4 ideal:2), separated by spaces or
+// commas, appended as they are -- the server validates them too.
+export function themeQueryNames(selected, paramValues, countText = "") {
   const out = Array.from(selected || []);
   for (const [base, raw] of Object.entries(paramValues || {})) {
     const v = String(raw || "").trim();
     if (v) out.push(`${base}:${v}`);
   }
+  for (const w of String(countText || "").split(/[\s,]+/)) if (w) out.push(w);
   return out;
 }

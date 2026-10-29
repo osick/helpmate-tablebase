@@ -208,9 +208,11 @@ export function initMine(health) {
     // inputs are not `theme` fields at all; drop their own entries and build
     // the list explicitly.
     for (const base of Object.keys(paramInputs)) delete q[`theme-param-${base}`];
+    delete q["theme-counts"];
     const paramValues = {};
     for (const [base, input] of Object.entries(paramInputs)) paramValues[base] = input.value;
-    q.theme = themeQueryNames(selectedThemes(themeSel), paramValues);
+    const countText = document.getElementById("mine-theme-counts").value;
+    q.theme = themeQueryNames(selectedThemes(themeSel), paramValues, countText);
     results.textContent = ""; rows = [];
     const bad = validate(q);
     if (bad) { status.textContent = bad; return; }
