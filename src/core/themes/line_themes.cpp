@@ -437,7 +437,8 @@ int count_indian(const Solution& s) {
                 if (!p.is_check) return -1;
                 const int king = king_square(p.after, enemy);
                 const auto lp = line_piece_on(p.after, b, lc);
-                return king >= 0 && lp && passes_over(b, king, c) && piece_attacks(p.after.pieces(), *lp, king)
+                return king >= 0 && lp && passes_over(b, king, c) &&
+                               piece_attacks(p.after.pieces(), *lp, king)
                            ? k
                            : -1;
             }
@@ -462,7 +463,8 @@ int count_maslar(const Solution& s) {
                 if (p.to != c || !p.captured || !p.is_check || !king_arrived) return -1;
                 const int king = king_square(p.after, Color::Black);
                 const auto lp = line_piece_on(p.after, c, Color::White);
-                return king >= 0 && lp && passes_over(b, king, c) && piece_attacks(p.after.pieces(), *lp, king)
+                return king >= 0 && lp && passes_over(b, king, c) &&
+                               piece_attacks(p.after.pieces(), *lp, king)
                            ? k
                            : -1;
             }

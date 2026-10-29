@@ -425,7 +425,8 @@ TEST_CASE("enrichment also fills theme_counts", "[mine_set][count]") {
     }
     // Every countable theme the position shows has a count, and nothing else does.
     for (const auto& name : *h.themes) {
-        const bool counted = std::any_of(counts.begin(), counts.end(), [&](const auto& c) { return c.first == name; });
+        const bool counted =
+            std::any_of(counts.begin(), counts.end(), [&](const auto& c) { return c.first == name; });
         REQUIRE(counted == themes::countable(*themes::find_theme(name)));
     }
 }
@@ -457,8 +458,10 @@ TEST_CASE("mine: a counted theme filters, and :1 is the plain theme", "[mine_set
         });
         return out;
     };
-    REQUIRE(run(MineFilter{.dtm = 2, .themes = {"mirror:1"}}) == run(MineFilter{.dtm = 2, .themes = {"mirror"}}));
-    REQUIRE(run(MineFilter{.dtm = 2, .themes = {"mirror:2"}}).size() < run(MineFilter{.dtm = 2, .themes = {"mirror"}}).size());
+    REQUIRE(run(MineFilter{.dtm = 2, .themes = {"mirror:1"}}) ==
+            run(MineFilter{.dtm = 2, .themes = {"mirror"}}));
+    REQUIRE(run(MineFilter{.dtm = 2, .themes = {"mirror:2"}}).size() <
+            run(MineFilter{.dtm = 2, .themes = {"mirror"}}).size());
 }
 
 TEST_CASE("mine: an unreachable count is no hits, not an error", "[mine_set][count]") {

@@ -34,15 +34,18 @@ const std::vector<ThemeDef>& theme_registry() {
          "Mirror mate: every square adjacent to the black king is empty, of "
          "either colour.",
          Needs::Solutions, nullptr, &count_mirror},
-        {"promotion", &any_of<&has_promotion>, "A pawn promotes during the solution.", Needs::Solutions, nullptr, &count_promotion},
+        {"promotion", &any_of<&has_promotion>, "A pawn promotes during the solution.", Needs::Solutions,
+         nullptr, &count_promotion},
         {"underpromotion", &any_of<&has_underpromotion>, "A pawn promotes to rook, bishop or knight.",
          Needs::Solutions, nullptr, &count_underpromotion},
         {"excelsior", &any_of<&has_excelsior>,
          "A pawn standing on its own second rank at the start of the solution "
          "promotes during it (either colour).",
          Needs::Solutions, nullptr, &count_excelsior},
-        {"excelsior:white", &any_of<&has_excelsior_white>, "Excelsior by a white pawn.", Needs::Solutions, nullptr, &count_excelsior_white},
-        {"excelsior:black", &any_of<&has_excelsior_black>, "Excelsior by a black pawn.", Needs::Solutions, nullptr, &count_excelsior_black},
+        {"excelsior:white", &any_of<&has_excelsior_white>, "Excelsior by a white pawn.", Needs::Solutions,
+         nullptr, &count_excelsior_white},
+        {"excelsior:black", &any_of<&has_excelsior_black>, "Excelsior by a black pawn.", Needs::Solutions,
+         nullptr, &count_excelsior_black},
         {"switchback", &any_of<&has_switchback>,
          "A unit leaves a square and returns to it, having visited exactly one "
          "intermediate square.",
@@ -58,14 +61,16 @@ const std::vector<ThemeDef>& theme_registry() {
          "blocking a flight square.",
          Needs::Solutions, nullptr, &count_self_block},
         {"single-piece", &any_of<&is_single_piece>,
-         "Every move by one side is made by the same unit (either side).", Needs::Solutions, nullptr, &count_single_piece},
+         "Every move by one side is made by the same unit (either side).", Needs::Solutions, nullptr,
+         &count_single_piece},
         {"single-piece:white", &any_of<&is_single_piece_white>, "Every white move is made by the same unit.",
          Needs::Solutions, nullptr, &count_single_piece_white},
         {"single-piece:black", &any_of<&is_single_piece_black>,
          "Every black move is made by the same unit; with the king, this is "
          "the Analyzer's 'BK moves only'.",
          Needs::Solutions, nullptr, &count_single_piece_black},
-        {"en-passant", &any_of<&has_en_passant>, "A ply is an en-passant capture.", Needs::Solutions, nullptr, &count_en_passant},
+        {"en-passant", &any_of<&has_en_passant>, "A ply is an en-passant capture.", Needs::Solutions, nullptr,
+         &count_en_passant},
         {"kniest", &any_of<&has_kniest>,
          "Kniest: a unit is captured on the square where the black king is later "
          "mated.",
@@ -107,7 +112,8 @@ const std::vector<ThemeDef>& theme_registry() {
          "move vacated.",
          Needs::Solutions, nullptr, &count_umnov},
         {"umnov-mate", &any_of<&has_umnov_mate>,
-         "Umnov mate: the mating move lands on the square Black's last move vacated.", Needs::Solutions, nullptr, &count_umnov_mate},
+         "Umnov mate: the mating move lands on the square Black's last move vacated.", Needs::Solutions,
+         nullptr, &count_umnov_mate},
         {"klasinc", &any_of<&has_klasinc>,
          "Klasinc: a unit leaves square a, a line piece (queen, rook or bishop, "
          "either colour) later moves along a line that passes over a, and after "
@@ -202,7 +208,8 @@ std::optional<ResolvedTheme> resolve_theme(std::string_view name, std::string* e
     // A trailing `:<digits>` is always a count; everything before it is a
     // theme name as before, colons included (excelsior:white:2).
     const size_t colon = name.rfind(':');
-    const std::string_view digits = colon == std::string_view::npos ? std::string_view{} : name.substr(colon + 1);
+    const std::string_view digits =
+        colon == std::string_view::npos ? std::string_view{} : name.substr(colon + 1);
     if (colon == std::string_view::npos || colon == 0 || digits.empty() ||
         digits.find_first_not_of("0123456789") != std::string_view::npos)
         return resolve_uncounted(name, error);
@@ -211,7 +218,8 @@ std::optional<ResolvedTheme> resolve_theme(std::string_view name, std::string* e
     const std::string_view sig = first == std::string_view::npos ? std::string_view{} : digits.substr(first);
     const std::string typed(name);
     if (sig.empty()) return fail("theme \"" + typed + "\": a count must be at least 1");
-    if (sig.size() > 4) return fail("theme \"" + typed + "\": a count must be at most " + std::to_string(kMaxThemeCount));
+    if (sig.size() > 4)
+        return fail("theme \"" + typed + "\": a count must be at most " + std::to_string(kMaxThemeCount));
     const int n = std::stoi(std::string(sig));
     // A parametric base is not countable, with or without its value.
     if (const ThemeDef* t = find_theme(base); t && t->param) return fail(not_countable(typed, *t));

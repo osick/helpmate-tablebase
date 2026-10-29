@@ -487,20 +487,23 @@ TEST_CASE("resolve_theme: the promotion/promotions pair", "[themes][registry][co
     REQUIRE(qrr);
     REQUIRE(qrr->min_count == 0);
     REQUIRE_FALSE(resolve_theme("promotions:qrr:2", &err));
-    REQUIRE(err == "theme \"promotions:qrr:2\": promotions cannot be counted -- it is a property of the whole "
-                   "solution set, not something a solution shows several times");
+    REQUIRE(err ==
+            "theme \"promotions:qrr:2\": promotions cannot be counted -- it is a property of the whole "
+            "solution set, not something a solution shows several times");
 }
 
 TEST_CASE("resolve_theme: not countable", "[themes][registry][count]") {
     std::string err;
     REQUIRE_FALSE(resolve_theme("set-play:2", &err));
-    REQUIRE(err == "theme \"set-play:2\": set-play cannot be counted -- it is a property of the position, not "
-                   "something a solution shows several times");
+    REQUIRE(err ==
+            "theme \"set-play:2\": set-play cannot be counted -- it is a property of the position, not "
+            "something a solution shows several times");
     for (const char* n : {"zilahi", "allumwandlung"}) {
         REQUIRE_FALSE(resolve_theme(std::string(n) + ":2", &err));
-        REQUIRE(err == "theme \"" + std::string(n) + ":2\": " + n +
-                           " cannot be counted -- it is a property of the whole solution set, not something a "
-                           "solution shows several times");
+        REQUIRE(err ==
+                "theme \"" + std::string(n) + ":2\": " + n +
+                    " cannot be counted -- it is a property of the whole solution set, not something a "
+                    "solution shows several times");
     }
 }
 
