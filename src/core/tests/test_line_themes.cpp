@@ -1141,3 +1141,60 @@ TEST_CASE("nocheck: a black check before the mate breaks it too", "[themes][line
     REQUIRE(s.plies[0].piece.color == Color::Black);
     REQUIRE_FALSE(is_check_free(s));
 }
+
+// ---------------------------------------------------------------------------
+// Occurrence counts: the per-solution numbers `--theme NAME:N` sums. Each
+// fixture fixes an exact value from the occurrence table of
+// docs/superpowers/specs/2026-10-29-theme-occurrence-counts-design.md.
+
+TEST_CASE("occurrence counts per solution", "[themes][line][count]") {
+    SECTION("two promotions, one of them to a knight") {
+        // The f-pawn promotes to a knight first, so the later queen on g8 is
+        // screened from the black king by it and never gives check.
+        auto s = play("k7/8/8/8/8/8/5PP1/4K3 w - - 0 1",
+                      {{"f2", "f4", {}}, {"a8", "b8", {}}, {"f4", "f5", {}}, {"b8", "a8", {}},
+                       {"f5", "f6", {}}, {"a8", "b8", {}}, {"f6", "f7", {}}, {"b8", "a8", {}},
+                       {"f7", "f8", PieceType::Knight}, {"a8", "b8", {}}, {"g2", "g4", {}}, {"b8", "a8", {}},
+                       {"g4", "g5", {}}, {"a8", "b8", {}}, {"g5", "g6", {}}, {"b8", "a8", {}},
+                       {"g6", "g7", {}}, {"a8", "b8", {}}, {"g7", "g8", PieceType::Queen}});
+        REQUIRE(count_promotion(s) == 2);
+        REQUIRE(count_underpromotion(s) == 1);
+        REQUIRE(count_capture_free(s) == 1);
+    }
+    SECTION("a rook swinging a1-b1-a1-b1: two switchbacks, one pendulum") {
+        auto s = play("7k/8/8/8/8/8/8/R3K3 w - - 0 1",
+                      {{"a1", "b1", {}}, {"h8", "g8", {}}, {"b1", "a1", {}}, {"g8", "f8", {}}, {"a1", "b1", {}}});
+        REQUIRE(count_switchback(s) == 2);
+        REQUIRE(count_pendulum(s) == 1);
+    }
+    SECTION("closed walks are counted left to right without overlap") {
+        const std::vector<MoveSpec> twice = {{"e1", "e2", {}}, {"a8", "b8", {}}, {"e2", "d2", {}}, {"b8", "a8", {}},
+                                             {"d2", "e1", {}}, {"a8", "b8", {}}, {"e1", "e2", {}}, {"b8", "a8", {}},
+                                             {"e2", "d2", {}}, {"a8", "b8", {}}, {"d2", "e1", {}}};
+        REQUIRE(count_closed_walk(play("k7/8/8/8/8/8/8/4K3 w - - 0 1", twice)) == 2);
+        // e1-e2-d2-e1-e2-d2: one circuit closed, the second never returns.
+        const std::vector<MoveSpec> once(twice.begin(), twice.end() - 2);
+        REQUIRE(count_closed_walk(play("k7/8/8/8/8/8/8/4K3 w - - 0 1", once)) == 1);
+    }
+    SECTION("one capture makes the solution not capture-free") {
+        auto s = play("k7/8/8/8/8/8/8/Rr2K3 w - - 0 1", {{"a1", "b1", {}}});
+        REQUIRE(count_capture_free(s) == 0);
+    }
+    SECTION("two Umnov plies") {
+        // a7-a1 lands where Ra1-b1 left, a1-b1 where Rb1-c1 left (the white
+        // rook stays on the first rank: it is pinned against its king).
+        auto s = play("7k/r7/8/8/8/8/8/R3K3 w - - 0 1",
+                      {{"a1", "b1", {}}, {"a7", "a1", {}}, {"b1", "c1", {}}, {"a1", "b1", {}}});
+        REQUIRE(count_umnov(s) == 2);
+    }
+    SECTION("a solution with no plies shows nothing") {
+        auto s = play("k7/8/8/8/8/8/5PP1/4K3 w - - 0 1", {});
+        for (int n : {count_promotion(s), count_underpromotion(s), count_excelsior(s), count_switchback(s),
+                      count_closed_walk(s), count_pendulum(s), count_self_block(s), count_single_piece(s),
+                      count_en_passant(s), count_kniest(s), count_zajic(s), count_phoenix(s),
+                      count_schnoebelen(s), count_capture_free(s), count_check_free(s), count_umnov(s),
+                      count_umnov_mate(s), count_klasinc(s), count_indian(s), count_maslar(s),
+                      count_maslar_black_white(s)})
+            REQUIRE(n == 0);
+    }
+}
