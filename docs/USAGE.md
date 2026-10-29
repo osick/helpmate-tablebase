@@ -534,7 +534,7 @@ enumerate the actual positions at any (dtm, count).
 ## `mine` — scan for composition candidates
 
 ```
-helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NAME]... [--max N|infinity] [--themes] [--solutions] [--json|--jsonl] [--interactive] [--tables DIR] [--threads N] [--cache-mb N]
+helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--dualfree] [--theme NAME]... [--max N|infinity] [--themes] [--solutions] [--json|--jsonl] [--interactive] [--tables DIR] [--threads N] [--cache-mb N]
 ```
 
 - `--dtm D` (**required**): exact distance-to-mate, in plies, to match;
@@ -545,6 +545,9 @@ helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--theme NA
 - `--ends N` (optional): additionally require exactly N *distinct mating
   moves* across the optimal solutions — i.e. how many different final moves
   deliver mate, ignoring how each one got there;
+- `--dualfree` (optional, no value): keep only positions in which no two
+  optimal solutions end in the same final position — see
+  [Dual-free](#dual-free-mine---dualfree) below;
 - `--theme NAME` (optional, repeatable): additionally require that at least
   one optimal solution shows theme NAME; every named theme must be shown
   (by some solution, not necessarily the same one). The two set-wide themes,
@@ -681,7 +684,7 @@ solution count is saturated carries `"exhaustive": false` and no
 $ helpmate mine KQvk --dtm 2 --max 1 --json --themes --solutions --tables tt
 {
   "material": "KQvk",
-  "filter": {"dtm": 2, "count": -1, "starts": -1, "ends": -1, "themes": []},
+  "filter": {"dtm": 2, "count": -1, "starts": -1, "ends": -1, "themes": [], "dualfree": false},
   "max": 1,
   "skipped_saturated": 0,
   "positions": [
@@ -712,7 +715,7 @@ their keys: a position has `fen`, the header has `material`, the footer has
 
 ```
 $ helpmate mine KQvk --dtm 2 --max 1 --jsonl --themes --solutions --tables tt
-{"material":"KQvk","filter":{"dtm":2,"count":-1,"starts":-1,"ends":-1,"themes":[]},"max":1}
+{"material":"KQvk","filter":{"dtm":2,"count":-1,"starts":-1,"ends":-1,"themes":[],"dualfree":false},"max":1}
 {"fen":"8/8/8/8/8/8/8/k1KQ4 b - - 0 1","dtm":2,"count":1,"themes":["set-play","pure","model","ideal","mirror","single-piece","single-piece:white","single-piece:black","nocapture","nocheck"],"theme_counts":{"pure":1,"model":1,"ideal":1,"mirror":1,"single-piece":1,"single-piece:white":1,"single-piece:black":1,"nocapture":1,"nocheck":1},"starts":1,"ends":1,"solutions":[["Ka2","Qa4#"]]}
 {"positions":1,"skipped_saturated":0}
 ```
@@ -736,6 +739,7 @@ are needed and caching them. The prompt (on stderr) shows the current size.
 | `theme NAME` | keep positions showing NAME (`promotions:qrr` works too) |
 | `not theme NAME` | drop positions showing NAME |
 | `count N`, `starts N`, `ends N` | keep positions with exactly that value |
+| `dualfree`, `not dualfree` | keep the positions with no two solutions ending in the same final position, or the others |
 | `back` | undo the last narrowing; `reset` returns to the loaded set |
 | `list [FROM [N]]` | print FENs FROM..FROM+N-1 with their index (default 1, 20) |
 | `show I` | FEN, themes and every solution of hit I |
@@ -997,6 +1001,33 @@ NAME:N
     optimal solutions. For nocapture and nocheck, N counts the solutions
     that are capture-free (check-free).
 ```
+
+### Dual-free: `mine --dualfree`
+
+Two solutions are **duals** here when they end in the identical final
+position — the same mating picture — however they got there: the same moves
+in another order, or a different route. `mine --dualfree` keeps a position
+only if no two of its optimal solutions are duals; a position with one
+solution always passes. It needs every solution, so a saturated position
+(255+) is skipped and counted, as for `--starts`/`--ends`; in the
+`--interactive` shell a saturated hit counts as not dual-free. It is a
+filter, not a theme, so `probe --themes` and the theme list do not show it.
+
+It matters most with counted themes. In KBBvk at h#4.5, `--count 2 --theme
+model:2` finds 29 positions, but in 28 of them the two solutions reach the
+same mate by two king routes (`8/6k1/6B1/8/8/B7/8/1K6 w`: …Kg8, Kh8 or
+…Kh8, Kg8, then Kh6 and Bf8# either way). Adding `--dualfree` leaves the one
+position with two different model mates:
+
+```
+$ helpmate mine KBBvk --dtm 9 --count 2 --theme model:2 --dualfree --solutions --tables ~/tb
+k7/8/BB6/8/8/8/3K4/8 w - - 0 1
+  Ba5 Ka7 Bb4 Kb6 Bb7 Kb5 Kc3 Ka4 Bc6#
+  Ba5 Ka7 Bb4 Kb6 Bc8 Kb5 Kc3 Ka4 Bd7#
+```
+
+Also: Python `Tablebase.mine(..., dualfree=True)`, `/v1/mine?dualfree=true`,
+and the *dual-free only* box on the dashboard's mine screen.
 
 ### Counting themes: `NAME:N`
 

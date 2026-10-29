@@ -323,12 +323,8 @@ void MineSet::enrich_for(Facets f, const Progress& progress) {
 nlohmann::ordered_json MineSet::header_json() const {
     nlohmann::ordered_json j;
     j["material"] = m_.name();
-    j["filter"] = {{"dtm", f_.dtm},
-                   {"count", f_.count},
-                   {"starts", f_.starts},
-                   {"ends", f_.ends},
-                   {"themes", f_.themes},
-                   {"dualfree", f_.dualfree}};
+    j["filter"] = {{"dtm", f_.dtm},   {"count", f_.count},   {"starts", f_.starts},
+                   {"ends", f_.ends}, {"themes", f_.themes}, {"dualfree", f_.dualfree}};
     if (max_ == INT_MAX) j["max"] = "infinity";
     else j["max"] = max_;
     return j;

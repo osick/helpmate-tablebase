@@ -607,8 +607,12 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
     // --cache-mb: one block-cache budget for the whole scan, split among
     // the workers; without it each table keeps its own cache per worker.
     Tablebase tb(tables, cache_mb > 0 ? static_cast<size_t>(cache_mb) << 20 : 0);
-    MineFilter filter{
-        .dtm = dtm, .count = count, .starts = starts, .ends = ends, .themes = theme_names, .dualfree = dualfree};
+    MineFilter filter{.dtm = dtm,
+                      .count = count,
+                      .starts = starts,
+                      .ends = ends,
+                      .themes = theme_names,
+                      .dualfree = dualfree};
     uint64_t skipped = 0;
     if (!out.wants_set()) {
         // Streaming path, byte-identical to every release before 0.18.0.

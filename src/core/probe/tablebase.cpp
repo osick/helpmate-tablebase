@@ -318,7 +318,8 @@ void Tablebase::mine(const Material& m, const MineFilter& f,
     // themes read only the diagram skips enumeration and answers on saturated
     // positions too, at the cost of one decode plus one Board construction per
     // candidate -- measured at 26s over a 31.5M-candidate query.
-    const bool want_solutions = want_shape || f.dualfree || (!dets.empty() && need == themes::Needs::Solutions);
+    const bool want_solutions =
+        want_shape || f.dualfree || (!dets.empty() && need == themes::Needs::Solutions);
     const bool want_plane = !dets.empty() && need >= themes::Needs::Plane;
     const MineScan q{m,
                      stm,

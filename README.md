@@ -178,7 +178,11 @@ detector would need.
 A countable theme also takes a count of occurrences over all optimal
 solutions: `--theme promotion:4` finds four promotions altogether, and
 `--count 2 --theme ideal:2` two solutions that both end in an ideal mate
-([Counting themes](docs/USAGE.md#counting-themes-namen)).
+([Counting themes](docs/USAGE.md#counting-themes-namen)). `--dualfree` drops
+positions in which two solutions end in the same mate by different move
+orders: in KBBvk h#4.5, 29 positions have two model-mate solutions, and one
+of them has two *different* model mates
+([Dual-free](docs/USAGE.md#dual-free-mine---dualfree)).
 
 ## Mining, from a scan to a shortlist
 
@@ -232,6 +236,7 @@ a second filter on the same set costs nothing.
 | --- | --- |
 | `theme NAME`, `not theme NAME` | keep or drop positions showing NAME (`promotions:qrr` and counts such as `ideal:2` work too) |
 | `count N`, `starts N`, `ends N` | keep positions with exactly that value |
+| `dualfree`, `not dualfree` | keep positions with no two solutions ending in the same mate, or the others |
 | `back`, `reset` | undo the last narrowing, or return to the loaded set |
 | `list [FROM [N]]`, `show I` | page through the FENs; print one hit with its themes and every solution |
 | `themes` | how many positions in the current set show each theme, the map for what to narrow on next |

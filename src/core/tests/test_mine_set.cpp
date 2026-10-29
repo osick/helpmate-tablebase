@@ -511,7 +511,8 @@ std::string board_and_side(const Board& b) {
 }
 }  // namespace
 
-TEST_CASE("mine --dualfree keeps exactly the positions without two equal final positions", "[mine_set][dualfree]") {
+TEST_CASE("mine --dualfree keeps exactly the positions without two equal final positions",
+          "[mine_set][dualfree]") {
     // dtm 6 (h#3): at h#1 every position is dual-free, two plies cannot reach
     // one final position by different black moves.
     Tablebase tb(gen_kqvk());
