@@ -739,7 +739,7 @@ are needed and caching them. The prompt (on stderr) shows the current size.
 | `theme NAME` | keep positions showing NAME (`promotions:qrr` works too) |
 | `not theme NAME` | drop positions showing NAME |
 | `count N`, `starts N`, `ends N` | keep positions with exactly that value |
-| `dualfree`, `not dualfree` | keep the positions with no two solutions ending in the same final position, or the others |
+| `dualfree`, `not dualfree` | keep the positions with no two solutions ending in the same final position, or the others — those with such a dual and the saturated ones, which cannot be decided |
 | `back` | undo the last narrowing; `reset` returns to the loaded set |
 | `list [FROM [N]]` | print FENs FROM..FROM+N-1 with their index (default 1, 20) |
 | `show I` | FEN, themes and every solution of hit I |
@@ -1015,8 +1015,8 @@ filter, not a theme, so `probe --themes` and the theme list do not show it.
 
 It matters most with counted themes. In KBBvk at h#4.5, `--count 2 --theme
 model:2` finds 29 positions, but in 28 of them the two solutions reach the
-same mate by two king routes (`8/6k1/6B1/8/8/B7/8/1K6 w`: …Kg8, Kh8 or
-…Kh8, Kg8, then Kh6 and Bf8# either way). Adding `--dualfree` leaves the one
+same mate by two routes, mostly of the black king (`8/6k1/6B1/8/8/B7/8/1K6 w`:
+…Kg8, Kh8 or …Kh8, Kg8, then Kh6 and Bf8# either way). Adding `--dualfree` leaves the one
 position with two different model mates:
 
 ```

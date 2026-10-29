@@ -568,3 +568,14 @@ TEST_CASE("the JSON header records the dualfree filter", "[mine_set][dualfree]")
     MineSet dual(tb, *Material::parse("KQvk"), MineFilter{.dtm = 2, .dualfree = true}, 5);
     REQUIRE(nlohmann::json::parse(dual.to_json({}))["filter"]["dualfree"] == true);
 }
+
+TEST_CASE("with_dualfree counts saturated hits as not dual-free", "[mine_set][dualfree]") {
+    // KQvk dtm 12: 284 positions, 273 of them saturated (count 255). mine
+    // --dualfree finds 3; the shell's other half holds the rest, saturated
+    // ones included, since they cannot be confirmed either way.
+    Tablebase tb(gen_kqvk());
+    auto s = kqvk_set(tb, 12);
+    REQUIRE(s.size() == 284);
+    REQUIRE(s.with_dualfree(true).size() == 3);
+    REQUIRE(s.with_dualfree(false).size() == 281);
+}

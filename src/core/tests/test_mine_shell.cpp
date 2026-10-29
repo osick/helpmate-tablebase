@@ -249,4 +249,5 @@ TEST_CASE("shell: dualfree and not dualfree", "[mine_shell][dualfree]") {
     REQUIRE(r.out.rfind("580 positions\n580 positions\n0 positions\n", 0) == 0);
     REQUIRE(has(r.out, "  dualfree "));
     REQUIRE(has(r.out, "  not dualfree "));
+    REQUIRE(has(r.out, "saturated"));  // not dualfree also keeps the undecidable ones
 }

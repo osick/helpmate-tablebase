@@ -44,7 +44,7 @@ void help(std::ostream& out) {
            "  starts N         keep positions with N distinct first moves\n"
            "  ends N           keep positions with N distinct mating moves\n"
            "  dualfree         keep positions no two of whose solutions end in the same mate\n"
-           "  not dualfree     keep the others (positions with such a dual)\n"
+           "  not dualfree     keep the others: with such a dual, or saturated (undecidable)\n"
            "  back             undo the last narrowing\n"
            "  reset            return to the loaded set\n"
            "  list [FROM [N]]  print FENs FROM..FROM+N-1 (default 1, 20)\n"
