@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <catch2/catch_test_macros.hpp>
 #include <set>
+#include <tuple>
 
 #include "themes/registry.h"
 
@@ -301,8 +302,8 @@ TEST_CASE("resolve_theme: exact names, parametric values, and every failure mode
     REQUIRE_FALSE(resolve_theme("promotion:qrr", &err));
     REQUIRE(err.find("promotions:qrr") != std::string::npos);
 
-    REQUIRE_FALSE(resolve_theme("pure:yes", &err));  // a boolean takes no value
-    REQUIRE(err.find("unknown theme") != std::string::npos);
+    REQUIRE_FALSE(resolve_theme("pure:yes", &err));  // a boolean takes no value but a count
+    REQUIRE(err == "theme \"pure:yes\": pure takes no value; a count is a whole number, e.g. pure:2");
     REQUIRE_FALSE(resolve_theme("nosuch", &err));
     REQUIRE(err.find("unknown theme \"nosuch\"") != std::string::npos);
 }
@@ -443,4 +444,121 @@ TEST_CASE("promotions:qrr -- q and r in one solution, nothing in a second, r in 
     REQUIRE_FALSE(ok("promotions:qrrr"));
     REQUIRE_FALSE(ok("promotions:qq"));
     REQUIRE_FALSE(ok("promotions:b"));
+}
+
+// ---------------------------------------------------------------------------
+// NAME:N -- occurrence counts (docs/superpowers/specs/2026-10-29-theme-occurrence-counts-design.md)
+
+TEST_CASE("resolve_theme: counts", "[themes][registry][count]") {
+    std::string err;
+    auto p4 = resolve_theme("promotion:4", &err);
+    REQUIRE(p4);
+    REQUIRE(p4->def->name == "promotion");
+    REQUIRE(p4->min_count == 4);
+    REQUIRE(p4->name() == "promotion:4");
+    REQUIRE(resolve_theme("ideal:02")->name() == "ideal:2");
+    REQUIRE(resolve_theme("ideal")->min_count == 0);
+
+    REQUIRE_FALSE(resolve_theme("ideal:0", &err));
+    REQUIRE(err == "theme \"ideal:0\": a count must be at least 1");
+    REQUIRE_FALSE(resolve_theme("ideal:10000", &err));
+    REQUIRE(err == "theme \"ideal:10000\": a count must be at most 9999");
+    REQUIRE(resolve_theme("ideal:9999"));
+}
+
+TEST_CASE("resolve_theme: counts on colon names", "[themes][registry][count]") {
+    for (auto [typed, base, n] : {std::tuple{"excelsior:white:2", "excelsior:white", 2},
+                                  std::tuple{"single-piece:black:3", "single-piece:black", 3},
+                                  std::tuple{"maslar:black-white:2", "maslar:black-white", 2}}) {
+        auto r = resolve_theme(typed);
+        REQUIRE(r);
+        REQUIRE(r->def->name == base);
+        REQUIRE(r->min_count == n);
+        REQUIRE(r->name() == typed);
+    }
+}
+
+TEST_CASE("resolve_theme: the promotion/promotions pair", "[themes][registry][count]") {
+    std::string err;
+    REQUIRE_FALSE(resolve_theme("promotion:qrr", &err));
+    REQUIRE(err.find("did you mean promotions:qrr?") != std::string::npos);
+    REQUIRE(resolve_theme("promotion:4"));
+    auto qrr = resolve_theme("promotions:qrr");
+    REQUIRE(qrr);
+    REQUIRE(qrr->min_count == 0);
+    REQUIRE_FALSE(resolve_theme("promotions:qrr:2", &err));
+    REQUIRE(err == "theme \"promotions:qrr:2\": promotions cannot be counted -- it is a property of the whole "
+                   "solution set, not something a solution shows several times");
+}
+
+TEST_CASE("resolve_theme: not countable", "[themes][registry][count]") {
+    std::string err;
+    REQUIRE_FALSE(resolve_theme("set-play:2", &err));
+    REQUIRE(err == "theme \"set-play:2\": set-play cannot be counted -- it is a property of the position, not "
+                   "something a solution shows several times");
+    for (const char* n : {"zilahi", "allumwandlung"}) {
+        REQUIRE_FALSE(resolve_theme(std::string(n) + ":2", &err));
+        REQUIRE(err == "theme \"" + std::string(n) + ":2\": " + n +
+                           " cannot be counted -- it is a property of the whole solution set, not something a "
+                           "solution shows several times");
+    }
+}
+
+TEST_CASE("countable themes are exactly the per-solution ones", "[themes][registry][count]") {
+    const std::set<std::string_view> set_wide{"set-play", "zilahi", "allumwandlung", "promotions"};
+    for (const auto& t : theme_registry()) REQUIRE(countable(t) == (set_wide.count(t.name) == 0));
+}
+
+TEST_CASE("eval sums occurrences over solutions, and count_all lists them", "[themes][registry][count]") {
+    auto b = Board::from_fen("k7/6P1/8/8/8/8/8/K7 w - - 0 1");
+    REQUIRE(b);
+    auto promote = [&](PieceType t) {
+        const Move* found = nullptr;
+        auto legal = b->legal_moves();
+        for (const auto& m : legal)
+            if (m.promotion() == t) found = &m;
+        REQUIRE(found != nullptr);
+        Solution s{*b, {}};
+        Ply p;
+        p.piece = {Color::White, PieceType::Pawn};
+        p.from = found->from;
+        p.to = found->to;
+        p.promotion = t;
+        Board after = *b;
+        after.make(*found);
+        p.after = after;
+        s.plies.push_back(p);
+        return s;
+    };
+    // Two promoting, capture-free lines and one that plays nothing.
+    std::vector<Solution> sols{promote(PieceType::Queen), promote(PieceType::Knight), Solution{*b, {}}};
+    ThemeInput in{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, sols};
+    auto ok = [&](const char* name) { return resolve_theme(name)->eval(in); };
+
+    REQUIRE(ok("promotion:2"));
+    REQUIRE_FALSE(ok("promotion:3"));
+    REQUIRE(ok("promotion:1") == ok("promotion"));
+    REQUIRE(ok("underpromotion:1"));
+    REQUIRE_FALSE(ok("underpromotion:2"));
+
+    // nocapture:N counts capture-free solutions; plain nocapture needs all.
+    REQUIRE_FALSE(ok("nocapture"));
+    REQUIRE(ok("nocapture:2"));
+    REQUIRE_FALSE(ok("nocapture:3"));
+
+    const std::vector<Solution> empty;
+    ThemeInput none{*b, ValuePair{DTM_UNSOLVABLE, 0}, std::nullopt, empty};
+    REQUIRE_FALSE(resolve_theme("promotion:1")->eval(none));
+
+    const auto counts = count_all(in);
+    auto has = [&](const char* n, int v) {
+        return std::find(counts.begin(), counts.end(), std::pair<std::string, int>{n, v}) != counts.end();
+    };
+    REQUIRE(has("promotion", 2));
+    REQUIRE(has("underpromotion", 1));
+    REQUIRE(has("nocapture", 2));
+    for (const auto& [name, v] : counts) {
+        REQUIRE(v > 0);
+        REQUIRE(countable(*find_theme(name)));
+    }
 }
