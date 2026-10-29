@@ -535,3 +535,57 @@ TEST_CASE("shows_theme evaluates one resolved theme on a FEN", "[themes][solutio
     auto names = tb.themes_of(kGolden, 4);
     REQUIRE(std::find(names.begin(), names.end(), "mirror") != names.end());
 }
+
+// ---------------------------------------------------------------------------
+// is_dualfree: duals are solutions ending in the identical final position.
+
+namespace {
+Solution line_of(const std::string& fen, const std::vector<std::pair<int, int>>& moves) {
+    auto b = Board::from_fen(fen);
+    REQUIRE(b);
+    Solution s{*b, {}};
+    Board cur = *b;
+    for (auto [from, to] : moves) {
+        const Move* found = nullptr;
+        auto legal = cur.legal_moves();
+        for (const auto& m : legal)
+            if ((int)m.from == from && (int)m.to == to && !m.promotion()) found = &m;
+        REQUIRE(found != nullptr);
+        Ply p;
+        p.from = found->from;
+        p.to = found->to;
+        cur.make(*found);
+        p.after = cur;
+        s.plies.push_back(std::move(p));
+    }
+    return s;
+}
+int sq(const char* n) { return (n[1] - '1') * 8 + (n[0] - 'a'); }
+std::pair<int, int> mv(const char* from, const char* to) { return {sq(from), sq(to)}; }
+const char* kDualFen = "7k/1p6/8/8/8/8/8/R1K5 w - - 0 1";
+}  // namespace
+
+TEST_CASE("is_dualfree", "[dualfree]") {
+    SECTION("the same moves in another order are duals") {
+        auto a = line_of(kDualFen, {mv("a1", "a2"), mv("h8", "g8"), mv("c1", "d1"), mv("b7", "b6")});
+        auto b = line_of(kDualFen, {mv("c1", "d1"), mv("b7", "b6"), mv("a1", "a2"), mv("h8", "g8")});
+        REQUIRE_FALSE(is_dualfree({a, b}));
+    }
+    SECTION("different routes to the same position are duals") {
+        auto a = line_of(kDualFen, {mv("c1", "d1"), mv("h8", "g8"), mv("d1", "e2"), mv("g8", "h8")});
+        auto b = line_of(kDualFen, {mv("c1", "d2"), mv("h8", "g8"), mv("d2", "e2"), mv("g8", "h8")});
+        REQUIRE_FALSE(is_dualfree({a, b}));
+    }
+    SECTION("different final positions are not") {
+        auto a = line_of(kDualFen, {mv("c1", "d1"), mv("h8", "g8"), mv("d1", "e2"), mv("g8", "h8")});
+        auto c = line_of(kDualFen, {mv("c1", "d1"), mv("h8", "g8"), mv("d1", "e1"), mv("g8", "h8")});
+        REQUIRE(is_dualfree({a, c}));
+        // one dual pair among three is enough
+        auto b = line_of(kDualFen, {mv("c1", "d2"), mv("h8", "g8"), mv("d2", "e2"), mv("g8", "h8")});
+        REQUIRE_FALSE(is_dualfree({c, a, b}));
+    }
+    SECTION("one solution, or none, is dual-free") {
+        REQUIRE(is_dualfree({line_of(kDualFen, {mv("c1", "d1")})}));
+        REQUIRE(is_dualfree({}));
+    }
+}

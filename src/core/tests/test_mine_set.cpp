@@ -3,6 +3,7 @@
 #include <climits>
 #include <filesystem>
 #include <nlohmann/json.hpp>
+#include <set>
 #include <sstream>
 
 #include "generator/generator.h"
@@ -486,4 +487,65 @@ TEST_CASE("JSON hits carry theme_counts with the themes facet only", "[mine_set]
     REQUIRE(p["theme_counts"]["mirror"].get<int>() >= 1);
     auto without = nlohmann::json::parse(s.to_json({}));
     REQUIRE_FALSE(without["positions"][0].contains("theme_counts"));
+}
+
+// ---------------------------------------------------------------------------
+// --dualfree
+
+namespace {
+std::vector<std::string> mine_fens(const Tablebase& tb, const MineFilter& f, uint64_t* skipped = nullptr) {
+    std::vector<std::string> out;
+    tb.mine(
+        *Material::parse("KQvk"), f,
+        [&](const std::string& fen) {
+            out.push_back(fen);
+            return true;
+        },
+        skipped);
+    return out;
+}
+std::string board_and_side(const Board& b) {
+    const std::string f = b.fen();
+    const size_t sp = f.find(' ', f.find(' ') + 1);
+    return f.substr(0, sp);
+}
+}  // namespace
+
+TEST_CASE("mine --dualfree keeps exactly the positions without two equal final positions", "[mine_set][dualfree]") {
+    // dtm 6 (h#3): at h#1 every position is dual-free, two plies cannot reach
+    // one final position by different black moves.
+    Tablebase tb(gen_kqvk());
+    const int dtm = 6;
+    const auto all = mine_fens(tb, MineFilter{.dtm = dtm});
+    const auto free = mine_fens(tb, MineFilter{.dtm = dtm, .dualfree = true});
+    // Measured 2026-10-29 with this implementation; the loop below checks
+    // every one of them independently of is_dualfree.
+    REQUIRE(all.size() == 11208);
+    REQUIRE(free.size() == 622);
+    const std::set<std::string> kept(free.begin(), free.end());
+    for (const auto& fen : all) {
+        const int count = tb.probe(fen)->count;
+        if (count >= (int)COUNT_SAT) {  // undecidable: skipped, never kept
+            REQUIRE(kept.count(fen) == 0);
+            continue;
+        }
+        auto sols = tb.solutions(fen, count);
+        std::set<std::string> finals;
+        for (const auto& s : sols) finals.insert(board_and_side(final_board(s)));
+        // Independent of is_dualfree: kept exactly when every final position is distinct.
+        REQUIRE((kept.count(fen) == 1) == (finals.size() == sols.size()));
+        if (count == 1) REQUIRE(kept.count(fen) == 1);
+    }
+    // --count 1 hits are all dual-free, so adding --dualfree changes nothing.
+    REQUIRE(mine_fens(tb, MineFilter{.dtm = dtm, .count = 1, .dualfree = true}) ==
+            mine_fens(tb, MineFilter{.dtm = dtm, .count = 1}));
+}
+
+TEST_CASE("mine --dualfree skips saturated positions and counts them", "[mine_set][dualfree]") {
+    Tablebase tb(gen_kqvk());
+    uint64_t plain = 0, dual = 0;
+    mine_fens(tb, MineFilter{.dtm = 12}, &plain);
+    mine_fens(tb, MineFilter{.dtm = 12, .dualfree = true}, &dual);
+    REQUIRE(plain == 0);  // a plain dtm scan never needs the solutions
+    REQUIRE(dual > 0);    // KQvk dtm 12 has saturated positions (count 255)
 }

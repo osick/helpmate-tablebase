@@ -1,5 +1,7 @@
 #pragma once
 #include <optional>
+#include <set>
+#include <string>
 #include <vector>
 
 #include "chess/board.h"
@@ -35,6 +37,21 @@ struct Solution {
 // queried position was itself the mate.
 inline const Board& final_board(const Solution& s) {
     return s.plies.empty() ? s.start : s.plies.back().after;
+}
+
+// `mine --dualfree`: true when no two solutions end in the identical final
+// position (piece placement and side to move), however they got there -- a
+// reordering of the same moves and a different route to the same mate are
+// both duals. Zero or one solution is dual-free.
+inline bool is_dualfree(const std::vector<Solution>& sols) {
+    std::set<std::string> seen;
+    for (const auto& s : sols) {
+        const std::string f = final_board(s).fen();
+        // FEN fields 1 and 2: placement and side to move. Castling, en
+        // passant and the move counters are not part of the picture.
+        if (!seen.insert(f.substr(0, f.find(' ', f.find(' ') + 1))).second) return false;
+    }
+    return true;
 }
 
 }  // namespace hm
