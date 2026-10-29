@@ -60,3 +60,17 @@ foreach(spec "mirror:1;477" "mirror:2;131")
     message(FATAL_ERROR "expected ${want} dtm=2 positions with theme ${theme} for KQvk, got ${n_c}")
   endif()
 endforeach()
+
+# --dualfree (2026-10-29): at dtm 6 (h#3) 622 of the 11208 KQvk positions have
+# no two solutions ending in the same final position -- measured, and checked
+# position by position in test_mine_set.cpp.
+execute_process(COMMAND "${HELPMATE}" mine KQvk --dtm 6 --dualfree --max 100000 --tables "${TABLES}"
+                 OUTPUT_VARIABLE out_df RESULT_VARIABLE rc_df)
+if(NOT rc_df EQUAL 0)
+  message(FATAL_ERROR "--dualfree mine failed with ${rc_df}: ${out_df}")
+endif()
+string(REGEX MATCHALL "\n" df_newlines "${out_df}")
+list(LENGTH df_newlines n_df)
+if(NOT n_df EQUAL 622)
+  message(FATAL_ERROR "expected 622 dual-free dtm=6 positions for KQvk, got ${n_df}")
+endif()

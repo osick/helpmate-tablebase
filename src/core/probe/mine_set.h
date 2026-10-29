@@ -107,6 +107,10 @@ public:
     MineSet with_count(int n);
     MineSet with_starts(int n);
     MineSet with_ends(int n);
+    // keep = true: the hits no two of whose solutions end in the same final
+    // position (is_dualfree); false: the others. A saturated hit cannot be
+    // confirmed dual-free, so it counts as not dual-free.
+    MineSet with_dualfree(bool keep, const Progress& progress = nullptr);
 
     // (name, hits showing it) for every non-parametric registry theme, in
     // registry order, zeros included. Forces ensure_themes_all.

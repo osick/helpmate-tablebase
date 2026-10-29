@@ -35,7 +35,7 @@ void usage() {
                  "  helpmate probe <FEN> [--tables DIR]\n"
                  "  helpmate line <FEN> [--tables DIR] [--all] [--max N]\n"
                  "  helpmate stats [MATERIAL] [--tables DIR]\n"
-                 "  helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N]\n"
+                 "  helpmate mine <MATERIAL> --dtm D [--count C] [--starts N] [--ends N] [--dualfree]\n"
                  "                           [--theme NAME]... [--themes] [--solutions] [--json|--jsonl]\n"
                  "                           [--interactive] [--max N|infinity] [--tables DIR]\n"
                  "                           [--threads N] [--cache-mb N]\n"
@@ -116,6 +116,8 @@ void usage() {
                  "                 NAME:N: at least N occurrences over all solutions, e.g.\n"
                  "                 --theme promotion:4 or --theme ideal:2 (countable themes)\n"
                  "                 `helpmate themes` lists the names and their definitions.\n"
+                 "  --dualfree     mine: only positions no two of whose optimal solutions end\n"
+                 "                 in the same final position (no move-order or route duals)\n"
                  "  --themes       probe: also print the themes the position's solutions show\n"
                  "                 mine: annotate every hit with all (non-parametric) themes\n"
                  "  --solutions    mine: print every optimal solution of each hit (SAN)\n"
@@ -540,7 +542,8 @@ void note_skipped(uint64_t skipped) {
 
 int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int dtm, int count, int maxn,
              int starts, int ends, bool starts_given, bool ends_given,
-             const std::vector<std::string>& theme_names, const MineOutput& out, int threads, int cache_mb) {
+             const std::vector<std::string>& theme_names, bool dualfree, const MineOutput& out, int threads,
+             int cache_mb) {
     if (pos.empty()) {
         std::cerr << "error: mine needs a MATERIAL argument (e.g. KQvk)\n\n";
         usage();
@@ -604,7 +607,12 @@ int cmd_mine(const std::vector<std::string>& pos, const std::string& tables, int
     // --cache-mb: one block-cache budget for the whole scan, split among
     // the workers; without it each table keeps its own cache per worker.
     Tablebase tb(tables, cache_mb > 0 ? static_cast<size_t>(cache_mb) << 20 : 0);
-    MineFilter filter{.dtm = dtm, .count = count, .starts = starts, .ends = ends, .themes = theme_names};
+    MineFilter filter{.dtm = dtm,
+                      .count = count,
+                      .starts = starts,
+                      .ends = ends,
+                      .themes = theme_names,
+                      .dualfree = dualfree};
     uint64_t skipped = 0;
     if (!out.wants_set()) {
         // Streaming path, byte-identical to every release before 0.18.0.
@@ -1014,6 +1022,7 @@ int main(int argc, char** argv) {
     std::vector<std::string> theme_names;  // --theme, repeatable
     bool show_themes = false;              // probe --themes
     MineOutput mine_out;                   // mine --json/--themes/--solutions/--interactive
+    bool dualfree = false;                 // mine --dualfree
     // Flags below all take a value; if one appears with nothing after it,
     // that's a usage error, not a stray positional argument (e.g. `probe FEN
     // --tables` with no directory should not silently treat "--tables" as
@@ -1101,6 +1110,13 @@ int main(int argc, char** argv) {
                 return 3;
             }
             theme_names.push_back(args[++i]);
+        } else if (a == "--dualfree") {
+            if (cmd != "mine") {
+                std::cerr << "error: " << cmd << " has no \"--dualfree\" flag; only \"mine\" has it\n\n";
+                usage();
+                return 3;
+            }
+            dualfree = true;
         } else if (a == "--themes") {
             if (cmd == "mine") {
                 mine_out.themes = true;
@@ -1182,7 +1198,7 @@ int main(int argc, char** argv) {
         if (cmd == "stats") return cmd_stats(pos, tables);
         if (cmd == "mine")
             return cmd_mine(pos, tables, dtm, count, maxn, starts, ends, starts_given, ends_given,
-                            theme_names, mine_out, threads, cache_mb);
+                            theme_names, dualfree, mine_out, threads, cache_mb);
         if (cmd == "themes") return cmd_themes();
         if (cmd == "compact") return cmd_compact(pos, compress, dry_run, block_size);
         std::cerr << "error: unknown command \"" << cmd << "\"\n\n";

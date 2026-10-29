@@ -13,6 +13,9 @@ pieces, probe library, CLI, Python bindings, CI, docs.
   summed over all optimal solutions (`promotion:4`, `ideal:2`), on every
   surface that takes a theme name; asked for by a problemist. Design:
   `docs/superpowers/specs/2026-10-29-theme-occurrence-counts-design.md`.
+- **Done, unreleased.** `mine --dualfree`: drop positions in which two
+  solutions end in the same final position. Design:
+  `docs/superpowers/specs/2026-10-29-dualfree-design.md`.
 - Next ideas for mining — exact and per-solution counts, echo mates, a
   quality score, theme statistics, user-defined themes, twins — are collected
   in `docs/research/2026-10-29-mining-concept.md`.

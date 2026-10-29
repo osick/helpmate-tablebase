@@ -174,3 +174,13 @@ def test_check_theme_and_mine_accept_counts(tables):
     assert len(tb.mine("KQvk", 2, themes=["mirror:2"], max=600)) == 131
     with pytest.raises(ValueError, match="at least 1"):
         tb.mine("KQvk", 2, themes=["mirror:0"])
+
+
+def test_mine_dualfree(tables):
+    # KQvk dtm 6 (h#3): 622 of 11208 positions have no two solutions ending in
+    # the same final position (measured; checked one by one in the core tests).
+    tb = helpmate.Tablebase(tables)
+    assert len(tb.mine("KQvk", 6, max=20000, dualfree=True)) == 622
+    fens, skipped = tb.mine_with_stats("KQvk", dtm=6, max=20000, dualfree=True)
+    assert len(fens) == 622 and skipped >= 0
+    assert len(tb.mine("KQvk", 2, max=600, dualfree=True)) == 580   # h#1: all dual-free

@@ -50,6 +50,10 @@ struct MineFilter {
     // all_of<> rather than any_of<>, so this loop need not know. An unregistered
     // name throws std::invalid_argument rather than being silently dropped.
     std::vector<std::string> themes;
+    // --dualfree: keep a position only if no two of its optimal solutions end
+    // in the same final position (is_dualfree). Needs every solution, so a
+    // saturated position is skipped and counted, like --starts/--ends.
+    bool dualfree = false;
 };
 
 // Shape of a position's optimal-solution set: how many distinct moves the

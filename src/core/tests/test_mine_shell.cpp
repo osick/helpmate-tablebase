@@ -241,3 +241,13 @@ TEST_CASE("shell: a counted theme narrows, a zero count is an error", "[mine_she
     REQUIRE(r.out.rfind("477 positions\n580 positions\n", 0) == 0);
     REQUIRE(has(r.err, "a count must be at least 1"));
 }
+
+TEST_CASE("shell: dualfree and not dualfree", "[mine_shell][dualfree]") {
+    Tablebase tb(gen_kqvk());
+    // At dtm 2 (h#1) every position is dual-free.
+    auto r = run(tb, "dualfree\nback\nnot dualfree\nhelp\n");
+    REQUIRE(r.out.rfind("580 positions\n580 positions\n0 positions\n", 0) == 0);
+    REQUIRE(has(r.out, "  dualfree "));
+    REQUIRE(has(r.out, "  not dualfree "));
+    REQUIRE(has(r.out, "saturated"));  // not dualfree also keeps the undecidable ones
+}

@@ -279,6 +279,22 @@ MineSet MineSet::with_starts(int n) {
     return filtered([&](const Hit& h) { return h.shape->exhaustive && h.shape->starts == n; });
 }
 
+MineSet MineSet::with_dualfree(bool keep, const Progress& progress) {
+    std::vector<char> free(hits_.size(), 0);
+    for_each_needing([](const Hit& h) { return h.unavailable.empty(); },
+                     [&](const Tablebase& tb, size_t i) {
+                         guarded(hits_[i], [&] {
+                             const Hit& h = hits_[i];
+                             free[i] = h.count < (int)COUNT_SAT && is_dualfree(tb.solutions(h.fen, h.count));
+                         });
+                     },
+                     progress);
+    MineSet out = empty_like();
+    for (size_t i = 0; i < hits_.size(); ++i)
+        if (hits_[i].unavailable.empty() && (free[i] != 0) == keep) out.hits_.push_back(hits_[i]);
+    return out;
+}
+
 MineSet MineSet::with_ends(int n) {
     for_each_needing([](const Hit& h) { return !h.shape && h.unavailable.empty(); },
                      [&](const Tablebase& tb, size_t i) { shape_on(tb, hits_[i]); }, nullptr);
@@ -307,11 +323,8 @@ void MineSet::enrich_for(Facets f, const Progress& progress) {
 nlohmann::ordered_json MineSet::header_json() const {
     nlohmann::ordered_json j;
     j["material"] = m_.name();
-    j["filter"] = {{"dtm", f_.dtm},
-                   {"count", f_.count},
-                   {"starts", f_.starts},
-                   {"ends", f_.ends},
-                   {"themes", f_.themes}};
+    j["filter"] = {{"dtm", f_.dtm},   {"count", f_.count},   {"starts", f_.starts},
+                   {"ends", f_.ends}, {"themes", f_.themes}, {"dualfree", f_.dualfree}};
     if (max_ == INT_MAX) j["max"] = "infinity";
     else j["max"] = max_;
     return j;

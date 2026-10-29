@@ -418,7 +418,7 @@ def create_app(chain: ChainSource, mine_cap: int = 1000,
     @app.get("/v1/mine")
     def mine(material: str, dtm: int, count: int = -1, max: int = 100,
              starts: Optional[int] = None, ends: Optional[int] = None,
-             theme: list[str] = Query(default=[])):
+             theme: list[str] = Query(default=[]), dualfree: bool = False):
         if not enable_mine:
             # 503, not 404: the route exists and the server is simply not
             # offering it. A 404 would tell a client probing the API surface
@@ -464,7 +464,7 @@ def create_app(chain: ChainSource, mine_cap: int = 1000,
             return {"fens": [], "truncated": True, "note": "timeout",
                     "skipped_saturated": 0}
         fut = pool.submit(_tb(chain, d).mine_with_stats, material, dtm, count,
-                          clamped + 1, starts, ends, theme)
+                          clamped + 1, starts, ends, theme, dualfree)
         try:
             fens, skipped = fut.result(timeout=mine_timeout)
         except FutTimeout:

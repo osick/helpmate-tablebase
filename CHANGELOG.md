@@ -9,6 +9,14 @@ bumps may change behavior).
 ## [Unreleased]
 
 ### Added
+- **`mine --dualfree`**: keep only positions in which no two optimal
+  solutions end in the same final position (a reordering of the same moves,
+  or a different route to the same mate). With counted themes it separates
+  real two-mate problems from move-order duals: KBBvk h#4.5 has 29 positions
+  with `--count 2 --theme model:2`, and one of them is dual-free. Also in the
+  `--interactive` shell (`dualfree`, `not dualfree`), Python
+  (`dualfree=True`), the HTTP API (`dualfree=true`) and the dashboard; the
+  JSON header records `"dualfree"`.
 - **Counted themes, `--theme NAME:N`** (a problemist's request): at least N
   occurrences of the theme summed over all optimal solutions, so
   `--theme promotion:4` finds four promotions across the solutions and

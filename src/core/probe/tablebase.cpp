@@ -318,7 +318,8 @@ void Tablebase::mine(const Material& m, const MineFilter& f,
     // themes read only the diagram skips enumeration and answers on saturated
     // positions too, at the cost of one decode plus one Board construction per
     // candidate -- measured at 26s over a 31.5M-candidate query.
-    const bool want_solutions = want_shape || (!dets.empty() && need == themes::Needs::Solutions);
+    const bool want_solutions =
+        want_shape || f.dualfree || (!dets.empty() && need == themes::Needs::Solutions);
     const bool want_plane = !dets.empty() && need >= themes::Needs::Plane;
     const MineScan q{m,
                      stm,
@@ -542,12 +543,22 @@ bool Tablebase::mine_range(const MineScan& q, uint64_t begin, uint64_t end,
             if (f.starts >= 0 && sh.starts != f.starts) continue;
             if (f.ends >= 0 && sh.ends != f.ends) continue;
         }
+        // Enumerated at most once per candidate, shared by --dualfree and the
+        // solution themes.
+        std::vector<Solution> sols;
+        bool have_sols = false;
+        auto enumerate = [&] {
+            if (have_sols) return;
+            if (fen.empty()) fen = b.fen();
+            sols = solutions_in(fen, (int)v.count, memo);
+            have_sols = true;
+        };
+        if (f.dualfree) {
+            enumerate();
+            if (!is_dualfree(sols)) continue;
+        }
         if (!dets.empty()) {
-            std::vector<Solution> sols;
-            if (need == themes::Needs::Solutions) {
-                if (fen.empty()) fen = b.fen();
-                sols = solutions_in(fen, (int)v.count, memo);
-            }
+            if (need == themes::Needs::Solutions) enumerate();
             std::optional<ValuePair> other;
             if (want_plane) other = ValuePair{other_buf[c - chunk_base], 0};
             themes::ThemeInput in{b, v, other, sols};
