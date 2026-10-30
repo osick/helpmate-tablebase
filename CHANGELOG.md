@@ -8,6 +8,8 @@ bumps may change behavior).
 
 ## [Unreleased]
 
+## [0.22.0] - 2026-10-30
+
 ### Added
 - **`mine --dualfree`**: keep only positions in which no two optimal
   solutions end in the same final position (a reordering of the same moves,
